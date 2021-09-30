@@ -34,9 +34,9 @@ public class Engine extends StateBasedGame
 	public static void main(String[] args) 
 	{
 		try {
-
-			System.setProperty("org.lwjgl.opengl.Window.undecorated", "true");
 			AppGameContainer appgc = new AppGameContainer(new Engine("Malaria"));
+			
+			System.setProperty("org.lwjgl.opengl.Window.undecorated", "true");
 			
 			appgc.setDisplayMode(RESOLUTION_X, RESOLUTION_Y, false);
 			appgc.setTargetFrameRate(FRAMES_PER_SECOND);
