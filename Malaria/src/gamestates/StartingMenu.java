@@ -1,6 +1,4 @@
-// added a comment
-
-package core;
+package gamestates;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
@@ -13,12 +11,11 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import entities.Entity;
 
-public class Game extends BasicGameState 
-{	
-	Entity e = new Entity(500, 500);
+public class StartingMenu extends BasicGameState 
+{
 	int id;
 	
-	Game(int id) 
+	public StartingMenu(int id) 
 	{
 		this.id = id;
 	}
@@ -33,8 +30,7 @@ public class Game extends BasicGameState
 	//render, all visuals
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException 
 	{
-		e.update();
-		g.draw(new Circle(e.getX(), e.getY(), 25f));
+
 	}
 
 	//update, runs consistently
@@ -56,7 +52,7 @@ public class Game extends BasicGameState
 
 	public void keyPressed(int key, char c)
 	{
-		
+
 	}
 	
 	public void mousePressed(int button, int x, int y)

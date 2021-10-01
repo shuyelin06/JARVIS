@@ -1,4 +1,3 @@
-
 package core;
 
 import org.newdawn.slick.AppGameContainer;
@@ -7,15 +6,27 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
+import gamestates.Game;
+
+/*
+ * Perlin Noise - 
+ * Simplex Noise - Both very common algorithms for random world generation 
+ * 
+ * Random Class in Java - Also allows randomization with seeding 
+ */
 public class Engine extends StateBasedGame 
 {
-	//desktop: 1920 by 1080
-	//laptop: 1366 by 768
+	/*
+	 * Desktop Resolution: 1920 x 1080
+	 * Laptop Resolution: 1366 x 768
+	 */
 	public final static int RESOLUTION_X = 1920; 	
 	public final static int RESOLUTION_Y = 1080; 
 	public final static int FRAMES_PER_SECOND = 60;
 	
-    public static final int GAME_ID  = 0;
+	public static final int StartingMenu_ID = 0;
+    public static final int WorldSelect_ID = 1;
+    public static final int Game_ID = 2;
     
     private BasicGameState game;
 
@@ -23,7 +34,7 @@ public class Engine extends StateBasedGame
 	{
 		super(name);
 		
-		game = new Game(GAME_ID);
+		game = new Game(Game_ID);
 	}
 
 	public void initStatesList(GameContainer gc) throws SlickException 
