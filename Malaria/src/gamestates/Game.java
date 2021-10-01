@@ -6,6 +6,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Circle;
+import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -31,8 +32,8 @@ public class Game extends BasicGameState
 	//render, all visuals
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException 
 	{
-		e.update();
-		g.draw(new Circle(e.getX(), e.getY(), 25f));
+		float size = (float) 20;
+		g.draw(new Rectangle(e.getX(), e.getY(), size, size));
 	}
 
 	//update, runs consistently
