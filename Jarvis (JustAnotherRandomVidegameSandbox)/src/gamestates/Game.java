@@ -38,7 +38,13 @@ public class Game extends BasicGameState
 	//render, all visuals
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException 
 	{
-		// Turns on our debug mode
+		/*
+		 * Camera
+		 */
+		// For every object, render its position relative to the player (with the player being in the center)
+		
+		
+		// Debug Mode
 		if (debugMode) {
 			// Draws the grid
 			for(Line l: GridLines) {
@@ -46,6 +52,7 @@ public class Game extends BasicGameState
 				g.draw(l);
 			}
 		}
+
 		
 		g.setColor(new Color(255f, 255f, 255f, 1f));
 		
