@@ -13,7 +13,7 @@ import world.World;
 public class Player extends Entity{	
 	// Spawnpoint of the player
 	private static final float SpawnX = World.World_X_Size * Chunk.Chunk_Size_X / 2;
-	private static final float SpawnY = World.World_Y_Size * Chunk.Chunk_Size_Y / 2;
+	private static final float SpawnY = Chunk.Chunk_Size_Y / 2;
 	
 	// Player constructor
 	public Player() {
@@ -32,7 +32,7 @@ public class Player extends Entity{
 	public void jump() {
 		if(jumpsLeft > 0) {
 			this.onPlatform = false;
-			this.ySpeed = 10f;
+			this.ySpeed = 20f;
 			
 			jumpsLeft--;
 		}
@@ -41,7 +41,7 @@ public class Player extends Entity{
 	public void fall() {
 		this.onPlatform = false;
 		
-		this.ySpeed -= 1.5f;
+		this.ySpeed -= 5f;
 	}
 	
 }

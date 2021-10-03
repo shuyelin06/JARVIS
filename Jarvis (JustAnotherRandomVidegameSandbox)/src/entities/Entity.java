@@ -38,7 +38,7 @@ public class Entity{
 		this.position = new Coordinate(InitX, InitY);
 		
 		this.xSpeed = 0;
-		this.ySpeed = 0;
+		this.ySpeed = 0f;
 	}
 	
 	// Methods returning the position of an object
@@ -59,7 +59,7 @@ public class Entity{
 	public void update() {
 		// Reset the entity's jumps
 		if(onPlatform) {
-			jumpsLeft = 2;
+			jumpsLeft = 300;
 		}
 		
 		// Update the entity's position

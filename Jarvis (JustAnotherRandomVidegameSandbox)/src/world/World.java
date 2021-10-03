@@ -17,8 +17,7 @@ public class World
 	 * World Variables
 	 */
 	// Size of the world in chunks
-	final public static int World_X_Size = 3;
-	final public static int World_Y_Size = 3;
+	final public static int World_X_Size = 4;
 	
 	// All chunks rendered (into memory - we will have something loading and unloading chunks)
 	ArrayList<Chunk> renderedChunks;
@@ -29,10 +28,8 @@ public class World
 		renderedChunks = new ArrayList<Chunk>();
 		
 		for(int i = 0; i < World_X_Size; i++) {
-			for(int j = 0; j < World_Y_Size; j++) {
-				Chunk c = new Chunk(i, j);
-				renderedChunks.add(c);
-			}
+			Chunk c = new Chunk(i);
+			renderedChunks.add(c);
 		}
 
 	}
