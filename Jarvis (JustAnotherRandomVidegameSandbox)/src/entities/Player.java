@@ -34,7 +34,7 @@ public class Player extends Entity{
 			this.onPlatform = false;
 			this.ySpeed = 10f;
 			
-			jumpsLeft--;
+			jumpsleft--;
 		}
 
 	}

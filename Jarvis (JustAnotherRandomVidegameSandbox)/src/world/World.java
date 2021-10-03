@@ -18,7 +18,7 @@ public class World
 	 */
 	// Size of the world in chunks
 	final public static int World_X_Size = 3;
-	final public static int World_Y_Size = 3;
+	final public static int World_Y_Size = 1;
 	
 	// All chunks rendered (into memory - we will have something loading and unloading chunks)
 	ArrayList<Chunk> renderedChunks;

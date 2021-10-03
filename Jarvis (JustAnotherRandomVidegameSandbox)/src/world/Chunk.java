@@ -7,7 +7,7 @@ import structures.Block;
 public class Chunk{
 	// Size of chunk (in blocks)
 	final public static int Chunk_Size_X = 16; 
-	final public static int Chunk_Size_Y = 16;
+	final public static int Chunk_Size_Y = 96;
 	
 	// All blocks in the chunk
 	private Block[][] blocks;
