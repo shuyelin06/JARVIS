@@ -5,11 +5,11 @@ import org.newdawn.slick.Image;
 
 import core.Game;
 
-public class MageIceball extends Attack {
+public class MageIceBall extends Attack {
 	private String direction;
 	private float moveSpeed;
 	//constructor
-	public MageIceball(float x, float y, String faceDirection, int player) {
+	public MageIceBall(float x, float y, String faceDirection, int player) {
 		super();
 		this.x = x;
 		this.y = y;

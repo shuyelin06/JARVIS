@@ -7,7 +7,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
 import attack.MageFireball;
-import attack.MageIceball;
+import attack.MageIceBall;
 import core.Game;
 import core.Utility;
 
@@ -166,9 +166,9 @@ public class Mage extends Player{
 	public void iceball() {
 		if (iceTimer == 0 && curEnergy >= 20) {
 			if (faceDirection == "left") {
-				Game.attacks.add(new MageIceball(x, y + (h/2), faceDirection, player));
+				Game.attacks.add(new MageIceBall(x, y + (h/2), faceDirection, player));
 			} else if (faceDirection == "right") {
-				Game.attacks.add(new MageIceball((x + w), y + (h/2), faceDirection, player));
+				Game.attacks.add(new MageIceBall((x + w), y + (h/2), faceDirection, player));
 			}
 			iceTimer = 30;
 			curEnergy -= 20;

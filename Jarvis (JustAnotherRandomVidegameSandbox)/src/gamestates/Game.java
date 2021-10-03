@@ -13,6 +13,7 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import core.Coordinate;
 import core.Engine;
+import core.World;
 import entities.Player;
 
 public class Game extends BasicGameState 
@@ -20,6 +21,10 @@ public class Game extends BasicGameState
 	ArrayList<Line> GridLines = getGridLines();
 	
 	boolean debugMode = true;
+	
+	World world = new World(Engine.RESOLUTION_X / Coordinate.ConversionFactor, 
+			Engine.RESOLUTION_Y, 
+			Coordinate.ConversionFactor); // change later into full width
 	Player player = new Player(20, 20);
 	int id;
 	
@@ -43,6 +48,7 @@ public class Game extends BasicGameState
 		 */
 		// For every object, render its position relative to the player (with the player being in the center)
 		
+		world.render(g); //rendering it here for now, but should be moved to camera - sven
 		
 		// Debug Mode
 		if (debugMode) {
@@ -53,10 +59,10 @@ public class Game extends BasicGameState
 			}
 		}
 
-		
 		g.setColor(new Color(255f, 255f, 255f, 1f));
 		
 		player.update();
+		
 		g.draw(new Circle(player.getPosition().getXInPixels(), player.getPosition().getYInPixels(), 25f));
 	}
 

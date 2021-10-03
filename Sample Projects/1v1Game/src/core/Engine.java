@@ -59,7 +59,7 @@ public class Engine extends StateBasedGame
 		try {
 			AppGameContainer appgc = new AppGameContainer(new Engine("Sample Slick Game"));
 			//true --> fullscreen, false --> windowed
-			System.setProperty("org.lwjgl.opengl.Window.undecorated", "false");
+			System.setProperty("org.lwjgl.opengl.Window.undecorated", "true");
 		
 			appgc.setDisplayMode(RESOLUTION_X, RESOLUTION_Y, false);
 			appgc.setTargetFrameRate(FRAMES_PER_SECOND);
