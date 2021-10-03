@@ -65,7 +65,7 @@ public class Game extends BasicGameState
 		// Render all blocks in loaded chunks
 		float increment = 0f;
 		for(Chunk chunk: world.getRenderedChunks()) {
-			increment += (float) 1 / (World.World_X_Size * World.World_Y_Size);
+			increment += (float) 1 / World.World_X_Size;
 			g.setColor(new Color(255f, 255f, 255f, 0.1f + increment)); // Changing the color so we can see the different chunks
 
 			Block[][] blocks = chunk.getBlocks(); // Get the blocks in the chunk
