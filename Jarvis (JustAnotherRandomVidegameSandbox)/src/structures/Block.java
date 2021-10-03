@@ -1,0 +1,12 @@
+package structures;
+
+public class Block{
+	private int id; // Id of the block
+	
+	public Block(int id) {
+		this.id = id;
+	}
+	public int getID() {
+		return id;
+	}
+}

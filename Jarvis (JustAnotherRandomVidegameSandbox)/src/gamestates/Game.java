@@ -13,20 +13,24 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import core.Coordinate;
 import core.Engine;
-import core.World;
 import entities.Player;
+import structures.Block;
+import world.Chunk;
+import world.World;
 
 public class Game extends BasicGameState 
-{	
-	ArrayList<Line> GridLines = getGridLines();
+{		
+	// Gamestate ID
+	int id;
+		
+	// The Player
+	Player player = new Player();
 	
-	boolean debugMode = true;
-	
+	// The World
 	World world = new World(Engine.RESOLUTION_X / Coordinate.ConversionFactor, 
 			Engine.RESOLUTION_Y, 
-			Coordinate.ConversionFactor); // change later into full width
-	Player player = new Player(20, 20);
-	int id;
+			player); // change later into full width
+
 	
 	public Game(int id) 
 	{
@@ -37,39 +41,64 @@ public class Game extends BasicGameState
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException 
 	{
 		gc.setShowFPS(true); // Shows the FPS of the game
-		
 	}
+
+	/*
+	 * Rendering - Game's Camera 
+	 */
+	// Where the player is centered on screen
+	private final static float CenterX = Engine.RESOLUTION_X / 2;
+	private final static float CenterY = Engine.RESOLUTION_Y / 2;
 	
-	//render, all visuals
+	// Debug Mode Tools
+	ArrayList<Line> GridLines = getGridLines();
+	boolean debugMode = false;
+	
+	// Render all entities on screen
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException 
 	{
-		/*
-		 * Camera
-		 */
-		// For every object, render its position relative to the player (with the player being in the center)
+		// Render the player
+		g.setColor(new Color(255f, 255f, 255f, 1f));
+		g.draw(new Circle(CenterX, CenterY, 25f)); // Render the player in the middle of the screen
 		
-		world.render(g); //rendering it here for now, but should be moved to camera - sven
 		
-		// Debug Mode
-		if (debugMode) {
-			// Draws the grid
-			for(Line l: GridLines) {
-				g.setColor(new Color(255f, 255f, 255f, 0.2f));
-				g.draw(l);
+		// Render all blocks in loaded chunks
+		float increment = 0f;
+		for(Chunk chunk: world.getRenderedChunks()) {
+			increment += (float) 1 / (World.World_X_Size * World.World_Y_Size);
+			g.setColor(new Color(255f, 255f, 255f, 0.1f + increment)); // Changing the color so we can see the different chunks
+
+			Block[][] blocks = chunk.getBlocks(); // Get the blocks in the chunk
+			
+			// For every object, render its position relative to the player (with the player being in the center)
+			for(int i = 0; i < Chunk.Chunk_Size_X; i++) {
+				for(int j = 0; j < Chunk.Chunk_Size_Y; j++) {
+					float[] position = renderPosition(chunk.getX() * Chunk.Chunk_Size_X + i, chunk.getY() * Chunk.Chunk_Size_Y + j);
+					g.fillRect(
+							position[0],
+							position[1],
+							Coordinate.ConversionFactor,
+							Coordinate.ConversionFactor);
+				}
 			}
 		}
-
-		g.setColor(new Color(255f, 255f, 255f, 1f));
+	}
+	// Given two coordinates, display where they should be displayed on screen
+	private float[] renderPosition(float x2, float y2) {
+		float[] output = player.getPosition().displacement(x2, y2);
 		
-		player.update();
+		output[0] = output[0] * Coordinate.ConversionFactor + CenterX;
+		output[1] = Engine.RESOLUTION_Y - (output[1] * Coordinate.ConversionFactor + CenterY);
 		
-		g.draw(new Circle(player.getPosition().getXInPixels(), player.getPosition().getYInPixels(), 25f));
+		return output;
 	}
 
-	//update, runs consistently
+	/*
+	 * Update - Update different behaviors of the game
+	 */
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException
 	{	
-		
+		player.update();
 	}
 
 	public void enter(GameContainer gc, StateBasedGame sbg) throws SlickException 
