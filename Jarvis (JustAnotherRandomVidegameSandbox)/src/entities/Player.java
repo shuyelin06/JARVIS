@@ -13,7 +13,7 @@ import world.World;
 public class Player extends Entity{	
 	// Spawnpoint of the player
 	private static final float SpawnX = World.World_X_Size * Chunk.Chunk_Size_X / 2;
-	private static final float SpawnY = Chunk.Chunk_Size_Y / 2;
+	private static final float SpawnY = Chunk.Chunk_Size_Y / 2.5f;
 	
 	// Player constructor
 	public Player() {

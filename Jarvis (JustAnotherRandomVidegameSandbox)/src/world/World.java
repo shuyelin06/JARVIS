@@ -19,11 +19,16 @@ public class World
 	// Size of the world in chunks
 	final public static int World_X_Size = 4;
 	
+	// World Name
+	private String worldName;
+	
 	// All chunks rendered (into memory - we will have something loading and unloading chunks)
 	ArrayList<Chunk> renderedChunks;
 	
-	public World(int x, int y, Player mainPlayer)
+	public World(String worldName)
 	{
+		this.worldName = worldName; 
+		
 		// Chunk Generation 
 		renderedChunks = new ArrayList<Chunk>();
 		
@@ -34,6 +39,9 @@ public class World
 
 	}
 	
+	public String getWorldName() {
+		return worldName;
+	}
 	public ArrayList<Chunk> getRenderedChunks(){
 		return renderedChunks;
 	}

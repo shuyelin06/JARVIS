@@ -27,9 +27,7 @@ public class Game extends BasicGameState
 	Player player = new Player();
 	
 	// The World
-	World world = new World(Engine.RESOLUTION_X / Coordinate.ConversionFactor, 
-			Engine.RESOLUTION_Y, 
-			player); // change later into full width
+	World world = new World("Test World"); // change later into full width
 
 	
 	public Game(int id) 
@@ -73,7 +71,7 @@ public class Game extends BasicGameState
 			// For every object, render its position relative to the player (with the player being in the center)
 			for(int i = 0; i < Chunk.Chunk_Size_X; i++) {
 				for(int j = 0; j < Chunk.Chunk_Size_Y; j++) {
-					float[] position = renderPosition(chunk.getX() * Chunk.Chunk_Size_X + i, chunk.getY() * Chunk.Chunk_Size_Y + j);
+					float[] position = renderPosition(chunk.getX() * Chunk.Chunk_Size_X + i, j);
 					g.fillRect(
 							position[0],
 							position[1],

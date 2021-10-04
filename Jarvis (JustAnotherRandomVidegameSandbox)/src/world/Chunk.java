@@ -14,20 +14,27 @@ public class Chunk{
 	
 	// Location of the chunk's bottom-left corner
 	private int chunkX;
-	private int chunkY;
 	
+	// Default constructor which generates values for every block
 	public Chunk(int x) {
 		this.chunkX = x;
 		
 		this.blocks = new Block[Chunk_Size_X][Chunk_Size_Y];
+		
+		for(int j = 0; j < Chunk_Size_Y; j++) {
+			for(int i = 0; i < Chunk_Size_X; i++) {
+				blocks[i][j] = new Block(j);
+			}
+		}
+	}
+	public Chunk(int x, Block[][] blocks) {
+		this.chunkX = x;
+		this.blocks = blocks;
 	}
 	
 	// Returns the chunk x
 	public int getX(){
 		return chunkX;
-	}
-	public int getY() {
-		return chunkY;
 	}
 	public Block[][] getBlocks() {
 		return blocks;
