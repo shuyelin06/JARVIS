@@ -1,13 +1,16 @@
 package world;
 
 import org.lwjgl.Sys;
+import org.newdawn.slick.Color;
 
+import settings.Values;
 import structures.Block;
 
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Arrays;
 
 // Save and Load World Information
 public class FileLoader{
@@ -148,13 +151,70 @@ public class FileLoader{
 	 * Block Hash Loading
 	 * Loads the mappings for block IDs
 	 */
-	final private static String Hash_File_Path = "";
-	public static void AddBlockHashing() {
-		
+	
+	public static void main(String[] args) {
+		// AddBlockHashing(2, 0f, 255f, 0f, 0.5f);
+		LoadBlockHashings();
+	}
+	final private static String Hash_File_Path = "src/settings/BlockHashing.txt";
+	
+	public static void AddBlockHashing(int id, float r, float g, float b, float a) {
+		try {
+			System.out.println(new File(Hash_File_Path).getAbsolutePath());
+			
+			FileWriter writer = new FileWriter(Hash_File_Path, true);
+			
+
+			// Write block id
+			writer.write(Integer.toString(id) + " ");
+			
+			writer.write(Float.toString(r) + " ");
+			writer.write(Float.toString(g) + " ");
+			writer.write(Float.toString(b) + " ");
+			writer.write(Float.toString(a) + "\n");
+
+			writer.close();
+		} catch(IOException e) {
+			System.out.println("There was an error in writing a block hash");
+		}
 	}
 	
 	public static void LoadBlockHashings(){
-		
+		try {
+			FileReader reader = new FileReader(Hash_File_Path);
+			
+			int data = reader.read();
+			
+			String[] values = new String[5];
+			int index = 0;
+			while(data != -1) {
+				if(data == 10) {
+					Values.BlockHash.put(Integer.parseInt(values[0]), 
+							new Color(
+									Float.parseFloat(values[1]), 
+									Float.parseFloat(values[2]), 
+									Float.parseFloat(values[3]), 
+									Float.parseFloat(values[4]))
+							);
+					
+					index = 0;
+					Arrays.fill(values, 0);
+				} else if(data == 32) {
+					System.out.println(values[index]);
+					
+					index++;
+				} else {
+					values[index] += (char) data;
+				}
+				
+				data = reader.read();
+			}
+			
+			reader.close();
+			
+		} catch(IOException error) {
+			System.out.println("There was an error in loading block hashings");
+		}
 	}
 	
 	// 2/3 below below the surface is the ground
