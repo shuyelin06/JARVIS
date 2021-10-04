@@ -2,7 +2,9 @@ package world;
 
 import java.util.Arrays;
 
+import gamestates.Game;
 import structures.Block;
+import support.SimplexNoise;
 
 public class Chunk{
 	// Size of chunk (in blocks)
@@ -12,19 +14,34 @@ public class Chunk{
 	// All blocks in the chunk
 	private Block[][] blocks;
 	
+	//noise pattern
+	SimplexNoise noise;
+	
 	// Location of the chunk's bottom-left corner
 	private int chunkX;
 	
 	// Default constructor which generates values for every block
 	public Chunk(int x) {
 		this.chunkX = x;
+		noise = new SimplexNoise(Game.seed);
 		
 		this.blocks = new Block[Chunk_Size_X][Chunk_Size_Y];
 		
-		for(int j = 0; j < Chunk_Size_Y; j++) {
-			for(int i = 0; i < Chunk_Size_X; i++) {
-				blocks[i][j] = new Block(j);
+		for(int i = 0; i < Chunk_Size_X; i++) {
+			
+			int terrain = (int) (noise.eval(x + i, 0) * Chunk_Size_Y);
+			for(int j = 0; j < Chunk_Size_Y; j++)
+			{
+				if(j < terrain)
+				{
+					blocks[i][j] = new Block(0);
+				} else
+				{
+					blocks[i][j] = new Block(1);
+				}
+				
 			}
+
 		}
 	}
 	public Chunk(int x, Block[][] blocks) {
