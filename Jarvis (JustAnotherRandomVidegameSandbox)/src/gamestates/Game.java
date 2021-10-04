@@ -62,7 +62,7 @@ public class Game extends BasicGameState
 		
 		
 		// Render all blocks in loaded chunks
-		float increment = 0f;
+
 		for(Chunk chunk: world.getRenderedChunks()) {
 
 			Block[][] blocks = chunk.getBlocks(); // Get the blocks in the chunk

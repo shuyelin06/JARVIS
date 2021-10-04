@@ -15,14 +15,13 @@ public class Block{
 	
 	public void render(Graphics g, float positionX, float positionY, float x, float y)
 	{
-		if(getID() == 0)
+		if(getID() == 1) // this should be a block
 		{
 			g.setColor(new Color(255f, 255f, 255f, 1f));
-		} else if(getID() == 1)
+			g.fillRect(positionX, positionY, x, y);
+		} else if(getID() == 0) //this should be air
 		{
-			g.setColor(new Color(255f, 255f, 255f, 0f));
+			
 		}
-		
-		g.fillRect(positionX, positionY, x, y);
 	}
 }
