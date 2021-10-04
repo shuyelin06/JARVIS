@@ -57,7 +57,7 @@ public class Game extends BasicGameState
 	{
 		// Render the player
 		g.setColor(new Color(255f, 255f, 255f, 1f));
-		g.draw(new Circle(CenterX, CenterY, 25f)); // Render the player in the middle of the screen
+		g.draw(new Circle(CenterX, CenterY, player.getSize())); // Render the player in the middle of the screen
 		
 		
 		// Render all blocks in loaded chunks
@@ -71,6 +71,22 @@ public class Game extends BasicGameState
 			// For every object, render its position relative to the player (with the player being in the center)
 			for(int i = 0; i < Chunk.Chunk_Size_X; i++) {
 				for(int j = 0; j < Chunk.Chunk_Size_Y; j++) {
+					int id = blocks[i][j].getID();
+					
+					if(id % 2 == 0) {
+						if(i % 2 == 0) {
+							g.setColor(new Color(255f, 192f, 203f, 0.5f));
+						} else {
+							g.setColor(new Color(255f, 0f, 0f, 0.5f));
+						}
+					} else {
+						if(i % 2 == 1) {
+							g.setColor(new Color(0f, 255f, 255f, 0.5f));
+						} else {
+							g.setColor(new Color(255f, 255f, 0f, 0.5f));
+						}
+					}
+					
 					float[] position = renderPosition(chunk.getX() * Chunk.Chunk_Size_X + i, j);
 					g.fillRect(
 							position[0],

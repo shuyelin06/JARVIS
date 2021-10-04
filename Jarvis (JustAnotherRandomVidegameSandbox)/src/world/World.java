@@ -25,6 +25,7 @@ public class World
 	// All chunks rendered (into memory - we will have something loading and unloading chunks)
 	ArrayList<Chunk> renderedChunks;
 	
+	// Generate world from scratch
 	public World(String worldName)
 	{
 		this.worldName = worldName; 
@@ -37,6 +38,11 @@ public class World
 			renderedChunks.add(c);
 		}
 
+	}
+	
+	// Copy a World
+	public World(World world) {
+		
 	}
 	
 	public String getWorldName() {

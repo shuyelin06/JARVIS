@@ -15,9 +15,14 @@ public class Player extends Entity{
 	private static final float SpawnX = World.World_X_Size * Chunk.Chunk_Size_X / 2;
 	private static final float SpawnY = Chunk.Chunk_Size_Y / 2.5f;
 	
+	private static final int Player_Size = 20;
 	// Player constructor
 	public Player() {
 		super(SpawnX, SpawnY); 
+	}
+	
+	public int getSize() {
+		return Player_Size;
 	}
 	
 	// Key Press Mappings
