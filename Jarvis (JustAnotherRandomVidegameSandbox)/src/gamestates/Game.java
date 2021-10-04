@@ -22,13 +22,14 @@ public class Game extends BasicGameState
 {		
 	// Gamestate ID
 	int id;
-		
+	
 	// The Player
 	Player player = new Player();
 	
 	// The World
 	World world = new World("Test World"); // change later into full width
 
+	public static int seed = (int) (Math.random() * 10000); //generates seed
 	
 	public Game(int id) 
 	{
@@ -63,8 +64,6 @@ public class Game extends BasicGameState
 		// Render all blocks in loaded chunks
 		float increment = 0f;
 		for(Chunk chunk: world.getRenderedChunks()) {
-			increment += (float) 1 / World.World_X_Size;
-			g.setColor(new Color(255f, 255f, 255f, 0.1f + increment)); // Changing the color so we can see the different chunks
 
 			Block[][] blocks = chunk.getBlocks(); // Get the blocks in the chunk
 			
@@ -88,7 +87,7 @@ public class Game extends BasicGameState
 					}
 					
 					float[] position = renderPosition(chunk.getX() * Chunk.Chunk_Size_X + i, j);
-					g.fillRect(
+					blocks[i][j].render(g,
 							position[0],
 							position[1],
 							Coordinate.ConversionFactor,

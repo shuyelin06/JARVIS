@@ -1,5 +1,8 @@
 package structures;
 
+import org.newdawn.slick.Color;
+import org.newdawn.slick.Graphics;
+
 public class Block{
 	private int id; // Id of the block
 	
@@ -8,5 +11,18 @@ public class Block{
 	}
 	public int getID() {
 		return id;
+	}
+	
+	public void render(Graphics g, float positionX, float positionY, float x, float y)
+	{
+		if(getID() == 0)
+		{
+			g.setColor(new Color(255f, 255f, 255f, 1f));
+		} else if(getID() == 1)
+		{
+			g.setColor(new Color(255f, 255f, 255f, 0f));
+		}
+		
+		g.fillRect(positionX, positionY, x, y);
 	}
 }
