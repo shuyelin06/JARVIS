@@ -46,6 +46,9 @@ public class Entity{
 		
 		this.xSpeed = 0;
 		this.ySpeed = 0f;
+		curHealth = 0;
+		maxHealth = 0;
+		percentageHealth = 0f;
 	}
 	
 	// Methods returning the position of an object
