@@ -54,10 +54,12 @@ public class Entity{
 		this.iDuration = 30; //how long invulnerability will last after taking damage
     
 		curHealth = 1;
-		maxHealth = 1;
+    maxHealth = 1;
 		percentageHealth = 1f;
 		regenTimer = 120;
-
+    
+    maxHealth = 2;
+		percentageHealth = 0;
 	}
 	
 	// Methods returning the position of an object
@@ -118,7 +120,7 @@ public class Entity{
 		}
 
 		//updates health
-		percentageHealth = (float) (curHealth / maxHealth);
+		percentageHealth = ((float) curHealth) / ((float) maxHealth);
 	}
 	
 	
