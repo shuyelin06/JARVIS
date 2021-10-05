@@ -51,6 +51,10 @@ public class Chunk{
 			} else
 			{
 				terrain = (seedBlocks[hold] - seedBlocks[hold + 1] ) * i / 8;
+				if(terrain < 0) //too stupid to do an actual abs thing
+				{
+					terrain *= -1;
+				}
 			}
 			
 			System.out.println(terrain);
