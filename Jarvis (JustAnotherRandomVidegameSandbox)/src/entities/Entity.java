@@ -33,7 +33,6 @@ public class Entity{
 	/*
 	 * Stat Variables - Unused, but we can implement them later
 	 */
-	protected int health;
 	
 	protected int attack;
 	protected int defense;
@@ -46,6 +45,9 @@ public class Entity{
 		
 		this.xSpeed = 0;
 		this.ySpeed = 0f;
+		curHealth = 1;
+		maxHealth = 1;
+		percentageHealth = 1f;
 	}
 	
 	// Methods returning the position of an object
