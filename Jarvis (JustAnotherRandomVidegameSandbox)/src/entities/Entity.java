@@ -26,7 +26,7 @@ public class Entity{
 	/*
 	 * Stat Variables - Unused, but we can implement them later
 	 */
-	protected int health;
+	protected int curHealth, maxHealth;
 	
 	protected int attack;
 	protected int defense;
@@ -65,9 +65,9 @@ public class Entity{
 		if(iFrames == 0) {
 			dmg -= defense;
 			if(dmg <= 0) { //if defense is higher than dmg taken you will just take 1 dmg
-				health -= 1;
+				curHealth -= 1;
 			}else {
-				health -= dmg;
+				curHealth -= dmg;
 			}
 			if(i) {
 				setIFrames(iDuration);
