@@ -33,7 +33,6 @@ public class Entity{
 	/*
 	 * Stat Variables - Unused, but we can implement them later
 	 */
-	protected int health;
 	
 	protected int attack;
 	protected int defense;
