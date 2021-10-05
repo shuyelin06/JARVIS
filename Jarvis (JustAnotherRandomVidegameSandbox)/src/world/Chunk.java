@@ -8,14 +8,19 @@ import support.SimplexNoise;
 
 public class Chunk{
 	// Size of chunk (in blocks)
-	final public static int Chunk_Size_X = 25;
-	final public static int Chunk_Size_Y = 100;
+	final public static int Chunk_Size_X = 32;
+	final public static int Chunk_Size_Y = 96;
 	
 	// All blocks in the chunk
 	private Block[][] blocks;
 	
+	
+	
 	//noise pattern
 	SimplexNoise noise;
+	int terrain;
+	int[] seedBlocks;
+	int hold;
 	
 	// Location of the chunk's bottom-left corner
 	private int chunkX;
@@ -24,12 +29,32 @@ public class Chunk{
 	public Chunk(int x) {
 		this.chunkX = x;
 		noise = new SimplexNoise(Game.seed);
+		seedBlocks = new int[Chunk_Size_X / 8];
+		
 		
 		this.blocks = new Block[Chunk_Size_X][Chunk_Size_Y];
 		
+		for(int i = 0; i < (int) (Chunk_Size_X / 8); i++)
+		{
+			seedBlocks[i] = (int) (noise.eval(x + i, 0) * Chunk_Size_Y);
+		}
+		
 		for(int i = 0; i < Chunk_Size_X; i++) {
 			
-			int terrain = (int) (noise.eval(x + i, 0) * Chunk_Size_Y);
+			if(i % 8 == 0) //smooths blocks
+			{
+				terrain = seedBlocks[i / 8];
+				if(i < Chunk_Size_X - 8)
+				{
+					hold = i / 8;
+				}
+			} else
+			{
+				terrain = (seedBlocks[hold] - seedBlocks[hold + 1] ) * i / 8;
+			}
+			
+			System.out.println(terrain);
+			
 			for(int j = 0; j < Chunk_Size_Y; j++)
 			{
 				if(j < terrain)
