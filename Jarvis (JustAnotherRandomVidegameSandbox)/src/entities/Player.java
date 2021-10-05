@@ -25,6 +25,20 @@ public class Player extends Entity{
 		return Player_Size;
 	}
 	
+	
+	public void update() {
+		super.update();
+	}
+
+	//draws characters
+	public void render(Graphics g) {
+		super.render(g);
+	}
+	
+	
+	
+	
+	
 	// Key Press Mappings
 	public void moveRight() {
 		this.xSpeed = 10f;	
@@ -48,5 +62,9 @@ public class Player extends Entity{
 		
 		this.ySpeed -= 5f;
 	}
+	
+	
+	
+	
 	
 }
