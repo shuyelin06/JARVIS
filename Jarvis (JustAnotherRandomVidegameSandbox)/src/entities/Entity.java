@@ -22,6 +22,7 @@ public class Entity{
 	
 	protected float x, y, w, h;
 	protected int curHealth, maxHealth;
+	protected float percentageHealth;
 	
 	/*
 	 * Render Variables
@@ -80,6 +81,10 @@ public class Entity{
 		else { // If not on a platform, gravity works on the entity
 			ySpeed -= gravity;
 		}
+		
+		
+		//updates health
+		percentageHealth = (float) (curHealth / maxHealth);
 	}
 	
 	
