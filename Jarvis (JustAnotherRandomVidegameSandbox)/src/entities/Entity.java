@@ -31,6 +31,9 @@ public class Entity{
 	protected int attack;
 	protected int defense;
 	
+	protected int iFrames;
+	protected int iDuration;
+	
 	// Every entity will have some initial starting position
 	public Entity(float InitX, float InitY) {
 		this.onPlatform = true;
@@ -39,6 +42,9 @@ public class Entity{
 		
 		this.xSpeed = 0;
 		this.ySpeed = 0f;
+		
+		this.iFrames = 0;
+		this.iDuration = 30; //how long invulnerability will last after taking damage
 	}
 	
 	// Methods returning the position of an object
@@ -54,6 +60,25 @@ public class Entity{
 		this.ySpeed = newSpeed;
 	}
 	
+	public void takeDamage(int dmg, boolean i) { //boolean for iFrames cause for certain piercing attacks that don't trigger them
+		//this mimics the mechanics in Terraria
+		if(iFrames == 0) {
+			dmg -= defense;
+			if(dmg <= 0) { //if defense is higher than dmg taken you will just take 1 dmg
+				health -= 1;
+			}else {
+				health -= dmg;
+			}
+			if(i) {
+				setIFrames(iDuration);
+			}
+			
+		}
+	}
+	
+	public void setIFrames(int frames) {
+		iFrames = frames;
+	}
 	
 	// Updates the entity's position given its velocity
 	public void update() {
@@ -73,6 +98,10 @@ public class Entity{
 		} 
 		else { // If not on a platform, gravity works on the entity
 			ySpeed -= gravity;
+		}
+		
+		if(iFrames > 0) { //timer that ticks down iFrames
+			iFrames --;
 		}
 	}
 }
