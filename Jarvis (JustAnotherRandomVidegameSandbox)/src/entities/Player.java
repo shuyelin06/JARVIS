@@ -1,5 +1,7 @@
 package entities;
 
+import java.util.ArrayList;
+
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
@@ -29,6 +31,7 @@ public class Player extends Entity{
 	
 	public void update() {
 		super.update();
+		checkCollisions();
 	}
 
 	//draws characters
@@ -38,6 +41,12 @@ public class Player extends Entity{
 	}
 	
 	
+	//checking all blocks in the nearest two chunks
+	public void checkCollisions() {
+		
+		
+		
+	}
 	
 	
 	//health bars
