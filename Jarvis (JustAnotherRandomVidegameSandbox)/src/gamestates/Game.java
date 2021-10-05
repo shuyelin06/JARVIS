@@ -51,7 +51,7 @@ public class Game extends BasicGameState
 	
 	// Debug Mode Tools
 	ArrayList<Line> GridLines = getGridLines();
-	boolean debugMode = false;
+	public static boolean debugMode = false;
 	
 	// Render all entities on screen
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException 
