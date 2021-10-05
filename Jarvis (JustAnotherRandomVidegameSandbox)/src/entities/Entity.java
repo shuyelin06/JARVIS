@@ -33,9 +33,13 @@ public class Entity{
 	/*
 	 * Stat Variables - Unused, but we can implement them later
 	 */
-	
+
 	protected int attack;
 	protected int defense;
+	
+	protected int iFrames;
+	protected int iDuration;
+	protected int regenTimer;
 	
 	// Every entity will have some initial starting position
 	public Entity(float InitX, float InitY) {
@@ -45,8 +49,16 @@ public class Entity{
 		
 		this.xSpeed = 0;
 		this.ySpeed = 0f;
+    
+		this.iFrames = 0;
+		this.iDuration = 30; //how long invulnerability will last after taking damage
+    
 		curHealth = 1;
-		maxHealth = 2;
+    maxHealth = 1;
+		percentageHealth = 1f;
+		regenTimer = 120;
+    
+    maxHealth = 2;
 		percentageHealth = 0;
 	}
 	
@@ -61,6 +73,26 @@ public class Entity{
 	}
 	public void setYSpeed(float newSpeed){
 		this.ySpeed = newSpeed;
+	}
+	
+	public void takeDamage(int dmg, boolean i) { //boolean for iFrames cause for certain piercing attacks that don't trigger them
+		//this mimics the mechanics in Terraria
+		if(iFrames == 0) {
+			dmg -= defense;
+			if(dmg <= 0) { //if defense is higher than dmg taken you will just take 1 dmg
+				curHealth -= 1;
+			}else {
+				curHealth -= dmg;
+			}
+			if(i) {
+				setIFrames(iDuration);
+			}
+			
+		}
+	}
+	//gives entity number of iframs that will automatically start ticking down each frame in update()
+	public void setIFrames(int frames) {
+		iFrames = frames;
 	}
 	
 	
@@ -83,8 +115,10 @@ public class Entity{
 		else { // If not on a platform, gravity works on the entity
 			ySpeed -= gravity;
 		}
-		
-		
+		if(iFrames > 0) { //timer that ticks down iFrames
+			iFrames --;
+		}
+
 		//updates health
 		percentageHealth = ((float) curHealth) / ((float) maxHealth);
 	}
