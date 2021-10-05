@@ -1,7 +1,10 @@
 package entities;
 
 import core.Coordinate;
+import gamestates.Game;
 
+import org.newdawn.slick.Color;
+import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 
 public class Entity{
@@ -16,6 +19,10 @@ public class Entity{
 	
 	protected Coordinate position;
 	protected float xSpeed, ySpeed; // Entity velocity (pixels per second)
+	
+	protected float x, y, w, h;
+	protected int curHealth, maxHealth;
+	protected float percentageHealth;
 	
 	/*
 	 * Render Variables
@@ -74,5 +81,29 @@ public class Entity{
 		else { // If not on a platform, gravity works on the entity
 			ySpeed -= gravity;
 		}
+		
+		
+		//updates health
+		percentageHealth = (float) (curHealth / maxHealth);
 	}
+	
+	
+	//debug rendering
+	public void render(Graphics g) {
+		//write health of actor underneath
+		if (Game.debugMode) {
+			g.setColor(new Color(255, 255, 255));
+			g.drawString(""+(int) curHealth, x, y - 15);
+			g.setColor(new Color(0, 0, 0));
+		}
+		//debug for hitbox of actor
+		if (Game.debugMode) {
+			g.setColor(new Color(255, 255, 255));
+			g.drawRect(x, y, w, h);
+			g.setColor(new Color(0, 0, 0));
+		}
+	}
+	
+	
+	
 }

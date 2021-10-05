@@ -7,6 +7,7 @@ import org.newdawn.slick.geom.Circle;
 
 import core.Coordinate;
 import core.Engine;
+import gamestates.Game;
 import world.Chunk;
 import world.World;
 
@@ -25,6 +26,32 @@ public class Player extends Entity{
 		return Player_Size;
 	}
 	
+	
+	public void update() {
+		super.update();
+	}
+
+	//draws characters
+	public void render(Graphics g) {
+		super.render(g);
+		drawHealthBars(g);
+	}
+	
+	
+	
+	
+	//health bars
+	public void drawHealthBars(Graphics g) {
+		final float BAR_WIDTH = ((Game.gc.getWidth()/2) - 300);
+		final float BAR_HEIGHT = 30;
+		g.setColor(new Color(0, 100, 0, 150));
+		g.fillRect(Game.gc.getWidth() - 100, 40, -BAR_WIDTH, BAR_HEIGHT);
+		g.setColor(new Color(0, 255, 0, 150));
+		g.fillRect(Game.gc.getWidth() - 100, 40, -BAR_WIDTH*percentageHealth, BAR_HEIGHT);
+		g.setColor(new Color(255, 255, 255));
+		g.drawRect(Game.gc.getWidth() - 100, 40, -BAR_WIDTH, BAR_HEIGHT);
+	}
+	
 	// Key Press Mappings
 	public void moveRight() {
 		this.xSpeed = 10f;	
@@ -41,12 +68,15 @@ public class Player extends Entity{
 			
 			jumpsLeft--;
 		}
-
 	}
 	public void fall() {
 		this.onPlatform = false;
 		
 		this.ySpeed -= 5f;
 	}
+	
+	
+	
+	
 	
 }

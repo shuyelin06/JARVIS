@@ -31,6 +31,10 @@ public class Game extends BasicGameState
 
 	public static int seed = (int) (Math.random() * 10000); //generates seed
 	
+	//slick2d variables
+	public static GameContainer gc;
+	
+	
 	public Game(int id) 
 	{
 		this.id = id;
@@ -40,6 +44,7 @@ public class Game extends BasicGameState
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException 
 	{
 		gc.setShowFPS(true); // Shows the FPS of the game
+		this.gc = gc;
 	}
 
 	/*
@@ -51,7 +56,7 @@ public class Game extends BasicGameState
 	
 	// Debug Mode Tools
 	ArrayList<Line> GridLines = getGridLines();
-	boolean debugMode = false;
+	public static boolean debugMode = false;
 	
 	// Render all entities on screen
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException 
