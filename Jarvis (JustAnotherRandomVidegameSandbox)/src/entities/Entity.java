@@ -46,8 +46,8 @@ public class Entity{
 		this.xSpeed = 0;
 		this.ySpeed = 0f;
 		curHealth = 1;
-		maxHealth = 1;
-		percentageHealth = 1f;
+		maxHealth = 2;
+		percentageHealth = 0;
 	}
 	
 	// Methods returning the position of an object
@@ -86,7 +86,7 @@ public class Entity{
 		
 		
 		//updates health
-		percentageHealth = (float) (curHealth / maxHealth);
+		percentageHealth = ((float) curHealth) / ((float) maxHealth);
 	}
 	
 	
