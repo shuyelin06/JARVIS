@@ -14,53 +14,26 @@ import java.util.Arrays;
 
 // Save and Load World Information
 public class FileLoader{
-	/* World Saving:
-	 * Saves data into the world Directory
-	*/
-	final private static String Save_Folder = "saves/";
+	final private static String Save_Folder = "saves/"; // Directory where all world information will be saved
+	final private static String Hash_File_Path = "src/settings/BlockHashing.txt"; // File where all block hashing will be located
 	
-	// Tests the load and retrieve data method times
-	private static void TestTimes() {
-		// Chunk Generation 
-		World world = new World("test");
-	
-		long averageSaveTime = 0;
-		long averageLoadTime = 0;
-		
-		long tempTime;
-		int runs = 5;
-		for(int i = 0; i < runs; i++) {
-			tempTime = Sys.getTime();
-			SaveWorld(world);
-			averageSaveTime += Sys.getTime() - tempTime;
+	/*
+	 * Raw Functions - Unoptimized functions
+	 */
+	// Creates all directories / subdirectories for our world
+	public static boolean createWorldFolders(String name) {
+		String path = Save_Folder + name;
+		if(new File(path).mkdir()) {
+			new File(path + "/entities").mkdir();
+			new File(path + "/player").mkdir();
+			new File(path + "/chunks").mkdir();
 			
-			tempTime = Sys.getTime();
-			LoadChunk(world.getWorldName(), 1);
-			averageLoadTime += Sys.getTime() - tempTime;
-		}
-		
-		averageSaveTime /= (long) runs;
-		averageLoadTime /= (long) runs;
-		
-		System.out.println("Average save time: " + averageSaveTime + " milliseconds");
-		System.out.println("Average load time: " + averageLoadTime + " milliseconds");
-	}
+			return true;
+		} 
+		else return false;
+	}	
 	
-	// Saves an entire world (Save + Quit, and on Initial Creation)
-	public static void SaveWorld(World world) {
-		// Step 1: Create a folder for the world (with an inventory, entities, chunk folder)
-		createWorldFolders(world.getWorldName());
-		
-		// Step 2: Save every chunk of the world to a file (will later use the WorldGen class, not world)
-		for(Chunk c: world.getRenderedChunks()) {
-			SaveChunk(world.getWorldName(), c);
-		}
-		
-		// Step 3: Inventory, Entities (Later)
-		
-	}
-	
-	// Saves a chunk (when playing)
+	// Saves a chunk for a given world name
 	public static void SaveChunk(String worldName, Chunk c) {
 		try {
 			FileWriter writer = new FileWriter(new File(Save_Folder + worldName + "/chunks/" + c.getX() + ".chunk"));
@@ -83,24 +56,7 @@ public class FileLoader{
 		
 	}
 	
-	// Creates all directories/subdirectories for our world
-	public static boolean createWorldFolders(String name) {
-		String path = Save_Folder + name;
-		if(new File(path).mkdir()) {
-			new File(path + "/entities").mkdir();
-			new File(path + "/player").mkdir();
-			new File(path + "/chunks").mkdir();
-			
-			return true;
-		} 
-		else return false;
-	}
-	
-	
-	/*
-	 * World Loading - Loads data from world directories
-	 */
-	// public static void LoadWorld() {}
+	// Load a chunk for a given world name
 	public static Chunk LoadChunk(String worldName, int chunkX) {
 		// Code for chunk retrieval
 		Block[][] blocks = new Block[Chunk.Chunk_Size_X][Chunk.Chunk_Size_Y];
@@ -145,40 +101,34 @@ public class FileLoader{
 
 		return new Chunk(chunkX, blocks);
 	}
-	
-	
-	/*
-	 * Block Hash Loading
-	 * Loads the mappings for block IDs
-	 */
+
+//	// Adds a block hash
+//	public static void AddBlockHashing(int id, float r, float g, float b, float a) {
+//		try {
+//			System.out.println(new File(Hash_File_Path).getAbsolutePath());
+//			
+//			FileWriter writer = new FileWriter(Hash_File_Path, true);
+//			
+//
+//			// Write block id
+//			writer.write(Integer.toString(id) + " ");
+//			
+//			writer.write(Float.toString(r) + " ");
+//			writer.write(Float.toString(g) + " ");
+//			writer.write(Float.toString(b) + " ");
+//			writer.write(Float.toString(a) + "\n");
+//
+//			writer.close();
+//		} catch(IOException e) {
+//			System.out.println("There was an error in writing a block hash");
+//		}
+//	}
 	
 	public static void main(String[] args) {
-		// AddBlockHashing(2, 0f, 255f, 0f, 0.5f);
 		LoadBlockHashings();
 	}
-	final private static String Hash_File_Path = "src/settings/BlockHashing.txt";
 	
-	public static void AddBlockHashing(int id, float r, float g, float b, float a) {
-		try {
-			System.out.println(new File(Hash_File_Path).getAbsolutePath());
-			
-			FileWriter writer = new FileWriter(Hash_File_Path, true);
-			
-
-			// Write block id
-			writer.write(Integer.toString(id) + " ");
-			
-			writer.write(Float.toString(r) + " ");
-			writer.write(Float.toString(g) + " ");
-			writer.write(Float.toString(b) + " ");
-			writer.write(Float.toString(a) + "\n");
-
-			writer.close();
-		} catch(IOException e) {
-			System.out.println("There was an error in writing a block hash");
-		}
-	}
-	
+	// Load block hashings
 	public static void LoadBlockHashings(){
 		try {
 			FileReader reader = new FileReader(Hash_File_Path);
@@ -186,6 +136,7 @@ public class FileLoader{
 			int data = reader.read();
 			
 			String[] values = new String[5];
+			Arrays.fill(values, "");
 			int index = 0;
 			while(data != -1) {
 				if(data == 10) {
@@ -198,10 +149,8 @@ public class FileLoader{
 							);
 					
 					index = 0;
-					Arrays.fill(values, 0);
-				} else if(data == 32) {
-					System.out.println(values[index]);
-					
+					Arrays.fill(values, "");
+				} else if(data == 32) {			
 					index++;
 				} else {
 					values[index] += (char) data;
@@ -216,11 +165,4 @@ public class FileLoader{
 			System.out.println("There was an error in loading block hashings");
 		}
 	}
-	
-	// 2/3 below below the surface is the ground
-	// 1/3 above the surface is the sky
-	// Dirt
-	// Grass
-	// Stone
-	// Deepslate
 }
