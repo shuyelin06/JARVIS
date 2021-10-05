@@ -14,21 +14,26 @@ import org.newdawn.slick.state.StateBasedGame;
 import core.Coordinate;
 import core.Engine;
 import entities.Player;
+import settings.Values;
 import structures.Block;
 import world.Chunk;
 import world.World;
 
 public class Game extends BasicGameState 
 {		
+	// Render distance
+	final public static int Render_Distance = 2;
+	
 	// Gamestate ID
 	int id;
+	
+	// The World
+	World world = new World("Test World"); 
 	
 	// The Player
 	Player player = new Player();
 	
-	// The World
-	World world = new World("Test World"); // change later into full width
-
+	// The world's seed
 	public static int seed = (int) (Math.random() * 10000); //generates seed
 	
 	//slick2d variables
@@ -61,11 +66,6 @@ public class Game extends BasicGameState
 	// Render all entities on screen
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException 
 	{
-		// Render the player
-		g.setColor(new Color(255f, 255f, 255f, 1f));
-		g.draw(new Circle(CenterX, CenterY, player.getSize())); // Render the player in the middle of the screen
-		
-		
 		// Render all blocks in loaded chunks
 
 		for(Chunk chunk: world.getRenderedChunks()) {
@@ -77,19 +77,7 @@ public class Game extends BasicGameState
 				for(int j = 0; j < Chunk.Chunk_Size_Y; j++) {
 					int id = blocks[i][j].getID();
 					
-					if(id % 2 == 0) {
-						if(i % 2 == 0) {
-							g.setColor(new Color(255f, 192f, 203f, 0.5f));
-						} else {
-							g.setColor(new Color(255f, 0f, 0f, 0.5f));
-						}
-					} else {
-						if(i % 2 == 1) {
-							g.setColor(new Color(0f, 255f, 255f, 0.5f));
-						} else {
-							g.setColor(new Color(255f, 255f, 0f, 0.5f));
-						}
-					}
+					g.setColor(Values.BlockHash.get(id));
 					
 					float[] position = renderPosition(chunk.getX() * Chunk.Chunk_Size_X + i, j);
 					blocks[i][j].render(g,
@@ -100,7 +88,12 @@ public class Game extends BasicGameState
 				}
 			}
 		}
-		player.render(g);
+    
+    // Render the player
+		g.setColor(new Color(255f, 255f, 255f, 1f));
+		g.draw(new Circle(CenterX, CenterY, player.getSize())); // Render the player in the middle of the screen
+    player.render(g);
+    
 	}
 	// Given two coordinates, display where they should be displayed on screen
 	private float[] renderPosition(float x2, float y2) {
@@ -117,6 +110,15 @@ public class Game extends BasicGameState
 	 */
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException
 	{	
+		// Check if any chunks need to be rendered or unrendered
+		// world.chunkRendering(player.getPosition().getChunk());
+		
+//		// Render new chunks
+//		for(int i = -(Render_Distance); i < Render_Distance + 1; i++){
+//			if(!world.chunkRendered(i)) world.renderChunks(i);
+//		}
+		
+		// Update the player's movement
 		player.update();
 	}
 
