@@ -17,6 +17,9 @@ public class Chunk{
 	//noise pattern
 	SimplexNoise noise;
 	
+	//will be used for the height of the column of terrain
+	private int terrain;
+	
 	// Location of the chunk's bottom-left corner
 	private int chunkX;
 	
@@ -28,19 +31,20 @@ public class Chunk{
 		this.blocks = new Block[Chunk_Size_X][Chunk_Size_Y];
 		
 		for(int i = 0; i < Chunk_Size_X; i++) {
-			
-			int terrain = (int) (noise.eval(x + i, 0) * Chunk_Size_Y);
+			terrain = (int) (noise.eval(x + i, 0) * (Chunk_Size_Y / 8) ); 
+			//generates the height of the column + the surface.     ^8 over here just makes the changes less extreme
 			for(int j = 0; j < Chunk_Size_Y; j++)
 			{
-				if(j < terrain)
-				{
-					blocks[i][j] = new Block(0);
-				} else
+				if(j < terrain + Values.surface)
 				{
 					blocks[i][j] = new Block(1);
+				} else
+				{
+					blocks[i][j] = new Block(0);
 				}
 				
 			}
+			
 
 		}
 	}

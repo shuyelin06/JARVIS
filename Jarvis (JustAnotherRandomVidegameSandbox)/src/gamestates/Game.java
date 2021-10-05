@@ -36,6 +36,10 @@ public class Game extends BasicGameState
 	// The world's seed
 	public static int seed = (int) (Math.random() * 10000); //generates seed
 	
+	//slick2d variables
+	public static GameContainer gc;
+	
+	
 	public Game(int id) 
 	{
 		this.id = id;
@@ -45,6 +49,7 @@ public class Game extends BasicGameState
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException 
 	{
 		gc.setShowFPS(true); // Shows the FPS of the game
+		this.gc = gc;
 	}
 
 	/*
@@ -56,13 +61,13 @@ public class Game extends BasicGameState
 	
 	// Debug Mode Tools
 	ArrayList<Line> GridLines = getGridLines();
-	boolean debugMode = false;
+	public static boolean debugMode = false;
 	
 	// Render all entities on screen
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException 
 	{
 		// Render all blocks in loaded chunks
-		float increment = 0f;
+
 		for(Chunk chunk: world.getRenderedChunks()) {
 
 			Block[][] blocks = chunk.getBlocks(); // Get the blocks in the chunk
@@ -83,10 +88,12 @@ public class Game extends BasicGameState
 				}
 			}
 		}
-				
-		// Render the player
+    
+    // Render the player
 		g.setColor(new Color(255f, 255f, 255f, 1f));
 		g.draw(new Circle(CenterX, CenterY, player.getSize())); // Render the player in the middle of the screen
+    player.render(g);
+    
 	}
 	// Given two coordinates, display where they should be displayed on screen
 	private float[] renderPosition(float x2, float y2) {
