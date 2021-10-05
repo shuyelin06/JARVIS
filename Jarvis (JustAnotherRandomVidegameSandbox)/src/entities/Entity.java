@@ -1,7 +1,10 @@
 package entities;
 
 import core.Coordinate;
+import gamestates.Game;
 
+import org.newdawn.slick.Color;
+import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 
 public class Entity{
@@ -17,6 +20,10 @@ public class Entity{
 	protected Coordinate position;
 	protected float xSpeed, ySpeed; // Entity velocity (pixels per second)
 	
+	protected float x, y, w, h;
+	protected int curHealth, maxHealth;
+	protected float percentageHealth;
+	
 	/*
 	 * Render Variables
 	 */
@@ -26,8 +33,7 @@ public class Entity{
 	/*
 	 * Stat Variables - Unused, but we can implement them later
 	 */
-	protected int curHealth, maxHealth;
-	
+
 	protected int attack;
 	protected int defense;
 	
@@ -42,9 +48,14 @@ public class Entity{
 		
 		this.xSpeed = 0;
 		this.ySpeed = 0f;
-		
-		this.iFrames = 0;
+    
+    this.iFrames = 0;
 		this.iDuration = 30; //how long invulnerability will last after taking damage
+    
+    curHealth = 1;
+		maxHealth = 1;
+		percentageHealth = 1f;
+
 	}
 	
 	// Methods returning the position of an object
@@ -99,9 +110,31 @@ public class Entity{
 		else { // If not on a platform, gravity works on the entity
 			ySpeed -= gravity;
 		}
-		
 		if(iFrames > 0) { //timer that ticks down iFrames
 			iFrames --;
 		}
+
+    //updates health
+    percentageHealth = (float) (curHealth / maxHealth);
 	}
+	
+	
+	//debug rendering
+	public void render(Graphics g) {
+		//write health of actor underneath
+		if (Game.debugMode) {
+			g.setColor(new Color(255, 255, 255));
+			g.drawString(""+(int) curHealth, x, y - 15);
+			g.setColor(new Color(0, 0, 0));
+		}
+		//debug for hitbox of actor
+		if (Game.debugMode) {
+			g.setColor(new Color(255, 255, 255));
+			g.drawRect(x, y, w, h);
+			g.setColor(new Color(0, 0, 0));
+		}
+	}
+	
+	
+	
 }
