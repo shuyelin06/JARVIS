@@ -100,6 +100,7 @@ public class Game extends BasicGameState
 				}
 			}
 		}
+		player.render(g);
 	}
 	// Given two coordinates, display where they should be displayed on screen
 	private float[] renderPosition(float x2, float y2) {
