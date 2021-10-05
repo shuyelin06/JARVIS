@@ -39,6 +39,7 @@ public class Entity{
 	
 	protected int iFrames;
 	protected int iDuration;
+	protected int regenTimer;
 	
 	// Every entity will have some initial starting position
 	public Entity(float InitX, float InitY) {
@@ -49,12 +50,13 @@ public class Entity{
 		this.xSpeed = 0;
 		this.ySpeed = 0f;
     
-    this.iFrames = 0;
+		this.iFrames = 0;
 		this.iDuration = 30; //how long invulnerability will last after taking damage
     
-    curHealth = 1;
+		curHealth = 1;
 		maxHealth = 1;
 		percentageHealth = 1f;
+		regenTimer = 120;
 
 	}
 	
@@ -86,10 +88,11 @@ public class Entity{
 			
 		}
 	}
-	
+	//gives entity number of iframs that will automatically start ticking down each frame in update()
 	public void setIFrames(int frames) {
 		iFrames = frames;
 	}
+	
 	
 	// Updates the entity's position given its velocity
 	public void update() {
@@ -114,8 +117,8 @@ public class Entity{
 			iFrames --;
 		}
 
-    //updates health
-    percentageHealth = (float) (curHealth / maxHealth);
+		//updates health
+		percentageHealth = (float) (curHealth / maxHealth);
 	}
 	
 	
