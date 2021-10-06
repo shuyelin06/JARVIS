@@ -23,6 +23,12 @@ public class Block{
 			g.setColor(new Color(255f, 255f, 255f, 0f));
 		}
 		
+		if(x % 8 == 1)
+		{
+
+			g.setColor(new Color(255f, 0f, 0f, 1f));
+		}
+		
 		g.fillRect(positionX, positionY, x, y);
 	}
 }
