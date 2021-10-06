@@ -20,9 +20,6 @@ public class Entity{
 	protected Coordinate position;
 	protected float xSpeed, ySpeed; // Entity velocity (pixels per second)
 	
-	protected float x, y, w, h;
-	protected int curHealth, maxHealth;
-	protected float percentageHealth;
 	
 	/*
 	 * Render Variables
@@ -33,7 +30,12 @@ public class Entity{
 	/*
 	 * Stat Variables - Unused, but we can implement them later
 	 */
-
+	protected float x, y, w, h;
+	protected int curHealth, maxHealth;
+	protected float percentageHealth;
+	
+	protected boolean alive;
+	
 	protected int attack;
 	protected int defense;
 	
@@ -52,14 +54,17 @@ public class Entity{
     
 		this.iFrames = 0;
 		this.iDuration = 30; //how long invulnerability will last after taking damage
+		
+		alive = true;
     
 		curHealth = 1;
-    maxHealth = 1;
+		maxHealth = 1;
 		percentageHealth = 1f;
 		regenTimer = 120;
     
-    maxHealth = 2;
+		maxHealth = 2;
 		percentageHealth = 0;
+		
 	}
 	
 	// Methods returning the position of an object
@@ -84,7 +89,11 @@ public class Entity{
 			}else {
 				curHealth -= dmg;
 			}
-			if(i) {
+			
+			if(curHealth <= 0) {
+				alive = false;
+			}
+			else if(i) {
 				setIFrames(iDuration);
 			}
 			
@@ -93,6 +102,10 @@ public class Entity{
 	//gives entity number of iframs that will automatically start ticking down each frame in update()
 	public void setIFrames(int frames) {
 		iFrames = frames;
+	}
+	
+	public boolean isAlive() {
+		return alive;
 	}
 	
 	

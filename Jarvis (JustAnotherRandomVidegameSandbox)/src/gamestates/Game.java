@@ -13,11 +13,13 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import core.Coordinate;
 import core.Engine;
+import entities.Enemy;
 import entities.Player;
 import settings.Values;
 import structures.Block;
 import world.Chunk;
 import world.World;
+import support.Spawning;
 
 public class Game extends BasicGameState 
 {		
@@ -32,6 +34,7 @@ public class Game extends BasicGameState
 	
 	// The Player
 	Player player = new Player();
+	ArrayList<Enemy> enemies = new ArrayList<Enemy>();
 	
 	// The world's seed
 	public static int seed = (int) (Math.random() * 10000); //generates seed
@@ -120,6 +123,9 @@ public class Game extends BasicGameState
 		
 		// Update the player's movement
 		player.update();
+		
+		//uncomment this once ready to test, at this point (10/5/21) i don't think we can render enemies yet to test if it works
+		//Spawning.spawnEnemy(player, enemies, 1f);
 	}
 
 	public void enter(GameContainer gc, StateBasedGame sbg) throws SlickException 

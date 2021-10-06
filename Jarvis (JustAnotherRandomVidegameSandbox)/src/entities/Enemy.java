@@ -7,17 +7,14 @@ public class Enemy extends Entity {
 	
 	protected Player target;
 	
-	public Enemy() {
-		super(0,0); // implement stuff for deciding where to spawn
+	public Enemy(float x, float y) {
+		super(x,y); 
 		
 		contactDmg = 2;
 		
 	}
 	
-	public int spawn() {//make a class that takes care of spawning
-			
-		return 0;
-	}
+	
 		
 	
 }
