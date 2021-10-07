@@ -11,6 +11,8 @@ import org.newdawn.slick.geom.Line;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
+import java.util.Collection;
+
 import core.Coordinate;
 import core.Engine;
 import entities.Enemy;
@@ -114,12 +116,7 @@ public class Game extends BasicGameState
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException
 	{	
 		// Check if any chunks need to be rendered or unrendered
-		// world.chunkRendering(player.getPosition().getChunk());
-		
-//		// Render new chunks
-//		for(int i = -(Render_Distance); i < Render_Distance + 1; i++){
-//			if(!world.chunkRendered(i)) world.renderChunks(i);
-//		}
+		world.renderChunks((int) player.getPosition().getChunk());
 		
 		// Update the player's movement
 		player.update();
