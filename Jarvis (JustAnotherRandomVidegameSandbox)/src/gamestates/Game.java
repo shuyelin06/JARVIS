@@ -33,8 +33,8 @@ public class Game extends BasicGameState
 	World world = new World("Test World"); 
 	
 	// The Player
-	Player player = new Player();
-	ArrayList<Enemy> enemies = new ArrayList<Enemy>();
+	private Player player = new Player();
+	private ArrayList<Enemy> enemies = new ArrayList<Enemy>();
 	
 	// The world's seed
 	public static int seed = (int) (Math.random() * 10000); //generates seed
@@ -53,6 +53,13 @@ public class Game extends BasicGameState
 	{
 		gc.setShowFPS(true); // Shows the FPS of the game
 		this.gc = gc;
+	}
+	
+	public Player getP() {
+		return player;
+	}
+	public ArrayList<Enemy> getEnemies(){
+		return enemies;
 	}
 
 	/*
