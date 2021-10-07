@@ -19,6 +19,7 @@ public class Chunk{
 	//noise pattern
 	SimplexNoise noise;
 	float terrain;
+	int divisor;
 	
 	int[] seedBlocks;
 	int hold;
@@ -31,29 +32,50 @@ public class Chunk{
 	public Chunk(int x) {
 		this.chunkX = x;
 		noise = new SimplexNoise(0); //change to Game.seed, just 0 for control purposes 
-		seedBlocks = new int[ (Chunk_Size_X / 8) + 1];
-		
+		divisor = 16;
 		
 		this.blocks = new Block[Chunk_Size_X][Chunk_Size_Y];
 		
-		for(int i = 0; i < (Chunk_Size_X / 8) + 1; i++)
+		this.blocks = generate(x);
+		
+	}
+	public Chunk(int x, Block[][] blocks) {
+		this.chunkX = x;
+		this.blocks = blocks;
+	}
+	
+	// Returns the chunk x
+	public int getX(){
+		return chunkX;
+	}
+	public Block[][] getBlocks() {
+		return blocks;
+	}
+	
+	public Block[][] generate(int x)
+	{
+		int f = 16; // frequency of seed blocks
+		seedBlocks = new int[ (Chunk_Size_X / f) + 1];
+		
+		for(int i = 0; i < (Chunk_Size_X / f) + 1; i++)
 		{
-			seedBlocks[i] = (int) ( noise.eval(x  + ( (i - 1) * 8), 0) * (Chunk_Size_Y / 4) ) + 10;
+			seedBlocks[i] = (int) ( noise.eval(x  + ( (i - 1) * f), 0) * (Chunk_Size_Y / 4) ) + 10;
 		}
 		
 		for(int i = 0; i < Chunk_Size_X; i++) {
-			if(i % 8 == 0) //smooths blocks
+			if(i % f == 0) //smooths blocks
 			{
-				terrain = seedBlocks[i / 8];
-				if(i < Chunk_Size_X - 8)
+				terrain = seedBlocks[i / f];
+				System.out.println(seedBlocks[i / f]);
+				if(i < Chunk_Size_X - f)
 				{
-					hold = i / 8;
+					hold = i / f;
 				}
 			} 
 			else
 			{
 				seedDiff = seedBlocks[hold + 1] - seedBlocks[hold] ;
-				terrain = seedBlocks[hold] + ( ((i % 8) * seedDiff )/ 8);
+				terrain = seedBlocks[hold] + ( ((i % f) * seedDiff )/ f);
 				System.out.println(terrain);
 			}
 			
@@ -69,18 +91,7 @@ public class Chunk{
 			}
 
 		}
-	}
-	public Chunk(int x, Block[][] blocks) {
-		this.chunkX = x;
-		this.blocks = blocks;
-	}
-	
-	// Returns the chunk x
-	public int getX(){
-		return chunkX;
-	}
-	public Block[][] getBlocks() {
-		return blocks;
+		return(blocks);
 	}
 	
 	// Update a block in the chunk
