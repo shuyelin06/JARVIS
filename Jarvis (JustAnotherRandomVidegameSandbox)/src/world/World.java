@@ -3,6 +3,8 @@ package world;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
+
 import gamestates.Game;
 
 public class World 
@@ -27,14 +29,9 @@ public class World
 		
 		// Chunk Generation 
 		renderedChunks = new HashMap<Integer, Chunk>();
-		
-//		foddr(int i = 0; i < World_X_Size; i++) {
-//			renderedChunks.put(i, new Chunk(i));
-//		}
 	}
 	
 	public void renderChunks(int playerChunk) {
-		System.out.println(renderedChunks.size());
 		int leftMostChunk = playerChunk - Game.Render_Distance;
 		int rightMostChunk = playerChunk + Game.Render_Distance;
 		
@@ -49,13 +46,14 @@ public class World
 		}
 		
 		// Derender Old Chunks
-		for(Integer i: renderedChunks.keySet()) {
+		Iterator<Integer> iterator = renderedChunks.keySet().iterator();
+		while(iterator.hasNext()) {
+			Integer i = iterator.next();
 			if(i < leftMostChunk || i > rightMostChunk) {
-				System.out.println("Attempting to unload chunk " + i);
+				System.out.println("Unloading Chunk: " + i);
 				FileLoader.SaveChunk(worldName, renderedChunks.get(i));
 				
-				System.out.println("Saved chunk " + i);
-				renderedChunks.remove(i, renderedChunks.get(i));
+				iterator.remove();
 			}
 		}
 	}

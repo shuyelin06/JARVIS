@@ -18,12 +18,14 @@ public class FileLoader{
 	final private static String Hash_File_Path = "src/settings/BlockHashing.txt"; // File where all block hashing will be located
 	
 	public static void main(String[] args) {
-		World newWorld = new World("Test World");
-
-		createWorldFolders(newWorld.getWorldName());
-		for(Chunk c: newWorld.getRenderedChunks()) {
-			SaveChunk(newWorld.getWorldName(), c);
-		}
+//		World newWorld = new World("Test World");
+//
+//		createWorldFolders(newWorld.getWorldName());
+//		for(Chunk c: newWorld.getRenderedChunks()) {
+//			SaveChunk(newWorld.getWorldName(), c);
+//		}
+		
+		LoadChunk("Test World", 23);
 	}
 	/*
 	 * Raw Functions - Unoptimized functions
@@ -84,7 +86,12 @@ public class FileLoader{
 				if(data == 10) {
 					x = 0;
 					y -= 1;
+					
+					id = "";
 				} else if(data == 32) {
+//					System.out.println("ID: " + id);
+//					System.out.println("x: " + x);
+//					System.out.println("y: " + y);
 					blocks[x][y] = new Block(Integer.parseInt(id));
 					
 					x++;

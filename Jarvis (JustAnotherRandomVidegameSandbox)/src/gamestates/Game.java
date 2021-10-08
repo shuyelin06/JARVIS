@@ -33,6 +33,7 @@ public class Game extends BasicGameState
 	
 	// The World
 	World world = new World("Test World"); 
+	// Use the "Test World" world for now until we get random world generation that can generate a new world, chunks and all, from scratch.
 	
 	// The Player
 	Player player = new Player();
