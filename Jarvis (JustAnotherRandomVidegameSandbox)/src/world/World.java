@@ -1,6 +1,9 @@
 package world;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
 
 import gamestates.Game;
 
@@ -10,14 +13,14 @@ public class World
 	 * World Variables
 	 */
 	// Size of the world in chunks
-	final public static int World_X_Size = 4;
+	final public static int World_X_Size = 50;
 	
 	// World Name
 	private String worldName;
 	
 	// All chunks rendered (into memory - we will have something loading and unloading chunks)
 	int leftMostChunk;
-	private ArrayList<Chunk> renderedChunks;
+	private HashMap<Integer, Chunk> renderedChunks;
 	
 	// Generate world from scratch
 	public World(String worldName)
@@ -25,45 +28,33 @@ public class World
 		this.worldName = worldName; 
 		
 		// Chunk Generation 
-		renderedChunks = new ArrayList<Chunk>();
-		
-		for(int i = 0; i < World_X_Size; i++) {
-			Chunk c = new Chunk(i);
-			renderedChunks.add(c);
-		}
-
+		renderedChunks = new HashMap<Integer, Chunk>();
 	}
 	
 	public void renderChunks(int playerChunk) {
-		int relRight = renderedChunks.get(renderedChunks.size() - 1).getX() - playerChunk;
-		int relLeft = playerChunk - renderedChunks.get(0).getX();
+		int leftMostChunk = playerChunk - Game.Render_Distance;
+		int rightMostChunk = playerChunk + Game.Render_Distance;
 		
-		if(relRight < Game.Render_Distance) {
-			// Load chunks to the right
-			for(int i = relRight; i < Game.Render_Distance +  1; i++) {
-				Chunk c = FileLoader.LoadChunk(worldName, playerChunk + i);
-				
-				if(c != null) {
-					renderedChunks.add(c);
-				}
-			}
-		} else {
-			for(int i = relRight; i > Game.Render_Distance; i--) {
-				// Derender chunks to the right
+		// Render New Chunks
+		for(Integer x = leftMostChunk; x < rightMostChunk + 1; x++) {
+			// Check if chunk is rendered
+			if(renderedChunks.containsKey(x)) continue;
+			else   {
+				Chunk c = FileLoader.LoadChunk(worldName, x);
+				if(c != null) renderedChunks.put(x, c);
 			}
 		}
 		
-		if(relLeft < Game.Render_Distance) {
-			// Load chunks to the right
-			for(int i = relLeft; i < Game.Render_Distance + 1; i++) {
-				Chunk c = FileLoader.LoadChunk(worldName, playerChunk - i);
+		// Derender Old Chunks
+		Iterator<Integer> iterator = renderedChunks.keySet().iterator();
+		while(iterator.hasNext()) {
+			Integer i = iterator.next();
+			if(i < leftMostChunk || i > rightMostChunk) {
+				System.out.println("Unloading Chunk: " + i);
+				FileLoader.SaveChunk(worldName, renderedChunks.get(i));
 				
-				if(c != null) {
-					renderedChunks.add(0, c);
-				}
+				iterator.remove();
 			}
-		} else {
-			// Derender chunks to the left
 		}
 	}
 	
@@ -74,7 +65,7 @@ public class World
 //	public Chunk getChunk(int chunkX) {
 //		int leftMost 
 //	}
-	public ArrayList<Chunk> getRenderedChunks(){
-		return renderedChunks;
+	public Collection<Chunk> getRenderedChunks(){
+		return renderedChunks.values();
 	}
 }

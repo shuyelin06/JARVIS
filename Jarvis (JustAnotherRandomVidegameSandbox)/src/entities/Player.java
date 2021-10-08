@@ -63,11 +63,11 @@ public class Player extends Entity{
 	
 	// Key Press Mappings
 	public void moveRight() {
-		this.xSpeed = 10f;	
+		this.xSpeed = 50f;	
 	}
 	
 	public void moveLeft() {
-		this.xSpeed = -10f;
+		this.xSpeed = -20f;
 	}
 	
 	public void jump() {

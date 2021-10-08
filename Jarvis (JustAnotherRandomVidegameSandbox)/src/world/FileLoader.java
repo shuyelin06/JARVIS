@@ -17,6 +17,16 @@ public class FileLoader{
 	final private static String Save_Folder = "saves/"; // Directory where all world information will be saved
 	final private static String Hash_File_Path = "src/settings/BlockHashing.txt"; // File where all block hashing will be located
 	
+	public static void main(String[] args) {
+//		World newWorld = new World("Test World");
+//
+//		createWorldFolders(newWorld.getWorldName());
+//		for(Chunk c: newWorld.getRenderedChunks()) {
+//			SaveChunk(newWorld.getWorldName(), c);
+//		}
+		
+		LoadChunk("Test World", 23);
+	}
 	/*
 	 * Raw Functions - Unoptimized functions
 	 */
@@ -58,12 +68,15 @@ public class FileLoader{
 	
 	// Load a chunk for a given world name
 	public static Chunk LoadChunk(String worldName, int chunkX) {
+		System.out.println("Attempting to load chunk " + chunkX);
 		// Code for chunk retrieval
 		Block[][] blocks = new Block[Chunk.Chunk_Size_X][Chunk.Chunk_Size_Y];
 		
-		String path = Save_Folder + worldName + "/chunks/" + chunkX + ".chunk";
+		File chunkFile = new File(Save_Folder + worldName + "/chunks/" + chunkX + ".chunk");
+		if(!chunkFile.exists()) return null; // Exception code in case the chunk doesn't exist
+		
 		try { // Space is ASCII 32, Newline is ASCII 10
-			FileReader reader = new FileReader(path);
+			FileReader reader = new FileReader(chunkFile);
 			
 			int x = 0, y = Chunk.Chunk_Size_Y - 1;
 			String id = "";
@@ -73,7 +86,12 @@ public class FileLoader{
 				if(data == 10) {
 					x = 0;
 					y -= 1;
+					
+					id = "";
 				} else if(data == 32) {
+//					System.out.println("ID: " + id);
+//					System.out.println("x: " + x);
+//					System.out.println("y: " + y);
 					blocks[x][y] = new Block(Integer.parseInt(id));
 					
 					x++;
@@ -88,15 +106,6 @@ public class FileLoader{
 			reader.close();
 		} catch(IOException err) {
 			System.out.println("There was an error in loading chunk " + chunkX);
-		}
-		
-		
-		// Printing (will be deleted later)
-		for(int y = Chunk.Chunk_Size_Y - 1; y >= 0 ; y--) {
-			for(int x = 0; x < Chunk.Chunk_Size_X; x++) {
-				System.out.print(blocks[x][y].getID() + " ");
-			}
-			System.out.println();
 		}
 
 		return new Chunk(chunkX, blocks);
@@ -124,9 +133,6 @@ public class FileLoader{
 //		}
 //	}
 	
-	public static void main(String[] args) {
-		LoadBlockHashings();
-	}
 	
 	// Load block hashings
 	public static void LoadBlockHashings(){

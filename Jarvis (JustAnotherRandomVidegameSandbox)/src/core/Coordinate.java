@@ -26,8 +26,8 @@ public class Coordinate{
 	}
 	
 	// Finds the chunk the coordinate is located in
-	public int getChunk() {
-		return (int) x / Chunk.Chunk_Size_X;
+	public float getChunk() {
+		return x / (float) Chunk.Chunk_Size_X;
 	}
 	
 	// Determine displacement from some coordinate
