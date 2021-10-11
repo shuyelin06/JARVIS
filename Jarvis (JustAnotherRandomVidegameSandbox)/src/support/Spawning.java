@@ -10,11 +10,12 @@ public class Spawning {
 	
 	public static void spawnEnemy (Game g, float prob) { //expand on parameters like what kind of enemies to spawn in later
 		//prob is the percent chance that you want a new enemy to spawn; scale it to how often the update method gets called
-		if(Utility.random(0.0, 100.0) <= prob) {
-			//for now it just drops a new enemy on the player's head
-			g.getEnemies().add( new Enemy( g.getP().getPosition().getX() , (g.getP().getPosition().getY() + 20) ) );
+		if(g.getEnemies().size() < 5) {
+			if(Utility.random(0.0, 100.0) <= prob) {
+				//for now it just drops a new enemy on the player's head
+				g.getEnemies().add( new Enemy( g.getP().getPosition().getX() , (g.getP().getPosition().getY() - 100) ) );
+			}
 		}
-		
 	}
 	
 	//loops from end to beginning of ArrayList and removes all the dead enemies from the list

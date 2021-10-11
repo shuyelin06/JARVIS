@@ -76,6 +76,13 @@ public class Game extends BasicGameState
 	ArrayList<Line> GridLines = getGridLines();
 	public static boolean debugMode = false;
 	
+	public static float centerX() {
+		return CenterX;
+	}
+	public static float centerY() {
+		return CenterY;
+	}
+	
 	// Render all entities on screen
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException 
 	{
@@ -105,7 +112,12 @@ public class Game extends BasicGameState
     // Render the player
 		g.setColor(new Color(255f, 255f, 255f, 1f));
 		g.draw(new Circle(CenterX, CenterY, player.getSize())); // Render the player in the middle of the screen
-    player.render(g);
+		player.render(g);
+		
+    //render enemies
+    	for(Enemy e : enemies) {
+    		e.render(g, player.getPosition().getX(), player.getPosition().getY()); //render the enemy relative to the player
+    	}
     
 	}
 	// Given two coordinates, display where they should be displayed on screen
@@ -129,8 +141,11 @@ public class Game extends BasicGameState
 		// Update the player's movement
 		player.update();
 		
-		//uncomment this once ready to test, at this point (10/5/21) i don't think we can render enemies yet to test if it works
-		//Spawning.spawnEnemy(player, enemies, 1f);
+		Spawning.spawnEnemy(this, 1f);
+		for(Enemy e : enemies) {
+			e.update();
+		}
+		Spawning.clearDead(this);
 	}
 
 	public void enter(GameContainer gc, StateBasedGame sbg) throws SlickException 
