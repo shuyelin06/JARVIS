@@ -144,6 +144,10 @@ public class Game extends BasicGameState
 		player.update();
 		
 		Spawning.spawnEnemy(this, 1f);
+		for(Enemy e : enemies) {
+			e.update();
+		}
+		Spawning.clearDead(this);
 	}
 
 	public void enter(GameContainer gc, StateBasedGame sbg) throws SlickException 

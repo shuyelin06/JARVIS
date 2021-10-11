@@ -28,9 +28,13 @@ public class Enemy extends Entity {
 		}
 	}
 		
-//	public void update() {
-//		
-//	}
+	public void update() {
+		super.update();
+		if(Utility.random(0.0, 100.0) <= 0.2) { //random chance to die just to test stuff
+			alive = false;
+		}
+		setXSpeed(100f);
+	}
 	
 	//x and y are coordinates of the player
 	public void render(Graphics g, float x, float y) {
