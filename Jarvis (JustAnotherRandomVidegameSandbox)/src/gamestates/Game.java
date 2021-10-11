@@ -36,8 +36,8 @@ public class Game extends BasicGameState
 	// Use the "Test World" world for now until we get random world generation that can generate a new world, chunks and all, from scratch.
 	
 	// The Player
-	Player player = new Player();
-	ArrayList<Enemy> enemies = new ArrayList<Enemy>();
+	private Player player = new Player();
+	private ArrayList<Enemy> enemies = new ArrayList<Enemy>();
 	
 	// The world's seed
 	public static int seed = (int) (Math.random() * 10000); //generates seed
@@ -56,6 +56,13 @@ public class Game extends BasicGameState
 	{
 		gc.setShowFPS(true); // Shows the FPS of the game
 		this.gc = gc;
+	}
+	
+	public Player getP() {
+		return player;
+	}
+	public ArrayList<Enemy> getEnemies(){
+		return enemies;
 	}
 
 	/*
