@@ -50,7 +50,7 @@ public class WorldGen{
 		
 		for(int i = 0; i < (width / f) + 1; i++)
 		{
-			seedBlocks[i] = (int) ( noise.eval(x  + (i * f), 0) * (90 / 4) ) + 10;
+			seedBlocks[i] = (int) ( noise.eval(x  + (i * f), 0) * (90 / 4) ) + 20;
 		}
 		
 		for(int i = 0; i < width; i++) {
@@ -59,23 +59,24 @@ public class WorldGen{
 				terrain[i] = seedBlocks[i / f];
 				
 				seedDiff = seedBlocks[hold + 1] - seedBlocks[hold];
-				
+
 				if(i <= width - f) //uhhh
 				{
 					hold = i / f;
 				}
 				
-				if(i / f >= 1) //flips the derivative for the inflection point
-				{
-					d2 = -d2;
-				}
 			} 
 			else
 			{
-				d1 = d1 + (d2 * seedDiff * (i % f));
+				if(i == 15) //flips the derivative for the inflection point
+				{
+					d2 = -d2;
+				}
 				
-				terrain[i] = (float) (seedBlocks[hold] + ( d1 + terrain[i - 1] / f));
-				System.out.println(terrain);
+				d1 = (d2 * seedDiff * (i % f));
+				
+				terrain[i] = (float) (d1 + terrain[i - 1]);
+				System.out.println(terrain[i]);
 			}
 			
 			for(int j = 0; j < height; j++)
