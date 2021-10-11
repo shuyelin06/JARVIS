@@ -40,53 +40,63 @@ public class WorldGen{
 	{
 		int f = 16; // frequency of seed blocks
 		
-		double d1 = 0;
-		double d2 = 0.015625; //Wtf!!!! Calculus!!!! (its the 2nd derivative, to make things smoooooth)
+		double d1 = 0; //1st derivative, starts at zero
+		double d2 = 0.015625; //Wtf!!! Calculus!!! (its the 2nd derivative, to make things smoooooth)
 		
-		
-		seedBlocks = new int[ (width / f) + 1];
+		seedBlocks = new int[ (width / f) + 1]; //3 "seeded" points from the noise
 		terrain = new double[width];
 		
 		
-		for(int i = 0; i < (width / f) + 1; i++)
+		for(int i = 0; i < seedBlocks.length; i++)
 		{
-			seedBlocks[i] = (int) ( noise.eval(x  + (i * f), 0) * (90 / 4) ) + 20;
+			seedBlocks[i] = (int) ( noise.eval(x  + (i * f), 0) * 32 ) + 20;
 		}
 		
 		for(int i = 0; i < width; i++) {
-			if(i % f == 0) //smooths blocks
+			
+			//step 1: terrain forming
+			if(i % f == 0) //places the seed blocks
 			{
-				terrain[i] = seedBlocks[i / f];
+				hold = i / f;
+				
+				terrain[i] = seedBlocks[hold];
 				
 				seedDiff = seedBlocks[hold + 1] - seedBlocks[hold];
-
-				if(i <= width - f) //uhhh
-				{
-					hold = i / f;
-				}
 				
+				System.out.println(seedDiff + ", " + i);
 			} 
 			else
 			{
-				if(i == 15) //flips the derivative for the inflection point
-				{
-					d2 = -d2;
+				/* //debug stuff
+				 * terrain[i] = 0; 
+				 * if(i % 8 == 0) 
+				 * { 
+				 * terrain[i] = seedBlocks[hold] + (seedDiff / 2); 
+				 * }
+				 */
+				
+				 if(i % 8 == 0) //flips the derivative for the inflection point 
+				{ 
+					 d2 = -d2; 
 				}
-				
-				d1 = (d2 * seedDiff * (i % f));
-				
-				terrain[i] = (float) (d1 + terrain[i - 1]);
-				System.out.println(terrain[i]);
+				  
+				 d1 = d1 + d2;
+				  
+				 terrain[i] = (d1 * seedDiff) + terrain[i - 1];
 			}
 			
+			//step 2: block placement (will move to separate method or class)
 			for(int j = 0; j < height; j++)
 			{
 				if(j < terrain[i])
 				{
-					blocks[i][j] = new Block(0);
+					blocks[i][j] = new Block(1);
+				} else if(j < terrain[i] + 1)
+				{
+					blocks[i][j] = new Block(2);
 				} else
 				{
-					blocks[i][j] = new Block(1);
+					blocks[i][j] = new Block(0);
 				}			
 			}
 

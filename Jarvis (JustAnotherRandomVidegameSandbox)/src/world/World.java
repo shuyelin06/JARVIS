@@ -8,7 +8,7 @@ public class World
 	 * World Variables
 	 */
 	// Size of the world in chunks
-	final public static int World_X_Size = 8;
+	final public static int World_X_Size = 16;
 	
 	// World Name
 	private String worldName;
@@ -30,10 +30,17 @@ public class World
 
 	}
 	
-	public String getWorldName() {
+	public String getWorldName() 
+	{
 		return worldName;
 	}
-	public ArrayList<Chunk> getRenderedChunks(){
+	public ArrayList<Chunk> getGeneratedChunks()
+	{
+		return renderedChunks;
+	}
+	public ArrayList<Chunk> getRenderedChunks()
+	{
+		
 		return renderedChunks;
 	}
 }

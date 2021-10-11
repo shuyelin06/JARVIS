@@ -13,22 +13,20 @@ public class Block{
 		return id;
 	}
 	
-	public void render(Graphics g, float positionX, float positionY, float x, float y)
+	public void render(Graphics g, float positionX, float positionY, float x, float y) // should probably move the 
+																						//block types to a bunch of classes
 	{
-		if(getID() == 0)
+		if(getID() != 0)
 		{
-			g.setColor(new Color(255f, 255f, 255f, 1f));
-		} else if(getID() == 1)
-		{
-			g.setColor(new Color(255f, 255f, 255f, 0f));
+			if(getID() == 2)
+			{
+				g.setColor(new Color(70, 180, 10));
+			} else if(getID() == 1)
+			{
+				g.setColor(new Color(120, 70, 50));
+			}
+				g.fillRect(positionX, positionY, x, y);
 		}
-		
-		if(x % 8 == 1)
-		{
-
-			g.setColor(new Color(255f, 0f, 0f, 1f));
-		}
-		
-		g.fillRect(positionX, positionY, x, y);
+			
 	}
 }

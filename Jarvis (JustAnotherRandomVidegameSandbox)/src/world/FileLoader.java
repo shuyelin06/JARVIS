@@ -34,7 +34,7 @@ public class FileLoader{
 		
 		// Step 2: Save every chunk of the world to a file (will later use the WorldGen class, not world)
 		String chunkFolder = Save_Folder + world.getWorldName() + "/chunks";
-		for(Chunk c: world.getRenderedChunks()) {
+		for(Chunk c: world.getGeneratedChunks()) {
 			SaveChunk(world.getWorldName(), c);
 		}
 		
