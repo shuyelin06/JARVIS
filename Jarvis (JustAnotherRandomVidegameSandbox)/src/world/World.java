@@ -8,7 +8,7 @@ public class World
 	 * World Variables
 	 */
 	// Size of the world in chunks
-	final public static int World_X_Size = 4;
+	final public static int World_X_Size = 8;
 	
 	// World Name
 	private String worldName;
