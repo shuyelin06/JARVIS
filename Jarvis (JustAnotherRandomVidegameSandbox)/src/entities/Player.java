@@ -10,6 +10,7 @@ import org.newdawn.slick.geom.Circle;
 import core.Coordinate;
 import core.Engine;
 import gamestates.Game;
+import structures.Block;
 import world.Chunk;
 import world.World;
 
@@ -43,9 +44,15 @@ public class Player extends Entity{
 	
 	//checking all blocks in the nearest two chunks
 	public void checkCollisions() {
+		float chunk = this.getPosition().getChunk();
+		//trying to check all blocks in chunk not working
 		
 		
-		
+		for (int i = 0; i < Chunk.Chunk_Size_X; i++) {
+			for (int j = 0; j < Chunk.Chunk_Size_Y; j++) {
+				
+			}
+		}
 	}
 	
 	
