@@ -35,14 +35,4 @@ public class Enemy extends Entity {
 		}
 		setXSpeed(100f);
 	}
-	
-	//x and y are coordinates of the player
-	public void render(Graphics g, float x, float y) {
-		super.render(g);
-		//if() { //if it is close enough to player and will be on screen
-			g.setColor(Color.red);
-			g.draw(new Circle((Game.centerX()) + (this.getPosition().getX() - x), Game.centerY() + (this.getPosition().getY() - y), size));	
-		//}
-	}
-	
 }

@@ -2,19 +2,28 @@ package world;
 
 import java.util.Arrays;
 
+import settings.Values;
 import gamestates.Game;
 import structures.Block;
 import support.SimplexNoise;
 
 public class Chunk{
 	// Size of chunk (in blocks)
-	final public static int Chunk_Size_X = 32;
-	final public static int Chunk_Size_Y = 96;
+	final public static int Chunk_Size_X = 25;
+	final public static int Chunk_Size_Y = 100;
 	
 	// All blocks in the chunk
 	private Block[][] blocks;
 	
 	WorldGen generation;
+	SimplexNoise noise;
+	
+	int[] seedBlocks;
+	int hold;
+	float seedDiff; // difference of 2 seed blocks
+	
+	//will be used for the height of the column of terrain
+	private int terrain;
 	
 	// Location of the chunk's bottom-left corner
 	private int chunkX;

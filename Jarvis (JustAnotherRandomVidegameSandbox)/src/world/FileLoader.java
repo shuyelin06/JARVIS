@@ -38,9 +38,10 @@ public class FileLoader{
 		
 		// Step 2: Save every chunk of the world to a file (will later use the WorldGen class, not world)
 		String chunkFolder = Save_Folder + world.getWorldName() + "/chunks";
-		for(Chunk c: world.getGeneratedChunks()) {
+		for(Chunk c: world.getAllChunks()) {
 			SaveChunk(world.getWorldName(), c);
 		}
+	}
     
 	/*
 	 * Raw Functions - Unoptimized functions
@@ -104,9 +105,6 @@ public class FileLoader{
 					
 					id = "";
 				} else if(data == 32) {
-//					System.out.println("ID: " + id);
-//					System.out.println("x: " + x);
-//					System.out.println("y: " + y);
 					blocks[x][y] = new Block(Integer.parseInt(id));
 					
 					x++;

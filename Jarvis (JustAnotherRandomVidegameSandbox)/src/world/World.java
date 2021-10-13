@@ -59,12 +59,12 @@ public class World
 		}
 	}
 	
-	public String getWorldName() 
-	{
+	public String getWorldName() {
 		return worldName;
 	}
   
-  public Collection<Chunk> getRenderedChunks(){
+	public Collection<Chunk> getAllChunks() {
+
 		return renderedChunks.values();
 	}
 }

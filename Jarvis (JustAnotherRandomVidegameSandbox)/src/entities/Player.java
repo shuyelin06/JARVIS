@@ -70,7 +70,7 @@ public class Player extends Entity{
 	
 	// Key Press Mappings
 	public void moveRight() {
-		this.xSpeed = 50f;	
+		this.xSpeed = 20f;	
 	}
 	
 	public void moveLeft() {

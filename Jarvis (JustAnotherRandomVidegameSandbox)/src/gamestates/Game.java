@@ -86,54 +86,35 @@ public class Game extends BasicGameState
 	// Render all entities on screen
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException 
 	{
-  //background
-		g.setColor(new Color(20, 100, 200));
-		g.fillRect(0, 0, Engine.RESOLUTION_X, Engine.RESOLUTION_Y);
-		
-		// Render the player
-		g.setColor(new Color(255f, 255f, 255f, 1f));
-		g.draw(new Circle(CenterX, CenterY, 25f)); // Render the player in the middle of the screen
-		
-		
 		// Render all blocks in loaded chunks
-		float increment = 0f;
-
-		for(Chunk chunk: world.getRenderedChunks()) {
-
+		for(Chunk chunk: world.getAllChunks()) {
 			Block[][] blocks = chunk.getBlocks(); // Get the blocks in the chunk
 			
 			// For every object, render its position relative to the player (with the player being in the center)
 			for(int i = 0; i < Chunk.Chunk_Size_X; i++) {
 				for(int j = 0; j < Chunk.Chunk_Size_Y; j++) {
-					int id = blocks[i][j].getID();
-					
-					g.setColor(Values.BlockHash.get(id));
+					// g.setColor(Values.BlockHash.get(blocks[i][j].getID()));
 					
 					float[] position = renderPosition(chunk.getX() * Chunk.Chunk_Size_X + i, j);
-					if(position[0] > -100 
-						&& position[0] < Engine.RESOLUTION_X + 100
-						&& position[1] > -100
-						&& position[1] < Engine.RESOLUTION_Y + 100)
-						//so it only renders (but still updates) blocks on the screen
-					{
-						blocks[i][j].render(g,
-								position[0],
-								position[1],
-								Coordinate.ConversionFactor,
-								Coordinate.ConversionFactor);
-					}
+					blocks[i][j].render(g,
+							position[0],
+							position[1],
+							Coordinate.ConversionFactor,
+							Coordinate.ConversionFactor);
 				}
 			}
 		}
     
-    // Render the player
+	    // Render the player
 		g.setColor(new Color(255f, 255f, 255f, 1f));
 		g.draw(new Circle(CenterX, CenterY, player.getSize())); // Render the player in the middle of the screen
 		player.render(g);
 		
-    //render enemies
+		//render enemies
+		g.setColor(Color.red);
     	for(Enemy e : enemies) {
-    		e.render(g, player.getPosition().getX(), player.getPosition().getY()); //render the enemy relative to the player
+    		float[] position = renderPosition(e.getPosition().getX(), e.getPosition().getY());
+    		g.draw(new Circle(position[0], position[1], 15));	
     	}
     
 	}

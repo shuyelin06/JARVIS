@@ -7,4 +7,6 @@ public class Values // this will be quite useful for organizing stuff later on
 {	
 	// Will store our Block - Color Combinations
 	final public static HashMap<Integer, Color> BlockHash = new HashMap<Integer, Color>();
+	
+	public static final int surface = 30;
 }
