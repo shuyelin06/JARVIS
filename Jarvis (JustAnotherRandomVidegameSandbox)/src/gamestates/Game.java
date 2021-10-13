@@ -11,25 +11,40 @@ import org.newdawn.slick.geom.Line;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
+import java.util.Collection;
+
 import core.Coordinate;
 import core.Engine;
+import entities.Enemy;
 import entities.Player;
+import settings.Values;
 import structures.Block;
 import world.Chunk;
 import world.World;
+import support.Spawning;
 
 public class Game extends BasicGameState 
 {		
+	// Render distance
+	final public static int Render_Distance = 2;
+	
 	// Gamestate ID
 	int id;
 	
-	// The Player
-	Player player = new Player();
-	
 	// The World
-	World world = new World("Test World"); // change later into full width
-
+	World world = new World("Test World"); 
+	// Use the "Test World" world for now until we get random world generation that can generate a new world, chunks and all, from scratch.
+	
+	// The Player
+	private Player player = new Player();
+	private ArrayList<Enemy> enemies = new ArrayList<Enemy>();
+	
+	// The world's seed
 	public static int seed = (int) (Math.random() * 10000); //generates seed
+	
+	//slick2d variables
+	public static GameContainer gc;
+	
 	
 	public Game(int id) 
 	{
@@ -40,6 +55,14 @@ public class Game extends BasicGameState
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException 
 	{
 		gc.setShowFPS(true); // Shows the FPS of the game
+		this.gc = gc;
+	}
+	
+	public Player getP() {
+		return player;
+	}
+	public ArrayList<Enemy> getEnemies(){
+		return enemies;
 	}
 
 	/*
@@ -51,12 +74,19 @@ public class Game extends BasicGameState
 	
 	// Debug Mode Tools
 	ArrayList<Line> GridLines = getGridLines();
-	boolean debugMode = false;
+	public static boolean debugMode = false;
+	
+	public static float centerX() {
+		return CenterX;
+	}
+	public static float centerY() {
+		return CenterY;
+	}
 	
 	// Render all entities on screen
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException 
 	{
-		//background
+  //background
 		g.setColor(new Color(20, 100, 200));
 		g.fillRect(0, 0, Engine.RESOLUTION_X, Engine.RESOLUTION_Y);
 		
@@ -68,7 +98,6 @@ public class Game extends BasicGameState
 		// Render all blocks in loaded chunks
 		float increment = 0f;
 
-		
 		for(Chunk chunk: world.getRenderedChunks()) {
 
 			Block[][] blocks = chunk.getBlocks(); // Get the blocks in the chunk
@@ -76,6 +105,10 @@ public class Game extends BasicGameState
 			// For every object, render its position relative to the player (with the player being in the center)
 			for(int i = 0; i < Chunk.Chunk_Size_X; i++) {
 				for(int j = 0; j < Chunk.Chunk_Size_Y; j++) {
+					int id = blocks[i][j].getID();
+					
+					g.setColor(Values.BlockHash.get(id));
+					
 					float[] position = renderPosition(chunk.getX() * Chunk.Chunk_Size_X + i, j);
 					if(position[0] > -100 
 						&& position[0] < Engine.RESOLUTION_X + 100
@@ -92,6 +125,17 @@ public class Game extends BasicGameState
 				}
 			}
 		}
+    
+    // Render the player
+		g.setColor(new Color(255f, 255f, 255f, 1f));
+		g.draw(new Circle(CenterX, CenterY, player.getSize())); // Render the player in the middle of the screen
+		player.render(g);
+		
+    //render enemies
+    	for(Enemy e : enemies) {
+    		e.render(g, player.getPosition().getX(), player.getPosition().getY()); //render the enemy relative to the player
+    	}
+    
 	}
 	// Given two coordinates, display where they should be displayed on screen
 	private float[] renderPosition(float x2, float y2) {
@@ -108,7 +152,17 @@ public class Game extends BasicGameState
 	 */
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException
 	{	
+		// Check if any chunks need to be rendered or unrendered
+		world.renderChunks((int) player.getPosition().getChunk());
+		
+		// Update the player's movement
 		player.update();
+		
+		Spawning.spawnEnemy(this, 1f);
+		for(Enemy e : enemies) {
+			e.update();
+		}
+		Spawning.clearDead(this);
 	}
 
 	public void enter(GameContainer gc, StateBasedGame sbg) throws SlickException 

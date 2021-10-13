@@ -1,6 +1,7 @@
 package core;
 
 import core.Engine;
+import world.Chunk;
 
 public class Coordinate{
 	public static final int ConversionFactor = 30; // Conversion: 1 Block = 20 Pixels
@@ -22,6 +23,11 @@ public class Coordinate{
 	}
 	public float getY() {
 		return y;
+	}
+	
+	// Finds the chunk the coordinate is located in
+	public float getChunk() {
+		return x / (float) Chunk.Chunk_Size_X;
 	}
 	
 	// Determine displacement from some coordinate

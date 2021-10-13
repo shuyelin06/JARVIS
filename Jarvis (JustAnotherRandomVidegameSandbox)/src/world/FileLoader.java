@@ -1,19 +1,23 @@
 package world;
 
 import org.lwjgl.Sys;
+import org.newdawn.slick.Color;
 
+import settings.Values;
 import structures.Block;
 
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Arrays;
 
 // Save and Load World Information
 public class FileLoader{
-	final private static String Save_Folder = "saves/";
+	final private static String Save_Folder = "saves/"; // Directory where all world information will be saved
+	final private static String Hash_File_Path = "src/settings/BlockHashing.txt"; // File where all block hashing will be located
 	
-	public static void main(String[] args) {		
+  public static void main(String[] args) {		
 		// Chunk Generation 
 		World world = new World("test");
 	
@@ -37,11 +41,24 @@ public class FileLoader{
 		for(Chunk c: world.getGeneratedChunks()) {
 			SaveChunk(world.getWorldName(), c);
 		}
-		
-		// Step 3: Inventory, Entities (Later)
-	}
+    
+	/*
+	 * Raw Functions - Unoptimized functions
+	 */
+	// Creates all directories / subdirectories for our world
+	public static boolean createWorldFolders(String name) {
+		String path = Save_Folder + name;
+		if(new File(path).mkdir()) {
+			new File(path + "/entities").mkdir();
+			new File(path + "/player").mkdir();
+			new File(path + "/chunks").mkdir();
+			
+			return true;
+		} 
+		else return false;
+	}	
 	
-	// Saves a chunk (when playing)
+	// Saves a chunk for a given world name
 	public static void SaveChunk(String worldName, Chunk c) {
 		try {
 			FileWriter writer = new FileWriter(new File(Save_Folder + worldName + "/chunks/" + c.getX() + ".chunk"));
@@ -64,29 +81,17 @@ public class FileLoader{
 		
 	}
 	
-	// Creates all directories/subdirectories for our world
-	public static boolean createWorldFolders(String name) {
-		String path = Save_Folder + name;
-		if(new File(path).mkdir()) {
-			new File(path + "/entities").mkdir();
-			new File(path + "/player").mkdir();
-			new File(path + "/chunks").mkdir();
-			
-			return true;
-		} 
-		else return false;
-	}
-	
-	
-	
-	// public static void LoadWorld() {}
+	// Load a chunk for a given world name
 	public static Chunk LoadChunk(String worldName, int chunkX) {
+		System.out.println("Attempting to load chunk " + chunkX);
 		// Code for chunk retrieval
 		Block[][] blocks = new Block[Chunk.Chunk_Size_X][Chunk.Chunk_Size_Y];
 		
-		String path = Save_Folder + worldName + "/chunks/" + chunkX + ".chunk";
+		File chunkFile = new File(Save_Folder + worldName + "/chunks/" + chunkX + ".chunk");
+		if(!chunkFile.exists()) return null; // Exception code in case the chunk doesn't exist
+		
 		try { // Space is ASCII 32, Newline is ASCII 10
-			FileReader reader = new FileReader(path);
+			FileReader reader = new FileReader(chunkFile);
 			
 			int x = 0, y = Chunk.Chunk_Size_Y - 1;
 			String id = "";
@@ -96,7 +101,12 @@ public class FileLoader{
 				if(data == 10) {
 					x = 0;
 					y -= 1;
+					
+					id = "";
 				} else if(data == 32) {
+//					System.out.println("ID: " + id);
+//					System.out.println("x: " + x);
+//					System.out.println("y: " + y);
 					blocks[x][y] = new Block(Integer.parseInt(id));
 					
 					x++;
@@ -112,17 +122,68 @@ public class FileLoader{
 		} catch(IOException err) {
 			System.out.println("There was an error in loading chunk " + chunkX);
 		}
-		
-		
-		// Printing (will be deleted later)
-		for(int y = Chunk.Chunk_Size_Y - 1; y >= 0 ; y--) {
-			for(int x = 0; x < Chunk.Chunk_Size_X; x++) {
-				System.out.print(blocks[x][y].getID() + " ");
-			}
-			System.out.println();
-		}
 
-		
 		return new Chunk(chunkX, blocks);
+	}
+
+//	// Adds a block hash
+//	public static void AddBlockHashing(int id, float r, float g, float b, float a) {
+//		try {
+//			System.out.println(new File(Hash_File_Path).getAbsolutePath());
+//			
+//			FileWriter writer = new FileWriter(Hash_File_Path, true);
+//			
+//
+//			// Write block id
+//			writer.write(Integer.toString(id) + " ");
+//			
+//			writer.write(Float.toString(r) + " ");
+//			writer.write(Float.toString(g) + " ");
+//			writer.write(Float.toString(b) + " ");
+//			writer.write(Float.toString(a) + "\n");
+//
+//			writer.close();
+//		} catch(IOException e) {
+//			System.out.println("There was an error in writing a block hash");
+//		}
+//	}
+	
+	
+	// Load block hashings
+	public static void LoadBlockHashings(){
+		try {
+			FileReader reader = new FileReader(Hash_File_Path);
+			
+			int data = reader.read();
+			
+			String[] values = new String[5];
+			Arrays.fill(values, "");
+			int index = 0;
+			while(data != -1) {
+				if(data == 10) {
+					Values.BlockHash.put(Integer.parseInt(values[0]), 
+							new Color(
+									Float.parseFloat(values[1]), 
+									Float.parseFloat(values[2]), 
+									Float.parseFloat(values[3]), 
+									Float.parseFloat(values[4]))
+							);
+					
+					index = 0;
+					Arrays.fill(values, "");
+				} else if(data == 32) {			
+					index++;
+				} else {
+					values[index] += (char) data;
+				}
+				
+				data = reader.read();
+			}
+			
+			reader.close();
+			
+		} catch(IOException error) {
+			System.out.println("There was an error in loading block hashings");
+		}
 	}
 }

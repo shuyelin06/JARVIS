@@ -16,7 +16,7 @@ public class Block{
 	public void render(Graphics g, float positionX, float positionY, float x, float y) // should probably move the 
 																						//block types to a bunch of classes
 	{
-		if(getID() != 0)
+    if(getID() != 0)
 		{
 			if(getID() == 2)
 			{
@@ -27,6 +27,5 @@ public class Block{
 			}
 				g.fillRect(positionX, positionY, x, y);
 		}
-			
 	}
 }
