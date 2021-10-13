@@ -64,11 +64,6 @@ public class World
 		return worldName;
 	}
   
-  public ArrayList<Chunk> getGeneratedChunks()
-	{
-		return renderedChunks;
-	}
-	
   public Collection<Chunk> getRenderedChunks(){
 		return renderedChunks.values();
 	}

@@ -14,19 +14,7 @@ public class Chunk{
 	// All blocks in the chunk
 	private Block[][] blocks;
 	
-	
-	
-	//noise pattern
 	WorldGen generation;
-	SimplexNoise noise;
-	float terrain;
-	
-	int[] seedBlocks;
-	int hold;
-	float seedDiff; // difference of 2 seed blocks
-	
-	//will be used for the height of the column of terrain
-	private int terrain;
 	
 	// Location of the chunk's bottom-left corner
 	private int chunkX;
@@ -41,23 +29,6 @@ public class Chunk{
 		generation = new WorldGen(x * 32, Chunk_Size_X, Chunk_Size_Y, blocks);
 		
 		blocks = WorldGen.lol();
-		for(int i = 0; i < Chunk_Size_X; i++) {
-			terrain = (int) (noise.eval(x + i, 0) * (Chunk_Size_Y / 8) ); 
-			//generates the height of the column + the surface.     ^8 over here just makes the changes less extreme
-			for(int j = 0; j < Chunk_Size_Y; j++)
-			{
-				if(j < terrain + Values.surface)
-				{
-					blocks[i][j] = new Block(1);
-				} else
-				{
-					blocks[i][j] = new Block(0);
-				}
-				
-			}
-			
-
-		}
 	}
 	public Chunk(int x, Block[][] blocks) {
 		this.chunkX = x;
