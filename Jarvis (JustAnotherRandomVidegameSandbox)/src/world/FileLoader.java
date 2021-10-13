@@ -17,16 +17,31 @@ public class FileLoader{
 	final private static String Save_Folder = "saves/"; // Directory where all world information will be saved
 	final private static String Hash_File_Path = "src/settings/BlockHashing.txt"; // File where all block hashing will be located
 	
-	public static void main(String[] args) {
-//		World newWorld = new World("Test World");
-//
-//		createWorldFolders(newWorld.getWorldName());
-//		for(Chunk c: newWorld.getRenderedChunks()) {
-//			SaveChunk(newWorld.getWorldName(), c);
-//		}
+  public static void main(String[] args) {		
+		// Chunk Generation 
+		World world = new World("test");
+	
 		
-		LoadChunk("Test World", 23);
+		long time = Sys.getTime();
+		SaveWorld(world);
+		System.out.println(Sys.getTime() - time);
+		
+		time = Sys.getTime();
+		LoadChunk(world.getWorldName(), 1);
+		System.out.println(Sys.getTime() - time);
 	}
+	
+	// Saves an entire world (Save + Quit, and on Initial Creation)
+	public static void SaveWorld(World world) {
+		// Step 1: Create a folder for the world (with an inventory, entities, chunk folder)
+		createWorldFolders(world.getWorldName());
+		
+		// Step 2: Save every chunk of the world to a file (will later use the WorldGen class, not world)
+		String chunkFolder = Save_Folder + world.getWorldName() + "/chunks";
+		for(Chunk c: world.getGeneratedChunks()) {
+			SaveChunk(world.getWorldName(), c);
+		}
+    
 	/*
 	 * Raw Functions - Unoptimized functions
 	 */

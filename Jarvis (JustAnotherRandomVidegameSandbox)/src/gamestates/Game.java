@@ -86,7 +86,17 @@ public class Game extends BasicGameState
 	// Render all entities on screen
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException 
 	{
+  //background
+		g.setColor(new Color(20, 100, 200));
+		g.fillRect(0, 0, Engine.RESOLUTION_X, Engine.RESOLUTION_Y);
+		
+		// Render the player
+		g.setColor(new Color(255f, 255f, 255f, 1f));
+		g.draw(new Circle(CenterX, CenterY, 25f)); // Render the player in the middle of the screen
+		
+		
 		// Render all blocks in loaded chunks
+		float increment = 0f;
 
 		for(Chunk chunk: world.getRenderedChunks()) {
 
@@ -100,11 +110,18 @@ public class Game extends BasicGameState
 					g.setColor(Values.BlockHash.get(id));
 					
 					float[] position = renderPosition(chunk.getX() * Chunk.Chunk_Size_X + i, j);
-					blocks[i][j].render(g,
-							position[0],
-							position[1],
-							Coordinate.ConversionFactor,
-							Coordinate.ConversionFactor);
+					if(position[0] > -100 
+						&& position[0] < Engine.RESOLUTION_X + 100
+						&& position[1] > -100
+						&& position[1] < Engine.RESOLUTION_Y + 100)
+						//so it only renders (but still updates) blocks on the screen
+					{
+						blocks[i][j].render(g,
+								position[0],
+								position[1],
+								Coordinate.ConversionFactor,
+								Coordinate.ConversionFactor);
+					}
 				}
 			}
 		}

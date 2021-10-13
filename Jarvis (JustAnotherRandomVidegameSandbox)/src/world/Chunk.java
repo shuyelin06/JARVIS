@@ -8,14 +8,22 @@ import support.SimplexNoise;
 
 public class Chunk{
 	// Size of chunk (in blocks)
-	final public static int Chunk_Size_X = 25;
-	final public static int Chunk_Size_Y = 100;
+	final public static int Chunk_Size_X = 32;
+	final public static int Chunk_Size_Y = 96;
 	
 	// All blocks in the chunk
 	private Block[][] blocks;
 	
+	
+	
 	//noise pattern
+	WorldGen generation;
 	SimplexNoise noise;
+	float terrain;
+	
+	int[] seedBlocks;
+	int hold;
+	float seedDiff; // difference of 2 seed blocks
 	
 	//will be used for the height of the column of terrain
 	private int terrain;
@@ -26,10 +34,13 @@ public class Chunk{
 	// Default constructor which generates values for every block
 	public Chunk(int x) {
 		this.chunkX = x;
-		noise = new SimplexNoise(Game.seed);
 		
 		this.blocks = new Block[Chunk_Size_X][Chunk_Size_Y];
 		
+
+		generation = new WorldGen(x * 32, Chunk_Size_X, Chunk_Size_Y, blocks);
+		
+		blocks = WorldGen.lol();
 		for(int i = 0; i < Chunk_Size_X; i++) {
 			terrain = (int) (noise.eval(x + i, 0) * (Chunk_Size_Y / 8) ); 
 			//generates the height of the column + the surface.     ^8 over here just makes the changes less extreme

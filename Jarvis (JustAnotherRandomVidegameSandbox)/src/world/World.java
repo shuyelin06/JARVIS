@@ -13,7 +13,8 @@ public class World
 	 * World Variables
 	 */
 	// Size of the world in chunks
-	final public static int World_X_Size = 50;
+  final public static int World_X_Size = 50;
+
 	
 	// World Name
 	private String worldName;
@@ -58,14 +59,17 @@ public class World
 		}
 	}
 	
-	public String getWorldName() {
+	public String getWorldName() 
+	{
 		return worldName;
 	}
+  
+  public ArrayList<Chunk> getGeneratedChunks()
+	{
+		return renderedChunks;
+	}
 	
-//	public Chunk getChunk(int chunkX) {
-//		int leftMost 
-//	}
-	public Collection<Chunk> getRenderedChunks(){
+  public Collection<Chunk> getRenderedChunks(){
 		return renderedChunks.values();
 	}
 }

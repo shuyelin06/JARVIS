@@ -11,8 +11,7 @@ public class Entity{
 	/*
 	 * Physics Variables
 	 */
-	protected final static float friction = 0.2f; // We will later move friction to platforms, so diff platforms have different frictions (ex. ice)
-	protected final static float gravity = 0.5f;
+	protected final static float friction = 0.6f; // We will later move friction to platforms, so diff platforms have different frictions (ex. ice)
 	
 	protected boolean onPlatform; // If the entity is on a platform (determines the forces of friction and gravity)
 	protected int jumpsLeft; // Determines how many jumps are left
