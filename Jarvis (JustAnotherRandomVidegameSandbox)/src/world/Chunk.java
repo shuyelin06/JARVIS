@@ -34,7 +34,7 @@ public class Chunk{
 		
 		this.blocks = new Block[Chunk_Size_X][Chunk_Size_Y];
 		
-		generation = new WorldGen(x, Chunk_Size_X, Chunk_Size_Y, blocks);
+		generation = new WorldGen(x * 32, Chunk_Size_X, Chunk_Size_Y, blocks);
 		
 		blocks = WorldGen.lol();
 	}
