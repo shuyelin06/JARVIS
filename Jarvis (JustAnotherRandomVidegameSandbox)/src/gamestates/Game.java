@@ -20,6 +20,7 @@ import entities.Player;
 import settings.Values;
 import structures.Block;
 import world.Chunk;
+import world.FileLoader;
 import world.World;
 import support.Spawning;
 
@@ -50,13 +51,6 @@ public class Game extends BasicGameState
 	{
 		this.id = id;
 	}
-
-	// Initializer, first time
-	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException 
-	{
-		gc.setShowFPS(true); // Shows the FPS of the game
-		this.gc = gc;
-	}
 	
 	public Player getP() {
 		return player;
@@ -65,6 +59,19 @@ public class Game extends BasicGameState
 		return enemies;
 	}
 
+	/*
+	 * Initializing
+	 */
+	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException 
+	{
+		// Load Block Hashings
+		FileLoader.LoadBlockHashings();
+		
+		// Shows the game's FPS
+		gc.setShowFPS(true);
+		this.gc = gc;
+	}
+	
 	/*
 	 * Rendering - Game's Camera 
 	 */
@@ -93,7 +100,7 @@ public class Game extends BasicGameState
 			// For every object, render its position relative to the player (with the player being in the center)
 			for(int i = 0; i < Chunk.Chunk_Size_X; i++) {
 				for(int j = 0; j < Chunk.Chunk_Size_Y; j++) {
-					// g.setColor(Values.BlockHash.get(blocks[i][j].getID()));
+					g.setColor(Values.BlockHash.get(blocks[i][j].getID()));
 					
 					float[] position = renderPosition(chunk.getX() * Chunk.Chunk_Size_X + i, j);
 					blocks[i][j].render(g,
@@ -148,7 +155,7 @@ public class Game extends BasicGameState
 
 	public void enter(GameContainer gc, StateBasedGame sbg) throws SlickException 
 	{
-		
+
 	}
 
 	public void leave(GameContainer gc, StateBasedGame sbg) 
