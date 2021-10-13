@@ -62,7 +62,11 @@ public class World
 	public String getWorldName() {
 		return worldName;
 	}
-  
+	
+	public Chunk getChunk(int i) {
+		return renderedChunks.get(i);
+	}
+	
 	public Collection<Chunk> getAllChunks() {
 
 		return renderedChunks.values();
