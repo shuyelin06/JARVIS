@@ -106,6 +106,15 @@ public class Game extends BasicGameState
 	// Render all entities on screen
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException 
 	{
+		float colorValue = 0.2f; // 255 / Engine.RESOLUTION_Y
+		
+		
+		for(int i = 0; i < Engine.RESOLUTION_Y; i++) //really scuffed manual gradient, will replace with either image or proper gradient
+		{
+			g.setColor(new Color(20, (int) (colorValue * i), 255));
+			g.fillRect(0, i, Engine.RESOLUTION_X, 1);
+		}
+		
 		// Render all blocks in loaded chunks
 		for(Chunk chunk: world.getAllChunks()) { // Iterate through every chunk
 			Block[][] blocks = chunk.getBlocks(); // Get the blocks in the chunk
@@ -155,6 +164,8 @@ public class Game extends BasicGameState
 		// Update the player's movement
 		player.update();
 		
+		controls();
+		
 		Spawning.spawnEnemy(this, 1f);
 		for(Enemy e : enemies) {
 			e.update();
@@ -172,21 +183,38 @@ public class Game extends BasicGameState
 		
 	}
 
-
-	public void keyPressed(int key, char c)
+	//Game.gc.getInput().isKeyDown(Game.gc.getInput().KEY_W) stole this from space shooter
+	
+	public void controls() //all the control stuff
 	{
-		if(key == Input.KEY_D) { // Move right
+		if ( gc.getInput().isKeyDown(gc.getInput().KEY_D) )
+		{
 			player.moveRight();
-		} else if (key == Input.KEY_A){
+		}
+		
+		if ( gc.getInput().isKeyDown(gc.getInput().KEY_A) )
+		{
 			player.moveLeft();
 		}
 		
-		if(key == Input.KEY_W) {
+		if ( gc.getInput().isKeyPressed(gc.getInput().KEY_SPACE) )
+		{
 			player.jump();
-		} else if(key == Input.KEY_S) {
+		} 
+		else if ( gc.getInput().isKeyDown(gc.getInput().KEY_DOWN) )
+		{
 			player.fall();
 		}
 	}
+	
+//	public void isKeyPressed(int key, char c)
+//	{
+//		if(key == Input.KEY_SPACE) {
+//			player.jump();
+//		} else if(key == Input.KEY_S) {
+//			player.fall();
+//		}
+//	}
 	
 	public void mousePressed(int button, int x, int y)
 	{

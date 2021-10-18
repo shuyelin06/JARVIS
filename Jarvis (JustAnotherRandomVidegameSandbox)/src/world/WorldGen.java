@@ -9,7 +9,6 @@ public class WorldGen{
 	private String worldName;
 	
 	// Variables used in world generation
-	// private int divisor;
 	
 	public WorldGen(String worldName, SimplexNoise noise) 
 	{
@@ -93,13 +92,13 @@ public class WorldGen{
 			{
 				if(j < terrain[i])
 				{
-					blocks[i][j] = new Block(1);
+					blocks[i][j] = new Block(1); //dirt
 				} else if(j < terrain[i] + 1)
 				{
-					blocks[i][j] = new Block(2);
+					blocks[i][j] = new Block(2); //grass
 				} else
 				{
-					blocks[i][j] = new Block(0);
+					blocks[i][j] = new Block(0); //air
 				}			
 			}
 
