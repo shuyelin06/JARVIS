@@ -44,7 +44,7 @@ public class WorldGen{
 		int f = 16; // frequency of seed blocks
 		
 		double d1 = 0; // 1st derivative, starts at zero
-		double d2 = 0.015625; // Wtf!!! Calculus!!! (its the 2nd derivative, to make things smoooooth)
+		double d2 = 0.0078125; // Wtf!!! Calculus!!! (its the 2nd derivative, to make things smoooooth)
 		
 		int[] seedBlocks = new int[ (Chunk.Chunk_Size_X / f) + 1]; // 3 "seeded" points from the noise
 		double[] terrain = new double[Chunk.Chunk_Size_X];
