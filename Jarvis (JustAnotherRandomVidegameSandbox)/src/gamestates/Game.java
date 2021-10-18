@@ -30,7 +30,7 @@ public class Game extends BasicGameState
 {		
 	// Later to be moved to a worldselect gamestate
 	String worldName = "Test2";
-	boolean createNewWorld = true;
+	boolean createNewWorld = false;
 	
 	// Render distance
 	final public static int Render_Distance = 2;
@@ -175,9 +175,9 @@ public class Game extends BasicGameState
 
 	public void keyPressed(int key, char c)
 	{
-		if(key == Input.KEY_D) { // Move right
+		if(gc.getInput().isKeyDown(Input.KEY_D)) { // Move right
 			player.moveRight();
-		} else if (key == Input.KEY_A){
+		} else if (gc.getInput().isKeyDown(Input.KEY_A)){
 			player.moveLeft();
 		}
 		

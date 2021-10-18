@@ -13,10 +13,16 @@ public class Spawning {
 		if(g.getEnemies().size() < 5) {
 			if(Utility.random(0.0, 100.0) <= prob) {
 				//for now it just drops a new enemy on the player's head
-				g.getEnemies().add( new Enemy( g.getP().getPosition().getX() , (g.getP().getPosition().getY() - 100) ) );
+				float x = g.getP().getPosition().getX();
+				float y = g.getP().getPosition().getY();
+				g.getEnemies().add(new Enemy(x, y));
+				//System.out.println("New Enemy: " + x + ", " + y);
+				
 			}
 		}
 	}
+	
+	
 	
 	//loops from end to beginning of ArrayList and removes all the dead enemies from the list
 	public static void clearDead (Game g) {

@@ -33,6 +33,5 @@ public class Enemy extends Entity {
 		if(Utility.random(0.0, 100.0) <= 0.2) { //random chance to die just to test stuff
 			alive = false;
 		}
-		setXSpeed(100f);
 	}
 }
