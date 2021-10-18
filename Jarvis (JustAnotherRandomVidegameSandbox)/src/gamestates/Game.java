@@ -45,7 +45,7 @@ public class Game extends BasicGameState
 	// Use the "Test World" world for now until we get random world generation that can generate a new world, chunks and all, from scratch.
 	
 	// The Player
-	private Player player = new Player();
+	private Player player = new Player(world);
 	private ArrayList<Enemy> enemies = new ArrayList<Enemy>();
 	
 	// Slick2D Variables
