@@ -1,13 +1,18 @@
 package entities;
 
 import core.Coordinate;
+import core.Engine;
 import gamestates.Game;
+import structures.Block;
+import world.Chunk;
+import world.World;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 
 public class Entity{
+	protected World world;
 	/*
 	 * Physics Variables
 	 */
@@ -25,7 +30,7 @@ public class Entity{
 	 * Render Variables
 	 */
 	protected Image sprite; // The sprite rendered in for the Entity
-	protected int sizeX, sizeY; // The size of the Entity
+	protected float sizeX, sizeY; // The size of the Entity
 	
 	/*
 	 * Stat Variables - Unused, but we can implement them later
@@ -44,7 +49,8 @@ public class Entity{
 	protected int regenTimer;
 	
 	// Every entity will have some initial starting position
-	public Entity(float InitX, float InitY) {
+	public Entity(float InitX, float InitY, World world) {
+		this.world = Game.world;
 		this.onPlatform = true;
 	
 		this.position = new Coordinate(InitX, InitY);
@@ -134,6 +140,53 @@ public class Entity{
 
 		//updates health
 		percentageHealth = ((float) curHealth) / ((float) maxHealth);
+		
+		collisions();
+	}
+	
+	
+	public void collisions() {
+		System.out.println("Checking Collisions");
+		
+		if(xSpeed != 0) { // check left blocks
+			int x = (int) (position.getX() + xSpeed / Engine.FRAMES_PER_SECOND);
+			
+			Chunk c = world.getChunk(x / Chunk.Chunk_Size_X);			
+			Block[][] blocks = c.getBlocks();
+			
+			
+			for(int j = 0; j < Math.ceil((double) sizeY); j++) {
+				if(blocks[x % Chunk.Chunk_Size_X][(int) position.getY() + j].getID() != 0) {
+					xSpeed = 0;
+					break;
+				}
+			}
+		}
+		
+		
+		if(ySpeed != 0) {
+			int y = (int) (position.getY() + ySpeed / Engine.FRAMES_PER_SECOND);
+			
+			for(int i = 0; i < Math.ceil((double) sizeX); i++) {
+				
+			}
+//			Chunk c = world.getChunk(x / Chunk.Chunk_Size_X);			
+//			Block[][] blocks = c.getBlocks();
+//			
+//			
+//			for(int j = 0; j < Math.ceil((double) sizeY); j++) {
+//				if(blocks[x % Chunk.Chunk_Size_X][(int) position.getY() + j].getID() != 0) {
+//					xSpeed = 0;
+//					break;
+//				}
+//			}
+		} 
+	}
+	public boolean leftCollide() {
+		return false;
+	} 
+	public boolean rightCollide() {
+		return false;
 	}
 	
 	

@@ -21,8 +21,10 @@ public class Player extends Entity{
 	
 	private static final int Player_Size = 20;
 	// Player constructor
-	public Player() {
-		super(SpawnX, SpawnY); 
+	public Player(World world) {
+		super(SpawnX, SpawnY, world); 
+		
+		this.sizeY = 1.5f;
 	}
 	
 	public int getSize() {

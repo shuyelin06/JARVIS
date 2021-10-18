@@ -57,6 +57,9 @@ public class World
 		}
 	}
 	
+	public Chunk getChunk(int i) {
+		return renderedChunks.get(i);
+	}
 	public String getWorldName() {
 		return worldName;
 	}
