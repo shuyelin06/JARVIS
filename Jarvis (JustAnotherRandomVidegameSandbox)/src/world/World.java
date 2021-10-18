@@ -13,14 +13,12 @@ public class World
 	 * World Variables
 	 */
 	// Size of the world in chunks
-  final public static int World_X_Size = 50;
-
+	final public static int World_X_Size = 50;
 	
 	// World Name
 	private String worldName;
 	
-	// All chunks rendered (into memory - we will have something loading and unloading chunks)
-	int leftMostChunk;
+	// All chunks rendered into memory
 	private HashMap<Integer, Chunk> renderedChunks;
 	
 	// Generate world from scratch

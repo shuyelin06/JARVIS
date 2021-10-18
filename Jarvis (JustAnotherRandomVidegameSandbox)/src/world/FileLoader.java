@@ -18,17 +18,19 @@ public class FileLoader{
 	final private static String Hash_File_Path = "src/settings/BlockHashing.txt"; // File where all block hashing will be located
 	
   public static void main(String[] args) {		
-		// Chunk Generation 
-		World world = new World("test");
-	
-		
-		long time = Sys.getTime();
-		SaveWorld(world);
-		System.out.println(Sys.getTime() - time);
-		
-		time = Sys.getTime();
-		LoadChunk(world.getWorldName(), 1);
-		System.out.println(Sys.getTime() - time);
+//		// Chunk Generation 
+//		World world = new World("test");
+//	
+//		
+//		long time = Sys.getTime();
+//		SaveWorld(world);
+//		System.out.println(Sys.getTime() - time);
+//		
+//		time = Sys.getTime();
+//		LoadChunk(world.getWorldName(), 1);
+//		System.out.println(Sys.getTime() - time);
+	  
+	  Integer.parseInt("0");
 	}
 	
 	// Saves an entire world (Save + Quit, and on Initial Creation)
@@ -84,7 +86,7 @@ public class FileLoader{
 	
 	// Load a chunk for a given world name
 	public static Chunk LoadChunk(String worldName, int chunkX) {
-		System.out.println("Attempting to load chunk " + chunkX);
+		System.out.println("Loading Chunk " + chunkX);
 		// Code for chunk retrieval
 		Block[][] blocks = new Block[Chunk.Chunk_Size_X][Chunk.Chunk_Size_Y];
 		
@@ -149,30 +151,53 @@ public class FileLoader{
 	
 	// Load block hashings
 	public static void LoadBlockHashings(){
+		System.out.println(" --- Loading Block Hashings --- ");
+		
 		try {
+			// Instantiating file reader
 			FileReader reader = new FileReader(Hash_File_Path);
 			
-			int data = reader.read();
-			
+			// Instantiating variables needed for reading
 			String[] values = new String[5];
 			Arrays.fill(values, "");
+			
+			int data = reader.read();
 			int index = 0;
-			while(data != -1) {
-				if(data == 10) {
-					Values.BlockHash.put(Integer.parseInt(values[0]), 
-							new Color(
-									Float.parseFloat(values[1]), 
-									Float.parseFloat(values[2]), 
-									Float.parseFloat(values[3]), 
-									Float.parseFloat(values[4]))
-							);
+			
+			// File reading
+			while(data != -1) {		
+				// I don't know what the ASCII character 13 is, but it shows up so I'm skipping it so it doesn't cause errors
+				if(data == 13) {}
+				
+				// Input character is a number
+				else if(47 < data && data < 58) {
+					values[index] += (char) data;
+				} 
+				
+				// Input character is a space
+				else if(data == 32) {
+					index++;
+					values[index] = ""; // Clear the preexisting value
+				} 
+				
+				// Input character is a newline
+				else if(data == 10){
+					System.out.println("Adding New Block Hash: ");
+					
+					int i = Integer.parseInt(values[0]);
+					Color c = new Color(
+							Integer.parseInt(values[1]), 
+							Integer.parseInt(values[2]), 
+							Integer.parseInt(values[3]), 
+							Integer.parseInt(values[4]));
+					
+					Values.BlockHash.put(Integer.parseInt(values[0]), c);
 					
 					index = 0;
-					Arrays.fill(values, "");
-				} else if(data == 32) {			
-					index++;
-				} else {
-					values[index] += (char) data;
+					values[index] = "";
+					
+					System.out.println("Block ID: " + i);
+					System.out.println("Block Color: " + c + "\n");
 				}
 				
 				data = reader.read();
@@ -180,6 +205,7 @@ public class FileLoader{
 			
 			reader.close();
 			
+			System.out.println(" --- Finished Loading Block Hashings --- ");
 		} catch(IOException error) {
 			System.out.println("There was an error in loading block hashings");
 		}

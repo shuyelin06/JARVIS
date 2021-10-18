@@ -22,30 +22,34 @@ import structures.Block;
 import world.Chunk;
 import world.FileLoader;
 import world.World;
+import world.WorldGen;
+import support.SimplexNoise;
 import support.Spawning;
 
 public class Game extends BasicGameState 
 {		
+	// Later to be moved to a worldselect gamestate
+	String worldName = "Test2";
+	boolean createNewWorld = true;
+	
 	// Render distance
 	final public static int Render_Distance = 2;
+	
 	
 	// Gamestate ID
 	int id;
 	
 	// The World
-	World world = new World("Test World"); 
+	World world = new World(worldName); 
+	
 	// Use the "Test World" world for now until we get random world generation that can generate a new world, chunks and all, from scratch.
 	
 	// The Player
 	private Player player = new Player();
 	private ArrayList<Enemy> enemies = new ArrayList<Enemy>();
 	
-	// The world's seed
-	public static int seed = (int) (Math.random() * 10000); //generates seed
-	
-	//slick2d variables
+	// Slick2D Variables
 	public static GameContainer gc;
-	
 	
 	public Game(int id) 
 	{
@@ -63,13 +67,22 @@ public class Game extends BasicGameState
 	 * Initializing
 	 */
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException 
-	{
+	{		
 		// Load Block Hashings
 		FileLoader.LoadBlockHashings();
 		
 		// Shows the game's FPS
 		gc.setShowFPS(true);
 		this.gc = gc;
+		
+		/*
+		 * Later to be put in the WorldSelect gamestate
+		 */
+		// Generate a new world using steven y's code
+		if(createNewWorld) {
+			WorldGen gen = new WorldGen("Test2", new SimplexNoise((int) (Math.random() * 10000)));
+			gen.generateWorld();
+		}
 	}
 	
 	/*
@@ -94,7 +107,7 @@ public class Game extends BasicGameState
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException 
 	{
 		// Render all blocks in loaded chunks
-		for(Chunk chunk: world.getAllChunks()) {
+		for(Chunk chunk: world.getAllChunks()) { // Iterate through every chunk
 			Block[][] blocks = chunk.getBlocks(); // Get the blocks in the chunk
 			
 			// For every object, render its position relative to the player (with the player being in the center)
@@ -103,11 +116,7 @@ public class Game extends BasicGameState
 					g.setColor(Values.BlockHash.get(blocks[i][j].getID()));
 					
 					float[] position = renderPosition(chunk.getX() * Chunk.Chunk_Size_X + i, j);
-					blocks[i][j].render(g,
-							position[0],
-							position[1],
-							Coordinate.ConversionFactor,
-							Coordinate.ConversionFactor);
+					g.fillRect(position[0], position[1], Coordinate.ConversionFactor, Coordinate.ConversionFactor);
 				}
 			}
 		}

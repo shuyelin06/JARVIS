@@ -1,50 +1,53 @@
 package world;
 
-import java.util.ArrayList;
-
-import org.newdawn.slick.Color;
-import org.newdawn.slick.Graphics;
-import org.newdawn.slick.SlickException;
-
-import core.Coordinate;
 import structures.Block;
 import support.SimplexNoise;
 
 public class WorldGen{
-	// World Generation Variables (can we move this somewhere else?)
-	SimplexNoise noise;
-
-	double[] terrain;
-	int divisor;
+	// World-Specific Variables 
+	private SimplexNoise noise;
+	private String worldName;
 	
-	int[] seedBlocks;
-	int hold;
-	float seedDiff;
+	// Variables used in world generation
+	// private int divisor;
 	
-	static Block[][] temp;
-	
-	public WorldGen(int x, int width, int height, Block[][] blocks) 
+	public WorldGen(String worldName, SimplexNoise noise) 
 	{
-		
-		noise = new SimplexNoise(0); //change to Game.seed, just 0 for control purposes 
-		
-		temp = generate(x, width, height, blocks);
+		this.worldName = worldName;
+		this.noise = new SimplexNoise(0); // Later will be used with the noise parameter for custom seeds
 	}
 	
-	public static Block[][] lol()
-	{
-		return(temp);
+	/*
+	 * Method to generate an entire world from scratch
+	 * 
+	 * Use FileLoader.SaveChunk() to save chunks to file.
+	 */
+	public void generateWorld() {
+		// Create the folders for the world
+		FileLoader.createWorldFolders(worldName);
+		
+		// For every chunk 1 - World.World_X_Size, generate it using the generate() function and save it to file.
+		for(int chunkX = 0; chunkX < World.World_X_Size; chunkX++) {
+			Block[][] blocks = new Block[Chunk.Chunk_Size_X][Chunk.Chunk_Size_Y];
+			
+			blocks = generate(chunkX * Chunk.Chunk_Size_X, blocks);
+			FileLoader.SaveChunk(worldName, new Chunk(chunkX, blocks));
+		}
 	}
 	
-	public Block[][] generate(int x, int width, int height, Block[][] blocks)
+	// These seem to be method - based variables, but moving them causes an error so im not moving them anymore lmao
+	private int hold;
+	private float seedDiff;
+	// Returns a 2D array of blocks for a chunk.
+	public Block[][] generate(int x, Block[][] blocks)
 	{
 		int f = 16; // frequency of seed blocks
 		
-		double d1 = 0; //1st derivative, starts at zero
-		double d2 = 0.015625; //Wtf!!! Calculus!!! (its the 2nd derivative, to make things smoooooth)
+		double d1 = 0; // 1st derivative, starts at zero
+		double d2 = 0.015625; // Wtf!!! Calculus!!! (its the 2nd derivative, to make things smoooooth)
 		
-		seedBlocks = new int[ (width / f) + 1]; //3 "seeded" points from the noise
-		terrain = new double[width];
+		int[] seedBlocks = new int[ (Chunk.Chunk_Size_X / f) + 1]; // 3 "seeded" points from the noise
+		double[] terrain = new double[Chunk.Chunk_Size_X];
 		
 		
 		for(int i = 0; i < seedBlocks.length; i++)
@@ -53,7 +56,7 @@ public class WorldGen{
 			System.out.println(seedBlocks[i] + ", at: " + (x + (i * f)));
 		}
 		
-		for(int i = 0; i < width; i++) {
+		for(int i = 0; i < Chunk.Chunk_Size_X; i++) {
 			
 			//step 1: terrain forming
 			if(i % f == 0) //places the seed blocks
@@ -86,7 +89,7 @@ public class WorldGen{
 			}
 			
 			//step 2: block placement (will move to separate method or class)
-			for(int j = 0; j < height; j++)
+			for(int j = 0; j < Chunk.Chunk_Size_Y; j++)
 			{
 				if(j < terrain[i])
 				{
