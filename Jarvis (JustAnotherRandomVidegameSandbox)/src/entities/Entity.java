@@ -35,7 +35,6 @@ public class Entity{
 	/*
 	 * Stat Variables - Unused, but we can implement them later
 	 */
-	protected float x, y, w, h;
 	protected int curHealth, maxHealth;
 	protected float percentageHealth;
 	
@@ -122,8 +121,8 @@ public class Entity{
 			jumpsLeft = 300;
 		}
 		
-		// Update the entity's position
-		position.update(xSpeed, ySpeed);
+		// Update Stats
+		percentageHealth = ((float) curHealth) / ((float) maxHealth); // Update health
 		
 		// Update the entity's velocities
 		if(onPlatform) { // If on a platform, friction works on the entity
@@ -137,11 +136,12 @@ public class Entity{
 		if(iFrames > 0) { //timer that ticks down iFrames
 			iFrames --;
 		}
-
-		//updates health
-		percentageHealth = ((float) curHealth) / ((float) maxHealth);
 		
+		// Check for collisions
 		collisions();
+		
+		// Update the entity's position
+		position.update(xSpeed, ySpeed);		
 	}
 	
 	
@@ -168,25 +168,17 @@ public class Entity{
 			int y = (int) (position.getY() + ySpeed / Engine.FRAMES_PER_SECOND);
 			
 			for(int i = 0; i < Math.ceil((double) sizeX); i++) {
+				int x = (int) position.getX() + i; // Get the x coordinate
+				
+				Chunk c = world.getChunk(x / Chunk.Chunk_Size_X);
+				
+				if(c.getBlocks()[x][y].getID() != 0){
+					ySpeed = 0;
+					break;
+				}
 				
 			}
-//			Chunk c = world.getChunk(x / Chunk.Chunk_Size_X);			
-//			Block[][] blocks = c.getBlocks();
-//			
-//			
-//			for(int j = 0; j < Math.ceil((double) sizeY); j++) {
-//				if(blocks[x % Chunk.Chunk_Size_X][(int) position.getY() + j].getID() != 0) {
-//					xSpeed = 0;
-//					break;
-//				}
-//			}
 		} 
-	}
-	public boolean leftCollide() {
-		return false;
-	} 
-	public boolean rightCollide() {
-		return false;
 	}
 	
 	
