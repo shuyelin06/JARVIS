@@ -71,7 +71,8 @@ public class World
 		public int[] getBlockIndex(Coordinate c) {
 			int[] blockIndex = new int[2];
 			float chunkNum = c.getChunk();
-			blockIndex[0] = (int) (c.getX() % chunkNum); //??? 
+			blockIndex[0] = (int) (c.getX() % Chunk.Chunk_Size_X);
+			blockIndex[1] = (int) c.getY();
 			
 			return blockIndex;
 		}

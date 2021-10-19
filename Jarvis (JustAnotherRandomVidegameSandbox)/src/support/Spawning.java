@@ -2,6 +2,7 @@ package support;
 
 import java.util.ArrayList;
 
+import core.Coordinate;
 import entities.Enemy;
 import entities.Player;
 import gamestates.Game;
@@ -22,7 +23,29 @@ public class Spawning {
 		}
 	}
 	
-	
+	public static Coordinate getOpenArea(Game g, int minDistance, int maxDistance) {
+		float playerX = g.getP().getPosition().getX();
+		float playerY = g.getP().getPosition().getY();
+		Coordinate coord = new Coordinate(playerX, playerY);
+		int direction = 1;
+		if(Utility.random(0, 1) == 1) {
+			direction = -1;
+		}
+		int[] blockIndex = g.getWorld().getBlockIndex(g.getP().getPosition());
+		float chunkNum = g.getP().getPosition().getChunk();
+		
+		for(int i = minDistance; i < maxDistance; i ++) {
+			coord.setX(playerX + i * direction);
+			coord.setY(playerY);
+			//if the block at coord is empty, check down until you hit the ground
+			//if block at coord has an actual block, keep checking to the sides
+			//check the area around the block to make sure it is all open (make a method for this)
+		}
+		
+		
+		
+		return coord;
+	}
 	
 	//loops from end to beginning of ArrayList and removes all the dead enemies from the list
 	public static void clearDead (Game g) {

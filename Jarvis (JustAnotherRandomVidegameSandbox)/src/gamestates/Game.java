@@ -59,6 +59,9 @@ public class Game extends BasicGameState
 	public Player getP() {
 		return player;
 	}
+	public World getWorld() {
+		return world;
+	}
 	public ArrayList<Enemy> getEnemies(){
 		return enemies;
 	}
