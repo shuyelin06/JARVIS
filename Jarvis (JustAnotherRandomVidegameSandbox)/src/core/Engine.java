@@ -7,6 +7,8 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 import gamestates.Game;
+import gamestates.StartingMenu;
+import gamestates.WorldSelect;
 
 /*
  * Perlin Noise - 
@@ -29,17 +31,23 @@ public class Engine extends StateBasedGame
     public static final int Game_ID = 2;
     
     public static BasicGameState game;
+    public static BasicGameState worldSelect;
+    public static BasicGameState startingMenu;
 
 	public Engine(String name) 
 	{
 		super(name);
 		
 		game = new Game(Game_ID);
+		worldSelect = new WorldSelect(WorldSelect_ID);
+		startingMenu = new StartingMenu(StartingMenu_ID);
 	}
 
 	public void initStatesList(GameContainer gc) throws SlickException 
 	{
+		addState(worldSelect);
 		addState(game);
+		addState(startingMenu);
 	}
 
 	public static void main(String[] args) 

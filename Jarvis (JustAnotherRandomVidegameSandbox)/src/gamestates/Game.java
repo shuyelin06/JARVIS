@@ -26,12 +26,12 @@ import world.WorldGen;
 import support.SimplexNoise;
 import support.Spawning;
 
-public class Game extends BasicGameState 
-{
-	// Later to be moved to a worldselect gamestate
-  final String worldName = "Test2";
-	boolean createNewWorld = false; // If testing worldGen, change to true.
+public class Game extends BasicGameState
 
+{
+  final String worldName = "Test2";
+	boolean createNewWorld = true; // If testing worldGen, change to true.
+	// Later to be moved to a worldselect gamestate
 	
 	// Render distance
 	final public static int Render_Distance = 2;
@@ -46,9 +46,8 @@ public class Game extends BasicGameState
 	// Use the "Test World" world for now until we get random world generation that can generate a new world, chunks and all, from scratch.
 	
 	// The Player
-	private Player player = new Player(world);
-	private ArrayList<Enemy> enemies = new ArrayList<Enemy>();
-	// private ArrayList<Enemy> enemies = new ArrayList<Enemy>();
+  private Player player;
+  private ArrayList<Enemy> enemies = new ArrayList<Enemy>();
 	
 	// Slick2D Variables
 	public static GameContainer gc;
@@ -78,14 +77,13 @@ public class Game extends BasicGameState
 		gc.setShowFPS(true);
 		this.gc = gc;
 		
+		player = new Player(world); //Had to move this here cause slickException
+		// enemies = new ArrayList<Enemy>();
+		
 		/*
 		 * Later to be put in the WorldSelect gamestate
 		 */
-		// Generate a new world using steven y's code
-		if(createNewWorld) {
-			WorldGen gen = new WorldGen("Test2", new SimplexNoise((int) (Math.random() * 10000)));
-			gen.generateWorld();
-		}
+
 	}
 	
 	/*
@@ -134,9 +132,7 @@ public class Game extends BasicGameState
 		}
     
 	    // Render the player
-		g.setColor(new Color(255f, 255f, 255f, 1f));
-		g.fillRect(CenterX, CenterY, player.getSizeX() * Coordinate.ConversionFactor, player.getSizeY() * Coordinate.ConversionFactor);
-		player.render(g);
+		player.render(g, CenterX, CenterY);
 		
 //		//render enemies
 		g.setColor(Color.red);
@@ -180,7 +176,11 @@ public class Game extends BasicGameState
 
 	public void enter(GameContainer gc, StateBasedGame sbg) throws SlickException 
 	{
-
+		// Generate a new world using steven y's code
+		if(createNewWorld) {
+			WorldGen gen = new WorldGen(world.getWorldName(), new SimplexNoise((int) (Math.random() * 10000)));
+			gen.generateWorld();
+		}
 	}
 
 	public void leave(GameContainer gc, StateBasedGame sbg) 
