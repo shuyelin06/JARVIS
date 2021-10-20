@@ -90,6 +90,17 @@ public class Entity{
 	public void setYSpeed(float newSpeed){
 		this.ySpeed = newSpeed;
 	}
+	//Set Position (just made these for testing stuff)
+	public void setXPos(float x) {
+		this.x = x;
+	}
+	public void setYPos(float y) {
+		this.y = y;
+	}
+	public void teleport(float x, float y) {
+		setXPos(x);
+		setYPos(y);
+	}
 	
 	public void takeDamage(int dmg, boolean i) { //boolean for iFrames cause for certain piercing attacks that don't trigger them
 		//this mimics the mechanics in Terraria

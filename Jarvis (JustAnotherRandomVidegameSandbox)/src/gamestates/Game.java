@@ -29,8 +29,9 @@ import support.Spawning;
 public class Game extends BasicGameState 
 {
 	// Later to be moved to a worldselect gamestate
-	final String worldName = "Test2";
+  final String worldName = "Test2";
 	boolean createNewWorld = false; // If testing worldGen, change to true.
+
 	
 	// Render distance
 	final public static int Render_Distance = 2;
@@ -59,10 +60,13 @@ public class Game extends BasicGameState
 	public Player getP() {
 		return player;
 	}
-//	public ArrayList<Enemy> getEnemies(){
+//  public ArrayList<Enemy> getEnemies(){
 //		return enemies;
 //	}
 
+  public World getWorld() {
+		return world;
+	}
 	/*
 	 * Initializing
 	 */
@@ -190,7 +194,7 @@ public class Game extends BasicGameState
 	 */
 	public void keyPressed(int key, char c)
 	{
-		if(key == Input.KEY_W) { // Jumping
+  		if(key == Input.KEY_W) { // Jumping
 			player.jump();
 		} 
 	}
@@ -203,6 +207,7 @@ public class Game extends BasicGameState
 		
 		if ( gc.getInput().isKeyDown(Input.KEY_A) ) // Left movement
 		{
+
 			player.moveLeft();
 		}
 		

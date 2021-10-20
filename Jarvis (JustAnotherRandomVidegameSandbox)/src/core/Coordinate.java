@@ -24,6 +24,13 @@ public class Coordinate{
 	public float getY() {
 		return y;
 	}
+	//set positions directly (these methods should probably be used with caution, i just added them as a way to manipulate coordinates)
+	public void setX(float x) {
+		this.x = x;
+	}
+	public void setY(float y) {
+		this.y = y;
+	}
 	
 	// Finds the chunk the coordinate is located in
 	public float getChunk() {

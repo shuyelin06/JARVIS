@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import core.Coordinate;
 import gamestates.Game;
 
 public class World 
@@ -68,4 +69,14 @@ public class World
 
 		return renderedChunks.values();
 	}
+	
+	//given a coordinate, return what the index of the block array it should be
+		public int[] getBlockIndex(Coordinate c) {
+			int[] blockIndex = new int[2];
+			float chunkNum = c.getChunk();
+			blockIndex[0] = (int) (c.getX() % Chunk.Chunk_Size_X);
+			blockIndex[1] = (int) c.getY();
+			
+			return blockIndex;
+		}
 }
