@@ -30,7 +30,7 @@ public class Game extends BasicGameState
 {
 	// Later to be moved to a worldselect gamestate
 	final String worldName = "Test2";
-	boolean createNewWorld = false;
+	boolean createNewWorld = false; // If testing worldGen, change to true.
 	
 	// Render distance
 	final public static int Render_Distance = 2;
@@ -157,22 +157,22 @@ public class Game extends BasicGameState
 	 * Update - Update different behaviors of the game
 	 */
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException
-	{	
+	{	 
 		// Check if any chunks need to be rendered or unrendered
 		world.renderChunks((int) player.getPosition().getChunk());
+		
+		// Check player key presses
+		controls();
 		
 		// Update the player's movement
 		player.update();
 		
-    /*
-    controls();
-		
-		Spawning.spawnEnemy(this, 1f);
-		for(Enemy e : enemies) {
-			e.update();
-		}
-		Spawning.clearDead(this);
-    */
+   
+//		Spawning.spawnEnemy(this, 1f);
+//		for(Enemy e : enemies) {
+//			e.update();
+//		}
+//		Spawning.clearDead(this);
 	}
 
 	public void enter(GameContainer gc, StateBasedGame sbg) throws SlickException 
@@ -185,29 +185,33 @@ public class Game extends BasicGameState
 		
 	}
 
-	//Game.gc.getInput().isKeyDown(Game.gc.getInput().KEY_W) stole this from space shooter
-	
+	/*
+	 * Key Press Controls
+	 */
+	public void keyPressed(int key, char c)
+	{
+		if(key == Input.KEY_W) { // Jumping
+			player.jump();
+		} 
+	}
 	public void controls() //all the control stuff
 	{
-		if ( gc.getInput().isKeyDown(gc.getInput().KEY_D) )
+		if ( gc.getInput().isKeyDown(Input.KEY_D) ) // Right movement
 		{
 			player.moveRight();
 		}
 		
-		if ( gc.getInput().isKeyDown(gc.getInput().KEY_A) )
+		if ( gc.getInput().isKeyDown(Input.KEY_A) ) // Left movement
 		{
 			player.moveLeft();
 		}
 		
-		if ( gc.getInput().isKeyPressed(gc.getInput().KEY_SPACE) )
-		{
-			player.jump();
-		} 
-		else if ( gc.getInput().isKeyDown(gc.getInput().KEY_DOWN) )
+		if ( gc.getInput().isKeyDown(Input.KEY_S) ) // Downwards movement
 		{
 			player.fall();
 		}
 	}
+	
 	
 //	public void isKeyPressed(int key, char c)
 //	{

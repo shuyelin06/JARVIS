@@ -16,7 +16,7 @@ public class Entity{
 	/*
 	 * Physics Variables
 	 */
-	protected final static float friction = 0.5f; // We will later move friction to platforms, so diff platforms have different frictions (ex. ice)
+	protected final static float friction = 0.8f; // We will later move friction to platforms, so diff platforms have different frictions (ex. ice)
 	protected final static float gravity = 0.6f;
 	
 	protected boolean onPlatform; // If the entity is on a platform (determines the forces of friction and gravity)
@@ -122,11 +122,6 @@ public class Entity{
 	
 	// Updates the entity's position given its velocity
 	public void update() {
-		// Reset the entity's jumps
-		if(onPlatform) {
-			jumpsLeft = 300;
-		}
-		
 		// Update Stats
 		percentageHealth = ((float) curHealth) / ((float) maxHealth); // Update health
 		
