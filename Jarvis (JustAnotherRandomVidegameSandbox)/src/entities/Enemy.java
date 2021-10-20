@@ -13,14 +13,14 @@ public class Enemy extends Entity {
 	
 	protected Player target;
 	protected int aggroRange;
-	protected int size;
 	
 	public Enemy(float x, float y, World world) {
 		super(x,y, world); 
 		
 		contactDmg = 1;
 		aggroRange = 100;
-		size = 15;
+		sizeX = 1;
+		sizeY = 1;
 	}
 	
 	public void ai(Player p) {

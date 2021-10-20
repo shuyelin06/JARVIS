@@ -47,6 +47,7 @@ public class Game extends BasicGameState
 	
 	// The Player
 	private Player player = new Player(world);
+	private ArrayList<Enemy> enemies = new ArrayList<Enemy>();
 	// private ArrayList<Enemy> enemies = new ArrayList<Enemy>();
 	
 	// Slick2D Variables
@@ -60,9 +61,9 @@ public class Game extends BasicGameState
 	public Player getP() {
 		return player;
 	}
-//  public ArrayList<Enemy> getEnemies(){
-//		return enemies;
-//	}
+	public ArrayList<Enemy> getEnemies(){
+		return enemies;
+	}
 
   public World getWorld() {
 		return world;
@@ -140,11 +141,11 @@ public class Game extends BasicGameState
 		player.render(g);
 		
 //		//render enemies
-//		g.setColor(Color.red);
-//    	for(Enemy e : enemies) {
-//    		float[] position = renderPosition(e.getPosition().getX(), e.getPosition().getY());
-//    		g.draw(new Circle(position[0], position[1], 15));	
-//    	}
+		g.setColor(Color.red);
+    	for(Enemy e : enemies) {
+    		float[] position = renderPosition(e.getPosition().getX(), e.getPosition().getY());
+    		g.draw(new Circle(position[0], position[1], 15));	
+    	}
     
 	}
 	// Given two coordinates, display where they should be displayed on screen
@@ -172,11 +173,11 @@ public class Game extends BasicGameState
 		player.update();
 		
    
-//		Spawning.spawnEnemy(this, 1f);
-//		for(Enemy e : enemies) {
-//			e.update();
-//		}
-//		Spawning.clearDead(this);
+		Spawning.spawnEnemy(this, 1f);
+		for(Enemy e : enemies) {
+			e.update();
+		}
+		Spawning.clearDead(this);
 	}
 
 	public void enter(GameContainer gc, StateBasedGame sbg) throws SlickException 

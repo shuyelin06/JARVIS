@@ -71,12 +71,22 @@ public class World
 	}
 	
 	//given a coordinate, return what the index of the block array it should be
-		public int[] getBlockIndex(Coordinate c) {
-			int[] blockIndex = new int[2];
-			float chunkNum = c.getChunk();
-			blockIndex[0] = (int) (c.getX() % Chunk.Chunk_Size_X);
-			blockIndex[1] = (int) c.getY();
-			
-			return blockIndex;
+	public int[] getBlockIndex(Coordinate c) {
+		int[] blockIndex = new int[2];
+		blockIndex[0] = (int) (c.getX() % Chunk.Chunk_Size_X);
+		blockIndex[1] = (int) c.getY();
+		
+		return blockIndex;
+	}
+	
+	public boolean openArea(Coordinate c, int w, int h) {
+		int x = getBlockIndex(c)[0];
+		int y = getBlockIndex(c)[1];
+		for(int i = x - w; i < x + w; i++) {
+			for(int j = y - h; j < y + h; j++) {
+				//if a block at i, j 
+			}
 		}
+		return false;
+	}
 }
