@@ -71,7 +71,6 @@ public class WorldSelect extends BasicGameState
 		} else if (worldID == 3) {
 			g.drawString("3", gc.getWidth() / 2, (gc.getHeight() / 2) + 20);
 		}
-		System.out.println(worldID);
 		
 		
 		for (int i = 0; i < particles.size(); i++) {
