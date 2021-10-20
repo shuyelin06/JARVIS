@@ -27,10 +27,10 @@ import support.SimplexNoise;
 import support.Spawning;
 
 public class Game extends BasicGameState 
-{		
+{
 	// Later to be moved to a worldselect gamestate
-	String worldName = "Test2";
-	boolean createNewWorld = true;
+	final String worldName = "Test2";
+	boolean createNewWorld = false;
 	
 	// Render distance
 	final public static int Render_Distance = 2;
@@ -40,13 +40,13 @@ public class Game extends BasicGameState
 	int id;
 	
 	// The World
-	World world = new World(worldName); 
+	public static World world = new World("Test2"); 
 	
 	// Use the "Test World" world for now until we get random world generation that can generate a new world, chunks and all, from scratch.
 	
 	// The Player
-	private Player player = new Player();
-	private ArrayList<Enemy> enemies = new ArrayList<Enemy>();
+	private Player player = new Player(world);
+	// private ArrayList<Enemy> enemies = new ArrayList<Enemy>();
 	
 	// Slick2D Variables
 	public static GameContainer gc;
@@ -59,9 +59,9 @@ public class Game extends BasicGameState
 	public Player getP() {
 		return player;
 	}
-	public ArrayList<Enemy> getEnemies(){
-		return enemies;
-	}
+//	public ArrayList<Enemy> getEnemies(){
+//		return enemies;
+//	}
 
 	/*
 	 * Initializing
@@ -132,15 +132,15 @@ public class Game extends BasicGameState
     
 	    // Render the player
 		g.setColor(new Color(255f, 255f, 255f, 1f));
-		g.draw(new Circle(CenterX, CenterY, player.getSize())); // Render the player in the middle of the screen
+		g.fillRect(CenterX, CenterY, player.getSizeX() * Coordinate.ConversionFactor, player.getSizeY() * Coordinate.ConversionFactor);
 		player.render(g);
 		
-		//render enemies
-		g.setColor(Color.red);
-    	for(Enemy e : enemies) {
-    		float[] position = renderPosition(e.getPosition().getX(), e.getPosition().getY());
-    		g.draw(new Circle(position[0], position[1], 15));	
-    	}
+//		//render enemies
+//		g.setColor(Color.red);
+//    	for(Enemy e : enemies) {
+//    		float[] position = renderPosition(e.getPosition().getX(), e.getPosition().getY());
+//    		g.draw(new Circle(position[0], position[1], 15));	
+//    	}
     
 	}
 	// Given two coordinates, display where they should be displayed on screen
@@ -164,13 +164,15 @@ public class Game extends BasicGameState
 		// Update the player's movement
 		player.update();
 		
-		controls();
+    /*
+    controls();
 		
 		Spawning.spawnEnemy(this, 1f);
 		for(Enemy e : enemies) {
 			e.update();
 		}
 		Spawning.clearDead(this);
+    */
 	}
 
 	public void enter(GameContainer gc, StateBasedGame sbg) throws SlickException 

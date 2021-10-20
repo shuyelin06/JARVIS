@@ -17,12 +17,15 @@ import world.World;
 public class Player extends Entity{	
 	// Spawnpoint of the player
 	private static final float SpawnX = World.World_X_Size * Chunk.Chunk_Size_X / 2;
-	private static final float SpawnY = Chunk.Chunk_Size_Y / 2.5f;
+	private static final float SpawnY = Chunk.Chunk_Size_Y / 2.5f + 20f;
 	
 	private static final int Player_Size = 20;
 	// Player constructor
-	public Player() {
-		super(SpawnX, SpawnY); 
+	public Player(World world) {
+		super(SpawnX, SpawnY, world); 
+		
+		this.sizeY = 2f;
+		this.sizeX = 1f;
 	}
 	
 	public int getSize() {
@@ -70,11 +73,11 @@ public class Player extends Entity{
 	
 	// Key Press Mappings
 	public void moveRight() {
-		this.xSpeed = 20f;	
+		this.xSpeed = 15f;	
 	}
 	
 	public void moveLeft() {
-		this.xSpeed = -20f;
+		this.xSpeed = -15f;
 	}
 	
 	public void jump() {

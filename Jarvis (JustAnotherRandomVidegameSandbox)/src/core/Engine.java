@@ -28,7 +28,7 @@ public class Engine extends StateBasedGame
     public static final int WorldSelect_ID = 1;
     public static final int Game_ID = 2;
     
-    private BasicGameState game;
+    public static BasicGameState game;
 
 	public Engine(String name) 
 	{

@@ -5,6 +5,7 @@ import org.newdawn.slick.geom.Circle;
 
 import gamestates.Game;
 import support.Utility;
+import world.World;
 
 public class Enemy extends Entity {
 	
@@ -14,8 +15,8 @@ public class Enemy extends Entity {
 	protected int aggroRange;
 	protected int size;
 	
-	public Enemy(float x, float y) {
-		super(x,y); 
+	public Enemy(float x, float y, World world) {
+		super(x,y, world); 
 		
 		contactDmg = 1;
 		aggroRange = 100;
