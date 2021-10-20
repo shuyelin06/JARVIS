@@ -126,6 +126,13 @@ public class Entity{
 		return alive;
 	}
 	
+	public void takeDamage(int damage) {
+		curHealth -= damage;
+		if (curHealth < 0) {
+			curHealth = 0;
+			alive = false;
+		}
+	}
 	
 	// Updates the entity's position given its velocity
 	public void update() {
