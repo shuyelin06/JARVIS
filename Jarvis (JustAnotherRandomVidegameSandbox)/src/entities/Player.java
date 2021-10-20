@@ -25,7 +25,7 @@ public class Player extends Entity{
 		super(SpawnX, SpawnY, world); 
 		
 		this.sizeY = 2f;
-		this.sizeX = 1f;
+		this.sizeX = 1.3f; // Only use sizes to the 10th PLACE 
 	}
 	
 	//draws characters
@@ -67,8 +67,6 @@ public class Player extends Entity{
 		}
 	}
 	public void fall() {
-		this.onPlatform = false;
-		
 		this.ySpeed -= Entity.gravity;
 	}
 	

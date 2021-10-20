@@ -5,16 +5,22 @@ import world.Chunk;
 
 public class Coordinate{
 	public static final int ConversionFactor = 30; // Conversion: 1 Block = 20 Pixels
-	float x, y;
+	private float x, y;
 	
 	public Coordinate(float InitX, float InitY) {
 		this.x = InitX;
 		this.y = InitY;
 	}
 	
+	public void setXPos(float x){
+		this.x = x;
+	}
+	public void setYPos(float y) {
+		this.y = y;
+	}
 	public void update(float xSpeed, float ySpeed) {
-		x += xSpeed / Engine.FRAMES_PER_SECOND;
-		y += ySpeed / Engine.FRAMES_PER_SECOND;
+		x += xSpeed / (float) Engine.FRAMES_PER_SECOND;
+		y += ySpeed / (float) Engine.FRAMES_PER_SECOND;
 	}
 	
 	// Get Positions
