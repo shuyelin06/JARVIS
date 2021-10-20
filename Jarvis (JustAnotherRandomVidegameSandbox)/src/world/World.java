@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import core.Coordinate;
 import gamestates.Game;
 
 public class World 
@@ -71,5 +72,29 @@ public class World
 	public Collection<Chunk> getAllChunks() {
 
 		return renderedChunks.values();
+	}
+	
+	//given a coordinate, return what the index of the block array it should be
+	public int[] getBlockIndex(Coordinate c) {
+		int[] blockIndex = new int[2];
+		blockIndex[0] = (int) (c.getX() % Chunk.Chunk_Size_X);
+		blockIndex[1] = (int) c.getY();
+		
+		return blockIndex;
+	}
+	
+	public boolean openArea(Coordinate c, int w, int h) {
+		int x = getBlockIndex(c)[0];
+		int y = getBlockIndex(c)[1];
+		//System.out.println("checking for open area at: " + x + ", " + y);
+		for(int i = x - w; i < x + w; i++) {
+			for(int j = y - h; j < y + h; j++) {
+				if(this.getChunk((int)c.getChunk()).getBlocks()[x][y].getID() != 0){
+					//System.out.println("solid block here");
+					return false;
+				}
+			}
+		}
+		return true;
 	}
 }

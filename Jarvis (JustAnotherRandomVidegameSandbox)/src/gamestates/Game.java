@@ -29,9 +29,9 @@ import support.Spawning;
 public class Game extends BasicGameState
 
 {
-	// Later to be moved to a worldselect gamestate
-	final String worldName = "Test2";
+  final String worldName = "Test2";
 	boolean createNewWorld = true; // If testing worldGen, change to true.
+	// Later to be moved to a worldselect gamestate
 	
 	// Render distance
 	final public static int Render_Distance = 2;
@@ -46,8 +46,8 @@ public class Game extends BasicGameState
 	// Use the "Test World" world for now until we get random world generation that can generate a new world, chunks and all, from scratch.
 	
 	// The Player
-	private Player player;
-	// private ArrayList<Enemy> enemies; 
+  private Player player;
+  private ArrayList<Enemy> enemies = new ArrayList<Enemy>();
 	
 	// Slick2D Variables
 	public static GameContainer gc;
@@ -60,10 +60,11 @@ public class Game extends BasicGameState
 	public Player getP() {
 		return player;
 	}
-//	public ArrayList<Enemy> getEnemies(){
-//		return enemies;
-//	}
+	public ArrayList<Enemy> getEnemies(){
+		return enemies;
+	}
 
+  
 	/*
 	 * Initializing
 	 */
@@ -134,11 +135,11 @@ public class Game extends BasicGameState
 		player.render(g, CenterX, CenterY);
 		
 //		//render enemies
-//		g.setColor(Color.red);
-//    	for(Enemy e : enemies) {
-//    		float[] position = renderPosition(e.getPosition().getX(), e.getPosition().getY());
-//    		g.draw(new Circle(position[0], position[1], 15));	
-//    	}
+		g.setColor(Color.red);
+    	for(Enemy e : enemies) {
+    		float[] position = renderPosition(e.getPosition().getX(), e.getPosition().getY());
+    		g.draw(new Circle(position[0], position[1], 15));	
+    	}
     
 	}
 	// Given two coordinates, display where they should be displayed on screen
@@ -166,11 +167,11 @@ public class Game extends BasicGameState
 		player.update();
 		
    
-//		Spawning.spawnEnemy(this, 1f);
-//		for(Enemy e : enemies) {
-//			e.update();
-//		}
-//		Spawning.clearDead(this);
+		Spawning.spawnEnemy(this, 5f);
+		for(Enemy e : enemies) {
+			e.update();
+		}
+		Spawning.clearDead(this);
 	}
 
 	public void enter(GameContainer gc, StateBasedGame sbg) throws SlickException 
@@ -192,7 +193,7 @@ public class Game extends BasicGameState
 	 */
 	public void keyPressed(int key, char c)
 	{
-		if(key == Input.KEY_W) { // Jumping
+  		if(key == Input.KEY_W) { // Jumping
 			player.jump();
 		} 
 	}
@@ -205,6 +206,7 @@ public class Game extends BasicGameState
 		
 		if ( gc.getInput().isKeyDown(Input.KEY_A) ) // Left movement
 		{
+
 			player.moveLeft();
 		}
 		
