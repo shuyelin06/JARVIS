@@ -5,7 +5,10 @@ import core.Engine;
 import gamestates.Game;
 import structures.Block;
 import world.Chunk;
+import world.FileLoader;
 import world.World;
+
+import javax.swing.text.html.HTMLDocument.HTMLReader.BlockAction;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
@@ -16,8 +19,8 @@ public class Entity{
 	/*
 	 * Physics Variables
 	 */
-	protected final static float friction = 0.8f; // We will later move friction to platforms, so diff platforms have different frictions (ex. ice)
-	protected final static float gravity = 0.6f;
+	protected final static float friction = 1.5f; // We will later move friction to platforms, so diff platforms have different frictions (ex. ice)
+	protected final static float gravity = 0.85f;
 	
 	protected boolean onPlatform; // If the entity is on a platform (determines the forces of friction and gravity)
 	protected int jumpsLeft; // Determines how many jumps are left
@@ -50,7 +53,7 @@ public class Entity{
 	// Every entity will have some initial starting position
 	public Entity(float InitX, float InitY, World world) {
 		this.world = Game.world;
-		this.onPlatform = true;
+		this.onPlatform = false;
 	
 		this.position = new Coordinate(InitX, InitY);
 		
@@ -130,13 +133,14 @@ public class Entity{
 		}
 		
 		// Velocity Updating
-		ySpeed -= gravity; // Gravity (will be cancelled out of a y-collision occurs)
+		
 		
 		if(onPlatform) { // If on a platform, friction works on the entity (eventually will be changed)
 			if(friction > Math.abs(xSpeed)) xSpeed = 0; // If friction is greater than the speed, set speed to 0 (ensures that our player will always stop)
 			else if(xSpeed > 0) xSpeed -= friction; // If the entity is moving to the right, friction works to the left
 			else xSpeed += friction; // If the entity is moving to the left, friction works to the right
-		}
+		} 
+		ySpeed -= gravity; // Gravity 
 		
 		// Collision detection 
 		collisions();
@@ -153,37 +157,57 @@ public class Entity{
 	public enum Collision{
 		X, Y;
 	}
+	private static final float collisionError = 0.001f; // Prevents the object from sticking
 	
 	// Determine if a collision occurs
 	public void collisions() {
-		// Checking for horizontal collisions
-		int x = (int) (position.getX() + xSpeed / (float) Engine.FRAMES_PER_SECOND);
-		if(xSpeed > 0) x += sizeX;
+		/*
+		 * Defining Memory Used
+		 */
+		Chunk c;
+		Block[][] blocks;
+		float temp;
 		
-		Chunk c = world.getChunk(x / Chunk.Chunk_Size_X);			
-		Block[][] blocks = c.getBlocks();
+		int x;
+		int y;
+		
+		// Checking for horizontal collisions
+		temp = position.getX() + xSpeed / (float) Engine.FRAMES_PER_SECOND;
+		if(xSpeed > 0) temp += sizeX;
+		
+		x = (int) temp; // Furthest x away
+		
+		c = world.getChunk(x / Chunk.Chunk_Size_X);			
+		blocks = c.getBlocks();
 		
 		
 		for(int j = 0; j < Math.ceil((double) sizeY); j++) {
 			if(blocks[x % Chunk.Chunk_Size_X][(int) position.getY() - j].getID() != 0) {
 				// Collision detected
-				onCollision(Collision.X);
+				onCollision(Collision.X, x);
 				break;
 			}
 		}
-
+	
+		
 		
 		// Checking for vertical collisions
-		int y = (int) Math.ceil(position.getY() + ySpeed / (float) Engine.FRAMES_PER_SECOND);
-		if(ySpeed <  0) y -= sizeY;
+		temp = position.getY() + ySpeed / (float) Engine.FRAMES_PER_SECOND;
+		if(ySpeed < 0) temp -= sizeY;
 		
-		for(int i = 0; i <= Math.ceil((double) sizeX); i++) {
+		
+		y = (int) Math.ceil(temp);
+		
+		int max = (int) (Math.ceil((double) sizeX) + 1);
+		if(position.getX() - Math.floor(position.getX()) < Math.ceil(sizeX) - sizeX) max--;
+		
+		for(int i = 0; i < max; i++) {
 			x = (int) position.getX() + i; // Get the absolute x coordinate
 
 			c = world.getChunk(x / Chunk.Chunk_Size_X);
 			
 			if(c.getBlocks()[x % Chunk.Chunk_Size_X][y].getID() != 0){
-				onCollision(Collision.Y);
+				onCollision(Collision.Y, y);
 				break;
 			}
 			
@@ -191,18 +215,30 @@ public class Entity{
 	}
 	
 	// Code for what happens on collision
-	private void onCollision(Collision collision) {
+	private void onCollision(Collision collision, int blockCoord) {
 		switch(collision) {
 			case X: // X Collision Code
 				// Default X Collision - Stop Horizontal Movement
-				xSpeed = 0;
+				
+				// Interpolate the new x position
+				if(xSpeed < 0) position.setXPos(blockCoord + 1f + collisionError);
+				else if(xSpeed > 0) position.setXPos(blockCoord - this.sizeX - collisionError);
+				
+				xSpeed = 0f;
 				break;
 			case Y: // Y Collision Code
 				// Default Y Collision - Stop Vertical Movement
-				onPlatform = true;
-				jumpsLeft = 3;
 				
-				ySpeed = 0;
+				if(ySpeed < 0) {
+					jumpsLeft = 3; // Reset Jumps
+					onPlatform = true;
+				}
+				
+				// Interpolate the new y position
+				if(ySpeed < 0) position.setYPos(blockCoord + this.sizeY + collisionError);
+				else if(ySpeed > 0) position.setYPos(blockCoord - 1f - collisionError);
+				
+				ySpeed = 0f;
 				break;
 		
 		}
