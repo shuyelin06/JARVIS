@@ -2,6 +2,8 @@ package support;
 
 import java.util.ArrayList;
 
+import org.newdawn.slick.SlickException;
+
 import core.Coordinate;
 import entities.Enemy;
 import entities.Player;
@@ -12,7 +14,7 @@ import world.World;
 public class Spawning {
 	//static World world;
 	
-	public static void spawnEnemy (Game g, float prob) { //expand on parameters like what kind of enemies to spawn in later
+	public static void spawnEnemy (Game g, float prob) throws SlickException { //expand on parameters like what kind of enemies to spawn in later
 
   //prob is the percent chance that you want a new enemy to spawn; scale it to how often the update method gets called
  		if(g.getEnemies().size() < 5) {

@@ -35,6 +35,7 @@ public class Game extends BasicGameState
 	
 	// Render distance
 	final public static int Render_Distance = 2;
+	final public static float Spawn_Rate = 5f;
 	
 	
 	// Gamestate ID
@@ -167,7 +168,7 @@ public class Game extends BasicGameState
 		player.update();
 		
    
-		Spawning.spawnEnemy(this, 5f);
+		Spawning.spawnEnemy(this, Spawn_Rate); // If you want to stop spawning, set 5f to 0f.
 		for(Enemy e : enemies) {
 			e.update();
 		}
