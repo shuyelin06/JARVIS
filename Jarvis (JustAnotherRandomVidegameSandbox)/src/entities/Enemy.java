@@ -1,6 +1,7 @@
 package entities;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Circle;
 
 import gamestates.Game;
@@ -15,7 +16,8 @@ public class Enemy extends Entity {
 	protected int aggroRange;
 	protected int size;
 	
-	public Enemy(float x, float y, World world) {
+	public Enemy(float x, float y, World world) throws SlickException 
+	{
 		super(x,y, world); 
 		
 		contactDmg = 1;

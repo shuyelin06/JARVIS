@@ -20,7 +20,8 @@ public class Player extends Entity{
 	private static final float SpawnY = Chunk.Chunk_Size_Y / 2.5f + 20f;
 	
 	// Player constructor
-	public Player(World world) {
+	public Player(World world) throws SlickException 
+	{
 		super(SpawnX, SpawnY, world); 
 		
 		this.sizeY = 2f;
@@ -28,8 +29,11 @@ public class Player extends Entity{
 	}
 	
 	//draws characters
-	public void render(Graphics g) {
+	public void render(Graphics g, float x, float y) 
+	{
 		super.render(g);
+		sprite.draw(x, y, sizeX * Coordinate.ConversionFactor, sizeY * Coordinate.ConversionFactor); 
+		//getSizeX() * Coordinate.ConversionFactor, getSizeY() * Coordinate.ConversionFactor);
 		drawHealthBars(g);
 	}
 	

@@ -26,7 +26,8 @@ import world.WorldGen;
 import support.SimplexNoise;
 import support.Spawning;
 
-public class Game extends BasicGameState 
+public class Game extends BasicGameState
+
 {
 	// Later to be moved to a worldselect gamestate
 	final String worldName = "Test2";
@@ -45,8 +46,8 @@ public class Game extends BasicGameState
 	// Use the "Test World" world for now until we get random world generation that can generate a new world, chunks and all, from scratch.
 	
 	// The Player
-	private Player player = new Player(world);
-	// private ArrayList<Enemy> enemies = new ArrayList<Enemy>();
+	private Player player;
+	// private ArrayList<Enemy> enemies; 
 	
 	// Slick2D Variables
 	public static GameContainer gc;
@@ -74,6 +75,9 @@ public class Game extends BasicGameState
 		// Shows the game's FPS
 		gc.setShowFPS(true);
 		this.gc = gc;
+		
+		player = new Player(world); //Had to move this here cause slickException
+		// enemies = new ArrayList<Enemy>();
 		
 		/*
 		 * Later to be put in the WorldSelect gamestate
@@ -131,9 +135,7 @@ public class Game extends BasicGameState
 		}
     
 	    // Render the player
-		g.setColor(new Color(255f, 255f, 255f, 1f));
-		g.fillRect(CenterX, CenterY, player.getSizeX() * Coordinate.ConversionFactor, player.getSizeY() * Coordinate.ConversionFactor);
-		player.render(g);
+		player.render(g, CenterX, CenterY);
 		
 //		//render enemies
 //		g.setColor(Color.red);

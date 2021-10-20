@@ -10,6 +10,7 @@ import world.World;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.SlickException;
 
 public class Entity{
 	protected World world;
@@ -48,7 +49,10 @@ public class Entity{
 	protected int regenTimer;
 	
 	// Every entity will have some initial starting position
-	public Entity(float InitX, float InitY, World world) {
+	public Entity(float InitX, float InitY, World world) throws SlickException
+	{
+		sprite = new Image("res/placeholder.png");
+		
 		this.world = Game.world;
 		this.onPlatform = true;
 	
@@ -61,7 +65,10 @@ public class Entity{
 		this.iDuration = 30; //how long invulnerability will last after taking damage
 		
 		alive = true;
-    
+		
+		sizeX = 20;
+		sizeY = 30;
+		
 		curHealth = 1;
 		maxHealth = 1;
 		percentageHealth = 1f;
@@ -210,6 +217,7 @@ public class Entity{
 	
 	//debug rendering
 	public void render(Graphics g) {
+		
 //		//write health of actor underneath
 //		if (Game.debugMode) {
 //			g.setColor(new Color(255, 255, 255));
