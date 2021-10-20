@@ -65,9 +65,7 @@ public class Game extends BasicGameState
 		return enemies;
 	}
 
-  public World getWorld() {
-		return world;
-	}
+  
 	/*
 	 * Initializing
 	 */
@@ -173,7 +171,7 @@ public class Game extends BasicGameState
 		player.update();
 		
    
-		Spawning.spawnEnemy(this, 1f);
+		Spawning.spawnEnemy(this, 5f);
 		for(Enemy e : enemies) {
 			e.update();
 		}

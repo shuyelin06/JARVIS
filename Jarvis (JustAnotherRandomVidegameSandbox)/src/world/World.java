@@ -82,11 +82,15 @@ public class World
 	public boolean openArea(Coordinate c, int w, int h) {
 		int x = getBlockIndex(c)[0];
 		int y = getBlockIndex(c)[1];
+		//System.out.println("checking for open area at: " + x + ", " + y);
 		for(int i = x - w; i < x + w; i++) {
 			for(int j = y - h; j < y + h; j++) {
-				//if a block at i, j 
+				if(this.getChunk((int)c.getChunk()).getBlocks()[x][y].getID() != 0){
+					//System.out.println("solid block here");
+					return false;
+				}
 			}
 		}
-		return false;
+		return true;
 	}
 }
