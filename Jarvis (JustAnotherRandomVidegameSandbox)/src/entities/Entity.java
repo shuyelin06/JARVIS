@@ -16,7 +16,7 @@ public class Entity{
 	/*
 	 * Physics Variables
 	 */
-	protected final static float friction = 0.2f; // We will later move friction to platforms, so diff platforms have different frictions (ex. ice)
+	protected final static float friction = 0.5f; // We will later move friction to platforms, so diff platforms have different frictions (ex. ice)
 	protected final static float gravity = 0.6f;
 	
 	protected boolean onPlatform; // If the entity is on a platform (determines the forces of friction and gravity)
@@ -54,7 +54,7 @@ public class Entity{
 	
 		this.position = new Coordinate(InitX, InitY);
 		
-		this.xSpeed = 0;
+		this.xSpeed = 0f;
 		this.ySpeed = 0f;
     
 		this.iFrames = 0;
@@ -72,6 +72,12 @@ public class Entity{
 		
 	}
 	
+	public float getSizeX() {
+		return sizeX;
+	}
+	public float getSizeY() {
+		return sizeY;
+	}
 	// Methods returning the position of an object
 	public Coordinate getPosition() {
 		return position;
@@ -124,78 +130,103 @@ public class Entity{
 		// Update Stats
 		percentageHealth = ((float) curHealth) / ((float) maxHealth); // Update health
 		
-		// Update the entity's velocities
-		if(onPlatform) { // If on a platform, friction works on the entity
-			if(friction > Math.abs(xSpeed)) xSpeed = 0; // If friction is greater than the speed, set speed to 0 (ensures that our player will always stop)
-			else if(xSpeed > 0) xSpeed -= friction; // If the entity is moving to the right, friction works to the left
-			else xSpeed += friction; // If the entity is moving to the left, friction works to the right
-		} 
-		else { // If not on a platform, gravity works on the entity
-			ySpeed -= gravity;
-		}
-		if(iFrames > 0) { //timer that ticks down iFrames
+		if(iFrames > 0) { //timer that ticks down invincibility frames
 			iFrames --;
 		}
 		
-		// Check for collisions
+		// Velocity Updating
+		ySpeed -= gravity; // Gravity (will be cancelled out of a y-collision occurs)
+		
+		if(onPlatform) { // If on a platform, friction works on the entity (eventually will be changed)
+			if(friction > Math.abs(xSpeed)) xSpeed = 0; // If friction is greater than the speed, set speed to 0 (ensures that our player will always stop)
+			else if(xSpeed > 0) xSpeed -= friction; // If the entity is moving to the right, friction works to the left
+			else xSpeed += friction; // If the entity is moving to the left, friction works to the right
+		}
+		
+		// Collision detection 
 		collisions();
 		
-		// Update the entity's position
+		// Position updating
 		position.update(xSpeed, ySpeed);		
 	}
 	
 	
+	/*
+	 * Collision Detection
+	 */
+	// Enumerators describing the type of collisions
+	public enum Collision{
+		X, Y;
+	}
+	
+	// Determine if a collision occurs
 	public void collisions() {
-		System.out.println("Checking Collisions");
+		// Checking for horizontal collisions
+		int x = (int) (position.getX() + xSpeed / (float) Engine.FRAMES_PER_SECOND);
+		if(xSpeed > 0) x += sizeX;
 		
-		if(xSpeed != 0) { // check left blocks
-			int x = (int) (position.getX() + xSpeed / Engine.FRAMES_PER_SECOND);
-			
-			Chunk c = world.getChunk(x / Chunk.Chunk_Size_X);			
-			Block[][] blocks = c.getBlocks();
-			
-			
-			for(int j = 0; j < Math.ceil((double) sizeY); j++) {
-				if(blocks[x % Chunk.Chunk_Size_X][(int) position.getY() + j].getID() != 0) {
-					xSpeed = 0;
-					break;
-				}
+		Chunk c = world.getChunk(x / Chunk.Chunk_Size_X);			
+		Block[][] blocks = c.getBlocks();
+		
+		
+		for(int j = 0; j < Math.ceil((double) sizeY); j++) {
+			if(blocks[x % Chunk.Chunk_Size_X][(int) position.getY() - j].getID() != 0) {
+				// Collision detected
+				onCollision(Collision.X);
+				break;
 			}
 		}
+
 		
+		// Checking for vertical collisions
+		int y = (int) Math.ceil(position.getY() + ySpeed / (float) Engine.FRAMES_PER_SECOND);
+		if(ySpeed <  0) y -= sizeY;
 		
-		if(ySpeed != 0) {
-			int y = (int) (position.getY() + ySpeed / Engine.FRAMES_PER_SECOND);
+		for(int i = 0; i <= Math.ceil((double) sizeX); i++) {
+			x = (int) position.getX() + i; // Get the absolute x coordinate
+
+			c = world.getChunk(x / Chunk.Chunk_Size_X);
 			
-			for(int i = 0; i < Math.ceil((double) sizeX); i++) {
-				int x = (int) position.getX() + i; // Get the x coordinate
-				
-				Chunk c = world.getChunk(x / Chunk.Chunk_Size_X);
-				
-				if(c.getBlocks()[x][y].getID() != 0){
-					ySpeed = 0;
-					break;
-				}
-				
+			if(c.getBlocks()[x % Chunk.Chunk_Size_X][y].getID() != 0){
+				onCollision(Collision.Y);
+				break;
 			}
+			
 		} 
 	}
 	
+	// Code for what happens on collision
+	private void onCollision(Collision collision) {
+		switch(collision) {
+			case X: // X Collision Code
+				// Default X Collision - Stop Horizontal Movement
+				xSpeed = 0;
+				break;
+			case Y: // Y Collision Code
+				// Default Y Collision - Stop Vertical Movement
+				onPlatform = true;
+				jumpsLeft = 3;
+				
+				ySpeed = 0;
+				break;
+		
+		}
+	}
 	
 	//debug rendering
 	public void render(Graphics g) {
-		//write health of actor underneath
-		if (Game.debugMode) {
-			g.setColor(new Color(255, 255, 255));
-			g.drawString(""+(int) curHealth, x, y - 15);
-			g.setColor(new Color(0, 0, 0));
-		}
-		//debug for hitbox of actor
-		if (Game.debugMode) {
-			g.setColor(new Color(255, 255, 255));
-			g.drawRect(x, y, w, h);
-			g.setColor(new Color(0, 0, 0));
-		}
+//		//write health of actor underneath
+//		if (Game.debugMode) {
+//			g.setColor(new Color(255, 255, 255));
+//			g.drawString(""+(int) curHealth, x, y - 15);
+//			g.setColor(new Color(0, 0, 0));
+//		}
+//		//debug for hitbox of actor
+//		if (Game.debugMode) {
+//			g.setColor(new Color(255, 255, 255));
+//			g.drawRect(x, y, w, h);
+//			g.setColor(new Color(0, 0, 0));
+//		}
 	}
 	
 	

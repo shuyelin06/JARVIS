@@ -27,7 +27,7 @@ import support.SimplexNoise;
 import support.Spawning;
 
 public class Game extends BasicGameState 
-{		
+{
 	// Later to be moved to a worldselect gamestate
 	final String worldName = "Test2";
 	boolean createNewWorld = false;
@@ -123,7 +123,7 @@ public class Game extends BasicGameState
     
 	    // Render the player
 		g.setColor(new Color(255f, 255f, 255f, 1f));
-		g.draw(new Circle(CenterX, CenterY, player.getSize())); // Render the player in the middle of the screen
+		g.fillRect(CenterX, CenterY, player.getSizeX() * Coordinate.ConversionFactor, player.getSizeY() * Coordinate.ConversionFactor);
 		player.render(g);
 		
 //		//render enemies
