@@ -28,7 +28,7 @@ public class Engine extends StateBasedGame
     public static final int WorldSelect_ID = 1;
     public static final int Game_ID = 2;
     
-    private BasicGameState game;
+    public static BasicGameState game;
 
 	public Engine(String name) 
 	{
@@ -45,7 +45,7 @@ public class Engine extends StateBasedGame
 	public static void main(String[] args) 
 	{
 		try {
-			AppGameContainer appgc = new AppGameContainer(new Engine("Malaria"));
+			AppGameContainer appgc = new AppGameContainer(new Engine("pogger"));
 			
 			System.setProperty("org.lwjgl.opengl.Window.undecorated", "true");
 			

@@ -10,12 +10,13 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 import entities.Entity;
+import world.FileLoader;
 
-public class WorldMenu extends BasicGameState 
+public class WorldSelect extends BasicGameState 
 {
 	int id;
 	
-	public WorldMenu(int id) 
+	public WorldSelect(int id) 
 	{
 		this.id = id;
 	}
@@ -30,7 +31,11 @@ public class WorldMenu extends BasicGameState
 	//render, all visuals
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException 
 	{
-
+		// Render the list of worlds
+		String[] worldList = FileLoader.getWorldList();
+		
+		
+		
 	}
 
 	//update, runs consistently

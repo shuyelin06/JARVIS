@@ -27,10 +27,11 @@ import support.SimplexNoise;
 import support.Spawning;
 
 public class Game extends BasicGameState 
-{		
+{
 	// Later to be moved to a worldselect gamestate
-	String worldName = "Test2";
-	boolean createNewWorld = false;
+  final String worldName = "Test2";
+	boolean createNewWorld = false; // If testing worldGen, change to true.
+
 	
 	// Render distance
 	final public static int Render_Distance = 2;
@@ -40,13 +41,13 @@ public class Game extends BasicGameState
 	int id;
 	
 	// The World
-	World world = new World(worldName); 
+	public static World world = new World("Test2"); 
 	
 	// Use the "Test World" world for now until we get random world generation that can generate a new world, chunks and all, from scratch.
 	
 	// The Player
-	private Player player = new Player();
-	private ArrayList<Enemy> enemies = new ArrayList<Enemy>();
+	private Player player = new Player(world);
+	// private ArrayList<Enemy> enemies = new ArrayList<Enemy>();
 	
 	// Slick2D Variables
 	public static GameContainer gc;
@@ -59,13 +60,13 @@ public class Game extends BasicGameState
 	public Player getP() {
 		return player;
 	}
-	public World getWorld() {
+//  public ArrayList<Enemy> getEnemies(){
+//		return enemies;
+//	}
+
+  public World getWorld() {
 		return world;
 	}
-	public ArrayList<Enemy> getEnemies(){
-		return enemies;
-	}
-
 	/*
 	 * Initializing
 	 */
@@ -109,6 +110,15 @@ public class Game extends BasicGameState
 	// Render all entities on screen
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException 
 	{
+		float colorValue = 0.2f; // 255 / Engine.RESOLUTION_Y
+		
+		
+		for(int i = 0; i < Engine.RESOLUTION_Y; i++) //really scuffed manual gradient, will replace with either image or proper gradient
+		{
+			g.setColor(new Color(20, (int) (colorValue * i), 255));
+			g.fillRect(0, i, Engine.RESOLUTION_X, 1);
+		}
+		
 		// Render all blocks in loaded chunks
 		for(Chunk chunk: world.getAllChunks()) { // Iterate through every chunk
 			Block[][] blocks = chunk.getBlocks(); // Get the blocks in the chunk
@@ -126,15 +136,15 @@ public class Game extends BasicGameState
     
 	    // Render the player
 		g.setColor(new Color(255f, 255f, 255f, 1f));
-		g.draw(new Circle(CenterX, CenterY, player.getSize())); // Render the player in the middle of the screen
+		g.fillRect(CenterX, CenterY, player.getSizeX() * Coordinate.ConversionFactor, player.getSizeY() * Coordinate.ConversionFactor);
 		player.render(g);
 		
-		//render enemies
-		g.setColor(Color.red);
-    	for(Enemy e : enemies) {
-    		float[] position = renderPosition(e.getPosition().getX(), e.getPosition().getY());
-    		g.draw(new Circle(position[0], position[1], 15));	
-    	}
+//		//render enemies
+//		g.setColor(Color.red);
+//    	for(Enemy e : enemies) {
+//    		float[] position = renderPosition(e.getPosition().getX(), e.getPosition().getY());
+//    		g.draw(new Circle(position[0], position[1], 15));	
+//    	}
     
 	}
 	// Given two coordinates, display where they should be displayed on screen
@@ -151,18 +161,22 @@ public class Game extends BasicGameState
 	 * Update - Update different behaviors of the game
 	 */
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException
-	{	
+	{	 
 		// Check if any chunks need to be rendered or unrendered
 		world.renderChunks((int) player.getPosition().getChunk());
+		
+		// Check player key presses
+		controls();
 		
 		// Update the player's movement
 		player.update();
 		
-		Spawning.spawnEnemy(this, 1f);
-		for(Enemy e : enemies) {
-			e.update();
-		}
-		Spawning.clearDead(this);
+   
+//		Spawning.spawnEnemy(this, 1f);
+//		for(Enemy e : enemies) {
+//			e.update();
+//		}
+//		Spawning.clearDead(this);
 	}
 
 	public void enter(GameContainer gc, StateBasedGame sbg) throws SlickException 
@@ -175,21 +189,43 @@ public class Game extends BasicGameState
 		
 	}
 
-
+	/*
+	 * Key Press Controls
+	 */
 	public void keyPressed(int key, char c)
 	{
-		if(gc.getInput().isKeyDown(Input.KEY_D)) { // Move right
+  		if(key == Input.KEY_W) { // Jumping
+			player.jump();
+		} 
+	}
+	public void controls() //all the control stuff
+	{
+		if ( gc.getInput().isKeyDown(Input.KEY_D) ) // Right movement
+		{
 			player.moveRight();
-		} else if (gc.getInput().isKeyDown(Input.KEY_A)){
+		}
+		
+		if ( gc.getInput().isKeyDown(Input.KEY_A) ) // Left movement
+		{
+
 			player.moveLeft();
 		}
 		
-		if(key == Input.KEY_W) {
-			player.jump();
-		} else if(key == Input.KEY_S) {
+		if ( gc.getInput().isKeyDown(Input.KEY_S) ) // Downwards movement
+		{
 			player.fall();
 		}
 	}
+	
+	
+//	public void isKeyPressed(int key, char c)
+//	{
+//		if(key == Input.KEY_SPACE) {
+//			player.jump();
+//		} else if(key == Input.KEY_S) {
+//			player.fall();
+//		}
+//	}
 	
 	public void mousePressed(int button, int x, int y)
 	{

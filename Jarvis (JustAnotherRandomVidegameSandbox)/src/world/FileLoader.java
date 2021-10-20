@@ -1,6 +1,5 @@
 package world;
 
-import org.lwjgl.Sys;
 import org.newdawn.slick.Color;
 
 import settings.Values;
@@ -17,49 +16,37 @@ public class FileLoader{
 	final private static String Save_Folder = "saves/"; // Directory where all world information will be saved
 	final private static String Hash_File_Path = "src/settings/BlockHashing.txt"; // File where all block hashing will be located
 	
-  public static void main(String[] args) {		
-//		// Chunk Generation 
-//		World world = new World("test");
-//	
-//		
-//		long time = Sys.getTime();
-//		SaveWorld(world);
-//		System.out.println(Sys.getTime() - time);
-//		
-//		time = Sys.getTime();
-//		LoadChunk(world.getWorldName(), 1);
-//		System.out.println(Sys.getTime() - time);
-	  
-	  Integer.parseInt("0");
+	public static void main(String[] args) {
+		File test = new File(Save_Folder);
+		
+		String[] contents = test.list();
+		
+		for(int i = 0; i < contents.length; i++) {
+			System.out.println(contents[i]);	
+		}
+		
 	}
 	
-	// Saves an entire world (Save + Quit, and on Initial Creation)
-	public static void SaveWorld(World world) {
-		// Step 1: Create a folder for the world (with an inventory, entities, chunk folder)
-		createWorldFolders(world.getWorldName());
-		
-		// Step 2: Save every chunk of the world to a file (will later use the WorldGen class, not world)
-		String chunkFolder = Save_Folder + world.getWorldName() + "/chunks";
-		for(Chunk c: world.getAllChunks()) {
-			SaveChunk(world.getWorldName(), c);
-		}
-	}
-    
-	/*
-	 * Raw Functions - Unoptimized functions
-	 */
 	// Creates all directories / subdirectories for our world
 	public static boolean createWorldFolders(String name) {
 		String path = Save_Folder + name;
 		if(new File(path).mkdir()) {
-			new File(path + "/entities").mkdir();
-			new File(path + "/player").mkdir();
-			new File(path + "/chunks").mkdir();
+			new File(path + "/entities").mkdir(); // Entities folder
+			new File(path + "/player").mkdir(); // Player folder
+			new File(path + "/chunks").mkdir(); // Chunks folder
 			
 			return true;
 		} 
 		else return false;
-	}	
+	}
+	
+	// Return a list of all worlds
+	public static String[] getWorldList() {
+		File worldFolder = new File(Save_Folder);
+		
+		return worldFolder.list();
+	}
+	
 	
 	// Saves a chunk for a given world name
 	public static void SaveChunk(String worldName, Chunk c) {
@@ -101,7 +88,8 @@ public class FileLoader{
 			
 			int data = reader.read();
 			while(data != -1) { // When data == -1, the file reading is complete
-				if(data == 10) {
+				if(data == 13) {} // Skip the ASCII character for 13 
+				else if(data == 10) {
 					x = 0;
 					y -= 1;
 					
@@ -126,28 +114,28 @@ public class FileLoader{
 		return new Chunk(chunkX, blocks);
 	}
 
-//	// Adds a block hash
-//	public static void AddBlockHashing(int id, float r, float g, float b, float a) {
-//		try {
-//			System.out.println(new File(Hash_File_Path).getAbsolutePath());
-//			
-//			FileWriter writer = new FileWriter(Hash_File_Path, true);
-//			
-//
-//			// Write block id
-//			writer.write(Integer.toString(id) + " ");
-//			
-//			writer.write(Float.toString(r) + " ");
-//			writer.write(Float.toString(g) + " ");
-//			writer.write(Float.toString(b) + " ");
-//			writer.write(Float.toString(a) + "\n");
-//
-//			writer.close();
-//		} catch(IOException e) {
-//			System.out.println("There was an error in writing a block hash");
-//		}
-//	}
 	
+	/*
+	 * Block Hashings
+	 * 
+	 * Save and Load block hashings (id - color mappings)
+	 */
+	
+	// Add a new block hashing
+	public static void AddBlockHasing(int[] idRGBA) {
+		try {
+			FileWriter writer = new FileWriter(Hash_File_Path, true);
+			
+			writer.write(Integer.toString(idRGBA[0]) + " "); // Block ID
+			writer.write(Integer.toString(idRGBA[1]) + " "); // R
+			writer.write(Integer.toString(idRGBA[2]) + " "); // G
+			writer.write(Integer.toString(idRGBA[3]) + " "); // B
+			writer.write(Integer.toString(idRGBA[4]) + " "); // A
+		} catch(IOException e) {
+			System.out.println("There was an error in adding a new block hash");
+		}
+	}
+
 	
 	// Load block hashings
 	public static void LoadBlockHashings(){
