@@ -57,6 +57,10 @@ public class World
 		}
 	}
 	
+	public void changeName(String worldName) {
+		this.worldName = worldName;
+	}
+	
 	public Chunk getChunk(int i) {
 		return renderedChunks.get(i);
 	}

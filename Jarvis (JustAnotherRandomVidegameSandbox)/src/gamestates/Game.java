@@ -31,7 +31,7 @@ public class Game extends BasicGameState
 {
 	// Later to be moved to a worldselect gamestate
 	final String worldName = "Test2";
-	boolean createNewWorld = false; // If testing worldGen, change to true.
+	boolean createNewWorld = true; // If testing worldGen, change to true.
 	
 	// Render distance
 	final public static int Render_Distance = 2;
@@ -82,11 +82,7 @@ public class Game extends BasicGameState
 		/*
 		 * Later to be put in the WorldSelect gamestate
 		 */
-		// Generate a new world using steven y's code
-		if(createNewWorld) {
-			WorldGen gen = new WorldGen("Test2", new SimplexNoise((int) (Math.random() * 10000)));
-			gen.generateWorld();
-		}
+
 	}
 	
 	/*
@@ -179,7 +175,11 @@ public class Game extends BasicGameState
 
 	public void enter(GameContainer gc, StateBasedGame sbg) throws SlickException 
 	{
-
+		// Generate a new world using steven y's code
+		if(createNewWorld) {
+			WorldGen gen = new WorldGen(world.getWorldName(), new SimplexNoise((int) (Math.random() * 10000)));
+			gen.generateWorld();
+		}
 	}
 
 	public void leave(GameContainer gc, StateBasedGame sbg) 
