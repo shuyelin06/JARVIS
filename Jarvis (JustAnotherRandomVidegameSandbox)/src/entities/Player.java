@@ -19,6 +19,7 @@ public class Player extends Entity{
 	private static final float SpawnX = World.World_X_Size * Chunk.Chunk_Size_X / 2;
 	private static final float SpawnY = Chunk.Chunk_Size_Y / 2.5f + 20f;
 	
+	private static final float Terminal_X_Velocity = 15f;
 	// Player constructor
 	public Player(World world) throws SlickException 
 	{
@@ -51,11 +52,13 @@ public class Player extends Entity{
 	
 	// Key Press Mappings
 	public void moveRight() {
-		this.xSpeed = 15f;	
+		if(xSpeed + 5f > Terminal_X_Velocity) xSpeed = Terminal_X_Velocity;
+		else xSpeed += 5f;	
 	}
 	
 	public void moveLeft() {
-		this.xSpeed = -15f;
+		if(xSpeed - 5f < 0 - Terminal_X_Velocity) xSpeed = 0 - Terminal_X_Velocity;
+		else xSpeed -= 5f;
 	}
 	
 	public void jump() {

@@ -191,7 +191,9 @@ public class Entity{
 		
 		x = (int) temp; // Furthest x away
 		
-		c = world.getChunk(x / Chunk.Chunk_Size_X);			
+		c = world.getChunk(x / Chunk.Chunk_Size_X);	
+		
+		if(c == null) return;
 		blocks = c.getBlocks();
 		
 		
@@ -219,6 +221,7 @@ public class Entity{
 			x = (int) position.getX() + i; // Get the absolute x coordinate
 
 			c = world.getChunk(x / Chunk.Chunk_Size_X);
+			if(c == null) return;
 			
 			if(c.getBlocks()[x % Chunk.Chunk_Size_X][y].getID() != 0){
 				onCollision(Collision.Y, y);
