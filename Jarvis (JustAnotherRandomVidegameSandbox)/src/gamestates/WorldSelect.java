@@ -79,15 +79,12 @@ public class WorldSelect extends BasicGameState
 		
 		
 		//temporary string graphics, will be replaced
-		g.drawString("press a number to change world", gc.getWidth() / 2, (gc.getHeight() / 3) - 20);
-		g.drawString("press Q or hit button to enter world", gc.getWidth() / 2, gc.getHeight() / 3);
-		if (worldID == 1) {
-			g.drawString("1", gc.getWidth() / 2, (gc.getHeight() / 3) + 20);
-		} else if (worldID == 2) {
-			g.drawString("2", gc.getWidth() / 2, (gc.getHeight() / 3) + 20);
-		} else if (worldID == 3) {
-			g.drawString("3", gc.getWidth() / 2, (gc.getHeight() / 3) + 20);
-		}
+
+		g.drawString("Press a number to change world", gc.getWidth() / 2, (gc.getHeight() / 2) - 20);
+		g.drawString("Press Q to enter world", gc.getWidth() / 2, gc.getHeight() / 2);
+		
+		g.drawString("World: " + worldID, gc.getWidth() / 2, (gc.getHeight() / 2) + 20);
+
 		
 		
 		//image drawing
@@ -143,9 +140,11 @@ public class WorldSelect extends BasicGameState
 		} else if (key == Input.KEY_3) {
 			worldID = 3;
 		}
+		
 		if (key == Input.KEY_Q) {
 			readyStart = true;
 		}
+		
 	}
 	
 	public void mousePressed(int button, int x, int y)

@@ -13,6 +13,7 @@ public class WorldGen{
 	public WorldGen(String worldName, SimplexNoise noise) 
 	{
 		this.worldName = worldName;
+
 		this.noise = noise; // Later will be used with the noise parameter for custom seeds
 	}
 	
@@ -34,12 +35,12 @@ public class WorldGen{
 		}
 	}
 	
-	// These seem to be method - based variables, but moving them causes an error so im not moving them anymore lmao
-	private int hold;
-	private float seedDiff;
 	// Returns a 2D array of blocks for a chunk.
 	public Block[][] generate(int x, Block[][] blocks)
 	{
+		int hold = 0;
+		float seedDiff = 0;
+		
 		int f = 16; // frequency of seed blocks
 		
 		double d1 = 0; // 1st derivative, starts at zero
@@ -90,19 +91,80 @@ public class WorldGen{
 			//step 2: block placement (will move to separate method or class)
 			for(int j = 0; j < Chunk.Chunk_Size_Y; j++)
 			{
-				if(j < terrain[i])
+				if(j < terrain[i] - (Math.random() * 5 + 5))
 				{
-					blocks[i][j] = new Block(1); //dirt
-				} else if(j < terrain[i] + 1)
+					blocks[i][j] = new Block(3); //stone
+				}
+				else if(j < terrain[i])
 				{
-					blocks[i][j] = new Block(2); //grass
-				} else
+					blocks[i][j] = new Block(1); //dirt;
+				} 
+				else
 				{
 					blocks[i][j] = new Block(0); //air
 				}			
 			}
 
 		}
+		
+		populate(blocks);
+		
 		return(blocks);
+	}
+	
+	public Block[][] populate(Block[][] blocks)
+	{
+		float[][] noisePattern = new float[Chunk.Chunk_Size_X][Chunk.Chunk_Size_Y];
+		for(int i = 0; i < Chunk.Chunk_Size_X; i++)
+		{
+			for(int j = 0; j < Chunk.Chunk_Size_Y; j++)
+			{
+				noisePattern[i][j] = (float) noise.eval(i, j);
+				
+				if(blocks[i][j].getID() == 1) //populating dirt
+				{					
+					if(adjacentTo(i, j, 0, blocks) > 0) //grasssss
+					{
+						blocks[i][j] = new Block(2);
+					}
+				}
+				
+				if(blocks[i][j].getID() == 3)
+				{
+					if(noisePattern[i][j] >= 0.8) //noise test
+					{
+						blocks[i][j] = new Block(4);
+					} 
+				}	
+			}
+		}
+		return(blocks);
+	}
+	
+	public int adjacentTo(int x, int y, int id, Block[][] blocks) //method for seeing if a certain kind of block is next to it
+	//still need to fix
+	{
+		int count = 0;
+		for(int i = -1; i < 2; i++)
+		{
+			for(int j = -1; j < 2; j++)
+			{
+				if(inBounds(x + i, y + j)) // hmmm
+				{
+					if(blocks[x + i][y + j].getID() == id) 
+					{
+						count++;					
+					}
+				}
+			}
+		}
+		
+		return(count);
+	}
+	
+	private boolean inBounds(int x, int y) //to avoid the out of bounds error
+	{
+		return(x > -1 && x < Chunk.Chunk_Size_X
+		&& y > -1 && y < Chunk.Chunk_Size_Y);
 	}
 }
