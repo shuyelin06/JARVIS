@@ -13,23 +13,10 @@ import java.util.Arrays;
 
 // Save and Load World Information
 public class FileLoader{
-	final private static String Save_Folder = "saves/"; // Directory where all world information will be saved
-	final private static String Hash_File_Path = "src/settings/BlockHashing.txt"; // File where all block hashing will be located
-	
-	public static void main(String[] args) {
-		File test = new File(Save_Folder);
-		
-		String[] contents = test.list();
-		
-		for(int i = 0; i < contents.length; i++) {
-			System.out.println(contents[i]);	
-		}
-		
-	}
 	
 	// Creates all directories / subdirectories for our world
 	public static boolean createWorldFolders(String name) {
-		String path = Save_Folder + name;
+		String path = Values.Save_Folder + name;
 		if(new File(path).mkdir()) {
 			new File(path + "/entities").mkdir(); // Entities folder
 			new File(path + "/player").mkdir(); // Player folder
@@ -42,7 +29,7 @@ public class FileLoader{
 	
 	// Return a list of all worlds
 	public static String[] getWorldList() {
-		File worldFolder = new File(Save_Folder);
+		File worldFolder = new File(Values.Save_Folder);
 		
 		return worldFolder.list();
 	}
@@ -51,11 +38,11 @@ public class FileLoader{
 	// Saves a chunk for a given world name
 	public static void SaveChunk(String worldName, Chunk c) {
 		try {
-			FileWriter writer = new FileWriter(new File(Save_Folder + worldName + "/chunks/" + c.getX() + ".chunk"));
+			FileWriter writer = new FileWriter(new File(Values.Save_Folder + worldName + "/chunks/" + c.getX() + ".chunk"));
 			
 			Block[][] blocks = c.getBlocks();
-			for(int y = Chunk.Chunk_Size_Y - 1; y >= 0 ; y--) {
-				for(int x = 0; x < Chunk.Chunk_Size_X; x++) {
+			for(int y = Values.Chunk_Size_Y - 1; y >= 0 ; y--) {
+				for(int x = 0; x < Values.Chunk_Size_X; x++) {
 					String id = Integer.toString(blocks[x][y].getID());
 					
 					writer.write(id);
@@ -75,15 +62,15 @@ public class FileLoader{
 	public static Chunk LoadChunk(String worldName, int chunkX) {
 		System.out.println("Loading Chunk " + chunkX);
 		// Code for chunk retrieval
-		Block[][] blocks = new Block[Chunk.Chunk_Size_X][Chunk.Chunk_Size_Y];
+		Block[][] blocks = new Block[Values.Chunk_Size_X][Values.Chunk_Size_Y];
 		
-		File chunkFile = new File(Save_Folder + worldName + "/chunks/" + chunkX + ".chunk");
+		File chunkFile = new File(Values.Save_Folder + worldName + "/chunks/" + chunkX + ".chunk");
 		if(!chunkFile.exists()) return null; // Exception code in case the chunk doesn't exist
 		
 		try { // Space is ASCII 32, Newline is ASCII 10
 			FileReader reader = new FileReader(chunkFile);
 			
-			int x = 0, y = Chunk.Chunk_Size_Y - 1;
+			int x = 0, y = Values.Chunk_Size_Y - 1;
 			String id = "";
 			
 			int data = reader.read();
@@ -124,7 +111,7 @@ public class FileLoader{
 	// Add a new block hashing
 	public static void AddBlockHasing(int[] idRGBA) {
 		try {
-			FileWriter writer = new FileWriter(Hash_File_Path, true);
+			FileWriter writer = new FileWriter(Values.Hash_File_Path, true);
 			
 			writer.write(Integer.toString(idRGBA[0]) + " "); // Block ID
 			writer.write(Integer.toString(idRGBA[1]) + " "); // R
@@ -143,7 +130,7 @@ public class FileLoader{
 		
 		try {
 			// Instantiating file reader
-			FileReader reader = new FileReader(Hash_File_Path);
+			FileReader reader = new FileReader(Values.Hash_File_Path);
 			
 			// Instantiating variables needed for reading
 			String[] values = new String[5];

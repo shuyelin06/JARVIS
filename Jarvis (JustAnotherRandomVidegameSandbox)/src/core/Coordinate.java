@@ -1,6 +1,7 @@
 package core;
 
 import core.Engine;
+import settings.Values;
 import world.Chunk;
 
 public class Coordinate{
@@ -40,7 +41,7 @@ public class Coordinate{
 	
 	// Finds the chunk the coordinate is located in
 	public float getChunk() {
-		return x / (float) Chunk.Chunk_Size_X;
+		return x / (float) Values.Chunk_Size_X;
 	}
 	
 	// Determine displacement from some coordinate

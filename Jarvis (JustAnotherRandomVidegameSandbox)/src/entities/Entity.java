@@ -3,6 +3,7 @@ package entities;
 import core.Coordinate;
 import core.Engine;
 import gamestates.Game;
+import settings.Values;
 import structures.Block;
 import world.Chunk;
 import world.FileLoader;
@@ -16,7 +17,6 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
 public class Entity{
-	protected World world;
 	/*
 	 * Physics Variables
 	 */
@@ -52,11 +52,10 @@ public class Entity{
 	protected int regenTimer;
 	
 	// Every entity will have some initial starting position
-	public Entity(float InitX, float InitY, World world) throws SlickException
+	public Entity(float InitX, float InitY) throws SlickException
 	{
 		sprite = new Image("res/placeholder.png");
 		
-		this.world = Game.world;
 		this.onPlatform = false;
 	
 		this.position = new Coordinate(InitX, InitY);
@@ -191,14 +190,14 @@ public class Entity{
 		
 		x = (int) temp; // Furthest x away
 		
-		c = world.getChunk(x / Chunk.Chunk_Size_X);	
+		c = Engine.game.getWorld().getChunk(x / Values.Chunk_Size_X);	
 		
 		if(c == null) return;
 		blocks = c.getBlocks();
 		
 		
 		for(int j = 0; j < Math.ceil((double) sizeY); j++) {
-			if(blocks[x % Chunk.Chunk_Size_X][(int) position.getY() - j].getID() != 0) {
+			if(blocks[x % Values.Chunk_Size_X][(int) position.getY() - j].getID() != 0) {
 				// Collision detected
 				onCollision(Collision.X, x);
 				break;
@@ -220,10 +219,10 @@ public class Entity{
 		for(int i = 0; i < max; i++) {
 			x = (int) position.getX() + i; // Get the absolute x coordinate
 
-			c = world.getChunk(x / Chunk.Chunk_Size_X);
+			c = Engine.game.getWorld().getChunk(x / Values.Chunk_Size_X);
 			if(c == null) return;
 			
-			if(c.getBlocks()[x % Chunk.Chunk_Size_X][y].getID() != 0){
+			if(c.getBlocks()[x % Values.Chunk_Size_X][y].getID() != 0){
 				onCollision(Collision.Y, y);
 				break;
 			}

@@ -7,15 +7,10 @@ import java.util.Iterator;
 
 import core.Coordinate;
 import gamestates.Game;
+import settings.Values;
 
 public class World 
 {
-	/*
-	 * World Variables
-	 */
-	// Size of the world in chunks
-	final public static int World_X_Size = 50;
-	
 	// World Name
 	private String worldName;
 	
@@ -23,17 +18,17 @@ public class World
 	private HashMap<Integer, Chunk> renderedChunks;
 	
 	// Generate world from scratch
-	public World(String worldName)
+	public World()
 	{
-		this.worldName = worldName; 
+		this.worldName = "Default World"; 
 		
 		// Chunk Generation 
 		renderedChunks = new HashMap<Integer, Chunk>();
 	}
 	
 	public void renderChunks(int playerChunk) {
-		int leftMostChunk = playerChunk - Game.Render_Distance;
-		int rightMostChunk = playerChunk + Game.Render_Distance;
+		int leftMostChunk = playerChunk - Values.Render_Distance;
+		int rightMostChunk = playerChunk + Values.Render_Distance;
 		
 		// Render New Chunks
 		for(Integer x = leftMostChunk; x < rightMostChunk + 1; x++) {
@@ -77,7 +72,7 @@ public class World
 	//given a coordinate, return what the index of the block array it should be
 	public int[] getBlockIndex(Coordinate c) {
 		int[] blockIndex = new int[2];
-		blockIndex[0] = (int) (c.getX() % Chunk.Chunk_Size_X);
+		blockIndex[0] = (int) (c.getX() % Values.Chunk_Size_X);
 		blockIndex[1] = (int) c.getY();
 		
 		return blockIndex;

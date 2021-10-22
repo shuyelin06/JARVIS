@@ -17,7 +17,7 @@ public class Enemy extends Entity {
 	
 	public Enemy(float x, float y, World world) throws SlickException 
 	{
-		super(x,y, world); 
+		super(x,y); 
 		
 		contactDmg = 1;
 		aggroRange = 100;

@@ -1,5 +1,6 @@
 package world;
 
+import settings.Values;
 import structures.Block;
 import support.SimplexNoise;
 
@@ -26,10 +27,10 @@ public class WorldGen{
 		FileLoader.createWorldFolders(worldName);
 		
 		// For every chunk 1 - World.World_X_Size, generate it using the generate() function and save it to file.
-		for(int chunkX = 0; chunkX < World.World_X_Size; chunkX++) {
-			Block[][] blocks = new Block[Chunk.Chunk_Size_X][Chunk.Chunk_Size_Y];
+		for(int chunkX = 0; chunkX < Values.World_X_Size; chunkX++) {
+			Block[][] blocks = new Block[Values.Chunk_Size_X][Values.Chunk_Size_Y];
 			
-			blocks = generate(chunkX * Chunk.Chunk_Size_X, blocks);
+			blocks = generate(chunkX * Values.Chunk_Size_X, blocks);
 			FileLoader.SaveChunk(worldName, new Chunk(chunkX, blocks));
 		}
 	}
@@ -45,8 +46,8 @@ public class WorldGen{
 		double d1 = 0; // 1st derivative, starts at zero
 		double d2 = 0.0078125; // Wtf!!! Calculus!!! (its the 2nd derivative, to make things smoooooth)
 		
-		int[] seedBlocks = new int[ (Chunk.Chunk_Size_X / f) + 1]; // 3 "seeded" points from the noise
-		double[] terrain = new double[Chunk.Chunk_Size_X];
+		int[] seedBlocks = new int[ (Values.Chunk_Size_X / f) + 1]; // 3 "seeded" points from the noise
+		double[] terrain = new double[Values.Chunk_Size_X];
 		
 		
 		for(int i = 0; i < seedBlocks.length; i++)
@@ -55,7 +56,7 @@ public class WorldGen{
 			System.out.println(seedBlocks[i] + ", at: " + (x + (i * f)));
 		}
 		
-		for(int i = 0; i < Chunk.Chunk_Size_X; i++) {
+		for(int i = 0; i < Values.Chunk_Size_X; i++) {
 			
 			//step 1: terrain forming
 			if(i % f == 0) //places the seed blocks
@@ -88,7 +89,7 @@ public class WorldGen{
 			}
 			
 			//step 2: block placement (will move to separate method or class)
-			for(int j = 0; j < Chunk.Chunk_Size_Y; j++)
+			for(int j = 0; j < Values.Chunk_Size_Y; j++)
 			{
 				if(j < terrain[i])
 				{
