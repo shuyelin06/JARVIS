@@ -72,12 +72,12 @@ public class Entity{
 		sizeY = 30;
 		
 		curHealth = 1;
-		maxHealth = 1;
+		maxHealth = 2;
 		percentageHealth = 1f;
 		regenTimer = 120;
     
-		maxHealth = 2;
-		percentageHealth = 0;
+//		maxHealth = 2;
+//		percentageHealth = 0;
 		
 	}
 	
@@ -99,17 +99,40 @@ public class Entity{
 	public void setYSpeed(float newSpeed){
 		this.ySpeed = newSpeed;
 	}
+	public void moveRight(float maxSpeed, float acceleration) {
+		if(xSpeed + acceleration > maxSpeed) xSpeed = maxSpeed;
+		else xSpeed += acceleration;	
+	}
 	
+	public void moveLeft(float maxSpeed, float acceleration) {
+		if(xSpeed - acceleration < 0 - maxSpeed) xSpeed = 0 - maxSpeed;
+		else xSpeed -= acceleration;
+	}
+	
+	public void jump(float speed) {
+		if(jumpsLeft > 0) {
+			this.onPlatform = false;
+			this.ySpeed = speed;
+			
+			jumpsLeft--;
+		}
+	}
+	public void fall() {
+		this.ySpeed -= Entity.gravity;
+	}
 	public void takeDamage(int dmg, boolean i) { //boolean for iFrames cause for certain piercing attacks that don't trigger them
 		//this mimics the mechanics in Terraria
 		if(iFrames == 0) {
 			dmg -= defense;
-			if(dmg <= 0) { //if defense is higher than dmg taken you will just take 1 dmg
-				curHealth -= 1;
+			if(dmg <= curHealth) {
+				if(dmg <= 0) { //if defense is higher than dmg taken you will just take 1 dmg
+					curHealth -= 1;
+				}else {
+					curHealth -= dmg;
+				}
 			}else {
-				curHealth -= dmg;
+				curHealth = 0;
 			}
-			
 			if(curHealth <= 0) {
 				alive = false;
 			}
@@ -119,6 +142,7 @@ public class Entity{
 			
 		}
 	}
+	
 	//gives entity number of iframs that will automatically start ticking down each frame in update()
 	public void setIFrames(int frames) {
 		iFrames = frames;
@@ -197,7 +221,8 @@ public class Entity{
 		
 		
 		for(int j = 0; j < Math.ceil((double) sizeY); j++) {
-			if(blocks[x % Values.Chunk_Size_X][(int) position.getY() - j].getID() != 0) {
+      if(position.getY() - j < 0) continue;
+			if(blocks[x % Chunk.Chunk_Size_X][(int) position.getY() - j].getID() != 0) {
 				// Collision detected
 				onCollision(Collision.X, x);
 				break;
@@ -222,7 +247,8 @@ public class Entity{
 			c = Engine.game.getWorld().getChunk(x / Values.Chunk_Size_X);
 			if(c == null) return;
 			
-			if(c.getBlocks()[x % Values.Chunk_Size_X][y].getID() != 0){
+      if(y < 0) continue;
+			if(c.getBlocks()[x % Chunk.Chunk_Size_X][y].getID() != 0){
 				onCollision(Collision.Y, y);
 				break;
 			}

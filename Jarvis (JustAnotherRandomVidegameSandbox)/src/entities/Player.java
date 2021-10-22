@@ -23,6 +23,8 @@ public class Player extends Entity{
 		
 		this.sizeY = 2f;
 		this.sizeX = 1.3f; // Only use sizes to the 10th PLACE 
+		curHealth = 10;
+		maxHealth = 10;
 	}
 	
 	//draws characters
