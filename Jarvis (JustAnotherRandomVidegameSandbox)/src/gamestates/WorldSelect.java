@@ -11,6 +11,7 @@ import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
+import core.Engine;
 import entities.Entity;
 import structures.Particle;
 import world.FileLoader;
@@ -94,7 +95,7 @@ public class WorldSelect extends BasicGameState
 			} else if (worldID == 3) {
 				Game.world.changeName("3");
 			}
-			sbg.enterState(2);
+			sbg.enterState(Engine.Game_ID);
 		}
 	}
 
