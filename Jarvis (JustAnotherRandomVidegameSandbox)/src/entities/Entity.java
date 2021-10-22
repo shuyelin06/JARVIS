@@ -222,7 +222,7 @@ public class Entity{
 		
 		for(int j = 0; j < Math.ceil((double) sizeY); j++) {
       if(position.getY() - j < 0) continue;
-			if(blocks[x % Chunk.Chunk_Size_X][(int) position.getY() - j].getID() != 0) {
+			if(blocks[x % Values.Chunk_Size_X][(int) position.getY() - j].getID() != 0) {
 				// Collision detected
 				onCollision(Collision.X, x);
 				break;
@@ -248,7 +248,7 @@ public class Entity{
 			if(c == null) return;
 			
       if(y < 0) continue;
-			if(c.getBlocks()[x % Chunk.Chunk_Size_X][y].getID() != 0){
+			if(c.getBlocks()[x % Values.Chunk_Size_X][y].getID() != 0){
 				onCollision(Collision.Y, y);
 				break;
 			}

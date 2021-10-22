@@ -115,10 +115,10 @@ public class WorldGen{
 	
 	public Block[][] populate(Block[][] blocks)
 	{
-		float[][] noisePattern = new float[Chunk.Chunk_Size_X][Chunk.Chunk_Size_Y];
-		for(int i = 0; i < Chunk.Chunk_Size_X; i++)
+		float[][] noisePattern = new float[Values.Chunk_Size_X][Values.Chunk_Size_Y];
+		for(int i = 0; i < Values.Chunk_Size_X; i++)
 		{
-			for(int j = 0; j < Chunk.Chunk_Size_Y; j++)
+			for(int j = 0; j < Values.Chunk_Size_Y; j++)
 			{
 				noisePattern[i][j] = (float) noise.eval(i, j);
 				
@@ -165,7 +165,7 @@ public class WorldGen{
 	
 	private boolean inBounds(int x, int y) //to avoid the out of bounds error
 	{
-		return(x > -1 && x < Chunk.Chunk_Size_X
-		&& y > -1 && y < Chunk.Chunk_Size_Y);
+		return(x > -1 && x < Values.Chunk_Size_X
+		&& y > -1 && y < Values.Chunk_Size_Y);
 	}
 }

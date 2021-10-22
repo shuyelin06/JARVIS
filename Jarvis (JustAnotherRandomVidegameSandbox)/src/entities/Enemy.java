@@ -4,6 +4,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Circle;
 
+import core.Engine;
 import gamestates.Game;
 import support.Utility;
 import world.World;
@@ -16,10 +17,10 @@ public class Enemy extends Entity {
 	protected int aggroRange;
 	protected float moveSpeed;
 	
-	public Enemy(float x, float y, Game g) throws SlickException 
+	public Enemy(float x, float y) throws SlickException
 	{
-    super(x,y); 
-		target = g.getP();
+		super(x,y); 
+		target = Engine.game.getPlayer();
 
 		contactDmg = 1;
 		aggroRange = 10;
