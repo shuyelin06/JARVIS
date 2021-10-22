@@ -9,6 +9,7 @@ import entities.Enemy;
 import entities.Player;
 import gamestates.Game;
 import structures.Block;
+import world.Chunk;
 import world.World;
 
 public class Spawning {
@@ -22,7 +23,7 @@ public class Spawning {
  				//for now it just drops a new enemy on the player's head
  				float x = g.getP().getPosition().getX();
  				float y = g.getP().getPosition().getY();
- 				Coordinate coord = getOpenArea(g, 15, 25, 10, prob);
+ 				Coordinate coord = getOpenArea(g, 15, 25, 10, 1, 1, prob);
  				if(coord != null) {
  					g.getEnemies().add(new Enemy(coord.getX(), coord.getY(), Game.world));
  				}
@@ -33,7 +34,7 @@ public class Spawning {
  		}
 	}
 	
-	public static Coordinate getOpenArea(Game g, int minDistance, int maxDistance, int elevationDiff, float prob) {
+	public static Coordinate getOpenArea(Game g, int minDistance, int maxDistance, int elevationDiff, int w, int h, float prob) {
 		float playerX = g.getP().getPosition().getX();
 		float playerY = g.getP().getPosition().getY();
 		Coordinate coord = new Coordinate(playerX, playerY);
@@ -47,6 +48,14 @@ public class Spawning {
 			if(Utility.random(0.0, 100.0) <= prob) {
 				
 			coord.setX(playerX + i * direction);
+			if(coord.getX() > Game.world.World_X_Size * Chunk.Chunk_Size_X - w
+					|| coord.getX() < w) {
+				return null;
+			}
+			if(coord.getY() <= elevationDiff + h) {
+				return null;
+			}
+			
 			coord.setY(playerY);
 			int indexX = Game.world.getBlockIndex(coord)[0];
 			//System.out.println("indexX: " + indexX);
@@ -60,7 +69,7 @@ public class Spawning {
 			if(blocks[indexX][indexY].getID() == 0) { 
 				for(int j = (int)playerY; j > (int)playerY - elevationDiff; j--) {
 					//System.out.println(blocks[indexX][j-1].getID());
-					if(Game.world.openArea(coord, 1, 1) && blocks[indexX][j-1].getID() != 0) {
+					if(Game.world.openArea(coord, w, h) && blocks[indexX][j-1].getID() != 0) {
 						coord.setY(j);						
 						return coord;
 					}
