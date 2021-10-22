@@ -10,20 +10,16 @@ import org.newdawn.slick.geom.Circle;
 import core.Coordinate;
 import core.Engine;
 import gamestates.Game;
+import settings.Values;
 import structures.Block;
 import world.Chunk;
 import world.World;
 
 public class Player extends Entity{	
-	// Spawnpoint of the player
-	private static final float SpawnX = World.World_X_Size * Chunk.Chunk_Size_X / 2;
-	private static final float SpawnY = Chunk.Chunk_Size_Y / 2.5f + 20f;
-	
-	private static final float Terminal_X_Velocity = 15f;
 	// Player constructor
-	public Player(World world) throws SlickException 
+	public Player() throws SlickException 
 	{
-		super(SpawnX, SpawnY, world); 
+		super(Values.SpawnX, Values.SpawnY); 
 		
 		this.sizeY = 2f;
 		this.sizeX = 1.3f; // Only use sizes to the 10th PLACE 
@@ -42,24 +38,24 @@ public class Player extends Entity{
 	
 	//health bars
 	public void drawHealthBars(Graphics g) {
-		final float BAR_WIDTH = ((Game.gc.getWidth()/2) - 300);
+		final float BAR_WIDTH = ((Engine.game.getGC().getWidth()/2) - 300);
 		final float BAR_HEIGHT = 30;
 		g.setColor(new Color(0, 100, 0, 150));
-		g.fillRect(Game.gc.getWidth() - 100, 40, -BAR_WIDTH, BAR_HEIGHT);
+		g.fillRect(Engine.game.getGC().getWidth() - 100, 40, -BAR_WIDTH, BAR_HEIGHT);
 		g.setColor(new Color(0, 255, 0, 150));
-		g.fillRect(Game.gc.getWidth() - 100, 40, -BAR_WIDTH*percentageHealth, BAR_HEIGHT);
+		g.fillRect(Engine.game.getGC().getWidth() - 100, 40, -BAR_WIDTH*percentageHealth, BAR_HEIGHT);
 		g.setColor(new Color(255, 255, 255));
-		g.drawRect(Game.gc.getWidth() - 100, 40, -BAR_WIDTH, BAR_HEIGHT);
+		g.drawRect(Engine.game.getGC().getWidth() - 100, 40, -BAR_WIDTH, BAR_HEIGHT);
 	}
 	
 	// Key Press Mappings
 	public void moveRight() {
-		if(xSpeed + 5f > Terminal_X_Velocity) xSpeed = Terminal_X_Velocity;
+		if(xSpeed + 5f > Values.Terminal_X_Velocity) xSpeed = Values.Terminal_X_Velocity;
 		else xSpeed += 5f;	
 	}
 	
 	public void moveLeft() {
-		if(xSpeed - 5f < 0 - Terminal_X_Velocity) xSpeed = 0 - Terminal_X_Velocity;
+		if(xSpeed - 5f < 0 - Values.Terminal_X_Velocity) xSpeed = 0 - Values.Terminal_X_Velocity;
 		else xSpeed -= 5f;
 	}
 	

@@ -16,10 +16,11 @@ public class Enemy extends Entity {
 	protected int aggroRange;
 	protected float moveSpeed;
 	
-	public Enemy(float x, float y, Game g, World world) throws SlickException 
+	public Enemy(float x, float y, Game g) throws SlickException 
 	{
-		super(x,y, world); 
+    super(x,y); 
 		target = g.getP();
+
 		contactDmg = 1;
 		aggroRange = 10;
 		sizeX = 1;

@@ -9,13 +9,15 @@ import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
+import core.Engine;
 import entities.Entity;
 
-public class StartingMenu extends BasicGameState 
+public class Pause extends BasicGameState 
 {
+	private StateBasedGame sbg;
 	int id;
 	
-	public StartingMenu(int id) 
+	public Pause(int id) 
 	{
 		this.id = id;
 	}
@@ -23,19 +25,17 @@ public class StartingMenu extends BasicGameState
 	// Initializer, first time
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException 
 	{
+		this.sbg = sbg;
 	}
 	
 	//render, all visuals
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException 
 	{
-
+		// Render the game without updating it
+		Engine.game.render(gc, sbg, g);
 	}
 
-	//update, runs consistently
-	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException
-	{	
-		
-	}
+	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {}
 
 	public void enter(GameContainer gc, StateBasedGame sbg) throws SlickException 
 	{
@@ -50,12 +50,16 @@ public class StartingMenu extends BasicGameState
 
 	public void keyPressed(int key, char c)
 	{
-
+		switch(key) {
+			case Input.KEY_P: // Unpause Key Binding
+				sbg.enterState(Engine.Game_ID);
+				break;
+		}
 	}
 	
 	public void mousePressed(int button, int x, int y)
 	{
-		
+		// sbg.enterState(2);
 	}
 	
 	
