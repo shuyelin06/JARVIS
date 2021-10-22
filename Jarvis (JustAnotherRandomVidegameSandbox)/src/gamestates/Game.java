@@ -218,15 +218,6 @@ public class Game extends BasicGameState
 	}
 	
 	
-//	public void isKeyPressed(int key, char c)
-//	{
-//		if(key == Input.KEY_SPACE) {
-//			player.jump();
-//		} else if(key == Input.KEY_S) {
-//			player.fall();
-//		}
-//	}
-	
 	public void mousePressed(int button, int x, int y)
 	{
 		
