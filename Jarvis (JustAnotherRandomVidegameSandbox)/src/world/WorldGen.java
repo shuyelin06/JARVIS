@@ -13,7 +13,7 @@ public class WorldGen{
 	public WorldGen(String worldName, SimplexNoise noise) 
 	{
 		this.worldName = worldName;
-		this.noise = new SimplexNoise(0); // Later will be used with the noise parameter for custom seeds
+		this.noise = noise; // Later will be used with the noise parameter for custom seeds
 	}
 	
 	/*

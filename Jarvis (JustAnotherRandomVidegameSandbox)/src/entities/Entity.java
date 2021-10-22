@@ -222,6 +222,7 @@ public class Entity{
 		
 		
 		for(int j = 0; j < Math.ceil((double) sizeY); j++) {
+
 			if(position.getY() - j < 0) continue;
 			if(blocks[x % Chunk.Chunk_Size_X][(int) position.getY() - j].getID() != 0) {
 				// Collision detected
