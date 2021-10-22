@@ -7,11 +7,7 @@ import gamestates.Game;
 import structures.Block;
 import support.SimplexNoise;
 
-public class Chunk{
-	// Size of chunk (in blocks)
-	final public static int Chunk_Size_X = 32;
-	final public static int Chunk_Size_Y = 96;
-	
+public class Chunk{	
 	// All blocks in the chunk
 	private Block[][] blocks;
 	

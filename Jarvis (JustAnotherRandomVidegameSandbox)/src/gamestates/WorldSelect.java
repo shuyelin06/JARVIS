@@ -50,7 +50,6 @@ public class WorldSelect extends BasicGameState
 	// Initializer, first time
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException 
 	{
-		gc.setShowFPS(true); // Shows the FPS of the game
 		worldID = 1;
 		
 		//image settings
@@ -104,11 +103,11 @@ public class WorldSelect extends BasicGameState
 	{	
 		if (readyStart) {
 			if (worldID == 1) {
-				Game.world.changeName("1");
+				Engine.game.getWorld().changeName("1");
 			} else if (worldID == 2) {
-				Game.world.changeName("2");
+				Engine.game.getWorld().changeName("2");
 			} else if (worldID == 3) {
-				Game.world.changeName("3");
+				Engine.game.getWorld().changeName("3");
 			}
 			sbg.enterState(Engine.Game_ID);
 		}
