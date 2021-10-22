@@ -5,12 +5,14 @@ import java.util.ArrayList;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
+import core.Engine;
 import entities.Entity;
 import structures.Particle;
 import world.FileLoader;
@@ -31,9 +33,14 @@ public class WorldSelect extends BasicGameState
 	public static ArrayList<Particle> particles = new ArrayList<Particle>();
 	public static int arraySize = 50;
 	public static int fireworkType = 0;
-	public static int xLocation;
-	public static int yLocation;
+	public static int xLocation, yLocation;
 	public static int backgroundColor;
+	
+	private Image startButton;
+	private int mainButtonX, mainButtonY, mainButtonW, mainButtonH;
+	
+	
+	
 	
 	public WorldSelect(int id) 
 	{
@@ -45,6 +52,14 @@ public class WorldSelect extends BasicGameState
 	{
 		gc.setShowFPS(true); // Shows the FPS of the game
 		worldID = 1;
+		
+		//image settings
+		setImage("res/placeholder.png");
+		mainButtonX = gc.getWidth()/2;
+		mainButtonY = gc.getHeight()/2;
+		mainButtonW = 100;
+		mainButtonH = 100;
+		
 		
 		//set center
 		xLocation = gc.getWidth()/2;
@@ -61,13 +76,23 @@ public class WorldSelect extends BasicGameState
 		g.setBackground(new Color(100, 100, 100));
 		
 		
+		
+		
 		//temporary string graphics, will be replaced
+
 		g.drawString("Press a number to change world", gc.getWidth() / 2, (gc.getHeight() / 2) - 20);
 		g.drawString("Press Q to enter world", gc.getWidth() / 2, gc.getHeight() / 2);
 		
 		g.drawString("World: " + worldID, gc.getWidth() / 2, (gc.getHeight() / 2) + 20);
+
 		
 		
+		//image drawing
+//		setImage("res/startButton.png");
+		startButton.setFilter(Image.FILTER_NEAREST);
+		startButton.draw(mainButtonX - (mainButtonW / 2), mainButtonY - (mainButtonH / 2), mainButtonW, mainButtonH);
+		
+		//draws fireworks
 		for (int i = 0; i < particles.size(); i++) {
 			particles.get(i).render(g);
 		}
@@ -77,10 +102,6 @@ public class WorldSelect extends BasicGameState
 	//update, runs consistently
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException
 	{	
-		for (int i = 0; i < particles.size(); i++) {
-			particles.get(i).update(gc);
-		}
-		
 		if (readyStart) {
 			if (worldID == 1) {
 				Game.world.changeName("1");
@@ -89,8 +110,13 @@ public class WorldSelect extends BasicGameState
 			} else if (worldID == 3) {
 				Game.world.changeName("3");
 			}
-			sbg.enterState(2);
+			sbg.enterState(Engine.Game_ID);
 		}
+		
+		for (int i = 0; i < particles.size(); i++) {
+			particles.get(i).update(gc);
+		}
+		
 	}
 
 	public void enter(GameContainer gc, StateBasedGame sbg) throws SlickException 
@@ -125,6 +151,19 @@ public class WorldSelect extends BasicGameState
 	{
 		xLocation = x;
 		yLocation = y;
+		
+		//check main button
+		if ((x > mainButtonX - (mainButtonW / 2))
+				&& (x < mainButtonX + (mainButtonW / 2))
+				&& (y > mainButtonY - (mainButtonH / 2))
+				&& (y < mainButtonY + (mainButtonH / 2))
+				) {
+			readyStart = true;
+			return;
+		}
+		
+		
+		//check for type of firework
 		if(button == 0) {
 			System.out.println("left click");
 			for (int i = 0; i < arraySize; i++) {
@@ -146,8 +185,23 @@ public class WorldSelect extends BasicGameState
 				particles.add(new Particle(x, y));
 			}
 		}
+		
+		
+		
 	}
 	
+	
+	public void setImage(String filepath)
+	{
+		try
+		{
+			startButton = new Image(filepath);
+		}
+		catch(SlickException e)		
+		{
+			System.out.println("Image not found!");
+		}
+	}
 	
 	// Returns the ID code for this game state
 	public int getID() 

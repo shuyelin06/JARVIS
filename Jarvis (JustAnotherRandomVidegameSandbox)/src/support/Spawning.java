@@ -25,7 +25,7 @@ public class Spawning {
  				float y = g.getP().getPosition().getY();
  				Coordinate coord = getOpenArea(g, 15, 25, 10, 1, 1, prob);
  				if(coord != null) {
- 					g.getEnemies().add(new Enemy(coord.getX(), coord.getY(), Game.world));
+ 					g.getEnemies().add(new Enemy(coord.getX(), coord.getY(), g, Game.world));
  				}
  				
  				//System.out.println("New Enemy: " + x + ", " + y);
