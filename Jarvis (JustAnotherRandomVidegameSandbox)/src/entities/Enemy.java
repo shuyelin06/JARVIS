@@ -1,6 +1,7 @@
 package entities;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Circle;
 
@@ -19,9 +20,11 @@ public class Enemy extends Entity {
 	
 	public Enemy(float x, float y) throws SlickException
 	{
-		super(x,y); 
+		super(x,y + 5); 
 		target = Engine.game.getPlayer();
 
+		sprite = new Image("res/redEnemy.png");
+		
 		contactDmg = 1;
 		aggroRange = 10;
 		sizeX = 1;
@@ -58,5 +61,10 @@ public class Enemy extends Entity {
 		}
 		playerCollision(target);
 		ai(target);
+	}
+	
+	public void render(Graphics g, float x, float y)
+	{
+		sprite.draw(x, y, sizeX * 30, sizeY * 50);
 	}
 }

@@ -102,10 +102,13 @@ public class Game extends BasicGameState {
 		player.render(g, Values.CenterX, Values.CenterY);
 		
 		// Render enemies
-		g.setColor(Color.red);
+		//g.setColor(Color.red);
+		
     	for(Enemy e : enemies) {
+    		
     		float[] position = renderPosition(e.getPosition().getX(), e.getPosition().getY());
-    		g.draw(new Circle(position[0], position[1], 15));	
+    		//g.draw(new Circle(position[0], position[1], 15));	
+    		e.render(g, position[0], position[1]);
     	}
     
 	}

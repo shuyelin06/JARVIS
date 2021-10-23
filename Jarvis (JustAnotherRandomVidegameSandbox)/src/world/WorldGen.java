@@ -132,7 +132,7 @@ public class WorldGen{
 				
 				if(blocks[i][j].getID() == 3)
 				{
-					if(noisePattern[i][j] >= 0.8) //noise test
+					if(noisePattern[i][j] >= 0.5) //coal?
 					{
 						blocks[i][j] = new Block(4);
 					} 
