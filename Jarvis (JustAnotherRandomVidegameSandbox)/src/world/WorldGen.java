@@ -36,9 +36,13 @@ public class WorldGen{
 		}
 	}
 	
+	
 	// Returns a 2D array of blocks for a chunk.
 	public Block[][] generate(int x, Block[][] blocks)
 	{
+		double[] terrain = new double[Values.Chunk_Size_X];
+		
+		/* coping too hard to remove this old code
 		int hold = 0;
 		float seedDiff = 0;
 		
@@ -48,17 +52,16 @@ public class WorldGen{
 		double d2 = 0.0078125; // 2nd derivative for the quadratic that passes through (16, 1)
 		
 		int[] seedBlocks = new int[ (Values.Chunk_Size_X / f) + 1]; // 3 "seeded" points from the noise
-		double[] terrain = new double[Values.Chunk_Size_X];
-		
 		
 		for(int i = 0; i < seedBlocks.length; i++)
 		{
 			seedBlocks[i] = (int)( noise.eval(x + (i * f), 0) * 32 ) + 20;
 			System.out.println(seedBlocks[i] + ", at: " + (x + (i * f)));
 		}
-		
+		*/
+	
 		for(int i = 0; i < Values.Chunk_Size_X; i++) {
-			
+			/* all of this code gone to waste :OOOOOOOHHHHHHHHH:
 			//step 1: terrain forming
 			if(i % f == 0) //places the seed blocks
 			{
@@ -71,14 +74,6 @@ public class WorldGen{
 			} 
 			else
 			{
-				/* //debug stuff
-				 * terrain[i] = 0; 
-				 * if(i % 8 == 0) 
-				 * { 
-				 * terrain[i] = seedBlocks[hold] + (seedDiff / 2); 
-				 * }
-				 */
-				
 				 if(i % 8 == 0) //flips the derivative for the inflection point 
 				{ 
 					 d2 -= d2; 
@@ -88,11 +83,15 @@ public class WorldGen{
 				  
 				 terrain[i] = (d1 * seedDiff) + terrain[i - 1];
 			}
+			*/
+			double temp = noise.eval((x + i) * 0.03125, 0);
+			
+			terrain[i] = temp * 32 + 20;
 			
 			//step 2: block placement (will move to separate method or class)
 			for(int j = 0; j < Values.Chunk_Size_Y; j++)
 			{
-				if(j < terrain[i] - (Math.random() * 5 + 5))
+				if(j < terrain[i] - (Math.random() * 2 + 5))
 				{
 					blocks[i][j] = new Block(3); //stone
 				}
@@ -108,19 +107,20 @@ public class WorldGen{
 
 		}
 		
-		populate(blocks);
+		populate(blocks, x);
 		
 		return(blocks);
 	}
 	
-	public Block[][] populate(Block[][] blocks)
+	public Block[][] populate(Block[][] blocks, int x)
 	{
 		float[][] noisePattern = new float[Values.Chunk_Size_X][Values.Chunk_Size_Y];
 		for(int i = 0; i < Values.Chunk_Size_X; i++)
 		{
 			for(int j = 0; j < Values.Chunk_Size_Y; j++)
 			{
-				noisePattern[i][j] = (float) noise.eval(i, j);
+				float smoothGen = 0.1f; //adjust to smooth generation;
+				noisePattern[i][j] = (float) noise.eval((i + x) * smoothGen, j * smoothGen);
 				
 				if(blocks[i][j].getID() == 1) //populating dirt
 				{					
@@ -132,7 +132,11 @@ public class WorldGen{
 				
 				if(blocks[i][j].getID() == 3)
 				{
-					if(noisePattern[i][j] >= 0.7) //coal?
+					if(noisePattern[i][j] >= .8)
+					{
+						blocks[i][j] = new Block(5);
+					} 
+					else if(noisePattern[i][j] >= 0.6 && noisePattern[i][j] < 0.7) //coal?
 					{
 						blocks[i][j] = new Block(4);
 					} 
