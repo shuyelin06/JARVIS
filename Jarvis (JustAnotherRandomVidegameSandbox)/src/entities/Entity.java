@@ -287,7 +287,9 @@ public class Entity{
 	}
 	
 	//debug rendering
-	public void render(Graphics g) {
+	public void render(Graphics g, float x, float y) {
+		sprite.draw(x, y, sizeX * Coordinate.ConversionFactor, sizeY * Coordinate.ConversionFactor); 
+	}
 		
 //		//write health of actor underneath
 //		if (Game.debugMode) {
@@ -301,7 +303,7 @@ public class Entity{
 //			g.drawRect(x, y, w, h);
 //			g.setColor(new Color(0, 0, 0));
 //		}
-	}
+	
 	
 	
 	

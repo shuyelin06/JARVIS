@@ -45,7 +45,7 @@ public class WorldGen{
 		int f = 16; // frequency of seed blocks
 		
 		double d1 = 0; // 1st derivative, starts at zero
-		double d2 = 0.0078125; // Wtf!!! Calculus!!! (its the 2nd derivative, to make things smoooooth)
+		double d2 = 0.0078125; // 2nd derivative for the quadratic that passes through (16, 1)
 		
 		int[] seedBlocks = new int[ (Values.Chunk_Size_X / f) + 1]; // 3 "seeded" points from the noise
 		double[] terrain = new double[Values.Chunk_Size_X];
@@ -132,7 +132,7 @@ public class WorldGen{
 				
 				if(blocks[i][j].getID() == 3)
 				{
-					if(noisePattern[i][j] >= 0.5) //coal?
+					if(noisePattern[i][j] >= 0.7) //coal?
 					{
 						blocks[i][j] = new Block(4);
 					} 

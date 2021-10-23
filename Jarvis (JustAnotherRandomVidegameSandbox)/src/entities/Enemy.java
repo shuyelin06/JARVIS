@@ -5,6 +5,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Circle;
 
+import core.Coordinate;
 import core.Engine;
 import gamestates.Game;
 import support.Utility;
@@ -56,15 +57,17 @@ public class Enemy extends Entity {
 		
 	public void update() {
 		super.update();
+		
 		if(Utility.random(0.0, 100.0) <= 0.2) { //random chance to die just to test stuff
 			alive = false;
 		}
+		
 		playerCollision(target);
 		ai(target);
 	}
 	
 	public void render(Graphics g, float x, float y)
 	{
-		sprite.draw(x, y, sizeX * 30, sizeY * 50);
+		super.render(g, x, y);
 	}
 }

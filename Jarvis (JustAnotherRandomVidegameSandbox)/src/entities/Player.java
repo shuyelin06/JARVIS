@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Circle;
 
@@ -30,9 +31,8 @@ public class Player extends Entity{
 	//draws characters
 	public void render(Graphics g, float x, float y) 
 	{
-		super.render(g);
-		sprite.draw(x, y, sizeX * Coordinate.ConversionFactor, sizeY * Coordinate.ConversionFactor); 
-		//getSizeX() * Coordinate.ConversionFactor, getSizeY() * Coordinate.ConversionFactor);
+		super.render(g, x, y);
+		
 		drawHealthBars(g);
 	}
 	
