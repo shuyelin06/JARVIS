@@ -23,6 +23,7 @@ import world.Chunk;
 import world.FileLoader;
 import world.World;
 import world.WorldGen;
+import support.PerlinNoise;
 import support.SimplexNoise;
 import support.Spawning;
 
@@ -35,7 +36,7 @@ public class Game extends BasicGameState {
 	
 	// The World
 	private World world;
-	private boolean createNewWorld = true; // If testing worldGen, change to true.
+	private boolean createNewWorld = false; // If testing worldGen, change to true.
 	
 	// The Player
 	private Player player;
@@ -54,10 +55,10 @@ public class Game extends BasicGameState {
 	public ArrayList<Enemy> getEnemies(){ return enemies; }
 	public GameContainer getGC() { return gc; }
 	public World getWorld() { return world; }
-  
+	
 	/* Initializing */
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException 
-	{		
+	{	
 		// Saving the StateBasedGame
 		this.sbg = sbg;
 		this.gc = gc;		
@@ -69,11 +70,12 @@ public class Game extends BasicGameState {
 		this.world = new World();
 		this.player = new Player();
 		this.enemies = new ArrayList<Enemy>();
+		
 	}
 	
 	/* Rendering - Game's Camera */
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException 
-	{
+	{		
 		float colorValue = 0.2f; // 255 / Engine.RESOLUTION_Y
 		
 		
@@ -111,6 +113,7 @@ public class Game extends BasicGameState {
     		e.render(g, position[0], position[1]);
     	}
     
+		
 	}
 	// Given two coordinates, display where they should be displayed on screen
 	private float[] renderPosition(float x2, float y2) {
@@ -148,7 +151,7 @@ public class Game extends BasicGameState {
 	{
 		// Generate a new world using Steven y's code
 		if(createNewWorld) {
-			WorldGen gen = new WorldGen(world.getWorldName(), new SimplexNoise((int) (Math.random() * 10000)));
+			WorldGen gen = new WorldGen(world.getWorldName(), (int) (Math.random() * 10000));
 			gen.generateWorld();
 		}
 		
