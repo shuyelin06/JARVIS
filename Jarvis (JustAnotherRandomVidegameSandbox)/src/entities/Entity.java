@@ -286,11 +286,17 @@ public class Entity{
 		}
 	}
 	
-	//debug rendering
+
 	public void render(Graphics g, float x, float y) {
-		sprite.draw(x, y, sizeX * Coordinate.ConversionFactor, sizeY * Coordinate.ConversionFactor); 
+		if(xSpeed < 0)
+		{
+			sprite.draw(x + sizeX * Coordinate.ConversionFactor, y, -sizeX * Coordinate.ConversionFactor, sizeY * Coordinate.ConversionFactor); 
+		} else
+		{
+			sprite.draw(x, y, sizeX * Coordinate.ConversionFactor, sizeY * Coordinate.ConversionFactor); 
+		}
 	}
-		
+	//debug rendering		
 //		//write health of actor underneath
 //		if (Game.debugMode) {
 //			g.setColor(new Color(255, 255, 255));

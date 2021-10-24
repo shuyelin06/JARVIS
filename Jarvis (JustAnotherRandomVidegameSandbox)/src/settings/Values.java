@@ -14,21 +14,21 @@ public class Values // this will be quite useful for organizing stuff later on
 	final public static float CenterX = Engine.RESOLUTION_X / 2; // Player Center X
 	final public static float CenterY = Engine.RESOLUTION_Y / 2; // Player Center Y
 		
+	// Word Generation Variables
+	final public static int Surface = 128; // Surface Mapping
+	
 	// Spawning Variables
 	final public static float SpawnX = Values.World_X_Size * Values.Chunk_Size_X / 2; // Player X Spawn
-	final public static float SpawnY = Values.Chunk_Size_Y / 2.5f + 20f; // Player Y Spawn
+	final public static float SpawnY = Surface + 32f; // Player Y Spawn
 	final public static float Spawn_Rate = 10f; // Entity Spawn Rate
 	
 	// World Size Variables
-	final public static int World_X_Size = 50; // World Size (in chunks)
+	final public static int World_X_Size = 100; // World Size (in chunks)
 	final public static int Chunk_Size_X = 32; // Chunk X Size (in blocks)
-	final public static int Chunk_Size_Y = 96; // Chunk Y Size (in blocks)
+	final public static int Chunk_Size_Y = 256; // Chunk Y Size (in blocks)
 	
 	// Physics Variables
 	final public static float Terminal_X_Velocity = 15f; // X Terminal Velocity
-	
-	// Word Generation Variables
-	final public static int Surface = 30; // Surface Mapping
 	
 	// File Save Paths
 	final public static String Save_Folder = "saves/"; // Directory where all world information will be saved

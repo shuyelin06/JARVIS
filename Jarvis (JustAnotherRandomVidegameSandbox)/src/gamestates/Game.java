@@ -151,7 +151,7 @@ public class Game extends BasicGameState {
 	{
 		// Generate a new world using Steven y's code
 		if(createNewWorld) {
-			WorldGen gen = new WorldGen(world.getWorldName(), new SimplexNoise((int) (Math.random() * 10000)));
+			WorldGen gen = new WorldGen(world.getWorldName(), (int) (Math.random() * 10000));
 			gen.generateWorld();
 		}
 		

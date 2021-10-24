@@ -21,13 +21,13 @@ public class Enemy extends Entity {
 	
 	public Enemy(float x, float y) throws SlickException
 	{
-		super(x,y + 5); 
+		super(x,y); 
 		target = Engine.game.getPlayer();
 
 		sprite = new Image("res/redEnemy.png");
 		
 		contactDmg = 1;
-		aggroRange = 10;
+		aggroRange = 18;
 		sizeX = 1;
 		sizeY = 1;
 		jumpsLeft = 1;
@@ -64,10 +64,5 @@ public class Enemy extends Entity {
 		
 		playerCollision(target);
 		ai(target);
-	}
-	
-	public void render(Graphics g, float x, float y)
-	{
-		super.render(g, x, y);
 	}
 }
