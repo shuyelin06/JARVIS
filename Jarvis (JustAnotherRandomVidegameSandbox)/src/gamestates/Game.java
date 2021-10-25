@@ -12,10 +12,13 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 import java.util.Collection;
+import java.util.HashMap;
 
 import core.Coordinate;
 import core.Engine;
 import entities.Enemy;
+import entities.Entity;
+import entities.Entity.Ent;
 import entities.Player;
 import settings.Values;
 import structures.Block;
@@ -36,12 +39,14 @@ public class Game extends BasicGameState {
 	
 	// The World
 	private World world;
-	private boolean createNewWorld = true; // If testing worldGen, change to true.
+	private boolean createNewWorld = false; // If testing worldGen, change to true.
 	
 	// The Player
 	private Player player;
-	private ArrayList<Enemy> enemies = new ArrayList<Enemy>();
+//	private HashMap<Ent, ArrayList<Entity>> es = new HashMap<Ent, ArrayList<Entity>>();
 	
+	private ArrayList<Entity> entities = new ArrayList<Entity>();
+	private ArrayList<Enemy> enemies = new ArrayList<Enemy>();
 	
 	// Constructor
 	public Game(int id) 
@@ -55,6 +60,7 @@ public class Game extends BasicGameState {
 	public ArrayList<Enemy> getEnemies(){ return enemies; }
 	public GameContainer getGC() { return gc; }
 	public World getWorld() { return world; }
+	public void addEntity(Entity e) { entities.add(e); }
 	
 	/* Initializing */
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException 
@@ -68,7 +74,9 @@ public class Game extends BasicGameState {
 		
 		// Initializations
 		this.world = new World();
+		
 		this.player = new Player();
+		this.entities = new ArrayList<Entity>();
 		this.enemies = new ArrayList<Enemy>();
 		
 	}
@@ -106,6 +114,10 @@ public class Game extends BasicGameState {
 	    // Render the player
 		player.render(g, Values.CenterX, Values.CenterY);
 		
+    	for(Entity e : entities) {
+    		float[] position = renderPosition(e.getPosition().getX(), e.getPosition().getY());
+    		e.render(g, position[0], position[1]);
+    	}
     	for(Enemy e : enemies) {
     		
     		float[] position = renderPosition(e.getPosition().getX(), e.getPosition().getY());
@@ -130,20 +142,21 @@ public class Game extends BasicGameState {
 	 */
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException
 	{	 
-		// Check if any chunks need to be rendered or unrendered
-		world.renderChunks((int) player.getPosition().getChunk());
-		
 		// Check player key presses
 		controls();
-		
-		//mouse input, x and y
+		// Mouse input, x and y
 		cursorInput(gc.getInput().getMouseX(), gc.getInput().getMouseY());	
+		
+		// Check if any chunks need to be rendered or unrendered
+		world.renderChunks((int) player.getPosition().getChunk());
 		
 		// Update the player's movement
 		player.update();
 		
    
 		Spawning.spawnEnemy(this, Values.Spawn_Rate); // If you want to stop spawning, set 5f to 0f.
+		for(Entity e: entities) e.update();
+		
 		for(Enemy e : enemies) {
 			e.update();
 		}
@@ -220,28 +233,11 @@ public class Game extends BasicGameState {
 	}
 	
 	
-	public void mousePressed(int button, int x, int y) //mousepressed
-	{
-		float[] mouseCoordinate = getAbsoluteCoordinate(x, y);
-		
-		switch(button) {
-			case Input.MOUSE_LEFT_BUTTON: // Left Click - Destroy Block
-				world.destroyBlock((int) mouseCoordinate[0], (int) mouseCoordinate[1]);
-				break;
-			case Input.MOUSE_RIGHT_BUTTON: // Right Click - Place Block
-				world.placeBlock((int) mouseCoordinate[0], (int) mouseCoordinate[1]);
-				break;
-		}
-		
-		
-	}
-	
 	// Given some pixel on screen, returns their coordinate position in the game (might be slightly off)
 	public float[] getAbsoluteCoordinate(float x, float y) {
 		float[] output = new float[2];
 		
 		// Find the distance from the pixel center
-		System.out.println(y);
 		output[0] = player.getPosition().getX() + (x - Values.CenterX) / Coordinate.ConversionFactor;
 		output[1] = player.getPosition().getY() + 1 + (Values.CenterY - y) / Coordinate.ConversionFactor;
 		

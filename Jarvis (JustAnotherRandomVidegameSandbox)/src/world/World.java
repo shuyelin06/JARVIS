@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 import core.Coordinate;
+import core.Engine;
+import entities.EBlock;
 import gamestates.Game;
 import settings.Values;
 import structures.Block;
@@ -78,10 +80,15 @@ public class World
 	public void destroyBlock(int x, int y) {
 		try {
 			// Find the chunk the block is in
-			int chunkX = x / Values.Chunk_Size_X;
+			Block[][] blocks = renderedChunks.get(x / Values.Chunk_Size_X).getBlocks();
 			
-			Block[][] blocks = renderedChunks.get(chunkX).getBlocks();
-			blocks[x % Values.Chunk_Size_X][y] = new Block(0);
+			int relX = x % Values.Chunk_Size_X;
+			Block b = blocks[relX][y];
+			
+			if(b.getID() != 0) {
+				blocks[relX][y] = new Block(0);
+				Engine.game.addEntity(new EBlock(b.getID(), x, y));
+			} 
 			
 			System.out.println("Block Destroyed");
 		} catch(Exception e) {

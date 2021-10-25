@@ -19,12 +19,14 @@ public class Enemy extends Entity {
 	protected int aggroRange;
 	protected float moveSpeed;
 	
-	public Enemy(float x, float y) throws SlickException
+	public Enemy(float x, float y) 
 	{
 		super(x,y); 
 		target = Engine.game.getPlayer();
 
-		sprite = new Image("res/redEnemy.png");
+		try {
+			sprite = new Image("res/redEnemy.png");
+		} catch(Exception e) {}
 		
 		contactDmg = 1;
 		aggroRange = 18;

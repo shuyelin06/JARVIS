@@ -52,10 +52,15 @@ public class Entity{
 	protected int iDuration;
 	protected int regenTimer;
 	
+	public enum Ent{
+		Player, Enemy, EBlock
+	}
 	// Every entity will have some initial starting position
-	public Entity(float InitX, float InitY) throws SlickException
+	public Entity(float InitX, float InitY)
 	{
-		sprite = new Image("res/placeholder.png");
+		try {
+			sprite = new Image("res/placeholder.png");
+		} catch(Exception e) {}
 		
 		this.onPlatform = false;
 	
