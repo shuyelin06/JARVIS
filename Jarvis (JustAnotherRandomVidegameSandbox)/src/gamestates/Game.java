@@ -36,7 +36,7 @@ public class Game extends BasicGameState {
 	
 	// The World
 	private World world;
-	private boolean createNewWorld = false; // If testing worldGen, change to true.
+	private boolean createNewWorld = true; // If testing worldGen, change to true.
 	
 	// The Player
 	private Player player;
@@ -94,7 +94,11 @@ public class Game extends BasicGameState {
 					g.setColor(Values.BlockHash.get(blocks[i][j].getID()));
 					
 					float[] position = renderPosition(chunk.getX() * Values.Chunk_Size_X + i, j);
-					g.fillRect(position[0], position[1], Coordinate.ConversionFactor, Coordinate.ConversionFactor);
+					if(position[0] > -Coordinate.ConversionFactor && position[0] < Engine.RESOLUTION_X
+							&& position[1] > 0 && position[1] < Engine.RESOLUTION_Y)
+					{
+						g.fillRect(position[0], position[1], Coordinate.ConversionFactor, Coordinate.ConversionFactor);
+					}
 				}
 			}
 		}
@@ -185,7 +189,7 @@ public class Game extends BasicGameState {
 	}
 	
 	
-	public void mousePressed(int button, int x, int y)
+	public void isMouseDown(int button, int x, int y)
 	{
 		float[] mouseCoordinate = getAbsoluteCoordinate(x, y);
 		

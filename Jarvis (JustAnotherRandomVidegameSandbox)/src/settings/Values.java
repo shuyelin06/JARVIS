@@ -23,9 +23,9 @@ public class Values // this will be quite useful for organizing stuff later on
 	final public static float Spawn_Rate = 10f; // Entity Spawn Rate
 	
 	// World Size Variables
-	final public static int World_X_Size = 100; // World Size (in chunks)
+	final public static int World_X_Size = 50; // World Size (in chunks)
 	final public static int Chunk_Size_X = 32; // Chunk X Size (in blocks)
-	final public static int Chunk_Size_Y = 256; // Chunk Y Size (in blocks)
+	final public static int Chunk_Size_Y = 1024; // Chunk Y Size (in blocks)
 	
 	// Physics Variables
 	final public static float Terminal_X_Velocity = 13.5f; // X Terminal Velocity
