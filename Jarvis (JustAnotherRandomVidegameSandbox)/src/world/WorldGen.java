@@ -18,7 +18,6 @@ public class WorldGen{
 	{
 		this.worldName = worldName;
 		
-		caveNoise = new SimplexNoise(seed + 1);
 		noise = new SimplexNoise(seed); // Later will be used with the noise parameter for custom seeds
 	}
 	
@@ -78,23 +77,39 @@ public class WorldGen{
 	
 	public Block[][] populate(Block[][] blocks, int x)
 	{
-		float[][] noisePattern = new float[Values.Chunk_Size_X][Values.Chunk_Size_Y];
+
 		float[][] caves = new float[Values.Chunk_Size_X][Values.Chunk_Size_Y];
+		
+		float[][] ores = new float[Values.Chunk_Size_X][Values.Chunk_Size_Y];
+		
 		for(int i = 0; i < Values.Chunk_Size_X; i++)
 		{
 			for(int j = 0; j < Values.Chunk_Size_Y; j++)
 			{
 				float smoothGen = 0.1f; //adjust to smooth generation;
-				noisePattern[i][j] = (float) noise.eval((i + x) * smoothGen, j * smoothGen);
-				caves[i][j] = (float) caveNoise.eval((i + x) * smoothGen * .25, j * smoothGen * .25);
+				
+				caves[i][j] = (float) noise.eval((i + x) * smoothGen * .25, j * smoothGen * .25);
+				
+				ores[i][j] = (float) noise.eval((i + x) * smoothGen, j * smoothGen);
 				
 				if(blocks[i][j].getID() == 3)
 				{
-					if(noisePattern[i][j] >= .8) //gold for now
+					/*
+					 Note about the noise: make the threshold closer to 1 (array[i][j] >= x) for smaller veins
+					 Make smoothGen larger along with adjusting the threshold to be higher to make the ores more rare
+					 
+					 trying to get it to work with just one noise pattern to save power
+					 */
+					if(ores[(i + 10) % Values.Chunk_Size_X][Math.abs(Values.Chunk_Size_Y - j - 1) ] >= 0.8) //diamonds?
+					{
+						System.out.println(j * -1 % Values.Chunk_Size_Y + ", " + j % Values.Chunk_Size_Y);
+						blocks[i][j] = new Block(6);
+					} 
+					else if(ores[i][j] >= .8) //gold for now
 					{
 						blocks[i][j] = new Block(5);
 					} 
-					else if(noisePattern[i][j] >= 0.6 && noisePattern[i][j] < 0.7) //coal or some other ore
+					else if(ores[(i + 5) % Values.Chunk_Size_X][(j + 50) % Values.Chunk_Size_Y] >= 0.6) //coal or some other ore
 					{
 						blocks[i][j] = new Block(4);
 					} 
