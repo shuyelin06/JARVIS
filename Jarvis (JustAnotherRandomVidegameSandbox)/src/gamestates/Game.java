@@ -95,7 +95,7 @@ public class Game extends BasicGameState {
 					
 					float[] position = renderPosition(chunk.getX() * Values.Chunk_Size_X + i, j);
 					if(position[0] > -Coordinate.ConversionFactor && position[0] < Engine.RESOLUTION_X
-							&& position[1] > 0 && position[1] < Engine.RESOLUTION_Y)
+							&& position[1] > -Coordinate.ConversionFactor && position[1] < Engine.RESOLUTION_Y)
 					{
 						g.fillRect(position[0], position[1], Coordinate.ConversionFactor, Coordinate.ConversionFactor);
 					}
@@ -135,6 +135,9 @@ public class Game extends BasicGameState {
 		
 		// Check player key presses
 		controls();
+		
+		//mouse input, x and y
+		cursorInput(gc.getInput().getMouseX(), gc.getInput().getMouseY());	
 		
 		// Update the player's movement
 		player.update();
@@ -186,10 +189,38 @@ public class Game extends BasicGameState {
 		if ( gc.getInput().isKeyDown(Input.KEY_D) ) player.moveRight(); // Right Movement
 		if ( gc.getInput().isKeyDown(Input.KEY_A) ) player.moveLeft(); // Left Movement
 		if ( gc.getInput().isKeyDown(Input.KEY_S) ) player.fall(); // Downwards movement
+
+	}
+	
+	public void cursorInput(float x, float y)
+	{
+		float[] mouseCoordinate = getAbsoluteCoordinate(x, y);
+		
+		
+		if(gc.getInput().isMouseButtonDown(Input.MOUSE_LEFT_BUTTON))
+		{
+			world.destroyBlock((int) mouseCoordinate[0], (int) mouseCoordinate[1]);
+		}
+		
+		if(gc.getInput().isMouseButtonDown(Input.MOUSE_RIGHT_BUTTON))
+		{
+			world.placeBlock((int) mouseCoordinate[0], (int) mouseCoordinate[1]);
+		}
+		
+		if(gc.getInput().isKeyDown(Input.KEY_E)) //test explosion, just for fun lol
+		{
+			for(int i = -2; i < 3; i++)
+			{
+				for(int j = -2; j < 3; j++)
+				{
+					world.destroyBlock((int) mouseCoordinate[0] + i, (int) mouseCoordinate[1] + j);
+				}
+			}
+		}
 	}
 	
 	
-	public void isMouseDown(int button, int x, int y)
+	public void mousePressed(int button, int x, int y) //mousepressed
 	{
 		float[] mouseCoordinate = getAbsoluteCoordinate(x, y);
 		

@@ -15,7 +15,7 @@ public class Values // this will be quite useful for organizing stuff later on
 	final public static float CenterY = Engine.RESOLUTION_Y / 2; // Player Center Y
 		
 	// Word Generation Variables
-	final public static int Surface = 128; // Surface Mapping
+	final public static int Surface = 1024; // Surface Mapping
 	
 	// Spawning Variables
 	final public static float SpawnX = Values.World_X_Size * Values.Chunk_Size_X / 2; // Player X Spawn
@@ -24,8 +24,8 @@ public class Values // this will be quite useful for organizing stuff later on
 	
 	// World Size Variables
 	final public static int World_X_Size = 50; // World Size (in chunks)
-	final public static int Chunk_Size_X = 32; // Chunk X Size (in blocks)
-	final public static int Chunk_Size_Y = 1024; // Chunk Y Size (in blocks)
+	final public static int Chunk_Size_X = 16; // Chunk X Size (in blocks)
+	final public static int Chunk_Size_Y = 2048; // Chunk Y Size (in blocks)
 	
 	// Physics Variables
 	final public static float Terminal_X_Velocity = 13.5f; // X Terminal Velocity
