@@ -8,6 +8,7 @@ import java.util.Iterator;
 import core.Coordinate;
 import gamestates.Game;
 import settings.Values;
+import structures.Block;
 
 public class World 
 {
@@ -53,20 +54,39 @@ public class World
 		}
 	}
 	
-	public void changeName(String worldName) {
-		this.worldName = worldName;
-	}
+	public void changeName(String worldName) { this.worldName = worldName; }
 	
-	public Chunk getChunk(int i) {
-		return renderedChunks.get(i);
+	public Collection<Chunk> getAllChunks() { return renderedChunks.values(); }
+	public Chunk getChunk(int i) { return renderedChunks.get(i); }
+	public String getWorldName() { return worldName; }
+	
+	/*
+	 * Simple block destroying / placing
+	 */
+	public void placeBlock(int x, int y) {
+		try {
+			int chunkX = x / Values.Chunk_Size_X;
+			
+			Block[][] blocks = renderedChunks.get(chunkX).getBlocks();
+			blocks[x % Values.Chunk_Size_X][y] = new Block(1);
+			
+			System.out.println("Block Placed");
+		} catch(Exception e) {
+			System.out.println("Error in placing blocks");
+		}
 	}
-	public String getWorldName() {
-		return worldName;
-	}
-  
-	public Collection<Chunk> getAllChunks() {
-
-		return renderedChunks.values();
+	public void destroyBlock(int x, int y) {
+		try {
+			// Find the chunk the block is in
+			int chunkX = x / Values.Chunk_Size_X;
+			
+			Block[][] blocks = renderedChunks.get(chunkX).getBlocks();
+			blocks[x % Values.Chunk_Size_X][y] = new Block(0);
+			
+			System.out.println("Block Destroyed");
+		} catch(Exception e) {
+			System.out.println("Error in destroying blocks");
+		}
 	}
 	
 	//given a coordinate, return what the index of the block array it should be

@@ -21,6 +21,7 @@ public class Entity{
 	 * Physics Variables
 	 */
 	protected final static float friction = 1.5f; // We will later move friction to platforms, so diff platforms have different frictions (ex. ice)
+	protected final static float drag = 0.75f;
 	protected final static float gravity = 0.85f;
 	
 	protected boolean onPlatform; // If the entity is on a platform (determines the forces of friction and gravity)
@@ -169,15 +170,16 @@ public class Entity{
 			iFrames --;
 		}
 		
-		// Velocity Updating
+		// Velocity Updating - X Velocity
+		float resistance = drag;
+		if(onPlatform) resistance = friction;
 		
+		if(resistance > Math.abs(xSpeed)) xSpeed = 0; 
+		else if(xSpeed > 0) xSpeed -= resistance;
+		else xSpeed += resistance;
 		
-		if(onPlatform) { // If on a platform, friction works on the entity (eventually will be changed)
-			if(friction > Math.abs(xSpeed)) xSpeed = 0; // If friction is greater than the speed, set speed to 0 (ensures that our player will always stop)
-			else if(xSpeed > 0) xSpeed -= friction; // If the entity is moving to the right, friction works to the left
-			else xSpeed += friction; // If the entity is moving to the left, friction works to the right
-		} 
-		ySpeed -= gravity; // Gravity 
+		// Velocity Updating - Y Velocity
+		ySpeed -= gravity;
 		
 		// Collision detection 
 		collisions();
@@ -208,52 +210,51 @@ public class Entity{
 		int x;
 		int y;
 		
-		// Checking for horizontal collisions
-		temp = position.getX() + xSpeed / (float) Engine.FRAMES_PER_SECOND;
-		if(xSpeed > 0) temp += sizeX;
-		
-		x = (int) temp; // Furthest x away
-		
-		c = Engine.game.getWorld().getChunk(x / Values.Chunk_Size_X);	
-		
-		if(c == null) return;
-		blocks = c.getBlocks();
-		
-		
-		for(int j = 0; j < Math.ceil((double) sizeY); j++) {
-      if(position.getY() - j < 0) continue;
-			if(blocks[x % Values.Chunk_Size_X][(int) position.getY() - j].getID() != 0) {
-				// Collision detected
-				onCollision(Collision.X, x);
-				break;
+		try {
+			// Checking for horizontal collisions
+			temp = position.getX() + xSpeed / Engine.FRAMES_PER_SECOND;
+			if(xSpeed > 0) temp += sizeX;
+			
+			x = (int) temp; // Furthest x away
+			
+			c = Engine.game.getWorld().getChunk(x / Values.Chunk_Size_X);	
+			blocks = c.getBlocks();
+			
+			for(int j = 0; j < Math.ceil(sizeY); j++) {
+				if(blocks[x % Values.Chunk_Size_X][(int) position.getY() - j].getID() != 0) {
+					// Collision detected
+					onCollision(Collision.X, x);
+					break;
+				}
 			}
+		} catch(Exception e) {
+			System.out.println("Failure checking horizontal collisions");
 		}
-	
 		
-		
-		// Checking for vertical collisions
-		temp = position.getY() + ySpeed / (float) Engine.FRAMES_PER_SECOND;
-		if(ySpeed < 0) temp -= sizeY;
-		
-		
-		y = (int) Math.ceil(temp);
-		
-		int max = (int) (Math.ceil((double) sizeX) + 1);
-		if(position.getX() - Math.floor(position.getX()) < Math.ceil(sizeX) - sizeX) max--;
-		
-		for(int i = 0; i < max; i++) {
-			x = (int) position.getX() + i; // Get the absolute x coordinate
+		try {
+			// Checking for vertical collisions
+			temp = position.getY() + ySpeed / Engine.FRAMES_PER_SECOND;
+			if(ySpeed < 0) temp -= sizeY;
+			
+			
+			y = (int) Math.ceil(temp);
+			
+			int max = (int) (Math.ceil(sizeX) + 1);
+			if(position.getX() - Math.floor(position.getX()) < Math.ceil(sizeX) - sizeX) max--;
+			
+			for(int i = 0; i < max; i++) {
+				x = (int) position.getX() + i; // Get the absolute x coordinate
 
-			c = Engine.game.getWorld().getChunk(x / Values.Chunk_Size_X);
-			if(c == null) return;
-			
-      if(y < 0) continue;
-			if(c.getBlocks()[x % Values.Chunk_Size_X][y].getID() != 0){
-				onCollision(Collision.Y, y);
-				break;
-			}
-			
-		} 
+				c = Engine.game.getWorld().getChunk(x / Values.Chunk_Size_X);
+				
+				if(c.getBlocks()[x % Values.Chunk_Size_X][y].getID() != 0){
+					onCollision(Collision.Y, y);
+					break;
+				}
+			} 
+		} catch(Exception e) {
+			System.out.println("Failure checking vertical collisions");
+		}
 	}
 	
 	// Code for what happens on collision

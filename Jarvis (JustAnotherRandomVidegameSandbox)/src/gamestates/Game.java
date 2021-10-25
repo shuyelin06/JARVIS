@@ -78,7 +78,6 @@ public class Game extends BasicGameState {
 	{		
 		float colorValue = 0.2f; // 255 / Engine.RESOLUTION_Y
 		
-		
 		for(int i = 0; i < Engine.RESOLUTION_Y; i++) //really scuffed manual gradient, will replace with either image or proper gradient
 		{
 			g.setColor(new Color(20, (int) (colorValue * i), 255));
@@ -99,12 +98,9 @@ public class Game extends BasicGameState {
 				}
 			}
 		}
-    
+		
 	    // Render the player
 		player.render(g, Values.CenterX, Values.CenterY);
-		
-		// Render enemies
-		//g.setColor(Color.red);
 		
     	for(Enemy e : enemies) {
     		
@@ -163,9 +159,15 @@ public class Game extends BasicGameState {
 	public void keyPressed(int key, char c)
 	{
   		switch(key) {
-  			case Input.KEY_W: // Jump Key Mapping
+  			case Input.KEY_ESCAPE: // Exit the game
+  				gc.exit();
+  				break;
+
+  			case Input.KEY_SPACE: // Jump Key Mapping (Space & W)
+  			case Input.KEY_W:{
   				player.jump();
   				break;
+  			}	
   			case Input.KEY_P: // Pause Key Binding
   				sbg.enterState(Engine.Pause_ID);
   				break;
@@ -185,6 +187,29 @@ public class Game extends BasicGameState {
 	
 	public void mousePressed(int button, int x, int y)
 	{
+		float[] mouseCoordinate = getAbsoluteCoordinate(x, y);
 		
+		switch(button) {
+			case Input.MOUSE_LEFT_BUTTON: // Left Click - Destroy Block
+				world.destroyBlock((int) mouseCoordinate[0], (int) mouseCoordinate[1]);
+				break;
+			case Input.MOUSE_RIGHT_BUTTON: // Right Click - Place Block
+				world.placeBlock((int) mouseCoordinate[0], (int) mouseCoordinate[1]);
+				break;
+		}
+		
+		
+	}
+	
+	// Given some pixel on screen, returns their coordinate position in the game (might be slightly off)
+	public float[] getAbsoluteCoordinate(float x, float y) {
+		float[] output = new float[2];
+		
+		// Find the distance from the pixel center
+		System.out.println(y);
+		output[0] = player.getPosition().getX() + (x - Values.CenterX) / Coordinate.ConversionFactor;
+		output[1] = player.getPosition().getY() + 1 + (Values.CenterY - y) / Coordinate.ConversionFactor;
+		
+		return output;
 	}
 }
