@@ -18,7 +18,7 @@ import world.World;
 
 public class Player extends Entity{	
 	// Player constructor
-	public Player() throws SlickException 
+	public Player() 
 	{
 		super(Values.SpawnX, Values.SpawnY); 
 		
