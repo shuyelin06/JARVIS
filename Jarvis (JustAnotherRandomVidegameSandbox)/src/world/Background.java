@@ -19,11 +19,12 @@ public class Background
 		sky = new Image("res/daySky.png");
 		hills = new Image("res/hills-1.png");
 		mountains = new Image("res/mountains.png");
+		
+		mountains.setAlpha(.6f);
 	}
 	
 	public void render(Graphics g, float x, float y)
 	{
-		System.out.println(y);
 		sky.draw();
 		
 		g.setColor(new Color(50, 122, 32));
