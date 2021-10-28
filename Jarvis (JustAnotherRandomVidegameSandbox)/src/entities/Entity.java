@@ -5,6 +5,7 @@ import core.Engine;
 import gamestates.Game;
 import settings.Values;
 import structures.Block;
+import support.Utility;
 import world.Chunk;
 import world.FileLoader;
 import world.World;
@@ -50,7 +51,11 @@ public class Entity{
 	
 	protected int iFrames;
 	protected int iDuration;
+	protected boolean healthRegen;
 	protected int regenTimer;
+	protected int timeLastHit;
+	protected int regenRate;
+	protected int regenInc;
 	
 	public enum Ent{
 		Player, Enemy, EBlock
@@ -80,7 +85,11 @@ public class Entity{
 		curHealth = 1;
 		maxHealth = 2;
 		percentageHealth = 1f;
+		healthRegen = false;
 		regenTimer = 120;
+		timeLastHit = 0;
+		regenRate = 30;
+		regenInc = 0;
     
 //		maxHealth = 2;
 //		percentageHealth = 0;
@@ -129,6 +138,11 @@ public class Entity{
 	public void takeDamage(int dmg, boolean i) { //boolean for iFrames cause for certain piercing attacks that don't trigger them
 		//this mimics the mechanics in Terraria
 		if(iFrames == 0) {
+			if(healthRegen) {
+				timeLastHit = 0;
+				regenInc = 0;
+			}
+			
 			dmg -= defense;
 			if(dmg <= curHealth) {
 				if(dmg <= 0) { //if defense is higher than dmg taken you will just take 1 dmg
@@ -148,11 +162,24 @@ public class Entity{
 			
 		}
 	}
-	
+	public void regen() {
+		if(healthRegen && timeLastHit >= regenTimer && curHealth < maxHealth) {
+//			if(Utility.random(0, 100) < 5) { //replace this with increment health every x frames
+//				curHealth++;
+//			}
+			regenInc++;
+			if(regenInc % regenRate == 0) {
+				curHealth++;
+			}
+		
+		}
+	}
 	//gives entity number of iframs that will automatically start ticking down each frame in update()
 	public void setIFrames(int frames) {
 		iFrames = frames;
 	}
+	
+	
 	
 	public boolean isAlive() {
 		return alive;
@@ -174,6 +201,10 @@ public class Entity{
 		if(iFrames > 0) { //timer that ticks down invincibility frames
 			iFrames --;
 		}
+		if(healthRegen && timeLastHit < 240) {
+			timeLastHit++;
+		}
+		regen();
 		
 		// Velocity Updating - X Velocity
 		float resistance = drag;
