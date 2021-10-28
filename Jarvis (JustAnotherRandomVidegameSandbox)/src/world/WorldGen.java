@@ -100,22 +100,22 @@ public class WorldGen{
 					 
 					 trying to get it to work with just one noise pattern to save power
 					 */
-					if(ores[(i + 10) % Values.Chunk_Size_X][Math.abs(Values.Chunk_Size_Y - j - 1) ] >= 0.8) //diamonds?
+					if(ores[(i + 10) % Values.Chunk_Size_X][Math.abs(Values.Chunk_Size_Y - j - 1) ] >= 0.88) //diamonds?
 					{
 						System.out.println(j * -1 % Values.Chunk_Size_Y + ", " + j % Values.Chunk_Size_Y);
 						blocks[i][j] = new Block(6);
 					} 
-					else if(ores[i][j] >= .8) //gold for now
+					else if(ores[i][j] >= .85) //gold for now
 					{
 						blocks[i][j] = new Block(5);
 					} 
-					else if(ores[(i + 5) % Values.Chunk_Size_X][(j + 50) % Values.Chunk_Size_Y] >= 0.6) //coal or some other ore
+					else if(ores[(i + 5) % Values.Chunk_Size_X][(j + 50) % Values.Chunk_Size_Y] >= 0.75) //coal or some other ore
 					{
 						blocks[i][j] = new Block(4);
 					} 
 				}	
 				
-				if(caves[i][j] > 0.7) //rudimentary caves
+				if(caves[i][j] > 0.7 && j < Values.Surface) //rudimentary caves
 				{
 					blocks[i][j] = new Block(0);
 				}
