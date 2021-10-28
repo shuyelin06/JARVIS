@@ -7,7 +7,6 @@ import support.SimplexNoise;
 public class WorldGen{
 	// World-Specific Variables 
 	private SimplexNoise noise; //noise for the rest
-	private SimplexNoise caveNoise; //noise only for the caves
 	//might add other noises for other things
 	
 	private String worldName;
