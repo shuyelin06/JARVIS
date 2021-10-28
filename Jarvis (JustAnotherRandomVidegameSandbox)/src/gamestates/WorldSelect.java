@@ -104,12 +104,30 @@ public class WorldSelect extends BasicGameState
 		
 		
 		//image drawing
-//		setImage("res/startButton.png");
+		setImage("res/placeholder.png");
+		
 		startButton.setFilter(Image.FILTER_NEAREST);
 		startButton.draw(mainButtonX - (mainButtonW / 2), mainButtonY - (mainButtonH / 2), mainButtonW, mainButtonH);
+		
+		
 		w1Button.draw(w1ButtonX - (w1ButtonW / 2), w1ButtonY - (w1ButtonH / 2), w1ButtonW, w1ButtonH);
 		w2Button.draw(w2ButtonX - (w2ButtonW / 2), w2ButtonY - (w2ButtonH / 2), w2ButtonW, w2ButtonH);
+		
+		
+		//draws based on world number
+		if (worldID == 1) {
+			setImage("res/1.png");
+		} else if (worldID == 2) {
+			setImage("res/2.png");
+		} else if (worldID == 3) {
+			setImage("res/3.png");
+		} else if (worldID == 4) {
+			setImage("res/4.png");
+		} else if (worldID == 5) {
+			setImage("res/5.png");
+		}
 		worldImage.draw(worldImageX - (worldImageW / 2), worldImageY - (worldImageH / 2), worldImageW, worldImageH);
+		
 		
 		//draws fireworks
 		for (int i = 0; i < particles.size(); i++) {
