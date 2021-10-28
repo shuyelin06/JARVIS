@@ -23,7 +23,7 @@ public class WorldSelect extends BasicGameState
 	int id;
 	
 	//World selected ID
-	private int worldID;
+	private int worldID, worldIDMax, worldIDMin;
 	
 	//ready to start boolean
 	private boolean readyStart;
@@ -37,10 +37,13 @@ public class WorldSelect extends BasicGameState
 	public static int backgroundColor;
 	
 	private Image startButton;
+	private Image w1Button;
+	private Image w2Button;
+	private Image worldImage;
 	private int mainButtonX, mainButtonY, mainButtonW, mainButtonH;
-	
-	
-	
+	private int w1ButtonX, w1ButtonY, w1ButtonW, w1ButtonH;
+	private int w2ButtonX, w2ButtonY, w2ButtonW, w2ButtonH;
+	private int worldImageX, worldImageY, worldImageW, worldImageH;
 	
 	public WorldSelect(int id) 
 	{
@@ -50,15 +53,29 @@ public class WorldSelect extends BasicGameState
 	// Initializer, first time
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException 
 	{
+		//worldID settings
 		worldID = 1;
+		worldIDMax = 3;
+		worldIDMin = 1;
 		
 		//image settings
 		setImage("res/placeholder.png");
 		mainButtonX = gc.getWidth()/2;
-		mainButtonY = gc.getHeight()/2;
+		mainButtonY = gc.getHeight()/3;
 		mainButtonW = 100;
 		mainButtonH = 100;
-		
+		w1ButtonX = 2*gc.getWidth()/3;
+		w1ButtonY = 2*gc.getHeight()/3;
+		w1ButtonW = 100;
+		w1ButtonH = 100;
+		w2ButtonX = gc.getWidth()/3;
+		w2ButtonY = 2*gc.getHeight()/3;
+		w2ButtonW = 100;
+		w2ButtonH = 100;
+		worldImageX = gc.getWidth()/2;
+		worldImageY = 2*gc.getHeight()/3;
+		worldImageW = 100;
+		worldImageH = 100;
 		
 		//set center
 		xLocation = gc.getWidth()/2;
@@ -90,6 +107,9 @@ public class WorldSelect extends BasicGameState
 //		setImage("res/startButton.png");
 		startButton.setFilter(Image.FILTER_NEAREST);
 		startButton.draw(mainButtonX - (mainButtonW / 2), mainButtonY - (mainButtonH / 2), mainButtonW, mainButtonH);
+		w1Button.draw(w1ButtonX - (w1ButtonW / 2), w1ButtonY - (w1ButtonH / 2), w1ButtonW, w1ButtonH);
+		w2Button.draw(w2ButtonX - (w2ButtonW / 2), w2ButtonY - (w2ButtonH / 2), w2ButtonW, w2ButtonH);
+		worldImage.draw(worldImageX - (worldImageW / 2), worldImageY - (worldImageH / 2), worldImageW, worldImageH);
 		
 		//draws fireworks
 		for (int i = 0; i < particles.size(); i++) {
@@ -162,6 +182,30 @@ public class WorldSelect extends BasicGameState
 		}
 		
 		
+		//change world ID when clicking on buttons
+		if ((x > w1ButtonX - (w1ButtonW / 2))
+				&& (x < w1ButtonX + (w1ButtonW / 2))
+				&& (y > w1ButtonY - (w1ButtonH / 2))
+				&& (y < w1ButtonY + (w1ButtonH / 2))
+				) {
+			worldID++;
+			//max world ID
+			if (worldID > worldIDMax) {
+				worldID = worldIDMin;
+			}
+		}
+		if ((x > w2ButtonX - (w2ButtonW / 2))
+				&& (x < w2ButtonX + (w2ButtonW / 2))
+				&& (y > w2ButtonY - (w2ButtonH / 2))
+				&& (y < w2ButtonY + (w2ButtonH / 2))
+				) {
+			worldID--;
+			//max world ID
+			if (worldID < worldIDMin) {
+				worldID = worldIDMax;
+			}
+		}
+		
 		//check for type of firework
 		if(button == 0) {
 			System.out.println("left click");
@@ -195,6 +239,9 @@ public class WorldSelect extends BasicGameState
 		try
 		{
 			startButton = new Image(filepath);
+			w1Button = new Image(filepath);
+			w2Button = new Image(filepath);
+			worldImage = new Image(filepath);
 		}
 		catch(SlickException e)		
 		{

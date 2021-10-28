@@ -39,7 +39,7 @@ public class Game extends BasicGameState {
 	
 	// The World
 	private World world;
-	private boolean createNewWorld = false; // If testing worldGen, change to true.
+	private boolean createNewWorld = true; // If testing worldGen, change to true.
 	
 	// The Player
 	private Player player;
