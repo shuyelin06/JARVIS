@@ -23,6 +23,7 @@ import entities.Entity.Ent;
 import entities.Player;
 import settings.Values;
 import structures.Block;
+import world.Background;
 import world.Chunk;
 import world.FileLoader;
 import world.World;
@@ -48,13 +49,13 @@ public class Game extends BasicGameState {
 	private ArrayList<Entity> entities = new ArrayList<Entity>();
 	private ArrayList<Enemy> enemies = new ArrayList<Enemy>();
 	
+	Background bg;
+	
 	// Constructor
 	public Game(int id) 
 	{
 		this.id = id;
 	}
-	
-	private Image sky;
 	
 	// Accessor Methods
 	public int getID() { return id; }
@@ -74,22 +75,21 @@ public class Game extends BasicGameState {
 		// Load Block Hashings
 		FileLoader.LoadBlockHashings();
 		
+		this.bg = new Background();
+		
 		// Initializations
 		this.world = new World();
 		
 		this.player = new Player();
 		this.entities = new ArrayList<Entity>();
 		this.enemies = new ArrayList<Enemy>();
-		
-		//init the sky
-		sky = new Image("res/daySky.png");
 	}
 	
 	/* Rendering - Game's Camera */
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException 
-	{		
-		sky.draw();
-		
+	{	
+		float[] bgPosition = renderPosition(0, Values.Surface);
+		bg.render(g, bgPosition[0], bgPosition[1]);
 		
 		// Render all blocks in loaded chunks
 		for(Chunk chunk: world.getAllChunks()) { // Iterate through every chunk
@@ -120,7 +120,6 @@ public class Game extends BasicGameState {
     	for(Enemy e : enemies) {
     		
     		float[] position = renderPosition(e.getPosition().getX(), e.getPosition().getY());
-    		//g.draw(new Circle(position[0], position[1], 15));	
     		e.render(g, position[0], position[1]);
     	}
 
