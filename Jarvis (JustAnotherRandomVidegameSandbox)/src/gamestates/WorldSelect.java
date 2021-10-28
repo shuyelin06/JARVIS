@@ -62,7 +62,7 @@ public class WorldSelect extends BasicGameState
 		setImage("res/placeholder.png");
 		mainButtonX = gc.getWidth()/2;
 		mainButtonY = gc.getHeight()/3;
-		mainButtonW = 100;
+		mainButtonW = 300;
 		mainButtonH = 100;
 		w1ButtonX = 2*gc.getWidth()/3;
 		w1ButtonY = 2*gc.getHeight()/3;
@@ -104,12 +104,12 @@ public class WorldSelect extends BasicGameState
 		
 		
 		//image drawing
-		setImage("res/placeholder.png");
 		
+		setImage("res/startButton.png");
 		startButton.setFilter(Image.FILTER_NEAREST);
 		startButton.draw(mainButtonX - (mainButtonW / 2), mainButtonY - (mainButtonH / 2), mainButtonW, mainButtonH);
 		
-		
+		setImage("res/placeholder.png");
 		w1Button.draw(w1ButtonX - (w1ButtonW / 2), w1ButtonY - (w1ButtonH / 2), w1ButtonW, w1ButtonH);
 		w2Button.draw(w2ButtonX - (w2ButtonW / 2), w2ButtonY - (w2ButtonH / 2), w2ButtonW, w2ButtonH);
 		
