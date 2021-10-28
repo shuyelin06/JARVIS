@@ -54,7 +54,10 @@ public class Game extends BasicGameState {
 		this.id = id;
 	}
 	
+	//background images, will move to class later
 	private Image sky;
+	private Image hills;
+	private Image mountains;
 	
 	// Accessor Methods
 	public int getID() { return id; }
@@ -83,6 +86,8 @@ public class Game extends BasicGameState {
 		
 		//init the sky
 		sky = new Image("res/daySky.png");
+		hills = new Image("res/hills-1.png");
+		mountains = new Image("res/mountains.png");
 	}
 	
 	/* Rendering - Game's Camera */
@@ -90,6 +95,12 @@ public class Game extends BasicGameState {
 	{		
 		sky.draw();
 		
+		mountains.draw(0, 
+				(float) (Engine.RESOLUTION_Y * 0.4), 
+				Engine.RESOLUTION_X, 
+				(float) (Engine.RESOLUTION_Y * 0.4));
+		
+		hills.draw(0, (float) (Engine.RESOLUTION_Y * 0.5), Engine.RESOLUTION_X, (float) (Engine.RESOLUTION_Y * 0.3));
 		
 		// Render all blocks in loaded chunks
 		for(Chunk chunk: world.getAllChunks()) { // Iterate through every chunk
