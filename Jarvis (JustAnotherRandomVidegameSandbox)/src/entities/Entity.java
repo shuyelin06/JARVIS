@@ -52,8 +52,8 @@ public class Entity{
 	protected int iDuration;
 	protected int regenTimer;
 	
-	public enum Ent{
-		Player, Enemy, EBlock
+	public enum EntType{
+		Player, Hostiles, Items, Projectiles
 	}
 	// Every entity will have some initial starting position
 	public Entity(float InitX, float InitY)
@@ -149,6 +149,9 @@ public class Entity{
 		}
 	}
 	
+	public float magSize() {
+		return (float) Math.sqrt(Math.pow(sizeX,2) + Math.pow(sizeY,2));
+	}
 	//gives entity number of iframs that will automatically start ticking down each frame in update()
 	public void setIFrames(int frames) {
 		iFrames = frames;
@@ -205,18 +208,15 @@ public class Entity{
 	
 	// Determine if a collision occurs
 	public void collisions() {
-		/*
-		 * Defining Memory Used
-		 */
+		// Defining Memory Used
 		Chunk c;
 		Block[][] blocks;
+		
 		float temp;
+		int x, y;
 		
-		int x;
-		int y;
-		
+		// Checking for horizontal collisions
 		try {
-			// Checking for horizontal collisions
 			temp = position.getX() + xSpeed / Engine.FRAMES_PER_SECOND;
 			if(xSpeed > 0) temp += sizeX;
 			
@@ -232,15 +232,12 @@ public class Entity{
 					break;
 				}
 			}
-		} catch(Exception e) {
-			System.out.println("Failure checking horizontal collisions");
-		}
+		} catch(Exception e) {}
 		
+		// Checking for vertical collisions
 		try {
-			// Checking for vertical collisions
 			temp = position.getY() + ySpeed / Engine.FRAMES_PER_SECOND;
 			if(ySpeed < 0) temp -= sizeY;
-			
 			
 			y = (int) Math.ceil(temp);
 			
@@ -257,9 +254,7 @@ public class Entity{
 					break;
 				}
 			} 
-		} catch(Exception e) {
-			System.out.println("Failure checking vertical collisions");
-		}
+		} catch(Exception e) {}
 	}
 	
 	// Code for what happens on collision
@@ -292,7 +287,8 @@ public class Entity{
 		}
 	}
 	
-
+// pa;lyer - items
+	// projectiles - player and enemies
 	public void render(Graphics g, float x, float y) {
 		if(xSpeed < 0)
 		{

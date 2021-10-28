@@ -71,6 +71,11 @@ public class Player extends Entity{
 		this.ySpeed -= Entity.gravity;
 	}
 	
+	// Overwritten Collisions Method
+	public void collisions() {
+		super.collisions();
+	}
+	
 	
 	
 	

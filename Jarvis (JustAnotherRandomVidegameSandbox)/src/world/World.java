@@ -8,6 +8,7 @@ import java.util.Iterator;
 import core.Coordinate;
 import core.Engine;
 import entities.EBlock;
+import entities.Entity.EntType;
 import gamestates.Game;
 import settings.Values;
 import structures.Block;
@@ -73,9 +74,7 @@ public class World
 			blocks[x % Values.Chunk_Size_X][y] = new Block(1);
 			
 			System.out.println("Block Placed");
-		} catch(Exception e) {
-			System.out.println("Error in placing blocks");
-		}
+		} catch(Exception e) {}
 	}
 	public void destroyBlock(int x, int y) {
 		try {
@@ -87,13 +86,11 @@ public class World
 			
 			if(b.getID() != 0) {
 				blocks[relX][y] = new Block(0);
-				Engine.game.addEntity(new EBlock(b.getID(), x, y));
+				Engine.game.addEntity(EntType.Items, new EBlock(b.getID(), x, y));
 			} 
 			
 			System.out.println("Block Destroyed");
-		} catch(Exception e) {
-			System.out.println("Error in destroying blocks");
-		}
+		} catch(Exception e) {}
 	}
 	
 	//given a coordinate, return what the index of the block array it should be
