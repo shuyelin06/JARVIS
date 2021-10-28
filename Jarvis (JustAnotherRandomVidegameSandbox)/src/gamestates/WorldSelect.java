@@ -226,21 +226,18 @@ public class WorldSelect extends BasicGameState
 		
 		//check for type of firework
 		if(button == 0) {
-			System.out.println("left click");
 			for (int i = 0; i < arraySize; i++) {
 				fireworkType = 0;
 				particles.add(new Particle(x, y));
 			}
 		}
 		if(button == 1) {
-			System.out.println("button 1");
 			for (int i = 0; i < arraySize; i++) {
 				fireworkType = 1;
 				particles.add(new Particle(x, y));
 			}
 		}
 		if(button == 2) {
-			System.out.println("middle click");
 			for (int i = 0; i < arraySize; i++) {
 				fireworkType = 2;
 				particles.add(new Particle(x, y));
