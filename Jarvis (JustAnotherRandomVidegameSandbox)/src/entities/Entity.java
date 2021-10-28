@@ -258,7 +258,7 @@ public class Entity{
 				}
 			} 
 		} catch(Exception e) {
-			System.out.println("Failure checking vertical collisions");
+//			System.out.println("Failure checking vertical collisions");
 		}
 	}
 	
