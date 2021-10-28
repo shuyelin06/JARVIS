@@ -233,7 +233,7 @@ public class Entity{
 				}
 			}
 		} catch(Exception e) {
-			System.out.println("Failure checking horizontal collisions");
+//			System.out.println("Failure checking horizontal collisions");
 		}
 		
 		try {
