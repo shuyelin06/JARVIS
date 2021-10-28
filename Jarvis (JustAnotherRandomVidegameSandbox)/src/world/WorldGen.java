@@ -88,7 +88,7 @@ public class WorldGen{
 			{
 				float smoothGen = 0.1f; //adjust to smooth generation;
 				
-				caves[i][j] = (float) noise.eval((i + x) * smoothGen * .25, j * smoothGen * .25);
+				caves[i][j] = (float) noise.eval((i + x) * smoothGen * .2, j * smoothGen * .5);
 				
 				ores[i][j] = (float) noise.eval((i + x) * smoothGen, j * smoothGen);
 				
@@ -115,7 +115,7 @@ public class WorldGen{
 					} 
 				}	
 				
-				if(caves[i][j] > 0.7 && j < Values.Surface) //rudimentary caves
+				if(caves[i][j] > 0.8) //rudimentary caves
 				{
 					blocks[i][j] = new Block(0);
 				}
