@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Circle;
@@ -26,7 +27,6 @@ import world.Chunk;
 import world.FileLoader;
 import world.World;
 import world.WorldGen;
-import support.PerlinNoise;
 import support.SimplexNoise;
 import support.Spawning;
 
@@ -54,6 +54,8 @@ public class Game extends BasicGameState {
 		this.id = id;
 	}
 	
+	private Image sky;
+	
 	// Accessor Methods
 	public int getID() { return id; }
 	public Player getPlayer() { return player; }
@@ -79,18 +81,15 @@ public class Game extends BasicGameState {
 		this.entities = new ArrayList<Entity>();
 		this.enemies = new ArrayList<Enemy>();
 		
+		//init the sky
+		sky = new Image("res/daySky.png");
 	}
 	
 	/* Rendering - Game's Camera */
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException 
 	{		
-		float colorValue = 0.2f; // 255 / Engine.RESOLUTION_Y
+		sky.draw();
 		
-		for(int i = 0; i < Engine.RESOLUTION_Y; i++) //really scuffed manual gradient, will replace with either image or proper gradient
-		{
-			g.setColor(new Color(20, (int) (colorValue * i), 255));
-			g.fillRect(0, i, Engine.RESOLUTION_X, 1);
-		}
 		
 		// Render all blocks in loaded chunks
 		for(Chunk chunk: world.getAllChunks()) { // Iterate through every chunk
@@ -124,8 +123,7 @@ public class Game extends BasicGameState {
     		//g.draw(new Circle(position[0], position[1], 15));	
     		e.render(g, position[0], position[1]);
     	}
-    
-		
+
 	}
 	// Given two coordinates, display where they should be displayed on screen
 	private float[] renderPosition(float x2, float y2) {
