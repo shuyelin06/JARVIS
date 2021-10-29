@@ -23,7 +23,7 @@ public class Spawning {
  				//for now it just drops a new enemy on the player's head
  				float x = g.getPlayer().getPosition().getX();
  				float y = g.getPlayer().getPosition().getY();
- 				Coordinate coord = getOpenArea(g, 15, 25, 10, 1, 1, prob);
+ 				Coordinate coord = getOpenArea(g, 15, 25, 20, 1, 1, prob);
  				if(coord != null) {
  					g.getEntities(EntType.Hostiles).add(new Enemy(coord.getX(), coord.getY()));
  				}
@@ -48,11 +48,13 @@ public class Spawning {
 			if(Utility.random(0.0, 100.0) <= prob) {
 				
 			coord.setX(playerX + i * direction);
+			
+			//so that it doesn't check out of world
 			if(coord.getX() > Values.World_X_Size * Values.Chunk_Size_X - w
 					|| coord.getX() < w) {
 				return null;
 			}
-			if(coord.getY() <= elevationDiff + h) {
+			if(coord.getY() <= elevationDiff + h || coord.getY() >= Values.Chunk_Size_Y-elevationDiff-h) {
 				return null;
 			}
 			
@@ -63,13 +65,22 @@ public class Spawning {
 			int indexY = Engine.game.getWorld().getBlockIndex(coord)[1];
 			float indexChunk = coord.getChunk();
 			Block[][] blocks = Engine.game.getWorld().getChunk((int) indexChunk).getBlocks();
-			//if block at indexX, indexY of the indexChunkth chunk is open air
+			if(blocks[indexX][indexY].getID() != 0) {
+				for(int j = (int)playerY; j < (int)playerY + elevationDiff; j++) {
+					Coordinate tempCoord = new Coordinate(coord.getX(),j);
+					if(Engine.game.getWorld().openArea(tempCoord, w, h) && blocks[indexX][j-2].getID() != 0) {
+						coord.setY(j);						
+						return coord;
+					}
+				}
+			}
 			//System.out.println("block ID getting checked: " + blocks[indexX][indexY].getID());
-			
-			if(blocks[indexX][indexY].getID() == 0) { 
+			//if it is open air, check downwards
+			else if(blocks[indexX][indexY].getID() == 0) { 
 				for(int j = (int)playerY; j > (int)playerY - elevationDiff; j--) {
 					//System.out.println(blocks[indexX][j-1].getID());
-					if(Engine.game.getWorld().openArea(coord, w, h) && blocks[indexX][j-1].getID() != 0) {
+					Coordinate tempCoord = new Coordinate(coord.getX(),j);
+					if(Engine.game.getWorld().openArea(tempCoord, w, h) && blocks[indexX][j-1].getID() != 0) {
 						coord.setY(j);						
 						return coord;
 					}

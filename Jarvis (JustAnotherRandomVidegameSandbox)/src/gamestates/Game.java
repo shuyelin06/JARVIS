@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Circle;
@@ -24,10 +25,12 @@ import entities.Entity.EntType;
 import entities.*;
 import settings.Values;
 import structures.Block;
+import world.Background;
 import world.Chunk;
 import world.FileLoader;
 import world.World;
 import world.WorldGen;
+import support.SimplexNoise;
 import support.Spawning;
 
 public class Game extends BasicGameState {
@@ -44,6 +47,8 @@ public class Game extends BasicGameState {
 	// The Player
 	private Player player;
 	private HashMap<EntType, ArrayList<Entity>> entities;
+	
+	Background bg;
 	
 	// Constructor
 	public Game(int id) { this.id = id; } 
@@ -67,10 +72,13 @@ public class Game extends BasicGameState {
 		// Load Block Hashings
 		FileLoader.LoadBlockHashings();
 		
+		this.bg = new Background();
+		
 		// Initializations
 		this.world = new World();
 		
 		this.player = new Player();
+
 		this.entities = new HashMap<EntType, ArrayList<Entity>>() {
 			private static final long serialVersionUID = 1L;
 		{
@@ -82,14 +90,9 @@ public class Game extends BasicGameState {
 	
 	/* Rendering - Game's Camera */
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException 
-	{		
-		float colorValue = 0.2f; // 255 / Engine.RESOLUTION_Y
-		
-		for(int i = 0; i < Engine.RESOLUTION_Y; i++) //really scuffed manual gradient, will replace with either image or proper gradient
-		{
-			g.setColor(new Color(20, (int) (colorValue * i), 255));
-			g.fillRect(0, i, Engine.RESOLUTION_X, 1);
-		}
+	{	
+		float[] bgPosition = renderPosition(0, Values.Surface);
+		bg.render(g, bgPosition[0], bgPosition[1]);
 		
 		// Render all blocks in loaded chunks
 		for(Chunk chunk: world.getAllChunks()) { // Iterate through every chunk

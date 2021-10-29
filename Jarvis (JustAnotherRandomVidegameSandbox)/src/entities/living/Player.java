@@ -27,15 +27,11 @@ public class Player extends Living{
 		this.sizeX = 1.3f; // Only use sizes to the 10th PLACE 
 		curHealth = 10;
 		maxHealth = 10;
+		healthRegen = true;
 	}
 	
 	//draws characters
-	public void render(Graphics g, float x, float y) 
-	{
-		super.render(g, x, y);
-		
-		drawHealthBars(g);
-	}
+
 	
 	//health bars
 	public void drawHealthBars(Graphics g) {

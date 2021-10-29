@@ -5,6 +5,7 @@ import core.Engine;
 import gamestates.Game;
 import settings.Values;
 import structures.Block;
+import support.Utility;
 import world.Chunk;
 import world.FileLoader;
 import world.World;
@@ -40,7 +41,7 @@ public class Entity{
 	 */
 	protected Image sprite; // The sprite rendered in for the Entity
 	protected float sizeX, sizeY; // The size of the Entity
-	
+
 	public enum EntType{
 		Player, Hostiles, Items, Projectiles
 	}
@@ -59,11 +60,6 @@ public class Entity{
 		
 		this.xSpeed = 0f;
 		this.ySpeed = 0f;
-    
-		
-		
-		sizeX = 20;
-		sizeY = 30;
 	}
 	
 	public float getSizeX() {
@@ -91,9 +87,26 @@ public class Entity{
 	public void setYSpeed(float newSpeed){
 		this.ySpeed = newSpeed;
 	}
+	public void moveRight(float maxSpeed, float acceleration) {
+		if(xSpeed + acceleration > maxSpeed) xSpeed = maxSpeed;
+		else xSpeed += acceleration;	
+	}
 	
-	public float magSize() {
-		return (float) Math.sqrt(Math.pow(sizeX,2) + Math.pow(sizeY,2));
+	public void moveLeft(float maxSpeed, float acceleration) {
+		if(xSpeed - acceleration < 0 - maxSpeed) xSpeed = 0 - maxSpeed;
+		else xSpeed -= acceleration;
+	}
+	
+	public void jump(float speed) {
+		if(jumpsLeft > 0) {
+			this.onPlatform = false;
+			this.ySpeed = speed;
+			
+			jumpsLeft--;
+		}
+	}
+	public void fall() {
+		this.ySpeed -= Entity.gravity;
 	}
 	
 	// Updates the entity's position given its velocity
