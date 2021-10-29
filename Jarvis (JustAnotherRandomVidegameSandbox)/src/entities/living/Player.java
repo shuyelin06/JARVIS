@@ -1,21 +1,11 @@
 package entities.living;
 
-import java.util.ArrayList;
-
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Image;
-import org.newdawn.slick.SlickException;
-import org.newdawn.slick.geom.Circle;
 
-import core.Coordinate;
 import core.Engine;
 import entities.Entity;
-import gamestates.Game;
 import settings.Values;
-import structures.Block;
-import world.Chunk;
-import world.World;
 
 public class Player extends Living{	
 	// Player constructor

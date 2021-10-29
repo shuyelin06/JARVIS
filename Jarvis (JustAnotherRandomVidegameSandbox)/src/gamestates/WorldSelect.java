@@ -8,12 +8,10 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 import core.Engine;
-import entities.Entity;
 import structures.Particle;
 import world.FileLoader;
 

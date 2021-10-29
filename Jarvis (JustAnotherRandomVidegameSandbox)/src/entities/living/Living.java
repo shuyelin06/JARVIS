@@ -25,24 +25,25 @@ public class Living extends Entity{
 	public Living(float x, float y) {
 		super(x,y);
 		
+		// Invincibility
 		this.iFrames = 0;
 		this.iDuration = 30; //how long invulnerability will last after taking damage
 		
 		alive = true;
 		
+		// Health
 		curHealth = 1;
 		maxHealth = 2;
 		percentageHealth = 1f;
-		regenTimer = 120;
 		
-		curHealth = 1;
-		maxHealth = 2;
-		percentageHealth = 1f;
+		// Regen
+		regenTimer = 120;
 		healthRegen = false;
-		timeLastHit = 0;
 		regenRate = 30;
 		regenInc = 0;
 		
+		// Other
+		timeLastHit = 0;
 	}
 	
 	public void moveRight(float maxSpeed, float acceleration) {
@@ -141,8 +142,5 @@ public class Living extends Entity{
 		regen();
 		
 		super.update();
-	}
-	public void collisions() {
-		super.collisions();
 	}
 }

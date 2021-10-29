@@ -1,12 +1,9 @@
 package entities.other;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
 
 import core.Engine;
 import entities.Entity;
-import entities.Entity.EntType;
 
 public class EItem extends Entity{
 	//
