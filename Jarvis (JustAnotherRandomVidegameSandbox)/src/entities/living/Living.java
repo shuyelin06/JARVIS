@@ -16,7 +16,11 @@ public class Living extends Entity{
 	
 	protected int iFrames;
 	protected int iDuration;
+	protected boolean healthRegen;
 	protected int regenTimer;
+	protected int timeLastHit;
+	protected int regenRate;
+	protected int regenInc;
 	
 	public Living(float x, float y) {
 		super(x,y);
@@ -30,6 +34,14 @@ public class Living extends Entity{
 		maxHealth = 2;
 		percentageHealth = 1f;
 		regenTimer = 120;
+		
+		curHealth = 1;
+		maxHealth = 2;
+		percentageHealth = 1f;
+		healthRegen = false;
+		timeLastHit = 0;
+		regenRate = 30;
+		regenInc = 0;
 		
 	}
 	
@@ -57,6 +69,11 @@ public class Living extends Entity{
 	public void takeDamage(int dmg, boolean i) { //boolean for iFrames cause for certain piercing attacks that don't trigger them
 		//this mimics the mechanics in Terraria
 		if(iFrames == 0) {
+			if(healthRegen) {
+				timeLastHit = 0;
+				regenInc = 0;
+			}
+			
 			dmg -= defense;
 			if(dmg <= curHealth) {
 				if(dmg <= 0) { //if defense is higher than dmg taken you will just take 1 dmg
@@ -76,7 +93,19 @@ public class Living extends Entity{
 			
 		}
 	}
-	
+	public void regen() {
+		if(healthRegen && timeLastHit >= regenTimer && curHealth < maxHealth) {
+//			if(Utility.random(0, 100) < 5) { //replace this with increment health every x frames
+//				curHealth++;
+//			}
+			regenInc++;
+			if(regenInc % regenRate == 0) {
+				curHealth++;
+			}
+		
+		}
+	}
+
 	//gives entity number of iframs that will automatically start ticking down each frame in update()
 	public void setIFrames(int frames) {
 		iFrames = frames;
@@ -103,8 +132,13 @@ public class Living extends Entity{
 		// Update Stats
 		percentageHealth = ((float) curHealth) / ((float) maxHealth); // Update health
 		
-		// Tick invincibility frames
-		if(iFrames > 0) iFrames --;
+		if(iFrames > 0) { //timer that ticks down invincibility frames
+			iFrames --;
+		}
+		if(healthRegen && timeLastHit < 240) {
+			timeLastHit++;
+		}
+		regen();
 		
 		super.update();
 	}
