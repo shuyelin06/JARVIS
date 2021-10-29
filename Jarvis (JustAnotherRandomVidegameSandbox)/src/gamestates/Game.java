@@ -113,9 +113,6 @@ public class Game extends BasicGameState {
 			}
 		}
 		
-	    // Render the player
-		player.render(g, Values.CenterX, Values.CenterY);
-		
 		// Render all entities
 		for(ArrayList<Entity> list: entities.values()) {
 			for(Entity e: list) {
@@ -123,6 +120,9 @@ public class Game extends BasicGameState {
 	    		e.render(g, position[0], position[1]);
 			}	
     	}
+		
+		// Render the player
+		player.render(g, Values.CenterX, Values.CenterY);
 	}
 	// Given two coordinates, display where they should be displayed on screen
 	private float[] renderPosition(float x2, float y2) {

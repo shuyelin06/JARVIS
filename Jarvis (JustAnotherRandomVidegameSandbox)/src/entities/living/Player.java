@@ -29,9 +29,12 @@ public class Player extends Living{
 		maxHealth = 10;
 		healthRegen = true;
 	}
-	
-	//draws characters
 
+	//render
+	public void render(Graphics g, float x, float y) {
+		super.render(g, x, y);
+		drawHealthBars(g);
+	}
 	
 	//health bars
 	public void drawHealthBars(Graphics g) {
