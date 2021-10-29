@@ -1,20 +1,14 @@
 package gamestates;
 
 import java.util.ArrayList;
-import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.geom.Circle;
-import org.newdawn.slick.geom.Line;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.function.Predicate;
 
 import core.Coordinate;
@@ -22,7 +16,6 @@ import core.Engine;
 import entities.Entity;
 import entities.living.*;
 import entities.Entity.EntType;
-import entities.*;
 import settings.Values;
 import structures.Block;
 import world.Background;
@@ -30,7 +23,6 @@ import world.Chunk;
 import world.FileLoader;
 import world.World;
 import world.WorldGen;
-import support.SimplexNoise;
 import support.Spawning;
 
 public class Game extends BasicGameState {

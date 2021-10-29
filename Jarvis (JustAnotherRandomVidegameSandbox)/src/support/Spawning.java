@@ -1,7 +1,5 @@
 package support;
 
-import java.util.ArrayList;
-
 import org.newdawn.slick.SlickException;
 
 import core.Coordinate;
@@ -11,8 +9,6 @@ import entities.living.*;
 import gamestates.Game;
 import settings.Values;
 import structures.Block;
-import world.Chunk;
-import world.World;
 
 public class Spawning {
 	public static void spawnEnemy (Game g, float prob) throws SlickException { //expand on parameters like what kind of enemies to spawn in later

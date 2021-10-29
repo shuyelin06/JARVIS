@@ -1,8 +1,6 @@
 package core;
 
-import core.Engine;
 import settings.Values;
-import world.Chunk;
 
 public class Coordinate{
 	public static final int ConversionFactor = 30; // Conversion: 1 Block = 20 Pixels

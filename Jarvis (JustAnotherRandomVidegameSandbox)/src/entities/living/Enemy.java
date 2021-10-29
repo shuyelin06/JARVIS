@@ -1,16 +1,9 @@
 package entities.living;
 
-import org.newdawn.slick.Color;
-import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
-import org.newdawn.slick.SlickException;
-import org.newdawn.slick.geom.Circle;
 
-import core.Coordinate;
 import core.Engine;
-import gamestates.Game;
 import support.Utility;
-import world.World;
 
 public class Enemy extends Living {
 	

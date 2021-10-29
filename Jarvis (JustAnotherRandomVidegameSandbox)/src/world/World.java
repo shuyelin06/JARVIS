@@ -1,6 +1,5 @@
 package world;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -9,7 +8,6 @@ import core.Coordinate;
 import core.Engine;
 import entities.Entity.EntType;
 import entities.other.EBlock;
-import gamestates.Game;
 import settings.Values;
 import structures.Block;
 

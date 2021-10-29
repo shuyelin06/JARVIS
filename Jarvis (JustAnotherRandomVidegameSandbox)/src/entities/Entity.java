@@ -2,22 +2,12 @@ package entities;
 
 import core.Coordinate;
 import core.Engine;
-import gamestates.Game;
 import settings.Values;
 import structures.Block;
-import support.Utility;
 import world.Chunk;
-import world.FileLoader;
-import world.World;
 
-import java.nio.file.attribute.PosixFileAttributes;
-
-import javax.swing.text.html.HTMLDocument.HTMLReader.BlockAction;
-
-import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
-import org.newdawn.slick.SlickException;
 
 public class Entity{
 	//
