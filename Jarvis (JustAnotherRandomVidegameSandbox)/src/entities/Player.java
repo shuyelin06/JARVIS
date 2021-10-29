@@ -34,14 +34,14 @@ public class Player extends Entity{
 	
 	//health bars
 	public void drawHealthBars(Graphics g) {
-		final float BAR_WIDTH = ((Engine.game.getGC().getWidth()/2) - 300);
+		final float BAR_WIDTH = (float) ((Engine.game.getGC().getWidth()/2) - (0.15625 * Engine.game.getGC().getWidth()));
 		final float BAR_HEIGHT = 30;
 		g.setColor(new Color(0, 100, 0, 150));
-		g.fillRect(Engine.game.getGC().getWidth() - 100, 40, -BAR_WIDTH, BAR_HEIGHT);
+		g.fillRect((float) (Engine.game.getGC().getWidth() - (0.05208333333 * Engine.game.getGC().getWidth())), (float) (0.03703703703 * Engine.game.getGC().getHeight()), -BAR_WIDTH, BAR_HEIGHT);
 		g.setColor(new Color(0, 255, 0, 150));
-		g.fillRect(Engine.game.getGC().getWidth() - 100, 40, -BAR_WIDTH*percentageHealth, BAR_HEIGHT);
+		g.fillRect((float) (Engine.game.getGC().getWidth() - (0.05208333333 * Engine.game.getGC().getWidth())), (float) (0.03703703703 * Engine.game.getGC().getHeight()), -BAR_WIDTH*percentageHealth, BAR_HEIGHT);
 		g.setColor(new Color(255, 255, 255));
-		g.drawRect(Engine.game.getGC().getWidth() - 100, 40, -BAR_WIDTH, BAR_HEIGHT);
+		g.drawRect((float) (Engine.game.getGC().getWidth() - (0.05208333333 * Engine.game.getGC().getWidth())), (float) (0.03703703703 * Engine.game.getGC().getHeight()), -BAR_WIDTH, BAR_HEIGHT);
 	}
 	
 	// Key Press Mappings
