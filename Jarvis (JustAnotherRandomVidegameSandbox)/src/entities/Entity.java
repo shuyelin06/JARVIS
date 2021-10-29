@@ -10,6 +10,8 @@ import world.Chunk;
 import world.FileLoader;
 import world.World;
 
+import java.nio.file.attribute.PosixFileAttributes;
+
 import javax.swing.text.html.HTMLDocument.HTMLReader.BlockAction;
 
 import org.newdawn.slick.Color;
@@ -18,6 +20,8 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
 public class Entity{
+	//
+	protected boolean remove;
 	/*
 	 * Physics Variables
 	 */
@@ -37,32 +41,15 @@ public class Entity{
 	 */
 	protected Image sprite; // The sprite rendered in for the Entity
 	protected float sizeX, sizeY; // The size of the Entity
-	
-	/*
-	 * Stat Variables - Unused, but we can implement them later
-	 */
-	protected int curHealth, maxHealth;
-	protected float percentageHealth;
-	
-	protected boolean alive;
-	
-	protected int attack;
-	protected int defense;
-	
-	protected int iFrames;
-	protected int iDuration;
-	protected boolean healthRegen;
-	protected int regenTimer;
-	protected int timeLastHit;
-	protected int regenRate;
-	protected int regenInc;
-	
-	public enum Ent{
-		Player, Enemy, EBlock
+
+	public enum EntType{
+		Player, Hostiles, Items, Projectiles
 	}
 	// Every entity will have some initial starting position
 	public Entity(float InitX, float InitY)
 	{
+		this.remove = false;
+		
 		try {
 			sprite = new Image("res/placeholder.png");
 		} catch(Exception e) {}
@@ -73,27 +60,6 @@ public class Entity{
 		
 		this.xSpeed = 0f;
 		this.ySpeed = 0f;
-    
-		this.iFrames = 0;
-		this.iDuration = 30; //how long invulnerability will last after taking damage
-		
-		alive = true;
-		
-		sizeX = 20;
-		sizeY = 30;
-		
-		curHealth = 1;
-		maxHealth = 2;
-		percentageHealth = 1f;
-		healthRegen = false;
-		regenTimer = 120;
-		timeLastHit = 0;
-		regenRate = 30;
-		regenInc = 0;
-    
-//		maxHealth = 2;
-//		percentageHealth = 0;
-		
 	}
 	
 	public float getSizeX() {
@@ -105,6 +71,13 @@ public class Entity{
 	// Methods returning the position of an object
 	public Coordinate getPosition() {
 		return position;
+	}
+	
+	public void markForRemoval() {
+		this.remove = true;
+	}
+	public boolean isMarked() {
+		return remove;
 	}
 	
 	// Set Speeds
@@ -135,77 +108,9 @@ public class Entity{
 	public void fall() {
 		this.ySpeed -= Entity.gravity;
 	}
-	public void takeDamage(int dmg, boolean i) { //boolean for iFrames cause for certain piercing attacks that don't trigger them
-		//this mimics the mechanics in Terraria
-		if(iFrames == 0) {
-			if(healthRegen) {
-				timeLastHit = 0;
-				regenInc = 0;
-			}
-			
-			dmg -= defense;
-			if(dmg <= curHealth) {
-				if(dmg <= 0) { //if defense is higher than dmg taken you will just take 1 dmg
-					curHealth -= 1;
-				}else {
-					curHealth -= dmg;
-				}
-			}else {
-				curHealth = 0;
-			}
-			if(curHealth <= 0) {
-				alive = false;
-			}
-			else if(i) {
-				setIFrames(iDuration);
-			}
-			
-		}
-	}
-	public void regen() {
-		if(healthRegen && timeLastHit >= regenTimer && curHealth < maxHealth) {
-//			if(Utility.random(0, 100) < 5) { //replace this with increment health every x frames
-//				curHealth++;
-//			}
-			regenInc++;
-			if(regenInc % regenRate == 0) {
-				curHealth++;
-			}
-		
-		}
-	}
-	//gives entity number of iframs that will automatically start ticking down each frame in update()
-	public void setIFrames(int frames) {
-		iFrames = frames;
-	}
-	
-	
-	
-	public boolean isAlive() {
-		return alive;
-	}
-	
-	public void takeDamage(int damage) {
-		curHealth -= damage;
-		if (curHealth < 0) {
-			curHealth = 0;
-			alive = false;
-		}
-	}
 	
 	// Updates the entity's position given its velocity
 	public void update() {
-		// Update Stats
-		percentageHealth = ((float) curHealth) / ((float) maxHealth); // Update health
-		
-		if(iFrames > 0) { //timer that ticks down invincibility frames
-			iFrames --;
-		}
-		if(healthRegen && timeLastHit < 240) {
-			timeLastHit++;
-		}
-		regen();
-		
 		// Velocity Updating - X Velocity
 		float resistance = drag;
 		if(onPlatform) resistance = friction;
@@ -236,18 +141,15 @@ public class Entity{
 	
 	// Determine if a collision occurs
 	public void collisions() {
-		/*
-		 * Defining Memory Used
-		 */
+		// Defining Memory Used
 		Chunk c;
 		Block[][] blocks;
+		
 		float temp;
+		int x, y;
 		
-		int x;
-		int y;
-		
+		// Checking for horizontal collisions
 		try {
-			// Checking for horizontal collisions
 			temp = position.getX() + xSpeed / Engine.FRAMES_PER_SECOND;
 			if(xSpeed > 0) temp += sizeX;
 			
@@ -263,15 +165,12 @@ public class Entity{
 					break;
 				}
 			}
-		} catch(Exception e) {
-//			System.out.println("Failure checking horizontal collisions");
-		}
+		} catch(Exception e) {}
 		
+		// Checking for vertical collisions
 		try {
-			// Checking for vertical collisions
 			temp = position.getY() + ySpeed / Engine.FRAMES_PER_SECOND;
 			if(ySpeed < 0) temp -= sizeY;
-			
 			
 			y = (int) Math.ceil(temp);
 			
@@ -288,9 +187,7 @@ public class Entity{
 					break;
 				}
 			} 
-		} catch(Exception e) {
-//			System.out.println("Failure checking vertical collisions");
-		}
+		} catch(Exception e) {}
 	}
 	
 	// Code for what happens on collision
@@ -323,7 +220,25 @@ public class Entity{
 		}
 	}
 	
-
+	// Returns true if this entity will collide with another entity e.
+	public boolean entityCollision(Entity e) {
+		float inter1 = position.getX() + xSpeed / Engine.FRAMES_PER_SECOND;
+		if(xSpeed > 0) inter1 += sizeX;
+		
+		float inter2 = e.getPosition().getX() + e.xSpeed / Engine.FRAMES_PER_SECOND;
+		
+		// Check if one will be in the other
+		if(inter2 - 0.001f < inter1 && inter1 < inter2 + e.sizeX + 0.001f) {
+			inter1 = position.getY() + ySpeed / Engine.FRAMES_PER_SECOND;
+			if(ySpeed < 0) inter1 -= sizeY;
+			
+			inter2 = e.getPosition().getY() + e.ySpeed / Engine.FRAMES_PER_SECOND;
+			
+			if(inter2 - e.sizeY - 0.001f < inter1 && inter1 < inter2 + 0.001f) return true;
+		}
+		return false;
+	}
+	
 	public void render(Graphics g, float x, float y) {
 		if(xSpeed < 0)
 		{
@@ -332,22 +247,5 @@ public class Entity{
 		{
 			sprite.draw(x, y, sizeX * Coordinate.ConversionFactor, sizeY * Coordinate.ConversionFactor); 
 		}
-	}
-	//debug rendering		
-//		//write health of actor underneath
-//		if (Game.debugMode) {
-//			g.setColor(new Color(255, 255, 255));
-//			g.drawString(""+(int) curHealth, x, y - 15);
-//			g.setColor(new Color(0, 0, 0));
-//		}
-//		//debug for hitbox of actor
-//		if (Game.debugMode) {
-//			g.setColor(new Color(255, 255, 255));
-//			g.drawRect(x, y, w, h);
-//			g.setColor(new Color(0, 0, 0));
-//		}
-	
-	
-	
-	
+	}	
 }

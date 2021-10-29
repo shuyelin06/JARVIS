@@ -14,13 +14,15 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.function.Predicate;
 
 import core.Coordinate;
 import core.Engine;
-import entities.Enemy;
 import entities.Entity;
-import entities.Entity.Ent;
-import entities.Player;
+import entities.living.*;
+import entities.Entity.EntType;
+import entities.*;
 import settings.Values;
 import structures.Block;
 import world.Background;
@@ -40,30 +42,25 @@ public class Game extends BasicGameState {
 	
 	// The World
 	private World world;
-	private boolean createNewWorld = false; // If testing worldGen, change to true.
+	private boolean createNewWorld = true; // If testing worldGen, change to true.
 	
 	// The Player
 	private Player player;
-//	private HashMap<Ent, ArrayList<Entity>> es = new HashMap<Ent, ArrayList<Entity>>();
-	
-	private ArrayList<Entity> entities = new ArrayList<Entity>();
-	private ArrayList<Enemy> enemies = new ArrayList<Enemy>();
+	private HashMap<EntType, ArrayList<Entity>> entities;
 	
 	Background bg;
 	
 	// Constructor
-	public Game(int id) 
-	{
-		this.id = id;
-	}
+	public Game(int id) { this.id = id; } 
 	
 	// Accessor Methods
 	public int getID() { return id; }
 	public Player getPlayer() { return player; }
-	public ArrayList<Enemy> getEnemies(){ return enemies; }
 	public GameContainer getGC() { return gc; }
 	public World getWorld() { return world; }
-	public void addEntity(Entity e) { entities.add(e); }
+	public ArrayList<Entity> getEntities(EntType type) { return entities.get(type); }
+	
+	public void addEntity(EntType type, Entity e) { entities.get(type).add(e); }
 	
 	/* Initializing */
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException 
@@ -81,8 +78,14 @@ public class Game extends BasicGameState {
 		this.world = new World();
 		
 		this.player = new Player();
-		this.entities = new ArrayList<Entity>();
-		this.enemies = new ArrayList<Enemy>();
+
+		this.entities = new HashMap<EntType, ArrayList<Entity>>() {
+			private static final long serialVersionUID = 1L;
+		{
+			put(EntType.Hostiles, new ArrayList<Entity>());
+			put(EntType.Items, new ArrayList<Entity>());
+			put(EntType.Projectiles, new ArrayList<Entity>());
+		}};
 	}
 	
 	/* Rendering - Game's Camera */
@@ -113,16 +116,13 @@ public class Game extends BasicGameState {
 	    // Render the player
 		player.render(g, Values.CenterX, Values.CenterY);
 		
-    	for(Entity e : entities) {
-    		float[] position = renderPosition(e.getPosition().getX(), e.getPosition().getY());
-    		e.render(g, position[0], position[1]);
+		// Render all entities
+		for(ArrayList<Entity> list: entities.values()) {
+			for(Entity e: list) {
+				float[] position = renderPosition(e.getPosition().getX(), e.getPosition().getY());
+	    		e.render(g, position[0], position[1]);
+			}	
     	}
-    	for(Enemy e : enemies) {
-    		
-    		float[] position = renderPosition(e.getPosition().getX(), e.getPosition().getY());
-    		e.render(g, position[0], position[1]);
-    	}
-
 	}
 	// Given two coordinates, display where they should be displayed on screen
 	private float[] renderPosition(float x2, float y2) {
@@ -150,14 +150,22 @@ public class Game extends BasicGameState {
 		// Update the player's movement
 		player.update();
 		
-   
+		// Spawning Mechanics
 		Spawning.spawnEnemy(this, Values.Spawn_Rate); // If you want to stop spawning, set 5f to 0f.
-		for(Entity e: entities) e.update();
 		
-		for(Enemy e : enemies) {
-			e.update();
+		// Update all entities
+		for(ArrayList<Entity> list: entities.values()) {
+			for(Entity e: list) {
+				if(e.isMarked()) continue;
+				e.update();
+			}
+    	}
+		
+		// Remove all entities marked for removal
+		Predicate<Entity> filter = (Entity e) -> (e.isMarked());
+		for(ArrayList<Entity> list: entities.values()) {
+			list.removeIf(filter);
 		}
-		Spawning.clearDead(this);
 	}
 
 	public void enter(GameContainer gc, StateBasedGame sbg) throws SlickException 

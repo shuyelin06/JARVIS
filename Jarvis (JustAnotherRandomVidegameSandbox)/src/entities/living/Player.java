@@ -1,4 +1,4 @@
-package entities;
+package entities.living;
 
 import java.util.ArrayList;
 
@@ -10,13 +10,14 @@ import org.newdawn.slick.geom.Circle;
 
 import core.Coordinate;
 import core.Engine;
+import entities.Entity;
 import gamestates.Game;
 import settings.Values;
 import structures.Block;
 import world.Chunk;
 import world.World;
 
-public class Player extends Entity{	
+public class Player extends Living{	
 	// Player constructor
 	public Player() 
 	{
@@ -65,6 +66,11 @@ public class Player extends Entity{
 	}
 	public void fall() {
 		this.ySpeed -= Entity.gravity;
+	}
+	
+	// Overwritten Collisions Method
+	public void collisions() {
+		super.collisions();
 	}
 	
 	

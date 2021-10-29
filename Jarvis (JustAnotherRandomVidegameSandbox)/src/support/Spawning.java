@@ -6,8 +6,8 @@ import org.newdawn.slick.SlickException;
 
 import core.Coordinate;
 import core.Engine;
-import entities.Enemy;
-import entities.Player;
+import entities.Entity.EntType;
+import entities.living.*;
 import gamestates.Game;
 import settings.Values;
 import structures.Block;
@@ -18,14 +18,14 @@ public class Spawning {
 	public static void spawnEnemy (Game g, float prob) throws SlickException { //expand on parameters like what kind of enemies to spawn in later
 
 		//prob is the percent chance that you want a new enemy to spawn; scale it to how often the update method gets called
- 		if(g.getEnemies().size() < 5) {
+ 		if(g.getEntities(EntType.Hostiles).size() < 5) {
  			if(Utility.random(0.0, 100.0) <= prob) {
  				//for now it just drops a new enemy on the player's head
  				float x = g.getPlayer().getPosition().getX();
  				float y = g.getPlayer().getPosition().getY();
  				Coordinate coord = getOpenArea(g, 15, 25, 20, 1, 1, prob);
  				if(coord != null) {
-          g.getEnemies().add(new Enemy(coord.getX(), coord.getY()));
+ 					g.getEntities(EntType.Hostiles).add(new Enemy(coord.getX(), coord.getY()));
  				}
  				
  				//System.out.println("New Enemy: " + x + ", " + y);
@@ -98,15 +98,4 @@ public class Spawning {
 		
 		return null;
 	}
-	
-	//loops from end to beginning of ArrayList and removes all the dead enemies from the list
-	public static void clearDead (Game g) {
-		for(int i = g.getEnemies().size()-1; i > -1; i--) {  
-			if(!g.getEnemies().get(i).isAlive()) {
-				g.getEnemies().remove(i);
-			}
-			
-		}
-	}
-
 }

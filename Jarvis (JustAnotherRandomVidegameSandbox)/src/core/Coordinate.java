@@ -44,6 +44,7 @@ public class Coordinate{
 		return x / (float) Values.Chunk_Size_X;
 	}
 	
+	
 	// Determine displacement from some coordinate
 	public float[] displacement(float x2, float y2) {
 		float[] displacement = new float[2];
@@ -52,6 +53,16 @@ public class Coordinate{
 		displacement[1] = y2 - y;
 		
 		return displacement;
+	}
+	
+	// Determine magnitude of displacement from some coordinate
+	public float magDisplacement(Coordinate c) {
+		float[] displacement = new float[2];
+		
+		displacement[0] = c.getX() - x;
+		displacement[1] = c.getY() - y;
+		
+		return (float) Math.sqrt(Math.pow(displacement[0], 2) + Math.pow(displacement[1], 2));
 	}
 	
 }
