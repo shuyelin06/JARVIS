@@ -1,4 +1,6 @@
-package entities;
+package entities.other;
+
+import entities.Entity;
 
 public class Projectile extends Entity{
 	

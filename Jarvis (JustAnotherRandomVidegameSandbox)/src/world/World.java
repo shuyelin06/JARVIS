@@ -7,8 +7,8 @@ import java.util.Iterator;
 
 import core.Coordinate;
 import core.Engine;
-import entities.EBlock;
 import entities.Entity.EntType;
+import entities.other.EBlock;
 import gamestates.Game;
 import settings.Values;
 import structures.Block;
@@ -72,8 +72,6 @@ public class World
 			
 			Block[][] blocks = renderedChunks.get(chunkX).getBlocks();
 			blocks[x % Values.Chunk_Size_X][y] = new Block(1);
-			
-			System.out.println("Block Placed");
 		} catch(Exception e) {}
 	}
 	public void destroyBlock(int x, int y) {
@@ -88,8 +86,6 @@ public class World
 				blocks[relX][y] = new Block(0);
 				Engine.game.addEntity(EntType.Items, new EBlock(b.getID(), x, y));
 			} 
-			
-			System.out.println("Block Destroyed");
 		} catch(Exception e) {}
 	}
 	

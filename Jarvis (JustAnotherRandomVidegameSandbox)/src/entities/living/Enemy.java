@@ -1,4 +1,5 @@
-package entities;
+package entities.living;
+
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -11,7 +12,7 @@ import gamestates.Game;
 import support.Utility;
 import world.World;
 
-public class Enemy extends Entity {
+public class Enemy extends Living {
 	
 	protected int contactDmg;
 	
@@ -62,6 +63,7 @@ public class Enemy extends Entity {
 		
 		if(Utility.random(0.0, 100.0) <= 0.2) { //random chance to die just to test stuff
 			alive = false;
+			remove = true;
 		}
 		
 		playerCollision(target);
