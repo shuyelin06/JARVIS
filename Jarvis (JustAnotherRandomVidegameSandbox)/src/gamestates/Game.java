@@ -3,6 +3,7 @@ package gamestates;
 import java.util.ArrayList;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
@@ -35,6 +36,10 @@ public class Game extends BasicGameState {
 	// The World
 	private World world;
 	private boolean createNewWorld = true; // If testing worldGen, change to true.
+	
+	//tileset
+	private HashMap<Integer, Integer> tileHash;
+	private SpriteSheet tileset;
 	
 	// The Player
 	private Player player;
@@ -78,6 +83,16 @@ public class Game extends BasicGameState {
 			put(EntType.Items, new ArrayList<Entity>());
 			put(EntType.Projectiles, new ArrayList<Entity>());
 		}};
+		
+		tileset = new SpriteSheet("res/tileset.png", 30, 30);
+		//block image hashes: key = block id, 
+		tileHash = new HashMap<Integer, Integer>();
+		tileHash.put(1, 1); //block id 1 = dirt
+		tileHash.put(2, 0); //block id 2 = grass
+		tileHash.put(3, 2); //block id 3 = stone
+		tileHash.put(4, 3);
+		tileHash.put(5, 4);
+		tileHash.put(6, 5);
 	}
 	
 	/* Rendering - Game's Camera */
@@ -93,13 +108,20 @@ public class Game extends BasicGameState {
 			// For every object, render its position relative to the player (with the player being in the center)
 			for(int i = 0; i < Values.Chunk_Size_X; i++) {
 				for(int j = 0; j < Values.Chunk_Size_Y; j++) {
+					//sets the color according to the block id
 					g.setColor(Values.BlockHash.get(blocks[i][j].getID()));
 					
 					float[] position = renderPosition(chunk.getX() * Values.Chunk_Size_X + i, j);
 					if(position[0] > -Coordinate.ConversionFactor && position[0] < Engine.RESOLUTION_X
 							&& position[1] > -Coordinate.ConversionFactor && position[1] < Engine.RESOLUTION_Y)
 					{
-						g.fillRect(position[0], position[1], Coordinate.ConversionFactor, Coordinate.ConversionFactor);
+						//draws blocks
+						//temporary if statement until we have all the graphics for every block
+						if(blocks[i][j].getID() >= 1 && blocks[i][j].getID() <= 6) {
+							tileset.getSubImage(0, tileHash.get(blocks[i][j].getID())).draw(position[0], position[1]);
+						}else {
+							g.fillRect(position[0], position[1], Coordinate.ConversionFactor, Coordinate.ConversionFactor);
+						}
 					}
 				}
 			}
