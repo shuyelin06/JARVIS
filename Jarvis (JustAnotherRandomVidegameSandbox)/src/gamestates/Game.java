@@ -90,6 +90,9 @@ public class Game extends BasicGameState {
 		tileHash.put(1, 1); //block id 1 = dirt
 		tileHash.put(2, 0); //block id 2 = grass
 		tileHash.put(3, 2); //block id 3 = stone
+		tileHash.put(4, 3);
+		tileHash.put(5, 4);
+		tileHash.put(6, 5);
 	}
 	
 	/* Rendering - Game's Camera */
@@ -114,8 +117,8 @@ public class Game extends BasicGameState {
 					{
 						//draws blocks
 						//temporary if statement until we have all the graphics for every block
-						if(blocks[i][j].getID() >= 1 && blocks[i][j].getID() <= 3) {
-							tileset.getSubImage(0, tileHash.get(blocks[i][j].getID())).draw(position[0],position[1]);
+						if(blocks[i][j].getID() >= 1 && blocks[i][j].getID() <= 6) {
+							tileset.getSubImage(0, tileHash.get(blocks[i][j].getID())).draw(position[0], position[1]);
 						}else {
 							g.fillRect(position[0], position[1], Coordinate.ConversionFactor, Coordinate.ConversionFactor);
 						}
