@@ -30,15 +30,25 @@ public class Cloud
 		this.w = 192 + (float)(Math.random() * 96);
 		this.h = w * 0.5f + (float)(Math.random() * 32);
 		
-		cloudType = (int)(Math.random() * 2);
+		cloudType = (int)(Math.random() * 4);
 		
 		if(cloudType == 0)
 		{
 			sprite = new Image("res/cloud-1.png");
-		} else if(cloudType == 1)
+		} 
+		else if(cloudType == 1)
 		{
 			sprite = new Image("res/cloud-2.png");
 		}
+		else if(cloudType == 2)
+		{
+			sprite = new Image("res/cloud-3.png");
+		} 
+		else if(cloudType == 3)
+		{
+			sprite = new Image("res/cloud-4.png");
+		}
+
 
 		sprite.setAlpha(0.5f);
 		
