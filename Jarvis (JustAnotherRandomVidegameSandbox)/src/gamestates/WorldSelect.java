@@ -13,6 +13,7 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import core.Engine;
 import structures.Particle;
+import world.Background;
 import world.FileLoader;
 
 public class WorldSelect extends BasicGameState 
@@ -33,6 +34,8 @@ public class WorldSelect extends BasicGameState
 	public static int fireworkType = 0;
 	public static int backgroundColor;
 	
+	//background
+	private Background bg;
 	//image variables
 	private Image mainButton;
 	private Image w1Button;
@@ -55,6 +58,9 @@ public class WorldSelect extends BasicGameState
 		worldID = 1;
 		worldIDMax = 3;
 		worldIDMin = 1;
+		
+		//background
+		bg = new Background();
 		
 		//image settings
 		setImage("res/placeholder.png");
@@ -88,13 +94,13 @@ public class WorldSelect extends BasicGameState
 		
 		
 		
+		bg.render(g, 0, 0);
 		
 		//temporary string graphics, will be replaced
 
-		g.drawString("Press a number to change world", gc.getWidth() / 2, (gc.getHeight() / 2) - 20);
-		g.drawString("Press Q to enter world", gc.getWidth() / 2, gc.getHeight() / 2);
-		
-		g.drawString("World: " + worldID, gc.getWidth() / 2, (gc.getHeight() / 2) + 20);
+//		g.drawString("Press a number to change world", gc.getWidth() / 2, (gc.getHeight() / 2) - 20);
+//		g.drawString("Press Q to enter world", gc.getWidth() / 2, gc.getHeight() / 2);
+//		g.drawString("World: " + worldID, gc.getWidth() / 2, (gc.getHeight() / 2) + 20);
 
 		//draws all buttons and world number image
 		drawImages(g);
@@ -196,19 +202,19 @@ public class WorldSelect extends BasicGameState
 		if(button == 0) {
 			for (int i = 0; i < arraySize; i++) {
 				fireworkType = 0;
-				particles.add(new Particle(x, y));
+				particles.add(new Particle(x, y, fireworkType));
 			}
 		}
 		if(button == 1) {
 			for (int i = 0; i < arraySize; i++) {
 				fireworkType = 1;
-				particles.add(new Particle(x, y));
+				particles.add(new Particle(x, y, fireworkType));
 			}
 		}
 		if(button == 2) {
 			for (int i = 0; i < arraySize; i++) {
 				fireworkType = 2;
-				particles.add(new Particle(x, y));
+				particles.add(new Particle(x, y, fireworkType));
 			}
 		}
 		

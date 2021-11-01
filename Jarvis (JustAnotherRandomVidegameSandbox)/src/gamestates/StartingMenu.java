@@ -1,5 +1,8 @@
 package gamestates;
 
+import java.util.ArrayList;
+
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -9,6 +12,8 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 import core.Engine;
+import structures.Particle;
+import world.Background;
 
 public class StartingMenu extends BasicGameState 
 {
@@ -18,10 +23,15 @@ public class StartingMenu extends BasicGameState
 	private boolean readyStart;
 	
 	//image background variables
-	private Image background;
+	private Background bg;
 	private Image mainButton;
 	private int mainButtonX, mainButtonY, mainButtonW, mainButtonH;
-	private int backgroundX, backgroundY, backgroundW, backgroundH;
+	
+	//fireworks
+	//firework code
+	public static ArrayList<Particle> particles = new ArrayList<Particle>();
+	public static int arraySize = 50;
+	public static int fireworkType = 0;
 	
 	public StartingMenu(int id) 
 	{
@@ -31,25 +41,26 @@ public class StartingMenu extends BasicGameState
 	// Initializer, first time
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException 
 	{
+		bg = new Background();
 		//image settings
 		setImage("res/placeholder.png");
 		mainButtonX = gc.getWidth()/2;
 		mainButtonY = gc.getHeight()/3;
 		mainButtonW = 300;
 		mainButtonH = 100;
-		//background is whole screen
-		backgroundX = gc.getWidth()/2;
-		backgroundY = gc.getHeight()/2;
-		backgroundW = gc.getWidth();
-		backgroundH = gc.getHeight();
 	}
 	
 	//render, all visuals
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException 
 	{
 		//temporary string graphics, will be replaced
+		bg.render(g, 0, 0);
 		drawImages(g);
-		g.drawString("Press Q to start game", gc.getWidth() / 2, gc.getHeight() / 2);
+		
+		//draws fireworks
+		for (int i = 0; i < particles.size(); i++) {
+			particles.get(i).render(g);
+		}
 		
 	}
 
@@ -60,6 +71,12 @@ public class StartingMenu extends BasicGameState
 		if (readyStart) {
 			sbg.enterState(Engine.WorldSelect_ID);
 		}
+		
+		//fireworks
+		for (int i = 0; i < particles.size(); i++) {
+			particles.get(i).update(gc);
+		}
+		
 	}
 
 	public void enter(GameContainer gc, StateBasedGame sbg) throws SlickException 
@@ -91,14 +108,31 @@ public class StartingMenu extends BasicGameState
 			readyStart = true;
 			return;
 		}
+		
+		//check for type of firework
+		if(button == 0) {
+			for (int i = 0; i < arraySize; i++) {
+				fireworkType = 0;
+				particles.add(new Particle(x, y, fireworkType));
+			}
+		}
+		if(button == 1) {
+			for (int i = 0; i < arraySize; i++) {
+				fireworkType = 1;
+				particles.add(new Particle(x, y, fireworkType));
+			}
+		}
+		if(button == 2) {
+			for (int i = 0; i < arraySize; i++) {
+				fireworkType = 3;
+				particles.add(new Particle(x, y, fireworkType));
+			}
+		}
 	}
 	
 	public void drawImages(Graphics g) {
 		//image drawing
 		
-		setImage("res/placeholder.png");
-		background.setFilter(Image.FILTER_NEAREST);
-		background.draw(backgroundX - (backgroundW / 2), backgroundY - (backgroundH / 2), backgroundW, backgroundH);
 		setImage("res/startButton.png");
 		mainButton.setFilter(Image.FILTER_NEAREST);
 		mainButton.draw(mainButtonX - (mainButtonW / 2), mainButtonY - (mainButtonH / 2), mainButtonW, mainButtonH);
@@ -109,7 +143,6 @@ public class StartingMenu extends BasicGameState
 	{
 		try
 		{
-			background = new Image(filepath);
 			mainButton = new Image(filepath);
 		}
 		catch(SlickException e)		

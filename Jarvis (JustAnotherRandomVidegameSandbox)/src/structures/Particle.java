@@ -19,30 +19,31 @@ public class Particle {
 	private int color3 = 255;
 	private int size = 0;
 	
-	public Particle (int x, int y) {
+	public Particle (int x, int y, int fireworkType) {
+		
 		this.x = (float) x;
 		xSpeed = (float) (Math.random()*30 - 15);
 		ySpeed = (float) (Math.random()*30 - 15);
 		size = (int) (Math.random()*10 + 1);
-		if (WorldSelect.fireworkType == 0) {
+		if (fireworkType == 0) {
 			color1 = 255;
 			color2 = (int) (Math.random()*255);
 			color3 = (int) (Math.random()*255);
 			this.y = y - 10;
 			gravity = (float) 0.5;
-		} else if (WorldSelect.fireworkType == 1) {
+		} else if (fireworkType == 1) {
 			color1 = (int) (Math.random()*255);
 			color2 = (int) (Math.random()*255);
 			color3 = 255;
 			this.y = y + 10;
 			gravity = (float) -0.5;
-		} else if (WorldSelect.fireworkType == 2) {
+		} else if (fireworkType == 2) {
 			color1 = (int) (Math.random()*255);
 			color2 = 255;
 			color3 = (int) (Math.random()*255);
 			this.y = y;
 			gravity = (float) (Math.random()*1 - 0.5);
-		} else if (WorldSelect.fireworkType == 3) {
+		} else if (fireworkType == 3) {
 			color1 = (int) (Math.random()*255);
 			color2 = (int) (Math.random()*255);
 			color3 = (int) (Math.random()*255);
