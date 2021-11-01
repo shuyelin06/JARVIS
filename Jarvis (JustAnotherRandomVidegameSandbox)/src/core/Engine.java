@@ -52,9 +52,9 @@ public class Engine extends StateBasedGame
 	{
 		gc.setShowFPS(false);
 		
+		addState(startingMenu);
 		addState(worldSelect);
 		addState(game);
-		addState(startingMenu);
 		addState(pause);
 		addState(debug);
 	}

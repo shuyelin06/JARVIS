@@ -31,10 +31,10 @@ public class WorldSelect extends BasicGameState
 	public static ArrayList<Particle> particles = new ArrayList<Particle>();
 	public static int arraySize = 50;
 	public static int fireworkType = 0;
-	public static int xLocation, yLocation;
 	public static int backgroundColor;
 	
-	private Image startButton;
+	//image variables
+	private Image mainButton;
 	private Image w1Button;
 	private Image w2Button;
 	private Image worldImage;
@@ -75,9 +75,6 @@ public class WorldSelect extends BasicGameState
 		worldImageW = 100;
 		worldImageH = 100;
 		
-		//set center
-		xLocation = gc.getWidth()/2;
-		yLocation = gc.getHeight()/2;
 		//randomize gray
 		backgroundColor = (int)(Math.random()*50);
 	}
@@ -99,33 +96,8 @@ public class WorldSelect extends BasicGameState
 		
 		g.drawString("World: " + worldID, gc.getWidth() / 2, (gc.getHeight() / 2) + 20);
 
-		
-		
-		//image drawing
-		
-		setImage("res/startButton.png");
-		startButton.setFilter(Image.FILTER_NEAREST);
-		startButton.draw(mainButtonX - (mainButtonW / 2), mainButtonY - (mainButtonH / 2), mainButtonW, mainButtonH);
-		
-		setImage("res/placeholder.png");
-		w1Button.draw(w1ButtonX - (w1ButtonW / 2), w1ButtonY - (w1ButtonH / 2), w1ButtonW, w1ButtonH);
-		w2Button.draw(w2ButtonX - (w2ButtonW / 2), w2ButtonY - (w2ButtonH / 2), w2ButtonW, w2ButtonH);
-		
-		
-		//draws based on world number
-		if (worldID == 1) {
-			setImage("res/1.png");
-		} else if (worldID == 2) {
-			setImage("res/2.png");
-		} else if (worldID == 3) {
-			setImage("res/3.png");
-		} else if (worldID == 4) {
-			setImage("res/4.png");
-		} else if (worldID == 5) {
-			setImage("res/5.png");
-		}
-		worldImage.draw(worldImageX - (worldImageW / 2), worldImageY - (worldImageH / 2), worldImageW, worldImageH);
-		
+		//draws all buttons and world number image
+		drawImages(g);
 		
 		//draws fireworks
 		for (int i = 0; i < particles.size(); i++) {
@@ -184,8 +156,6 @@ public class WorldSelect extends BasicGameState
 	
 	public void mousePressed(int button, int x, int y)
 	{
-		xLocation = x;
-		yLocation = y;
 		
 		//check main button
 		if ((x > mainButtonX - (mainButtonW / 2))
@@ -246,12 +216,39 @@ public class WorldSelect extends BasicGameState
 		
 	}
 	
+	public void drawImages(Graphics g) {
+		//image drawing
+		
+		setImage("res/startButton.png");
+		mainButton.setFilter(Image.FILTER_NEAREST);
+		mainButton.draw(mainButtonX - (mainButtonW / 2), mainButtonY - (mainButtonH / 2), mainButtonW, mainButtonH);
+		
+		setImage("res/placeholder.png");
+		w1Button.draw(w1ButtonX - (w1ButtonW / 2), w1ButtonY - (w1ButtonH / 2), w1ButtonW, w1ButtonH);
+		w2Button.draw(w2ButtonX - (w2ButtonW / 2), w2ButtonY - (w2ButtonH / 2), w2ButtonW, w2ButtonH);
+		
+		
+		//draws based on world number
+		if (worldID == 1) {
+			setImage("res/1.png");
+		} else if (worldID == 2) {
+			setImage("res/2.png");
+		} else if (worldID == 3) {
+			setImage("res/3.png");
+		} else if (worldID == 4) {
+			setImage("res/4.png");
+		} else if (worldID == 5) {
+			setImage("res/5.png");
+		}
+		worldImage.draw(worldImageX - (worldImageW / 2), worldImageY - (worldImageH / 2), worldImageW, worldImageH);
+			
+	}
 	
 	public void setImage(String filepath)
 	{
 		try
 		{
-			startButton = new Image(filepath);
+			mainButton = new Image(filepath);
 			w1Button = new Image(filepath);
 			w2Button = new Image(filepath);
 			worldImage = new Image(filepath);
