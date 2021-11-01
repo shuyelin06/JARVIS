@@ -78,11 +78,6 @@ public class Enemy extends Living {
 	public void update() {
 		super.update();
 		
-		if(Utility.random(0.0, 100.0) <= 0.2) { //random chance to die just to test stuff
-			alive = false;
-			remove = true;
-		}
-		
 		playerCollision(target);
 		ai(target);
 	}
