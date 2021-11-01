@@ -2,6 +2,7 @@ package entities.living;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 
 import core.Engine;
 import entities.Entity;
@@ -12,6 +13,10 @@ public class Player extends Living{
 	public Player() 
 	{
 		super(Values.SpawnX, Values.SpawnY); 
+		
+		try {
+			sprite = new Image("res/pratt.png");
+		} catch(Exception e) {}
 		
 		this.sizeY = 2f;
 		this.sizeX = 1.3f; // Only use sizes to the 10th PLACE 

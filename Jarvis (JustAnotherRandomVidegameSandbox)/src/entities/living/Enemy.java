@@ -19,7 +19,7 @@ public class Enemy extends Living {
 		target = Engine.game.getPlayer();
 
 		try {
-			sprite = new Image("res/redEnemy.png");
+			sprite = new Image("res/bowser.png");
 		} catch(Exception e) {}
 		
 		contactDmg = 1;
