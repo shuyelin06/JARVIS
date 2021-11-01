@@ -45,16 +45,22 @@ public class Player extends Living{
 	
 	// Key Press Mappings
 	public void moveRight() {
+		if(!this.alive) return; // We will find a better way to do this check later
+		
 		if(xSpeed + 5f > Values.Terminal_X_Velocity) xSpeed = Values.Terminal_X_Velocity;
 		else xSpeed += 5f;	
 	}
 	
 	public void moveLeft() {
+		if(!this.alive) return; // We will find a better way to do this check later
+		
 		if(xSpeed - 5f < 0 - Values.Terminal_X_Velocity) xSpeed = 0 - Values.Terminal_X_Velocity;
 		else xSpeed -= 5f;
 	}
 	
 	public void jump() {
+		if(!this.alive) return;
+		
 		if(jumpsLeft > 0) {
 			this.onPlatform = false;
 			this.ySpeed = 20f;
@@ -63,6 +69,8 @@ public class Player extends Living{
 		}
 	}
 	public void fall() {
+		if(!this.alive) return;
+		
 		this.ySpeed -= Entity.gravity;
 	}
 	

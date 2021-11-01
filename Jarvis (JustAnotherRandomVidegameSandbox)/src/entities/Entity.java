@@ -6,8 +6,12 @@ import settings.Values;
 import structures.Block;
 import world.Chunk;
 
+import org.lwjgl.Sys;
+import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.geom.Circle;
+import org.newdawn.slick.geom.Rectangle;
 
 public class Entity{
 	//
@@ -32,6 +36,11 @@ public class Entity{
 	protected Image sprite; // The sprite rendered in for the Entity
 	protected float sizeX, sizeY; // The size of the Entity
 
+	/* 
+	 * Time
+	 */
+	protected long time;
+	
 	public enum EntType{
 		Player, Hostiles, Items, Projectiles
 	}
@@ -50,8 +59,13 @@ public class Entity{
 		
 		this.xSpeed = 0f;
 		this.ySpeed = 0f;
+		
+		this.time = Sys.getTime();
 	}
 	
+	public int timeAlive() {
+		return (int) (Sys.getTime() - time) / 1000;
+	}
 	public float getSizeX() {
 		return sizeX;
 	}
@@ -227,6 +241,37 @@ public class Entity{
 			if(inter2 - e.sizeY - 0.001f < inter1 && inter1 < inter2 + 0.001f) return true;
 		}
 		return false;
+	}
+	
+	public void debug(Graphics g, float x, float y) {
+		float[] render;
+		float temp;
+		
+		temp = position.getX() + xSpeed / Engine.FRAMES_PER_SECOND;
+		if(xSpeed > 0) temp += sizeX;
+		
+		x = (int) temp; // Furthest x away
+		for(int j = 0; j < Math.ceil(sizeY); j++) {
+			render = Engine.game.renderPosition(x, position.getY() - j);
+			g.setColor(Color.white);
+			g.draw(new Rectangle(render[0], render[1], Coordinate.ConversionFactor, Coordinate.ConversionFactor));
+		}
+		
+		temp = position.getY() + ySpeed / Engine.FRAMES_PER_SECOND;
+		if(ySpeed < 0) temp -= sizeY;
+		
+		y = (int) Math.ceil(temp);
+		
+		int max = (int) (Math.ceil(sizeX) + 1);
+		if(position.getX() - Math.floor(position.getX()) < Math.ceil(sizeX) - sizeX) max--;
+		
+		for(int i = 0; i < max; i++) {
+			x = (int) position.getX() + i; // Get the absolute x coordinate
+
+			render = Engine.game.renderPosition(x, y);
+			g.setColor(Color.cyan);
+			g.draw(new Rectangle(render[0], render[1], Coordinate.ConversionFactor, Coordinate.ConversionFactor));
+		} 
 	}
 	
 	public void render(Graphics g, float x, float y) {
