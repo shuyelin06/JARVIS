@@ -48,9 +48,6 @@ public class Cloud
 		{
 			sprite = new Image("res/cloud-4.png");
 		}
-
-
-		sprite.setAlpha(0.5f);
 		
 		xSpeed = (w * w) * 0.00002f;
 	}

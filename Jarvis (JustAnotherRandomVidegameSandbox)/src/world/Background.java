@@ -10,24 +10,22 @@ import core.Engine;
 public class Background 
 {
 	private Image sky;
-	private Image hills;
+	private Image hillsFront;
+	private Image hillsBack;
 	private Image mountains;
-	
-	private float cloudX;
 	
 	private Cloud[] clouds;
 	
 	public Background() throws SlickException
 	{
 		sky = new Image("res/daySky.png");
-		hills = new Image("res/hills-1.png");
-		mountains = new Image("res/mountains.png");
+		hillsFront = new Image("res/hills1.png");
+		hillsBack = new Image("res/hills1-80.png");
+		
+		
+		mountains = new Image("res/mountains-60.png");
 		
 		clouds = new Cloud[5];
-		
-		cloudX = 0;
-		
-		mountains.setAlpha(.6f);
 		
 		for(int i = 0; i < clouds.length; i++)
 		{
@@ -56,23 +54,23 @@ public class Background
 		}
 		
 		//hills layer 1
-		hills.draw( (x * 0.25f % Engine.RESOLUTION_X) + Engine.RESOLUTION_X, //i should add a new texture
+		hillsBack.draw( (x * 0.25f % Engine.RESOLUTION_X) + Engine.RESOLUTION_X, //i should add a new texture
 				Engine.RESOLUTION_Y * 0.45f, 
 				-Engine.RESOLUTION_X, 
 				Engine.RESOLUTION_Y * 0.35f);
 		
-		hills.draw((x * 0.25f % Engine.RESOLUTION_X) + (2 * Engine.RESOLUTION_X),
+		hillsBack.draw((x * 0.25f % Engine.RESOLUTION_X) + (2 * Engine.RESOLUTION_X),
 				Engine.RESOLUTION_Y * 0.45f,
 				-Engine.RESOLUTION_X, 
 				Engine.RESOLUTION_Y * 0.35f);
 		
 		//hills layer 2
-		hills.draw(x * 0.3f % Engine.RESOLUTION_X, //first hill, loops back every time it travels its full length
+		hillsFront.draw(x * 0.3f % Engine.RESOLUTION_X, //first hill, loops back every time it travels its full length
 				Engine.RESOLUTION_Y * 0.5f, 
 				Engine.RESOLUTION_X, 
 				Engine.RESOLUTION_Y * 0.3f);
 		
-		hills.draw((x * 0.3f % Engine.RESOLUTION_X) + Engine.RESOLUTION_X, //second hill texture so it doesn't cut off
+		hillsFront.draw((x * 0.3f % Engine.RESOLUTION_X) + Engine.RESOLUTION_X, //second hill texture so it doesn't cut off
 				Engine.RESOLUTION_Y * 0.5f,
 				Engine.RESOLUTION_X, 
 				Engine.RESOLUTION_Y * 0.3f);
