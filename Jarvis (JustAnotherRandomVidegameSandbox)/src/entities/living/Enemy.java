@@ -19,7 +19,7 @@ public class Enemy extends Living {
 		target = Engine.game.getPlayer();
 
 		try {
-			sprite = new Image("res/redEnemy.png");
+			sprite = new Image("res/bowser.png");
 		} catch(Exception e) {}
 		
 		contactDmg = 1;
@@ -77,11 +77,6 @@ public class Enemy extends Living {
 		
 	public void update() {
 		super.update();
-		
-		if(Utility.random(0.0, 100.0) <= 0.2) { //random chance to die just to test stuff
-			alive = false;
-			remove = true;
-		}
 		
 		playerCollision(target);
 		ai(target);

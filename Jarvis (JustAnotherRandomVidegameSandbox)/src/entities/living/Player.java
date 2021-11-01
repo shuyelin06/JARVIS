@@ -2,6 +2,7 @@ package entities.living;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 
 import core.Engine;
 import entities.Entity;
@@ -12,6 +13,10 @@ public class Player extends Living{
 	public Player() 
 	{
 		super(Values.SpawnX, Values.SpawnY); 
+		
+		try {
+			sprite = new Image("res/pratt.png");
+		} catch(Exception e) {}
 		
 		this.sizeY = 2f;
 		this.sizeX = 1.3f; // Only use sizes to the 10th PLACE 
@@ -40,16 +45,22 @@ public class Player extends Living{
 	
 	// Key Press Mappings
 	public void moveRight() {
+		if(!this.alive) return; // We will find a better way to do this check later
+		
 		if(xSpeed + 5f > Values.Terminal_X_Velocity) xSpeed = Values.Terminal_X_Velocity;
 		else xSpeed += 5f;	
 	}
 	
 	public void moveLeft() {
+		if(!this.alive) return; // We will find a better way to do this check later
+		
 		if(xSpeed - 5f < 0 - Values.Terminal_X_Velocity) xSpeed = 0 - Values.Terminal_X_Velocity;
 		else xSpeed -= 5f;
 	}
 	
 	public void jump() {
+		if(!this.alive) return;
+		
 		if(jumpsLeft > 0) {
 			this.onPlatform = false;
 			this.ySpeed = 20f;
@@ -58,6 +69,8 @@ public class Player extends Living{
 		}
 	}
 	public void fall() {
+		if(!this.alive) return;
+		
 		this.ySpeed -= Entity.gravity;
 	}
 	

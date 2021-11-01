@@ -5,6 +5,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.Input;
+import org.newdawn.slick.Music;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
@@ -24,6 +25,7 @@ import world.Chunk;
 import world.FileLoader;
 import world.World;
 import world.WorldGen;
+import support.Destroyer;
 import support.Spawning;
 
 public class Game extends BasicGameState {
@@ -35,9 +37,13 @@ public class Game extends BasicGameState {
 	
 	// The World
 	private World world;
-	private boolean createNewWorld = true; // If testing worldGen, change to true.
+	private boolean createNewWorld = false; // If testing worldGen, change to true.
 	
-	//tileset
+	// Audio
+	Music sound;
+	Destroyer d; // Despawning
+	
+	// Tileset
 	private HashMap<Integer, Integer> tileHash;
 	private SpriteSheet tileset;
 	
@@ -56,6 +62,10 @@ public class Game extends BasicGameState {
 	public GameContainer getGC() { return gc; }
 	public World getWorld() { return world; }
 	public ArrayList<Entity> getEntities(EntType type) { return entities.get(type); }
+	public HashMap<EntType, ArrayList<Entity>> getAllEntities(){ return entities; }
+	
+	public SpriteSheet getSpriteSheet() { return tileset; }
+	public HashMap<Integer, Integer> getSpriteHash() { return tileHash; }
 	
 	public void addEntity(EntType type, Entity e) { entities.get(type).add(e); }
 	
@@ -72,6 +82,8 @@ public class Game extends BasicGameState {
 		this.bg = new Background();
 		
 		// Initializations
+		this.d = new Destroyer(this);
+		
 		this.world = new World();
 		
 		this.player = new Player();
@@ -139,7 +151,7 @@ public class Game extends BasicGameState {
 		player.render(g, Values.CenterX, Values.CenterY);
 	}
 	// Given two coordinates, display where they should be displayed on screen
-	private float[] renderPosition(float x2, float y2) {
+	public float[] renderPosition(float x2, float y2) {
 		float[] output = player.getPosition().displacement(x2, y2);
 		
 		output[0] = output[0] * Coordinate.ConversionFactor + Values.CenterX;
@@ -166,6 +178,8 @@ public class Game extends BasicGameState {
 		
 		// Spawning Mechanics
 		Spawning.spawnEnemy(this, Values.Spawn_Rate); // If you want to stop spawning, set 5f to 0f.
+		// Unrendering Mechanics
+		d.update();
 		
 		// Update all entities
 		for(ArrayList<Entity> list: entities.values()) {
@@ -189,6 +203,13 @@ public class Game extends BasicGameState {
 			WorldGen gen = new WorldGen(world.getWorldName(), (int) (Math.random() * 10000));
 			gen.generateWorld();
 		}
+		
+		// Music
+		try{
+			this.sound = new Music("res/Sound/Morning.ogg");
+			sound.loop();
+			System.out.println("Sound being played");
+		} catch(Exception e) {}
 		
 	}
 
@@ -224,10 +245,11 @@ public class Game extends BasicGameState {
 
 	}
 	
+	final private static float Player_Reach = 10f;
 	public void cursorInput(float x, float y)
 	{
 		float[] mouseCoordinate = getAbsoluteCoordinate(x, y);
-		
+		if(player.getPosition().magDisplacement(mouseCoordinate) > Player_Reach || !player.isAlive()) return;
 		
 		if(gc.getInput().isMouseButtonDown(Input.MOUSE_LEFT_BUTTON))
 		{

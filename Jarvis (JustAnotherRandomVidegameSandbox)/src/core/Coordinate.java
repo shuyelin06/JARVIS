@@ -63,4 +63,14 @@ public class Coordinate{
 		return (float) Math.sqrt(Math.pow(displacement[0], 2) + Math.pow(displacement[1], 2));
 	}
 	
+	// Determine magnitude of displacement from some coordinate
+	public float magDisplacement(float[] pos) {
+		float[] displacement = new float[2];
+		
+		displacement[0] = pos[0] - x;
+		displacement[1] = pos[1] - y;
+		
+		return (float) Math.sqrt(Math.pow(displacement[0], 2) + Math.pow(displacement[1], 2));
+	}
+	
 }
