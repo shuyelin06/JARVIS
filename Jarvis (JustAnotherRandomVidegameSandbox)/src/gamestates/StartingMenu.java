@@ -27,11 +27,6 @@ public class StartingMenu extends BasicGameState
 	private Image mainButton;
 	private int mainButtonX, mainButtonY, mainButtonW, mainButtonH;
 	
-	//fireworks
-	//firework code
-	public static ArrayList<Particle> particles = new ArrayList<Particle>();
-	public static int arraySize = 50;
-	public static int fireworkType = 0;
 	
 	public StartingMenu(int id) 
 	{
@@ -58,8 +53,8 @@ public class StartingMenu extends BasicGameState
 		drawImages(g);
 		
 		//draws fireworks
-		for (int i = 0; i < particles.size(); i++) {
-			particles.get(i).render(g);
+		for (int i = 0; i < WorldSelect.particles.size(); i++) {
+			WorldSelect.particles.get(i).render(g);
 		}
 		
 	}
@@ -73,8 +68,8 @@ public class StartingMenu extends BasicGameState
 		}
 		
 		//fireworks
-		for (int i = 0; i < particles.size(); i++) {
-			particles.get(i).update(gc);
+		for (int i = 0; i < WorldSelect.particles.size(); i++) {
+			WorldSelect.particles.get(i).update(gc);
 		}
 		
 	}
@@ -111,21 +106,21 @@ public class StartingMenu extends BasicGameState
 		
 		//check for type of firework
 		if(button == 0) {
-			for (int i = 0; i < arraySize; i++) {
-				fireworkType = 0;
-				particles.add(new Particle(x, y, fireworkType));
+			for (int i = 0; i < WorldSelect.arraySize; i++) {
+				WorldSelect.fireworkType = 0;
+				WorldSelect.particles.add(new Particle(x, y, WorldSelect.fireworkType));
 			}
 		}
 		if(button == 1) {
-			for (int i = 0; i < arraySize; i++) {
-				fireworkType = 1;
-				particles.add(new Particle(x, y, fireworkType));
+			for (int i = 0; i < WorldSelect.arraySize; i++) {
+				WorldSelect.fireworkType = 1;
+				WorldSelect.particles.add(new Particle(x, y, WorldSelect.fireworkType));
 			}
 		}
 		if(button == 2) {
-			for (int i = 0; i < arraySize; i++) {
-				fireworkType = 3;
-				particles.add(new Particle(x, y, fireworkType));
+			for (int i = 0; i < WorldSelect.arraySize; i++) {
+				WorldSelect.fireworkType = 3;
+				WorldSelect.particles.add(new Particle(x, y, WorldSelect.fireworkType));
 			}
 		}
 	}

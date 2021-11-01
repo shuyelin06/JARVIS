@@ -3,6 +3,7 @@ package structures;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 
+import gamestates.StartingMenu;
 import gamestates.WorldSelect;
 
 import org.newdawn.slick.Graphics;
@@ -21,29 +22,35 @@ public class Particle {
 	
 	public Particle (int x, int y, int fireworkType) {
 		
+		//starts base stats of particle
 		this.x = (float) x;
 		xSpeed = (float) (Math.random()*30 - 15);
 		ySpeed = (float) (Math.random()*30 - 15);
 		size = (int) (Math.random()*10 + 1);
+		
 		if (fireworkType == 0) {
+			//red firework
 			color1 = 255;
 			color2 = (int) (Math.random()*255);
 			color3 = (int) (Math.random()*255);
 			this.y = y - 10;
 			gravity = (float) 0.5;
 		} else if (fireworkType == 1) {
+			//blue firework
 			color1 = (int) (Math.random()*255);
 			color2 = (int) (Math.random()*255);
 			color3 = 255;
 			this.y = y + 10;
 			gravity = (float) -0.5;
 		} else if (fireworkType == 2) {
+			//green firework
 			color1 = (int) (Math.random()*255);
 			color2 = 255;
 			color3 = (int) (Math.random()*255);
 			this.y = y;
 			gravity = (float) (Math.random()*1 - 0.5);
 		} else if (fireworkType == 3) {
+			//big random color firework
 			color1 = (int) (Math.random()*255);
 			color2 = (int) (Math.random()*255);
 			color3 = (int) (Math.random()*255);
@@ -57,6 +64,7 @@ public class Particle {
 		y += ySpeed;
 		ySpeed += gravity;
 		x += xSpeed;
+		//remove if off screen
 		if (y >= gc.getHeight()) {
 			WorldSelect.particles.remove(this);
 		}
