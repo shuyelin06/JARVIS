@@ -7,7 +7,7 @@ import org.newdawn.slick.SlickException;
 
 import core.Engine;
 
-public class Day 
+public class Day extends Scene
 {
 	private Image sky;
 	private Image hillsFront;

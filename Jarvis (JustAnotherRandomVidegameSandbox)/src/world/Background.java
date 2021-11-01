@@ -3,7 +3,7 @@ package world;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 
-public class Background 
+public class Background
 {
 	private Day day;
 	private Underground underground;

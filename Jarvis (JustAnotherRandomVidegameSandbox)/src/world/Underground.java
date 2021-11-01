@@ -7,7 +7,7 @@ import org.newdawn.slick.SlickException;
 
 import core.Engine;
 
-public class Underground 
+public class Underground extends Scene
 {	
 	private Image bg;
 	private float alpha;
