@@ -19,19 +19,19 @@ public class Background
 	
 	public Background() throws SlickException
 	{
-		sky = new Image("res/daySky.png");
-		hills = new Image("res/hills-1.png");
-		mountains = new Image("res/mountains.png");
+		this.sky = new Image("res/daySky.png");
+		this.hills = new Image("res/hills-1.png");
+		this.mountains = new Image("res/mountains.png");
 		
-		clouds = new Cloud[5];
+		this.clouds = new Cloud[5];
 		
-		cloudX = 0;
+		this.cloudX = 0;
 		
-		mountains.setAlpha(.6f);
+		this.mountains.setAlpha(.6f);
 		
 		for(int i = 0; i < clouds.length; i++)
 		{
-			clouds[i] = new Cloud();
+			this.clouds[i] = new Cloud();
 		}
 	}
 	

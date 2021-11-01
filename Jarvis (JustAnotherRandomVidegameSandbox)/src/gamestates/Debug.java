@@ -15,7 +15,7 @@ import core.Engine;
 import entities.Entity;
 import settings.Values;
 
-public class Debug extends BasicGameState 
+public class Debug extends BasicGameState
 {
 	private StateBasedGame sbg;
 	private GameContainer gc;

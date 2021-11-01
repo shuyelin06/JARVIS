@@ -35,7 +35,7 @@ public class StartingMenu extends BasicGameState
 
 	// Initializer, first time
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException 
-	{
+	{		
 		bg = new Background();
 		//image settings
 		setImage("res/placeholder.png");

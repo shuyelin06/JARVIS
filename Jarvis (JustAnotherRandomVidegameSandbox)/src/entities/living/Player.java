@@ -1,14 +1,20 @@
 package entities.living;
 
+import java.util.ArrayList;
+
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 
 import core.Engine;
 import entities.Entity;
+import entities.other.EItem;
+import items.Inventory;
 import settings.Values;
 
 public class Player extends Living{	
+	private Inventory inventory;
+	
 	// Player constructor
 	public Player() 
 	{
@@ -17,6 +23,8 @@ public class Player extends Living{
 		try {
 			sprite = new Image("res/pratt.png");
 		} catch(Exception e) {}
+		
+		this.inventory = new Inventory();
 		
 		this.sizeY = 2f;
 		this.sizeX = 1.3f; // Only use sizes to the 10th PLACE 
@@ -43,6 +51,9 @@ public class Player extends Living{
 		g.drawRect((float) (Engine.game.getGC().getWidth() - (0.05208333333 * Engine.game.getGC().getWidth())), (float) (0.03703703703 * Engine.game.getGC().getHeight()), -BAR_WIDTH, BAR_HEIGHT);
 	}
 	
+	public void drawInventory(Graphics g) {
+		
+	}
 	// Key Press Mappings
 	public void moveRight() {
 		if(!this.alive) return; // We will find a better way to do this check later
@@ -76,6 +87,18 @@ public class Player extends Living{
 	
 	// Overwritten Collisions Method
 	public void collisions() {
+		ArrayList<Entity> items = Engine.game.getEntities(EntType.Items);
+		
+		for(Entity e: items) {
+			EItem item = (EItem) e;
+			
+			if(inventory.hasSpace(item.getID()) && this.entityCollision(e)) {
+				e.markForRemoval();
+				
+				inventory.pickUp(item);
+			}
+		}
+		
 		super.collisions();
 	}
 	

@@ -16,6 +16,9 @@ public class EItem extends Entity{
 		this.count = 1;
 	}
 	
+	public int getID() {
+		return itemID;
+	}
 	public void collisions() {	
 		// Check collisions with other blocks of the same ID
 		ArrayList<Entity> items = Engine.game.getEntities(EntType.Items); 

@@ -6,6 +6,11 @@ import settings.Values;
 import structures.Block;
 import world.Chunk;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
+
+import javax.imageio.ImageIO;
+
 import org.lwjgl.Sys;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
@@ -59,6 +64,8 @@ public class Entity{
 		
 		this.xSpeed = 0f;
 		this.ySpeed = 0f;
+		
+		this.jumpsLeft = 0;
 		
 		this.time = Sys.getTime();
 	}

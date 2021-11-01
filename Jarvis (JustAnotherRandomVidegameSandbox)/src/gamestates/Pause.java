@@ -9,7 +9,7 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import core.Engine;
 
-public class Pause extends BasicGameState 
+public class Pause extends BasicGameState
 {
 	private StateBasedGame sbg;
 	int id;

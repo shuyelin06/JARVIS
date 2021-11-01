@@ -37,10 +37,7 @@ public class Game extends BasicGameState {
 	
 	// The World
 	private World world;
-	private boolean createNewWorld = false; // If testing worldGen, change to true.
 	
-	// Audio
-	Music sound;
 	Destroyer d; // Despawning
 	
 	// Tileset
@@ -51,7 +48,7 @@ public class Game extends BasicGameState {
 	private Player player;
 	private HashMap<EntType, ArrayList<Entity>> entities;
 	
-	Background bg;
+	private Background bg;
 	
 	// Constructor
 	public Game(int id) { this.id = id; } 
@@ -196,24 +193,8 @@ public class Game extends BasicGameState {
 		}
 	}
 
-	public void enter(GameContainer gc, StateBasedGame sbg) throws SlickException 
-	{
-		// Generate a new world using Steven y's code
-		if(createNewWorld) {
-			WorldGen gen = new WorldGen(world.getWorldName(), (int) (Math.random() * 10000));
-			gen.generateWorld();
-		}
-		
-		// Music
-		try{
-			this.sound = new Music("res/Sound/Morning.ogg");
-			sound.loop();
-			System.out.println("Sound being played");
-		} catch(Exception e) {}
-		
-	}
-
-	public void leave(GameContainer gc, StateBasedGame sbg)  {}
+	public void enter(GameContainer gc, StateBasedGame sbg) throws SlickException {}
+	public void leave(GameContainer gc, StateBasedGame sbg) {}
 
 	/* Key Mappings */
 	public void keyPressed(int key, char c)
