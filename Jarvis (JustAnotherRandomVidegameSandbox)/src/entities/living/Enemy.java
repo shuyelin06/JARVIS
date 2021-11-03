@@ -19,14 +19,13 @@ public class Enemy extends Living {
 		target = Engine.game.getPlayer();
 
 		try {
-			sprite = new Image("res/bowser.png");
+			this.sprite = new Image("res/bowser.png");
 		} catch(Exception e) {}
 		
 		contactDmg = 1;
 		aggroRange = 18;
-		sizeX = 1;
-		sizeY = 1;
-		jumpsLeft = 1;
+		sizeX = 1f;
+		sizeY = 1f;
 		healthRegen = false;
 	}
 	

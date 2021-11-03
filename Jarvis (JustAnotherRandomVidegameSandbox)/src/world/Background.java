@@ -11,10 +11,8 @@ public class Background
 	
 	public Background() throws SlickException
 	{
-		day = new Day();
+    day = new Day();
 		underground = new Underground();
-		
-		
 	}
 	
 	public void render(Graphics g, float x, float y)

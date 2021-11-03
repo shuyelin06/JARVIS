@@ -6,6 +6,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
 import gamestates.*;
+import sound.SoundManager;
 
 /*
  * Perlin Noise - 
@@ -28,24 +29,26 @@ public class Engine extends StateBasedGame
     public static final int Game_ID = 2;
     public static final int Pause_ID = 3;
     public static final int Debug_ID = 4;
-    
 
-    public static WorldSelect worldSelect;
     public static StartingMenu startingMenu;
+    public static WorldSelect worldSelect;
     public static Game game;
     public static Pause pause;
     public static Debug debug;
 
+    public static SoundManager sound;
+    
 	public Engine(String name) 
 	{
 		super(name);
+		
+		sound = new SoundManager();
 		
 		startingMenu = new StartingMenu(StartingMenu_ID);
 		worldSelect = new WorldSelect(WorldSelect_ID);
 		game = new Game(Game_ID);
 		pause = new Pause(Pause_ID);
 		debug = new Debug(Debug_ID);
-		
 	}
 
 	public void initStatesList(GameContainer gc) throws SlickException 

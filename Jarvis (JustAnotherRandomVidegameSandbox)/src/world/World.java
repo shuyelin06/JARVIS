@@ -49,9 +49,7 @@ public class World
 		while(iterator.hasNext()) {
 			Integer i = iterator.next();
 			if(i < leftMostChunk || i > rightMostChunk) {
-				System.out.println("Unloading Chunk: " + i);
 				FileLoader.SaveChunk(worldName, renderedChunks.get(i));
-				
 				iterator.remove();
 			}
 		}
