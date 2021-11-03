@@ -133,7 +133,7 @@ public class WorldGen{
 				if(blocks[i][j].getID() == 2 && adjacentTo(i, j, 'n', 0, blocks) 
 						&& adjacentTo(i, j + 1, 'e', 0, blocks) && adjacentTo(i, j + 1, 'w', 0, blocks)) // tree generation bruhhhh
 				{
-					if(i % (6 + (int)Math.random() * 3) == 0)
+					if(i % (4 + (int)Math.random() * 3) == 0)
 					{
 						blocks[i][j + 1].setID(3);
 					}

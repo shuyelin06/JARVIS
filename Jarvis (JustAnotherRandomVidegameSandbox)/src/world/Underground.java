@@ -13,7 +13,7 @@ public class Underground extends Scene
 	private float alpha;
 	public Underground() throws SlickException 
 	{
-		bg = new Image("res/grey.png");
+		bg = new Image("res/Background/grey.png");
 	}
 	
 	public void render(Graphics g, float x, float y)
