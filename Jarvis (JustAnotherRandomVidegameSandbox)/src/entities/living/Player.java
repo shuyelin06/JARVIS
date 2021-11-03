@@ -1,6 +1,7 @@
 package entities.living;
 
 import java.util.ArrayList;
+import java.util.Set;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
@@ -37,12 +38,13 @@ public class Player extends Living{
 	public void render(Graphics g, float x, float y) {
 		super.render(g, x, y);
 		drawHealthBars(g);
+		drawInventory(g);
 	}
 	
 	//health bars
 	public void drawHealthBars(Graphics g) {
 		final float BAR_WIDTH = (float) ((Engine.game.getGC().getWidth()/2) - (0.15625 * Engine.game.getGC().getWidth()));
-		final float BAR_HEIGHT = 30;
+		final float BAR_HEIGHT = (float) (30f / 1080f) * Engine.game.getGC().getHeight();
 		g.setColor(new Color(0, 100, 0, 150));
 		g.fillRect((float) (Engine.game.getGC().getWidth() - (0.05208333333 * Engine.game.getGC().getWidth())), (float) (0.03703703703 * Engine.game.getGC().getHeight()), -BAR_WIDTH, BAR_HEIGHT);
 		g.setColor(new Color(0, 255, 0, 150));
@@ -52,6 +54,29 @@ public class Player extends Living{
 	}
 	
 	public void drawInventory(Graphics g) {
+		final float BAR_WIDTH = (float) ((Engine.game.getGC().getWidth()/2) - (0.15625 * Engine.game.getGC().getWidth()));
+		final float BAR_HEIGHT = (float) ((60f / 1080f) * Engine.game.getGC().getHeight());
+		
+		g.setColor(new Color(150, 150, 150, 150));
+		g.fillRect((float) (0.050208333333 * Engine.game.getGC().getWidth()), (float) (0.03703703703 * Engine.game.getGC().getHeight()), BAR_WIDTH, BAR_HEIGHT);
+		g.setColor(new Color(255, 255, 255));
+		g.drawRect((float) (Engine.game.getGC().getWidth() - (0.05208333333 * Engine.game.getGC().getWidth())), (float) (0.03703703703f * Engine.game.getGC().getHeight()), BAR_WIDTH, BAR_HEIGHT);
+		
+		
+		final float boxSize = BAR_WIDTH / (float) Inventory.Inventory_Size;
+		int[][] list = inventory.getItems();
+		
+		for(int i = 0; i < list.length; i++) {
+			Integer id = list[i][0];
+			if(id == 0) continue;
+			Integer count = list[i][1];
+			
+			float barDisp = i * boxSize;
+			
+			Engine.game.getSpriteSheet().getSubImage(0, Engine.game.getSpriteHash().get(id)).draw(barDisp + 0.050208333333f * Engine.RESOLUTION_X, 0.03703703703f * Engine.game.getGC().getHeight());
+			g.drawString(count.toString(), barDisp + 0.050208333333f * Engine.RESOLUTION_X,  0.03703703703f * Engine.game.getGC().getHeight()); // Text	
+		}
+
 		
 	}
 	// Key Press Mappings
