@@ -2,6 +2,7 @@ package world;
 
 import settings.Values;
 import structures.Block;
+import structures.Tree;
 import support.SimplexNoise;
 
 public class WorldGen{
@@ -104,33 +105,87 @@ public class WorldGen{
 					if(ores[(i + 10) % Values.Chunk_Size_X][Math.abs(Values.Chunk_Size_Y - j - 1) ] >= 0.88) //diamonds?
 					{
 						System.out.println(j * -1 % Values.Chunk_Size_Y + ", " + j % Values.Chunk_Size_Y);
-						blocks[i][j] = new Block(6);
+						blocks[i][j].setID(6);
 					} 
 					else if(ores[i][j] >= .85) //gold for now
 					{
-						blocks[i][j] = new Block(5);
+						blocks[i][j].setID(5);
 					} 
 					else if(ores[(i + 5) % Values.Chunk_Size_X][(j + 50) % Values.Chunk_Size_Y] >= 0.75) //coal or some other ore
 					{
-						blocks[i][j] = new Block(4);
+						blocks[i][j].setID(4);
 					} 
 				}	
 				
 				if(caves[i][j] > 0.2) //rudimentary caves
 				{
-					blocks[i][j] = new Block(0);
+					blocks[i][j].setID(0);
 				}
 				
 				if(blocks[i][j].getID() == 1) //populating dirt
 				{					
 					if(adjacentTo(i, j, 0, blocks) > 0) //grasssss
 					{
-						blocks[i][j] = new Block(2);
+						blocks[i][j].setID(2);
 					}
 				}
+				
+				if(blocks[i][j].getID() == 2 && adjacentTo(i, j, 'n', 0, blocks) 
+						&& adjacentTo(i, j + 1, 'e', 0, blocks) && adjacentTo(i, j + 1, 'w', 0, blocks)) // tree generation bruhhhh
+				{
+					if(i % (6 + (int)Math.random() * 3) == 0)
+					{
+						blocks[i][j + 1].setID(3);
+					}
+					
+				}	
 			}
 		}
+		
 		return(blocks);
+	}
+	
+	public Block[][] structures(Block[][] blocks)
+	{
+		for(int i = 0; i < Values.Chunk_Size_X; i++)
+		{
+			
+		}
+		return(blocks);
+	}
+	
+	public boolean adjacentTo(int x, int y, char direction, int id, Block[][] blocks)
+	{
+		if(direction == 'n')
+		{
+			if(inBounds(x, y + 1))
+			{
+				return(blocks[x][y + 1].getID() == id);
+			}
+		} 
+		else if(direction == 's')
+		{
+			if(inBounds(x, y - 1))
+			{
+				return(blocks[x][y - 1].getID() == id);
+			}
+		}
+		else if(direction == 'e')
+		{
+			if(inBounds(x + 1, y))
+			{
+				return(blocks[x + 1][y].getID() == id);
+			}
+		}
+		else if(direction == 'w')
+		{
+			if(inBounds(x - 1, y))
+			{
+				return(blocks[x - 1][y].getID() == id);
+			}
+		}
+		
+		return(false);
 	}
 	
 	public int adjacentTo(int x, int y, int id, Block[][] blocks) //method for seeing if a certain kind of block is next to it
