@@ -10,6 +10,8 @@ import settings.Values;
 
 public class Player extends Living{	
 	// Player constructor
+	private int inventorySelected;
+	
 	public Player() 
 	{
 		super(Values.SpawnX, Values.SpawnY); 
@@ -72,6 +74,10 @@ public class Player extends Living{
 		if(!this.alive) return;
 		
 		this.ySpeed -= Entity.gravity;
+	}
+	
+	public void changeInventorySlot(int inventorySelected) {
+		this.inventorySelected = inventorySelected;
 	}
 	
 	// Overwritten Collisions Method

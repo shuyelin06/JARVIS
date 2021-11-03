@@ -284,6 +284,7 @@ public class Entity{
 		{
 			sprite.draw(x + sizeX * Coordinate.ConversionFactor, y, -sizeX * Coordinate.ConversionFactor, sizeY * Coordinate.ConversionFactor); 
 		} else if (xSpeed == 0) {
+			//based on direction
 			if (!direction) {
 				sprite.draw(x + sizeX * Coordinate.ConversionFactor, y, -sizeX * Coordinate.ConversionFactor, sizeY * Coordinate.ConversionFactor); 
 			} else {

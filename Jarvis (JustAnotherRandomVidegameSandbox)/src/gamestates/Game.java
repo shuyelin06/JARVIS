@@ -234,6 +234,36 @@ public class Game extends BasicGameState {
   			case Input.KEY_BACKSLASH: // Debug Key Binding
   				sbg.enterState(Engine.Debug_ID);
   				break;
+  			case Input.KEY_1:
+  				player.changeInventorySlot(0);
+  				break;
+  			case Input.KEY_2:
+  				player.changeInventorySlot(1);
+  				break;
+  			case Input.KEY_3:
+  				player.changeInventorySlot(2);
+  				break;
+  			case Input.KEY_4:
+  				player.changeInventorySlot(3);
+  				break;
+  			case Input.KEY_5:
+  				player.changeInventorySlot(4);
+  				break;
+  			case Input.KEY_6:
+  				player.changeInventorySlot(5);
+  				break;
+  			case Input.KEY_7:
+  				player.changeInventorySlot(6);
+  				break;
+  			case Input.KEY_8:
+  				player.changeInventorySlot(7);
+  				break;
+  			case Input.KEY_9:
+  				player.changeInventorySlot(8);
+  				break;
+  			case Input.KEY_0:
+  				player.changeInventorySlot(9);
+  				break;
   		}
   		
 	}
