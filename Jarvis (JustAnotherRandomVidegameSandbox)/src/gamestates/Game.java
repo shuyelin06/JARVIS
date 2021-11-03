@@ -36,7 +36,7 @@ public class Game extends BasicGameState {
 	private int id;
 	
 	// The World
-	private World world;
+	public World world;
 	private boolean createNewWorld = false; // If testing worldGen, change to true.
 	
 	// Audio
@@ -172,6 +172,9 @@ public class Game extends BasicGameState {
 		
 		// Check if any chunks need to be rendered or unrendered
 		world.renderChunks((int) player.getPosition().getChunk());
+		
+		// Increments world time
+		world.incrementTime();
 		
 		// Update the player's movement
 		player.update();

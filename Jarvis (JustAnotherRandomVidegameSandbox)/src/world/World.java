@@ -19,10 +19,18 @@ public class World
 	// All chunks rendered into memory
 	private HashMap<Integer, Chunk> renderedChunks;
 	
+	//int for time, day cycle time
+	private int time;
+	private int timeCycle;
+	
 	// Generate world from scratch
 	public World()
 	{
 		this.worldName = "Default World"; 
+		
+		// Time Settings (36000 means 1 day per 10 min)
+		this.time = 0;
+		this.timeCycle = 18000;
 		
 		// Chunk Generation 
 		renderedChunks = new HashMap<Integer, Chunk>();
@@ -109,5 +117,17 @@ public class World
 			}
 		}
 		return true;
+	}
+	
+	//increments time in world
+	public void incrementTime() {
+		time++;
+		if (time >= timeCycle) {
+			time = 0;
+		}
+	}
+	
+	public int getTime() {
+		return time;
 	}
 }
