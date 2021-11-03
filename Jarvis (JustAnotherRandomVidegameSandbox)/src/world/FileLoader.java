@@ -11,7 +11,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Arrays;
 
-// Save and Load World Information
 public class FileLoader{
 	
 	// Creates all directories / subdirectories for our world
@@ -60,7 +59,6 @@ public class FileLoader{
 	
 	// Load a chunk for a given world name
 	public static Chunk LoadChunk(String worldName, int chunkX) {
-		System.out.println("Loading Chunk " + chunkX);
 		// Code for chunk retrieval
 		Block[][] blocks = new Block[Values.Chunk_Size_X][Values.Chunk_Size_Y];
 		

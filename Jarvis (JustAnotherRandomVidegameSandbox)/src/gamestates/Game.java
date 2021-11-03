@@ -27,6 +27,7 @@ import world.World;
 import world.WorldGen;
 import support.Destroyer;
 import support.Spawning;
+import support.Utility;
 
 public class Game extends BasicGameState {
 	// Slick2D Variables
@@ -36,11 +37,12 @@ public class Game extends BasicGameState {
 	private int id;
 	
 	// The World
-	public World world;
+
 	private boolean createNewWorld = false; // If testing worldGen, change to true.
+
+	private World world;
+
 	
-	// Audio
-	Music sound;
 	Destroyer d; // Despawning
 	
 	// Tileset
@@ -51,7 +53,7 @@ public class Game extends BasicGameState {
 	private Player player;
 	private HashMap<EntType, ArrayList<Entity>> entities;
 	
-	Background bg;
+	private Background bg;
 	
 	// Constructor
 	public Game(int id) { this.id = id; } 
@@ -114,6 +116,7 @@ public class Game extends BasicGameState {
 		bg.render(g, bgPosition[0], bgPosition[1]);
 		
 		// Render all blocks in loaded chunks
+		//int chunkX = (int) player.getPosition().getChunk() - Values.Render_Distance;
 		for(Chunk chunk: world.getAllChunks()) { // Iterate through every chunk
 			Block[][] blocks = chunk.getBlocks(); // Get the blocks in the chunk
 			
@@ -130,13 +133,23 @@ public class Game extends BasicGameState {
 						//draws blocks
 						//temporary if statement until we have all the graphics for every block
 						if(blocks[i][j].getID() >= 1 && blocks[i][j].getID() <= 6) {
-							tileset.getSubImage(0, tileHash.get(blocks[i][j].getID())).draw(position[0], position[1]);
+							if(blocks[i][j].getID() == 2) { //if grass
+								int variant = world.getGrassVariant(blocks, i, j, chunk.getX());
+								if(variant == 7) {
+									tileset.getSubImage(0, 1).draw(position[0], position[1]);
+								}else {
+									tileset.getSubImage(variant, 0).draw(position[0],position[1]);
+								}
+							}else {
+								tileset.getSubImage(0, tileHash.get(blocks[i][j].getID())).draw(position[0], position[1]);
+							}
 						}else {
 							g.fillRect(position[0], position[1], Coordinate.ConversionFactor, Coordinate.ConversionFactor);
 						}
 					}
 				}
 			}
+			//chunkX++;
 		}
 		
 		// Render all entities
@@ -199,24 +212,8 @@ public class Game extends BasicGameState {
 		}
 	}
 
-	public void enter(GameContainer gc, StateBasedGame sbg) throws SlickException 
-	{
-		// Generate a new world using Steven y's code
-		if(createNewWorld) {
-			WorldGen gen = new WorldGen(world.getWorldName(), (int) (Math.random() * 10000));
-			gen.generateWorld();
-		}
-		
-		// Music
-		try{
-			this.sound = new Music("res/Sound/Morning.ogg");
-			sound.loop();
-			System.out.println("Sound being played");
-		} catch(Exception e) {}
-		
-	}
-
-	public void leave(GameContainer gc, StateBasedGame sbg)  {}
+	public void enter(GameContainer gc, StateBasedGame sbg) throws SlickException {}
+	public void leave(GameContainer gc, StateBasedGame sbg) {}
 
 	/* Key Mappings */
 	public void keyPressed(int key, char c)

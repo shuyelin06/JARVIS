@@ -15,11 +15,14 @@ import core.Engine;
 import structures.Particle;
 import world.Background;
 import world.FileLoader;
+import world.WorldGen;
 
 public class WorldSelect extends BasicGameState 
 {
 	//Gamestate ID
 	int id;
+	
+	private boolean createNewWorld = false;
 	
 	//World selected ID
 	private int worldID, worldIDMax, worldIDMin;
@@ -123,7 +126,16 @@ public class WorldSelect extends BasicGameState
 			} else if (worldID == 3) {
 				Engine.game.getWorld().changeName("3");
 			}
+			
+			// Check if we want to create a new world or not
+			if(createNewWorld) {
+				WorldGen gen = new WorldGen(Engine.game.getWorld().getWorldName(), (int) (Math.random() * 10000));
+				gen.generateWorld();
+			}
+			
+			// Enter Game gamestate
 			sbg.enterState(Engine.Game_ID);
+			Engine.sound.startMusic();
 		}
 		
 		for (int i = 0; i < particles.size(); i++) {
