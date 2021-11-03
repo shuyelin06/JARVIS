@@ -80,8 +80,11 @@ public class World
 			int chunkX = x / Values.Chunk_Size_X;
 			
 			Block[][] blocks = renderedChunks.get(chunkX).getBlocks();
-			blocks[x % Values.Chunk_Size_X][y] = new Block(id);
-			Engine.game.getPlayer().getInventory().drop(id);
+			
+			if(blocks[x % Values.Chunk_Size_X][y].getID() == 0) {
+				blocks[x % Values.Chunk_Size_X][y] = new Block(id);
+				Engine.game.getPlayer().getInventory().drop(id);
+			}
 		} catch(Exception e) {}
 	}
 	public void destroyBlock(int x, int y) {
