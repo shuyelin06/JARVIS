@@ -66,10 +66,14 @@ public class World
 	 */
 	public void placeBlock(int x, int y) {
 		try {
+			int id = Engine.game.getPlayer().selectedItem();
+			if(id == 0) return;
+			
 			int chunkX = x / Values.Chunk_Size_X;
 			
 			Block[][] blocks = renderedChunks.get(chunkX).getBlocks();
-			blocks[x % Values.Chunk_Size_X][y] = new Block(2);
+			blocks[x % Values.Chunk_Size_X][y] = new Block(id);
+			Engine.game.getPlayer().getInventory().drop(id);
 		} catch(Exception e) {}
 	}
 	public void destroyBlock(int x, int y) {

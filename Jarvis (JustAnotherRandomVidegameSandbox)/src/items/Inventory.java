@@ -24,12 +24,18 @@ public class Inventory{
 		
 		this.idIndexMapping = new HashMap<Integer, Integer>();
 	}
-	
+		
 	public int[][] getItems() {
 		return items;
 	}
 	public int getIndexMap(int id) {
 		return idIndexMapping.get(id);
+	}
+	public int selectedItem(int index) {
+		Integer id = idIndexMapping.get(index);
+		
+		if(id == null) return -1;
+		else return id;
 	}
 	
 	public boolean hasSpace(Integer id) {
@@ -39,9 +45,7 @@ public class Inventory{
 		return false;
 	}
 	
-	public void pickUp(EItem item) {
-		int id = item.getID(); // Get the item ID
-		
+	public void pickUp(int id) {
 		if(idIndexMapping.containsKey(id)) {
 			items[idIndexMapping.get(id)][1]++;
 		} else {
@@ -55,7 +59,17 @@ public class Inventory{
 			}
 		}
 	}
-	public void drop(Item item) {
+	public void drop(int id) {
 		// To drop, reduce count - if the count is 0, remove from hashmap and reset the array
+		if(idIndexMapping.containsKey(id)) {
+			int index = idIndexMapping.get(id);
+			
+			items[index][1]--;
+			if(items[index][1] == 0) {
+				idIndexMapping.remove(id);
+				items[index][0] = 0;
+			}
+		} 
+		
 	}
 }

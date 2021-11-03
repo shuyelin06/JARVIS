@@ -35,6 +35,14 @@ public class Player extends Living{
 		maxHealth = 10;
 		healthRegen = true;
 	}
+	
+	public int selectedItem() {
+		return inventory.getItems()[inventorySelected][0];
+	}
+
+	public Inventory getInventory() {
+		return inventory;
+	}
 
 	//render
 	public void render(Graphics g, float x, float y) {
@@ -78,6 +86,9 @@ public class Player extends Living{
 			Engine.game.getSpriteSheet().getSubImage(0, Engine.game.getSpriteHash().get(id)).draw(barDisp + 0.050208333333f * Engine.RESOLUTION_X, 0.03703703703f * Engine.game.getGC().getHeight());
 			g.drawString(count.toString(), barDisp + 0.050208333333f * Engine.RESOLUTION_X,  0.03703703703f * Engine.game.getGC().getHeight()); // Text	
 		}
+		
+		g.setColor(Color.black);
+		g.drawRect(inventorySelected * boxSize + 0.050208333333f * Engine.RESOLUTION_X, 0.03703703703f * Engine.game.getGC().getHeight(), boxSize, boxSize);
 
 		
 	}
@@ -124,9 +135,8 @@ public class Player extends Living{
 			EItem item = (EItem) e;
 			
 			if(inventory.hasSpace(item.getID()) && this.entityCollision(e)) {
+				inventory.pickUp(item.getID());
 				e.markForRemoval();
-				
-				inventory.pickUp(item);
 			}
 		}
 		
