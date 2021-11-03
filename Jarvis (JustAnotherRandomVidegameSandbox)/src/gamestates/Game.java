@@ -103,7 +103,7 @@ public class Game extends BasicGameState {
 		bg.render(g, bgPosition[0], bgPosition[1]);
 		
 		// Render all blocks in loaded chunks
-		int chunkX = (int) player.getPosition().getChunk() - Values.Render_Distance;
+		//int chunkX = (int) player.getPosition().getChunk() - Values.Render_Distance;
 		for(Chunk chunk: world.getAllChunks()) { // Iterate through every chunk
 			Block[][] blocks = chunk.getBlocks(); // Get the blocks in the chunk
 			
@@ -121,10 +121,7 @@ public class Game extends BasicGameState {
 						//temporary if statement until we have all the graphics for every block
 						if(blocks[i][j].getID() >= 1 && blocks[i][j].getID() <= 6) {
 							if(blocks[i][j].getID() == 2) { //if grass
-								int variant = world.getGrassVariant(blocks, i, j, chunkX);
-								if(Utility.random(0, 100) < 5) {
-									System.out.println("grass variant: " + variant);
-								}
+								int variant = world.getGrassVariant(blocks, i, j, chunk.getX());
 								if(variant == 7) {
 									tileset.getSubImage(0, 1).draw(position[0], position[1]);
 								}else {
@@ -139,7 +136,7 @@ public class Game extends BasicGameState {
 					}
 				}
 			}
-			chunkX++;
+			//chunkX++;
 		}
 		
 		// Render all entities
