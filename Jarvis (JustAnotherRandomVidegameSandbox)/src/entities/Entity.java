@@ -34,7 +34,7 @@ public class Entity{
 	
 	protected Coordinate position;
 	protected float xSpeed, ySpeed; // Entity velocity (pixels per second)
-	
+	protected boolean direction; //direction facing variable, 0 = left; 1 = right
 	
 	/*
 	 * Render Variables
@@ -65,6 +65,7 @@ public class Entity{
 		
 		this.xSpeed = 0f;
 		this.ySpeed = 0f;
+		this.direction = false;
 		
 		this.jumpsLeft = 0;
 		
@@ -138,7 +139,11 @@ public class Entity{
 		collisions();
 		
 		// Position updating
-		position.update(xSpeed, ySpeed);		
+		position.update(xSpeed, ySpeed);
+		
+		// Direction updating
+		if (xSpeed < 0) direction = false;
+		if (xSpeed > 0) direction = true;
 	}
 	
 	
@@ -287,6 +292,13 @@ public class Entity{
 		if(xSpeed < 0)
 		{
 			sprite.draw(x + sizeX * Coordinate.ConversionFactor, y, -sizeX * Coordinate.ConversionFactor, sizeY * Coordinate.ConversionFactor); 
+		} else if (xSpeed == 0) {
+			//based on direction
+			if (!direction) {
+				sprite.draw(x + sizeX * Coordinate.ConversionFactor, y, -sizeX * Coordinate.ConversionFactor, sizeY * Coordinate.ConversionFactor); 
+			} else {
+				sprite.draw(x, y, sizeX * Coordinate.ConversionFactor, sizeY * Coordinate.ConversionFactor); 
+			}
 		} else
 		{
 			sprite.draw(x, y, sizeX * Coordinate.ConversionFactor, sizeY * Coordinate.ConversionFactor); 
