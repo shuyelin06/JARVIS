@@ -33,6 +33,9 @@ public class Values // this will be quite useful for organizing stuff later on
 	// Physics Variables
 	final public static float Terminal_X_Velocity = 13.5f; // X Terminal Velocity
 	
+	// GameState Storage
+	public static int LastState = 0; // Previous GameState
+	
 	// File Save Paths
 	final public static String Save_Folder = "saves/"; // Directory where all world information will be saved
 	final public static String Hash_File_Path = "src/settings/BlockHashing.txt"; // File where all block hashing will be located

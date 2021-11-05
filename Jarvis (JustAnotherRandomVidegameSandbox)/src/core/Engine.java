@@ -29,12 +29,14 @@ public class Engine extends StateBasedGame
     public static final int Game_ID = 2;
     public static final int Pause_ID = 3;
     public static final int Debug_ID = 4;
-
+    public static final int Settings_ID = 5;
+    
     public static StartingMenu startingMenu;
     public static WorldSelect worldSelect;
     public static Game game;
     public static Pause pause;
     public static Debug debug;
+    public static Settings settings;
 
     public static SoundManager sound;
     
@@ -49,6 +51,7 @@ public class Engine extends StateBasedGame
 		game = new Game(Game_ID);
 		pause = new Pause(Pause_ID);
 		debug = new Debug(Debug_ID);
+		settings = new Settings(Settings_ID);
 	}
 
 	public void initStatesList(GameContainer gc) throws SlickException 
@@ -60,6 +63,7 @@ public class Engine extends StateBasedGame
 		addState(game);
 		addState(pause);
 		addState(debug);
+		addState(settings);
 	}
 
 	public static void main(String[] args) 
