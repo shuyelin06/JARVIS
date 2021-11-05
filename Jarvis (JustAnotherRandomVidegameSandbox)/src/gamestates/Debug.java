@@ -73,6 +73,7 @@ public class Debug extends BasicGameState
 		Engine.game.keyPressed(key, c);
 		switch(key) {
 			case Input.KEY_BACKSLASH: // Exit Debug Mode Key Binding
+				Values.LastState = Engine.Debug_ID;
 				sbg.enterState(Engine.Game_ID);
 				break;
 		}

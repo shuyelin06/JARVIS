@@ -12,6 +12,7 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 import core.Engine;
+import settings.Values;
 import structures.Particle;
 import support.FileLoader;
 import world.Background;
@@ -29,13 +30,12 @@ public class WorldSelect extends BasicGameState
 	
 	//ready to start boolean
 	private boolean readyStart;
-	
+	private boolean readySettings;
 	
 	//firework code
 	public static ArrayList<Particle> particles = new ArrayList<Particle>();
 	public static int arraySize = 50;
 	public static int fireworkType = 0;
-	public static int backgroundColor;
 	
 	//background
 	private Background bg;
@@ -44,10 +44,14 @@ public class WorldSelect extends BasicGameState
 	private Image w1Button;
 	private Image w2Button;
 	private Image worldImage;
+	private Image s1Button;
+	private Image newWorldButton;
 	private int mainButtonX, mainButtonY, mainButtonW, mainButtonH;
 	private int w1ButtonX, w1ButtonY, w1ButtonW, w1ButtonH;
 	private int w2ButtonX, w2ButtonY, w2ButtonW, w2ButtonH;
 	private int worldImageX, worldImageY, worldImageW, worldImageH;
+	private int s1ButtonX, s1ButtonY, s1ButtonW, s1ButtonH;
+	private int newWorldButtonX, newWorldButtonY, newWorldButtonW, newWorldButtonH;
 	
 	public WorldSelect(int id) 
 	{
@@ -83,9 +87,18 @@ public class WorldSelect extends BasicGameState
 		worldImageY = 2*gc.getHeight()/3;
 		worldImageW = 100;
 		worldImageH = 100;
+		s1ButtonX = gc.getWidth()/5;
+		s1ButtonY = gc.getHeight()/5;
+		s1ButtonW = 100;
+		s1ButtonH = 100;
+		newWorldButtonX = 4*gc.getWidth()/5;
+		newWorldButtonY = gc.getHeight()/5;
+		newWorldButtonW = 100;
+		newWorldButtonH = 100;
 		
-		//randomize gray
-		backgroundColor = (int)(Math.random()*50);
+		readyStart = false;
+		readySettings = false;
+		
 	}
 	
 	//render, all visuals
@@ -104,7 +117,6 @@ public class WorldSelect extends BasicGameState
 		for (int i = 0; i < particles.size(); i++) {
 			particles.get(i).render(g);
 		}
-		g.setBackground(new Color(backgroundColor, backgroundColor, backgroundColor));
 	}
 
 	//update, runs consistently
@@ -126,8 +138,15 @@ public class WorldSelect extends BasicGameState
 			}
 			
 			// Enter Game gamestate
+			Values.LastState = Engine.WorldSelect_ID;
 			sbg.enterState(Engine.Game_ID);
 			Engine.sound.playBackgroundMusic("Morning"); // Begin game background music
+		}
+		
+		if (readySettings) {
+			Values.LastState = Engine.WorldSelect_ID;
+			sbg.enterState(Engine.Settings_ID);
+			//settings gamestate
 		}
 		
 		for (int i = 0; i < particles.size(); i++) {
@@ -169,6 +188,25 @@ public class WorldSelect extends BasicGameState
 			return;
 		}
 		
+		//settings
+		if ((x > s1ButtonX - (s1ButtonW / 2))
+				&& (x < s1ButtonX + (s1ButtonW / 2))
+				&& (y > s1ButtonY - (s1ButtonH / 2))
+				&& (y < s1ButtonY + (s1ButtonH / 2))
+				) {
+			readySettings = true;
+			return;
+		}
+		
+		//toggle new world
+		if ((x > newWorldButtonX - (newWorldButtonW / 2))
+				&& (x < newWorldButtonX + (newWorldButtonW / 2))
+				&& (y > newWorldButtonY - (newWorldButtonH / 2))
+				&& (y < newWorldButtonY + (newWorldButtonH / 2))
+				) {
+			createNewWorld = !createNewWorld;
+			return;
+		}
 		
 		//change world ID when clicking on buttons
 		if ((x > w1ButtonX - (w1ButtonW / 2))
@@ -188,7 +226,7 @@ public class WorldSelect extends BasicGameState
 				&& (y < w2ButtonY + (w2ButtonH / 2))
 				) {
 			worldID--;
-			//max world ID
+			//min world ID
 			if (worldID < worldIDMin) {
 				worldID = worldIDMax;
 			}
@@ -229,6 +267,9 @@ public class WorldSelect extends BasicGameState
 		w1Button.draw(w1ButtonX - (w1ButtonW / 2), w1ButtonY - (w1ButtonH / 2), w1ButtonW, w1ButtonH);
 		w2Button.draw(w2ButtonX - (w2ButtonW / 2), w2ButtonY - (w2ButtonH / 2), w2ButtonW, w2ButtonH);
 		
+		setImage("res/placeholder.png");
+		s1Button.draw(s1ButtonX - (s1ButtonW / 2), s1ButtonY - (s1ButtonH / 2), s1ButtonW, s1ButtonH);
+		newWorldButton.draw(newWorldButtonX - (newWorldButtonW / 2), newWorldButtonY - (newWorldButtonH / 2), newWorldButtonW, newWorldButtonH);
 		
 		//draws based on world number
 		if (worldID == 1) {
@@ -254,6 +295,8 @@ public class WorldSelect extends BasicGameState
 			w1Button = new Image(filepath);
 			w2Button = new Image(filepath);
 			worldImage = new Image(filepath);
+			s1Button = new Image(filepath);
+			newWorldButton = new Image(filepath);
 		}
 		catch(SlickException e)		
 		{
