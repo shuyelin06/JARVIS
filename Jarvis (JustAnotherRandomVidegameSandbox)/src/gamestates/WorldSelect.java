@@ -45,11 +45,13 @@ public class WorldSelect extends BasicGameState
 	private Image w2Button;
 	private Image worldImage;
 	private Image s1Button;
+	private Image newWorldButton;
 	private int mainButtonX, mainButtonY, mainButtonW, mainButtonH;
 	private int w1ButtonX, w1ButtonY, w1ButtonW, w1ButtonH;
 	private int w2ButtonX, w2ButtonY, w2ButtonW, w2ButtonH;
 	private int worldImageX, worldImageY, worldImageW, worldImageH;
 	private int s1ButtonX, s1ButtonY, s1ButtonW, s1ButtonH;
+	private int newWorldButtonX, newWorldButtonY, newWorldButtonW, newWorldButtonH;
 	
 	public WorldSelect(int id) 
 	{
@@ -89,6 +91,10 @@ public class WorldSelect extends BasicGameState
 		s1ButtonY = gc.getHeight()/5;
 		s1ButtonW = 100;
 		s1ButtonH = 100;
+		newWorldButtonX = 4*gc.getWidth()/5;
+		newWorldButtonY = gc.getHeight()/5;
+		newWorldButtonW = 100;
+		newWorldButtonH = 100;
 		
 		readyStart = false;
 		readySettings = false;
@@ -208,6 +214,16 @@ public class WorldSelect extends BasicGameState
 			return;
 		}
 		
+		//toggle new world
+		if ((x > newWorldButtonX - (newWorldButtonW / 2))
+				&& (x < newWorldButtonX + (newWorldButtonW / 2))
+				&& (y > newWorldButtonY - (newWorldButtonH / 2))
+				&& (y < newWorldButtonY + (newWorldButtonH / 2))
+				) {
+			createNewWorld = !createNewWorld;
+			return;
+		}
+		
 		//change world ID when clicking on buttons
 		if ((x > w1ButtonX - (w1ButtonW / 2))
 				&& (x < w1ButtonX + (w1ButtonW / 2))
@@ -267,6 +283,9 @@ public class WorldSelect extends BasicGameState
 		w1Button.draw(w1ButtonX - (w1ButtonW / 2), w1ButtonY - (w1ButtonH / 2), w1ButtonW, w1ButtonH);
 		w2Button.draw(w2ButtonX - (w2ButtonW / 2), w2ButtonY - (w2ButtonH / 2), w2ButtonW, w2ButtonH);
 		
+		setImage("res/placeholder.png");
+		s1Button.draw(s1ButtonX - (s1ButtonW / 2), s1ButtonY - (s1ButtonH / 2), s1ButtonW, s1ButtonH);
+		newWorldButton.draw(newWorldButtonX - (newWorldButtonW / 2), newWorldButtonY - (newWorldButtonH / 2), newWorldButtonW, newWorldButtonH);
 		
 		//draws based on world number
 		if (worldID == 1) {
@@ -293,6 +312,7 @@ public class WorldSelect extends BasicGameState
 			w2Button = new Image(filepath);
 			worldImage = new Image(filepath);
 			s1Button = new Image(filepath);
+			newWorldButton = new Image(filepath);
 		}
 		catch(SlickException e)		
 		{
