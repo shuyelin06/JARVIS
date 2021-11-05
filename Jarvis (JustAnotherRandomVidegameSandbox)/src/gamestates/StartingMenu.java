@@ -9,6 +9,7 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 import core.Engine;
+import settings.Values;
 import structures.Particle;
 import world.Background;
 
@@ -61,6 +62,7 @@ public class StartingMenu extends BasicGameState
 	{	
 		//starts world selection if start button pressed or ready
 		if (readyStart) {
+			Values.LastState = Engine.StartingMenu_ID;
 			sbg.enterState(Engine.WorldSelect_ID);
 		}
 		

@@ -97,6 +97,7 @@ public class Settings extends BasicGameState {
 		if (readyStart) {
 			
 			//enter last state
+			Values.LastState = Engine.Settings_ID;
 			sbg.enterState(Values.LastState);
 			
 		}

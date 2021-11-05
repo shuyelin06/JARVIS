@@ -244,9 +244,11 @@ public class Game extends BasicGameState {
   				break;
   			}	
   			case Input.KEY_P: // Pause Key Binding
+  				Values.LastState = Engine.Game_ID;
   				sbg.enterState(Engine.Pause_ID);
   				break;
   			case Input.KEY_BACKSLASH: // Debug Key Binding
+  				Values.LastState = Engine.Game_ID;
   				sbg.enterState(Engine.Debug_ID);
   				break;
   			

@@ -12,6 +12,7 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 import core.Engine;
+import settings.Values;
 import structures.Particle;
 import world.Background;
 import world.FileLoader;
@@ -139,11 +140,14 @@ public class WorldSelect extends BasicGameState
 			}
 			
 			// Enter Game gamestate
+			Values.LastState = Engine.WorldSelect_ID;
 			sbg.enterState(Engine.Game_ID);
 			Engine.sound.startMusic();
 		}
 		
 		if (readySettings) {
+			Values.LastState = Engine.WorldSelect_ID;
+			sbg.enterState(Engine.Settings_ID);
 			//settings gamestate
 		}
 		
