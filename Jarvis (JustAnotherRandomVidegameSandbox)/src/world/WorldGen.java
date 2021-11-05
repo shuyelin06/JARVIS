@@ -2,6 +2,7 @@ package world;
 
 import settings.Values;
 import structures.Block;
+import support.FileLoader;
 import support.SimplexNoise;
 
 public class WorldGen{

@@ -22,10 +22,10 @@ import settings.Values;
 import structures.Block;
 import world.Background;
 import world.Chunk;
-import world.FileLoader;
 import world.World;
 import world.WorldGen;
 import support.Destroyer;
+import support.FileLoader;
 import support.Spawning;
 import support.Utility;
 
@@ -242,7 +242,8 @@ public class Game extends BasicGameState {
   			case Input.KEY_W:{
   				player.jump();
   				break;
-  			}	
+  			}
+  			
   			case Input.KEY_P: // Pause Key Binding
   				sbg.enterState(Engine.Pause_ID);
   				break;

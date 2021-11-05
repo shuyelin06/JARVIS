@@ -1,15 +1,18 @@
-package world;
+package support;
 
 import org.newdawn.slick.Color;
+import org.newdawn.slick.Sound;
 
 import settings.Values;
 import structures.Block;
+import world.Chunk;
 
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.HashMap;
 
 public class FileLoader{
 	
@@ -99,6 +102,39 @@ public class FileLoader{
 		return new Chunk(chunkX, blocks);
 	}
 
+	
+	/*
+	 * Load
+	 */
+	public static HashMap<String, Sound> LoadSoundFiles() {
+		System.out.println(" --- Loading Sound Files --- ");
+		
+		HashMap<String, Sound> soundHashing = new HashMap<String, Sound>();
+		
+		getSoundInDir(new File(Values.Sound_Path), soundHashing);
+		System.out.println(soundHashing.size());
+		
+		System.out.println(" --- Finished Loading Sound Files --- ");
+		return soundHashing;
+	}
+	
+	private static void getSoundInDir(File dir, HashMap<String, Sound> soundHash) {
+		try {
+			for(final File f: dir.listFiles()) {
+				if(f.isDirectory()) {
+					System.out.println("New sound directory found: ");
+					getSoundInDir(f, soundHash);
+				} else {
+					System.out.println("Loading sound file " + f.getName());
+					soundHash.put(f.getName(), new Sound(f.getPath()));
+				}
+				
+			}
+		} catch (Exception e) { System.out.println("Error in loading sound files"); }
+		
+	}
+	
+	
 	
 	/*
 	 * Block Hashings

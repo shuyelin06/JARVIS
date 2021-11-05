@@ -7,6 +7,7 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 
+import core.Coordinate;
 import core.Engine;
 import entities.Entity;
 import entities.other.EItem;
@@ -36,13 +37,8 @@ public class Player extends Living{
 		healthRegen = true;
 	}
 	
-	public int selectedItem() {
-		return inventory.getItems()[inventorySelected][0];
-	}
-
-	public Inventory getInventory() {
-		return inventory;
-	}
+	public int selectedItem() { return inventory.getItems()[inventorySelected][0]; }
+	public Inventory getInventory() { return inventory; }
 
 	//render
 	public void render(Graphics g, float x, float y) {
@@ -53,28 +49,40 @@ public class Player extends Living{
 	
 	//health bars
 	public void drawHealthBars(Graphics g) {
+		// Defining bar variables
 		final float BAR_WIDTH = (float) ((Engine.game.getGC().getWidth()/2) - (0.15625 * Engine.game.getGC().getWidth()));
 		final float BAR_HEIGHT = (float) (30f / 1080f) * Engine.game.getGC().getHeight();
+		
+		// Player max health bar
 		g.setColor(new Color(0, 100, 0, 150));
 		g.fillRect((float) (Engine.game.getGC().getWidth() - (0.05208333333 * Engine.game.getGC().getWidth())), (float) (0.03703703703 * Engine.game.getGC().getHeight()), -BAR_WIDTH, BAR_HEIGHT);
+		
+		// Player health bar
 		g.setColor(new Color(0, 255, 0, 150));
 		g.fillRect((float) (Engine.game.getGC().getWidth() - (0.05208333333 * Engine.game.getGC().getWidth())), (float) (0.03703703703 * Engine.game.getGC().getHeight()), -BAR_WIDTH*percentageHealth, BAR_HEIGHT);
+		
+		// Health bar white outline
 		g.setColor(new Color(255, 255, 255));
 		g.drawRect((float) (Engine.game.getGC().getWidth() - (0.05208333333 * Engine.game.getGC().getWidth())), (float) (0.03703703703 * Engine.game.getGC().getHeight()), -BAR_WIDTH, BAR_HEIGHT);
 	}
 	
 	public void drawInventory(Graphics g) {
+		// Defining bar variables
 		final float BAR_WIDTH = (float) ((Engine.game.getGC().getWidth()/2) - (0.15625 * Engine.game.getGC().getWidth()));
 		final float BAR_HEIGHT = (float) ((60f / 1080f) * Engine.game.getGC().getHeight());
 		
+		// Inventory grey coloration 
 		g.setColor(new Color(150, 150, 150, 150));
 		g.fillRect((float) (0.050208333333 * Engine.game.getGC().getWidth()), (float) (0.03703703703 * Engine.game.getGC().getHeight()), BAR_WIDTH, BAR_HEIGHT);
+		
+		// Inventory outline
 		g.setColor(new Color(255, 255, 255));
-		g.drawRect((float) (Engine.game.getGC().getWidth() - (0.05208333333 * Engine.game.getGC().getWidth())), (float) (0.03703703703f * Engine.game.getGC().getHeight()), BAR_WIDTH, BAR_HEIGHT);
+		g.drawRect((float) (0.050208333333 * Engine.game.getGC().getWidth()), (float) (0.03703703703f * Engine.game.getGC().getHeight()), BAR_WIDTH, BAR_HEIGHT);
 		
-		
+		// Draw every item in the player's inventory
 		final float boxSize = BAR_WIDTH / (float) Inventory.Inventory_Size;
 		int[][] list = inventory.getItems();
+		final float center = (boxSize - (float) Coordinate.ConversionFactor) / 2f;
 		
 		for(int i = 0; i < list.length; i++) {
 			Integer id = list[i][0];
@@ -83,14 +91,17 @@ public class Player extends Living{
 			
 			float barDisp = i * boxSize;
 			
-			Engine.game.getSpriteSheet().getSubImage(0, Engine.game.getSpriteHash().get(id)).draw(barDisp + 0.050208333333f * Engine.RESOLUTION_X, 0.03703703703f * Engine.game.getGC().getHeight());
+			
+			Engine.game.getSpriteSheet().getSubImage(0, Engine.game.getSpriteHash().get(id)).draw(
+					barDisp + 0.050208333333f * Engine.RESOLUTION_X + center, 
+					0.03703703703f * Engine.game.getGC().getHeight() + center // 5 pixel displacement downwards - block centering will later be automatically done.
+					);
 			g.drawString(count.toString(), barDisp + 0.050208333333f * Engine.RESOLUTION_X,  0.03703703703f * Engine.game.getGC().getHeight()); // Text	
 		}
 		
+		// Draw a box around the selected item
 		g.setColor(Color.black);
-		g.drawRect(inventorySelected * boxSize + 0.050208333333f * Engine.RESOLUTION_X, 0.03703703703f * Engine.game.getGC().getHeight(), boxSize, boxSize);
-
-		
+		g.drawRect(inventorySelected * boxSize + 0.050208333333f * Engine.RESOLUTION_X, 0.03703703703f * Engine.game.getGC().getHeight(), boxSize, BAR_HEIGHT);
 	}
 	// Key Press Mappings
 	public void moveRight() {

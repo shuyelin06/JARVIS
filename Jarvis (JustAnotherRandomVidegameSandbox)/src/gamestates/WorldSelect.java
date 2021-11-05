@@ -13,8 +13,8 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import core.Engine;
 import structures.Particle;
+import support.FileLoader;
 import world.Background;
-import world.FileLoader;
 import world.WorldGen;
 
 public class WorldSelect extends BasicGameState 
@@ -95,16 +95,8 @@ public class WorldSelect extends BasicGameState
 		String[] worldList = FileLoader.getWorldList();
 		g.setBackground(new Color(100, 100, 100));
 		
-		
-		
 		bg.render(g, 0, 0);
 		
-		//temporary string graphics, will be replaced
-
-//		g.drawString("Press a number to change world", gc.getWidth() / 2, (gc.getHeight() / 2) - 20);
-//		g.drawString("Press Q to enter world", gc.getWidth() / 2, gc.getHeight() / 2);
-//		g.drawString("World: " + worldID, gc.getWidth() / 2, (gc.getHeight() / 2) + 20);
-
 		//draws all buttons and world number image
 		drawImages(g);
 		
@@ -135,7 +127,7 @@ public class WorldSelect extends BasicGameState
 			
 			// Enter Game gamestate
 			sbg.enterState(Engine.Game_ID);
-			Engine.sound.startMusic();
+			Engine.sound.playBackgroundMusic("Morning"); // Begin game background music
 		}
 		
 		for (int i = 0; i < particles.size(); i++) {
@@ -144,16 +136,8 @@ public class WorldSelect extends BasicGameState
 		
 	}
 
-	public void enter(GameContainer gc, StateBasedGame sbg) throws SlickException 
-	{
-		
-	}
-
-	public void leave(GameContainer gc, StateBasedGame sbg) 
-	{
-		
-	}
-
+	public void enter(GameContainer gc, StateBasedGame sbg) throws SlickException {}
+	public void leave(GameContainer gc, StateBasedGame sbg) {}
 
 	public void keyPressed(int key, char c)
 	{

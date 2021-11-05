@@ -10,6 +10,7 @@ import entities.Entity.EntType;
 import entities.other.EBlock;
 import settings.Values;
 import structures.Block;
+import support.FileLoader;
 
 public class World 
 {
