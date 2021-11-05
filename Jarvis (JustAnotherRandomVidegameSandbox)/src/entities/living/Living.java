@@ -1,5 +1,6 @@
 package entities.living;
 
+import core.Engine;
 import entities.Entity;
 
 public class Living extends Entity{
@@ -70,6 +71,8 @@ public class Living extends Entity{
 	public void takeDamage(int dmg, boolean i) { //boolean for iFrames cause for certain piercing attacks that don't trigger them
 		//this mimics the mechanics in Terraria
 		if(iFrames == 0) {
+			Engine.sound.breh(); // Testing sound effects
+			
 			if(healthRegen) {
 				timeLastHit = 0;
 				regenInc = 0;
