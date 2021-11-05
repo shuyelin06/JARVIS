@@ -109,6 +109,29 @@ public class Game extends BasicGameState {
 		tileHash.put(6, 5);
 	}
 	
+	/*
+	 * Helper Methods
+	 */
+	// Given two coordinates, display where they should be displayed on screen
+	public float[] renderPosition(float x2, float y2) {
+		float[] output = player.getPosition().displacement(x2, y2);
+		
+		output[0] = output[0] * Coordinate.ConversionFactor + Values.CenterX;
+		output[1] = Engine.RESOLUTION_Y - (output[1] * Coordinate.ConversionFactor + Values.CenterY);
+		
+		return output;
+	}
+	// Given some pixel on screen, returns their coordinate position in the game (might be slightly off)
+	public float[] getAbsoluteCoordinate(float x, float y) {
+		float[] output = new float[2];
+		
+		// Find the distance from the pixel center
+		output[0] = player.getPosition().getX() + (x - Values.CenterX) / Coordinate.ConversionFactor;
+		output[1] = player.getPosition().getY() + 1 + (Values.CenterY - y) / Coordinate.ConversionFactor;
+		
+		return output;
+	}
+	
 	/* Rendering - Game's Camera */
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException 
 	{	
@@ -163,15 +186,7 @@ public class Game extends BasicGameState {
 		// Render the player
 		player.render(g, Values.CenterX, Values.CenterY);
 	}
-	// Given two coordinates, display where they should be displayed on screen
-	public float[] renderPosition(float x2, float y2) {
-		float[] output = player.getPosition().displacement(x2, y2);
-		
-		output[0] = output[0] * Coordinate.ConversionFactor + Values.CenterX;
-		output[1] = Engine.RESOLUTION_Y - (output[1] * Coordinate.ConversionFactor + Values.CenterY);
-		
-		return output;
-	}
+
 
 	/*
 	 * Update - Update different behaviors of the game
@@ -194,7 +209,7 @@ public class Game extends BasicGameState {
 		
 		// Spawning Mechanics
 		Spawning.spawnEnemy(this, Values.Spawn_Rate); // If you want to stop spawning, set 5f to 0f.
-		// Unrendering Mechanics
+		// Derendering Mechanics
 		d.update();
 		
 		// Update all entities
@@ -234,36 +249,21 @@ public class Game extends BasicGameState {
   			case Input.KEY_BACKSLASH: // Debug Key Binding
   				sbg.enterState(Engine.Debug_ID);
   				break;
+  			
+  			// All Inventory Key Bindings
   			case Input.KEY_1:
-  				player.changeInventorySlot(0);
-  				break;
   			case Input.KEY_2:
-  				player.changeInventorySlot(1);
-  				break;
   			case Input.KEY_3:
-  				player.changeInventorySlot(2);
-  				break;
   			case Input.KEY_4:
-  				player.changeInventorySlot(3);
-  				break;
   			case Input.KEY_5:
-  				player.changeInventorySlot(4);
-  				break;
   			case Input.KEY_6:
-  				player.changeInventorySlot(5);
-  				break;
   			case Input.KEY_7:
-  				player.changeInventorySlot(6);
-  				break;
   			case Input.KEY_8:
-  				player.changeInventorySlot(7);
-  				break;
   			case Input.KEY_9:
-  				player.changeInventorySlot(8);
+  			case Input.KEY_0:{
+  				player.changeInventorySlot(key - 2);
   				break;
-  			case Input.KEY_0:
-  				player.changeInventorySlot(9);
-  				break;
+  			}
   		}
   		
 	}
@@ -272,26 +272,26 @@ public class Game extends BasicGameState {
 		if ( gc.getInput().isKeyDown(Input.KEY_D) ) player.moveRight(); // Right Movement
 		if ( gc.getInput().isKeyDown(Input.KEY_A) ) player.moveLeft(); // Left Movement
 		if ( gc.getInput().isKeyDown(Input.KEY_S) ) player.fall(); // Downwards movement
-
 	}
 	
-	final private static float Player_Reach = 10f;
 	public void cursorInput(float x, float y)
 	{
 		float[] mouseCoordinate = getAbsoluteCoordinate(x, y);
-		if(player.getPosition().magDisplacement(mouseCoordinate) > Player_Reach || !player.isAlive()) return;
 		
-		if(gc.getInput().isMouseButtonDown(Input.MOUSE_LEFT_BUTTON))
+		// Do not process cursor input outside the player's reach, or if the player is dead.
+		if(player.getPosition().magDisplacement(mouseCoordinate) > Values.Player_Reach || !player.isAlive()) return;
+		
+		if(gc.getInput().isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)) // Left click - destroy a block
 		{
 			world.destroyBlock((int) mouseCoordinate[0], (int) mouseCoordinate[1]);
 		}
 		
-		if(gc.getInput().isMouseButtonDown(Input.MOUSE_RIGHT_BUTTON))
+		if(gc.getInput().isMouseButtonDown(Input.MOUSE_RIGHT_BUTTON)) // Right click - place a block
 		{
 			world.placeBlock((int) mouseCoordinate[0], (int) mouseCoordinate[1]);
 		}
 		
-		if(gc.getInput().isKeyDown(Input.KEY_E)) //test explosion, just for fun lol
+		if(gc.getInput().isKeyDown(Input.KEY_E)) // Test explosion, just for fun lol
 		{
 			for(int i = -2; i < 3; i++)
 			{
@@ -301,17 +301,5 @@ public class Game extends BasicGameState {
 				}
 			}
 		}
-	}
-	
-	
-	// Given some pixel on screen, returns their coordinate position in the game (might be slightly off)
-	public float[] getAbsoluteCoordinate(float x, float y) {
-		float[] output = new float[2];
-		
-		// Find the distance from the pixel center
-		output[0] = player.getPosition().getX() + (x - Values.CenterX) / Coordinate.ConversionFactor;
-		output[1] = player.getPosition().getY() + 1 + (Values.CenterY - y) / Coordinate.ConversionFactor;
-		
-		return output;
 	}
 }

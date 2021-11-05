@@ -6,7 +6,6 @@ import core.Engine;
 import support.Utility;
 
 public class Enemy extends Living {
-	
 	protected int contactDmg;
 	
 	protected Player target;

@@ -16,12 +16,6 @@ public class Inventory{
 	
 	public Inventory() {
 		this.items = new int[Inventory_Size][2];
-		
-		for(int i = 0; i < items.length; i++) {
-			System.out.println(items[i][0]);
-			System.out.println(items[i][1]);
-		}
-		
 		this.idIndexMapping = new HashMap<Integer, Integer>();
 	}
 		
