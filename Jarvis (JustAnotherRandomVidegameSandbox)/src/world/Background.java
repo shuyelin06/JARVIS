@@ -31,9 +31,9 @@ public class Background
 			underground.render(g, x, y);
 		}
 	
-		if(Engine.game.getWorld().getTime() > 0) 
+		if(Engine.game.getWorld().getTime() > 600 && y > -500) 
 		{
-			night.render(g, Engine.game.getWorld().getTime());
+			night.render(g, Engine.game.getWorld().getTime() - 600);
 		}
 	}
 }

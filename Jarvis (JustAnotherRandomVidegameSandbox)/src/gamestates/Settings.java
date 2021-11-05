@@ -15,7 +15,6 @@ import core.Engine;
 import settings.Values;
 import structures.Particle;
 import world.Background;
-import world.FileLoader;
 import world.WorldGen;
 
 public class Settings extends BasicGameState {
