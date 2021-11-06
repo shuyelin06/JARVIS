@@ -17,6 +17,12 @@ import sound.SoundManager;
 public class Engine extends StateBasedGame 
 {
 	/*
+	 * NOTE:
+	 * If it is your first time playing this game, please read the README documentation for 
+	 * a tutorial on how to play.
+	 */
+	
+	/*
 	 * Desktop Resolution: 1920 x 1080
 	 * Laptop Resolution: 1366 x 768
 	 */
