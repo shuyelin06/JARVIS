@@ -21,6 +21,7 @@ After entering the game, you as the player will spawn and drop to the ground.
 There are a few basic controls you should know:
 - WASD: Standard movement controls
 - E: EXPLOSION - Destroy a grid of blocks at the cursor location
+- R: ROCKET - Shoot a rocket that blocks up blocks upon impact with terrain
 - Left Click: Destroy the block (if possible) at the mouse cursor
 - Right Click: Place a block from the player's inventory (if possible) at the mouse cursor
 - 0-9: Select a block from the player's inventory (shown on the top left)  
