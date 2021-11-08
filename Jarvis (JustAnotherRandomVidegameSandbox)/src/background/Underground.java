@@ -1,4 +1,4 @@
-package world;
+package background;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;

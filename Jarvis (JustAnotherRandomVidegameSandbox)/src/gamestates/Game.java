@@ -10,6 +10,8 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
+import background.Background;
+
 import java.util.HashMap;
 import java.util.function.Predicate;
 
@@ -21,7 +23,6 @@ import entities.other.Projectile;
 import entities.Entity.EntType;
 import settings.Values;
 import structures.Block;
-import world.Background;
 import world.Chunk;
 import world.World;
 import world.WorldGen;

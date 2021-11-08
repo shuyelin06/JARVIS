@@ -1,4 +1,4 @@
-package world;
+package background;
 
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
@@ -10,30 +10,22 @@ public class Background
 {
 	private Day day;
 	private Underground underground;
-	private Night night;
 	
 	public Background() throws SlickException
 	{
 		day = new Day();
 		underground = new Underground();
-		night = new Night();
-		
 	}
 	
 	public void render(Graphics g, float x, float y)
 	{
 		if(y > -500)
 		{
-			day.render(g, x, y);
+			day.render(g, x, y, Engine.game.getWorld().getTime());
 		}
 		if(y < 0)
 		{
 			underground.render(g, x, y);
-		}
-	
-		if(Engine.game.getWorld().getTime() > 600 && y > -500) 
-		{
-			night.render(g, Engine.game.getWorld().getTime() - 600);
 		}
 	}
 }

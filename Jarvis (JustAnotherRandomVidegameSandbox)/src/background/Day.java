@@ -1,4 +1,4 @@
-package world;
+package background;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
@@ -13,18 +13,24 @@ public class Day extends Scene
 	private Image hillsFront;
 	private Image hillsBack;
 	private Image mountains;
+	private Image night;
 	
+	private float alpha;
 	
 	private Cloud[] clouds;
 	
 	public Day() throws SlickException
 	{
+		alpha = 0;
+		
 		sky = new Image("res/Background/daySky.png");
 		
 		hillsFront = new Image("res/Background/hills1.png");
 		hillsBack = new Image("res/Background/hills1-80.png");
 		
 		mountains = new Image("res/Background/mountains.png");
+		
+		night = new Image("res/Background/night.png");
 		
 		clouds = new Cloud[5];
 		
@@ -36,7 +42,7 @@ public class Day extends Scene
 		}
 	}
 	
-	public void render(Graphics g, float x, float y)
+	public void render(Graphics g, float x, float y, int time)
 	{
 		sky.draw();
 		
@@ -82,6 +88,23 @@ public class Day extends Scene
 		
 		g.setColor(new Color(50, 122, 32));
 		g.fillRect(0, Engine.RESOLUTION_Y * 0.79f +  + (y * 0.3f), Engine.RESOLUTION_X, Engine.RESOLUTION_Y * 0.5f);
+		
+		
+		if(time % 600 > 300)
+		{
+			if(alpha >= 0.8)
+			{
+				alpha = 0.8f;
+			} 
+			else
+			{
+				alpha = (time - 300) * 0.003f;
+			}
+			
+			night.setAlpha(alpha);
+			
+			night.draw(0, 0, Engine.RESOLUTION_X, Engine.RESOLUTION_Y);
+		}
 
 	}
 }

@@ -11,10 +11,10 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
+import background.Background;
 import core.Engine;
 import settings.Values;
 import structures.Particle;
-import world.Background;
 import world.WorldGen;
 
 public class Settings extends BasicGameState {
@@ -183,7 +183,7 @@ public class Settings extends BasicGameState {
 	public void drawImages(Graphics g) {
 		//image drawing
 		
-		setImage("res/startButton.png");
+		setImage("res/menu/startButton.png");
 		mainButton.setFilter(Image.FILTER_NEAREST);
 		mainButton.draw(mainButtonX - (mainButtonW / 2), mainButtonY - (mainButtonH / 2), mainButtonW, mainButtonH);
 		

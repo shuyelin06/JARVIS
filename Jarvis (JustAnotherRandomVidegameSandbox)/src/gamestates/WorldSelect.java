@@ -11,11 +11,11 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
+import background.Background;
 import core.Engine;
 import settings.Values;
 import structures.Particle;
 import support.FileLoader;
-import world.Background;
 import world.WorldGen;
 
 public class WorldSelect extends BasicGameState 
@@ -259,29 +259,31 @@ public class WorldSelect extends BasicGameState
 	public void drawImages(Graphics g) {
 		//image drawing
 		
-		setImage("res/startButton.png");
+		setImage("res/menu/startButton.png");
 		mainButton.setFilter(Image.FILTER_NEAREST);
 		mainButton.draw(mainButtonX - (mainButtonW / 2), mainButtonY - (mainButtonH / 2), mainButtonW, mainButtonH);
 		
-		setImage("res/placeholder.png");
+		setImage("res/menu/arrowRight.png");
 		w1Button.draw(w1ButtonX - (w1ButtonW / 2), w1ButtonY - (w1ButtonH / 2), w1ButtonW, w1ButtonH);
+		setImage("res/menu/arrowLeft.png");
 		w2Button.draw(w2ButtonX - (w2ButtonW / 2), w2ButtonY - (w2ButtonH / 2), w2ButtonW, w2ButtonH);
 		
-		setImage("res/placeholder.png");
+		setImage("res/menu/arrowLeft.png");
 		s1Button.draw(s1ButtonX - (s1ButtonW / 2), s1ButtonY - (s1ButtonH / 2), s1ButtonW, s1ButtonH);
+		setImage("res/menu/arrowRight.png");
 		newWorldButton.draw(newWorldButtonX - (newWorldButtonW / 2), newWorldButtonY - (newWorldButtonH / 2), newWorldButtonW, newWorldButtonH);
 		
 		//draws based on world number
 		if (worldID == 1) {
-			setImage("res/1.png");
+			setImage("res/menu/1.png");
 		} else if (worldID == 2) {
-			setImage("res/2.png");
+			setImage("res/menu/2.png");
 		} else if (worldID == 3) {
-			setImage("res/3.png");
+			setImage("res/menu/3.png");
 		} else if (worldID == 4) {
-			setImage("res/4.png");
+			setImage("res/menu/4.png");
 		} else if (worldID == 5) {
-			setImage("res/5.png");
+			setImage("res/menu/5.png");
 		}
 		worldImage.draw(worldImageX - (worldImageW / 2), worldImageY - (worldImageH / 2), worldImageW, worldImageH);
 			
