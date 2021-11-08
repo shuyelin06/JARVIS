@@ -13,15 +13,15 @@ public class Night extends Scene
 	
 	public Night() throws SlickException
 	{
-		nightSky = new Image("res/nightTest.png");
+		nightSky = new Image("res/background/night.png");
 		alpha = 0;
 	}
 	
 	public void render(Graphics g, int time)
 	{
-		if(alpha >= 1)
+		if(alpha >= 0.8)
 		{
-			alpha = 1;
+			alpha = 0.8f;
 		} 
 		else
 		{
