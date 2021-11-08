@@ -19,12 +19,12 @@ public class Day extends Scene
 	
 	public Day() throws SlickException
 	{
-		sky = new Image("res/daySky.png");
+		sky = new Image("res/Background/daySky.png");
 		
-		hillsFront = new Image("res/hills1.png");
-		hillsBack = new Image("res/hills1-80.png");
+		hillsFront = new Image("res/Background/hills1.png");
+		hillsBack = new Image("res/Background/hills1-80.png");
 		
-		mountains = new Image("res/mountains.png");
+		mountains = new Image("res/Background/mountains.png");
 		
 		clouds = new Cloud[5];
 		

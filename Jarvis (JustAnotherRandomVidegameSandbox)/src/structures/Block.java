@@ -1,7 +1,7 @@
 package structures;
 
 public class Block{
-	private int id; // Id of the block
+	protected int id; // Id of the block
 	
 	public Block(int id) {
 		this.id = id;
@@ -9,4 +9,9 @@ public class Block{
 	public int getID() {
 		return id;
 	}
+	public void setID(int id)
+	{
+		this.id = id;
+	}
+	
 }

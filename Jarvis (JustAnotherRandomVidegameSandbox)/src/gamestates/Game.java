@@ -39,10 +39,10 @@ public class Game extends BasicGameState {
 	
 	// The World
 
+
 	private boolean createNewWorld = false; // If testing worldGen, change to true.
 
 	private World world;
-
 	
 	Destroyer d; // Despawning
 	

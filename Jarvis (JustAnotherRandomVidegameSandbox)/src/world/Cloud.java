@@ -34,19 +34,19 @@ public class Cloud
 		
 		if(cloudType == 0)
 		{
-			sprite = new Image("res/cloud-1.png");
+			sprite = new Image("res/Background/cloud-1.png");
 		} 
 		else if(cloudType == 1)
 		{
-			sprite = new Image("res/cloud-2.png");
+			sprite = new Image("res/Background/cloud-2.png");
 		}
 		else if(cloudType == 2)
 		{
-			sprite = new Image("res/cloud-3.png");
+			sprite = new Image("res/Background/cloud-3.png");
 		} 
 		else if(cloudType == 3)
 		{
-			sprite = new Image("res/cloud-4.png");
+			sprite = new Image("res/Background/cloud-4.png");
 		}
 		
 		xSpeed = (w * w) * 0.00002f;
