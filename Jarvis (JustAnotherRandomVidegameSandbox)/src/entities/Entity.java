@@ -218,8 +218,6 @@ public class Entity{
 				else if(xSpeed > 0) position.setXPos(blockCoord - this.sizeX - collisionError);
 				
 				xSpeed = 0f;
-				
-				onCollision();
 				break;
 			case Y: // Y Collision Code
 				// Default Y Collision - Stop Vertical Movement
@@ -234,10 +232,9 @@ public class Entity{
 				else if(ySpeed > 0) position.setYPos(blockCoord - 1f - collisionError);
 				
 				ySpeed = 0f;
-				
-				onCollision();
 				break;
 		}
+		onCollision();
 	}
 	protected void onCollision() {} // Empty collision method that can be used in other classes
 	

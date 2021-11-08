@@ -17,6 +17,7 @@ import core.Coordinate;
 import core.Engine;
 import entities.Entity;
 import entities.living.*;
+import entities.other.Projectile;
 import entities.Entity.EntType;
 import settings.Values;
 import structures.Block;
@@ -251,6 +252,17 @@ public class Game extends BasicGameState {
   			case Input.KEY_BACKSLASH: // Debug Key Binding
   				Values.LastState = Engine.Game_ID;
   				sbg.enterState(Engine.Debug_ID);
+  				break;
+  			
+  			case Input.KEY_R:
+  				float x = gc.getInput().getAbsoluteMouseX() - Values.CenterX;
+  				float y = Values.CenterY - gc.getInput().getAbsoluteMouseY();
+  				
+  				double theta = Math.atan(y / x);
+  				if(x < 0) theta = theta + Math.PI;
+  				
+  				Projectile p = new Projectile(player.getPosition().getX(), player.getPosition().getY(), theta);
+  				entities.get(EntType.Projectiles).add(p);
   				break;
   			
   			// All Inventory Key Bindings
