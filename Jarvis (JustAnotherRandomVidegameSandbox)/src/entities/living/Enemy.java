@@ -6,7 +6,6 @@ import core.Engine;
 import support.Utility;
 
 public class Enemy extends Living {
-	
 	protected int contactDmg;
 	
 	protected Player target;
@@ -19,15 +18,28 @@ public class Enemy extends Living {
 		target = Engine.game.getPlayer();
 
 		try {
-			sprite = new Image("res/bowser.png");
+			this.sprite = new Image("res/bowser.png");
 		} catch(Exception e) {}
 		
 		contactDmg = 1;
 		aggroRange = 18;
-		sizeX = 1;
-		sizeY = 1;
-		jumpsLeft = 1;
+		sizeX = 1f;
+		sizeY = 1f;
 		healthRegen = false;
+	}
+	// Overwritten update method
+	public void update() {
+		ai(target);
+		
+		super.update();
+	}
+	// Overwritten collisions method
+	public void collisions() {
+		if(this.entityCollision(target)) {
+			target.takeDamage(1, true);
+		}
+		
+		super.collisions();
 	}
 	
 	public void ai(Player p) {
@@ -44,41 +56,5 @@ public class Enemy extends Living {
 		}
 	}
 	
-	public void playerCollision(Player p) {
-		float x = Utility.changeX(p, this);
-		float y = Utility.changeY(p, this);
-		if(xCollision(x, p) && yCollision(y, p)) {
-			p.takeDamage(1, true);
-		}
-//		if(Math.abs(p.getPosition().getX() - this.getPosition().getX()) <= this.sizeX) { //still need to implement hitboxes
-//			if(Math.abs(p.getPosition().getY() - this.getPosition().getY()) <= 1) {
-//				p.takeDamage(1, true);
-//			}
-//		}
-	}
-	
-	public boolean xCollision(float changeX, Player p) {
-		if(changeX <= 0 && Math.abs(changeX) <= this.sizeX) {
-			return true;
-		}else if(changeX > 0 && Math.abs(changeX) <= p.getSizeX()) {
-			return true;
-		}
-		return false;
-	}
-	
-	public boolean yCollision(float changeY, Player p) {
-		if(changeY <= 0 && Math.abs(changeY) <= this.sizeY) {
-			return true;
-		}else if(changeY > 0 && Math.abs(changeY) <= p.getSizeY()) {
-			return true;
-		}
-		return false;
-	}
-		
-	public void update() {
-		super.update();
-		
-		playerCollision(target);
-		ai(target);
-	}
+
 }

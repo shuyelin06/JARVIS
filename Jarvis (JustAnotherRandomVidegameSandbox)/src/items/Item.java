@@ -1,10 +1,10 @@
 package items;
 
 public class Item{
-	protected int type;
+	protected int id;
 	
-	public Item() {
-		
+	public Item(int id) {
+		this.id = id;
 	}
 	
 	

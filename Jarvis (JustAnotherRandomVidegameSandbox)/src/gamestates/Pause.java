@@ -8,8 +8,9 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 import core.Engine;
+import settings.Values;
 
-public class Pause extends BasicGameState 
+public class Pause extends BasicGameState
 {
 	private StateBasedGame sbg;
 	int id;
@@ -49,6 +50,7 @@ public class Pause extends BasicGameState
 	{
 		switch(key) {
 			case Input.KEY_P: // Unpause Key Binding
+				Values.LastState = Engine.Pause_ID;
 				sbg.enterState(Engine.Game_ID);
 				break;
 		}

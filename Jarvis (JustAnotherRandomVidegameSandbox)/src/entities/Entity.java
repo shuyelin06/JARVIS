@@ -4,7 +4,13 @@ import core.Coordinate;
 import core.Engine;
 import settings.Values;
 import structures.Block;
+import support.Utility;
 import world.Chunk;
+
+import java.awt.image.BufferedImage;
+import java.io.File;
+
+import javax.imageio.ImageIO;
 
 import org.lwjgl.Sys;
 import org.newdawn.slick.Color;
@@ -28,7 +34,7 @@ public class Entity{
 	
 	protected Coordinate position;
 	protected float xSpeed, ySpeed; // Entity velocity (pixels per second)
-	
+	protected boolean direction; //direction facing variable, 0 = left; 1 = right
 	
 	/*
 	 * Render Variables
@@ -59,6 +65,9 @@ public class Entity{
 		
 		this.xSpeed = 0f;
 		this.ySpeed = 0f;
+		this.direction = false;
+		
+		this.jumpsLeft = 0;
 		
 		this.time = Sys.getTime();
 	}
@@ -130,7 +139,11 @@ public class Entity{
 		collisions();
 		
 		// Position updating
-		position.update(xSpeed, ySpeed);		
+		position.update(xSpeed, ySpeed);
+		
+		// Direction updating
+		if (xSpeed < 0) direction = false;
+		if (xSpeed > 0) direction = true;
 	}
 	
 	
@@ -220,27 +233,29 @@ public class Entity{
 				
 				ySpeed = 0f;
 				break;
-		
 		}
+		onCollision();
 	}
+	protected void onCollision() {} // Empty collision method that can be used in other classes
 	
 	// Returns true if this entity will collide with another entity e.
 	public boolean entityCollision(Entity e) {
-		float inter1 = position.getX() + xSpeed / Engine.FRAMES_PER_SECOND;
-		if(xSpeed > 0) inter1 += sizeX;
+		float rec1[] = new float[4];
+		rec1[0] = position.getX() + xSpeed / Engine.FRAMES_PER_SECOND; // X1
+		rec1[2] = rec1[0] + this.sizeX; // X2
 		
-		float inter2 = e.getPosition().getX() + e.xSpeed / Engine.FRAMES_PER_SECOND;
+		rec1[3] = position.getY() + ySpeed / Engine.FRAMES_PER_SECOND; // Y2
+		rec1[1] = rec1[3] - this.sizeY; // Y1
 		
-		// Check if one will be in the other
-		if(inter2 - 0.001f < inter1 && inter1 < inter2 + e.sizeX + 0.001f) {
-			inter1 = position.getY() + ySpeed / Engine.FRAMES_PER_SECOND;
-			if(ySpeed < 0) inter1 -= sizeY;
-			
-			inter2 = e.getPosition().getY() + e.ySpeed / Engine.FRAMES_PER_SECOND;
-			
-			if(inter2 - e.sizeY - 0.001f < inter1 && inter1 < inter2 + 0.001f) return true;
-		}
-		return false;
+		
+		float rec2[] = new float[4];
+		rec2[0] = e.getPosition().getX() + e.xSpeed / Engine.FRAMES_PER_SECOND; // X3
+		rec2[2] = rec2[0] + e.sizeX; // X4
+		
+		rec2[3] = e.getPosition().getY() + e.ySpeed / Engine.FRAMES_PER_SECOND; // Y3
+		rec2[1] = rec2[3] - e.sizeY; // X4
+		
+		return Utility.rectangleOverlap(rec1, rec2);
 	}
 	
 	public void debug(Graphics g, float x, float y) {
@@ -278,6 +293,13 @@ public class Entity{
 		if(xSpeed < 0)
 		{
 			sprite.draw(x + sizeX * Coordinate.ConversionFactor, y, -sizeX * Coordinate.ConversionFactor, sizeY * Coordinate.ConversionFactor); 
+		} else if (xSpeed == 0) {
+			//based on direction
+			if (!direction) {
+				sprite.draw(x + sizeX * Coordinate.ConversionFactor, y, -sizeX * Coordinate.ConversionFactor, sizeY * Coordinate.ConversionFactor); 
+			} else {
+				sprite.draw(x, y, sizeX * Coordinate.ConversionFactor, sizeY * Coordinate.ConversionFactor); 
+			}
 		} else
 		{
 			sprite.draw(x, y, sizeX * Coordinate.ConversionFactor, sizeY * Coordinate.ConversionFactor); 
