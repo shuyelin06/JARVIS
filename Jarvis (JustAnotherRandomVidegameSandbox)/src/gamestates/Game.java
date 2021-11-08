@@ -18,6 +18,7 @@ import core.Engine;
 import entities.Entity;
 import entities.living.*;
 import entities.other.Projectile;
+import managers.DisplayManager;
 import entities.Entity.EntType;
 import settings.Values;
 import structures.Block;
@@ -36,6 +37,9 @@ public class Game extends BasicGameState {
 	private StateBasedGame sbg;
 	
 	private int id;
+	
+	// Managers
+	DisplayManager displaymanager;
 	
 	// The World
 
@@ -142,6 +146,8 @@ public class Game extends BasicGameState {
 		// Render all blocks in loaded chunks
 		//int chunkX = (int) player.getPosition().getChunk() - Values.Render_Distance;
 		for(Chunk chunk: world.getAllChunks()) { // Iterate through every chunk
+			if(chunk == null) continue;
+			
 			Block[][] blocks = chunk.getBlocks(); // Get the blocks in the chunk
 			
 			// For every object, render its position relative to the player (with the player being in the center)

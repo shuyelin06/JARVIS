@@ -139,9 +139,15 @@ public class World
 	//doesn't work yet
 	public int getAdjacentBlock(Block[][] blocks, int i, int j, int chunkIndex, int direction) {
 		if(i + direction == Values.Chunk_Size_X && chunkIndex < rightMostChunk) {//if it is on the right edge of the chunk
-			return getChunk(chunkIndex + 1).getBlocks()[0][j].getID();
+			Chunk c = getChunk(chunkIndex + 1);
+			
+			if(c == null) return 0;
+			else return c.getBlocks()[0][j].getID();
 		}else if(i + direction < 0 && chunkIndex > leftMostChunk) { //if on left edge of chunk
-			return getChunk(chunkIndex -1).getBlocks()[Values.Chunk_Size_X-1][j].getID();
+			Chunk c = getChunk(chunkIndex - 1);
+			
+			if(c == null) return 0;
+			else return c.getBlocks()[Values.Chunk_Size_X-1][j].getID();
 		}
 //		else if(i > 0 && i < Values.Chunk_Size_X -1 ){
 //			return getChunk(chunkIndex).getBlocks()[i+direction][j].getID();
