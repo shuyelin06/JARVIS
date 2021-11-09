@@ -287,6 +287,7 @@ public class Game extends BasicGameState {
   				player.changeInventorySlot(key - 2);
   				break;
   			}
+  			
   		}
   		
 	}
@@ -324,5 +325,9 @@ public class Game extends BasicGameState {
 				}
 			}
 		}
+	}
+	
+	public void mouseWheelMoved(int change) {
+		
 	}
 }
