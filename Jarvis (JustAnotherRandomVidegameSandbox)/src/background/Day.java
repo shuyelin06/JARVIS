@@ -15,13 +15,19 @@ public class Day extends Scene
 	private Image mountains;
 	private Image night;
 	
-	private float alpha;
+	private float nightAlpha;
+	private float nightLength;
+	private float dayLength;
+	private float transitionLength;
 	
 	private Cloud[] clouds;
 	
 	public Day() throws SlickException
 	{
-		alpha = 0;
+		transitionLength = 0;
+		dayLength = 800;
+		nightAlpha = 0;
+		nightLength = 300;
 		
 		sky = new Image("res/Background/daySky.png");
 		
@@ -89,22 +95,25 @@ public class Day extends Scene
 		g.setColor(new Color(50, 122, 32));
 		g.fillRect(0, Engine.RESOLUTION_Y * 0.79f +  + (y * 0.3f), Engine.RESOLUTION_X, Engine.RESOLUTION_Y * 0.5f);
 		
-		
-		if(time % 600 > 300)
+		if(time % nightLength == 0)
 		{
-			if(alpha >= 0.8)
+			transitionLength = 0;
+		}
+			if(nightAlpha >= 0.9f && transitionLength < nightLength)
 			{
-				alpha = 0.8f;
+				transitionLength++;
+				nightAlpha = 0.9f;
 			} 
 			else
 			{
-				alpha = (time - 300) * 0.003f;
+				nightAlpha = (float) ( -Math.cos( (time - (transitionLength % nightLength) ) * 0.005) * 0.5 + 0.5 );
 			}
 			
-			night.setAlpha(alpha);
+			System.out.println(transitionLength + ", " + nightAlpha);
+			
+			night.setAlpha(nightAlpha);
 			
 			night.draw(0, 0, Engine.RESOLUTION_X, Engine.RESOLUTION_Y);
-		}
 
 	}
 }
