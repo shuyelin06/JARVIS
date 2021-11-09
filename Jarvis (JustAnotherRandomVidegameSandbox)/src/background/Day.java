@@ -95,10 +95,6 @@ public class Day extends Scene
 		g.setColor(new Color(50, 122, 32));
 		g.fillRect(0, Engine.RESOLUTION_Y * 0.79f +  + (y * 0.3f), Engine.RESOLUTION_X, Engine.RESOLUTION_Y * 0.5f);
 		
-		if(time % nightLength == 0)
-		{
-			transitionLength = 0;
-		}
 			if(nightAlpha >= 0.9f && transitionLength < nightLength)
 			{
 				transitionLength++;
