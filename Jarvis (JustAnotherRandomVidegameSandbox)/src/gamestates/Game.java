@@ -227,6 +227,13 @@ public class Game extends BasicGameState {
 		for(ArrayList<Entity> list: entities.values()) {
 			list.removeIf(filter);
 		}
+		
+		// Sends to pause if player died
+		if (!player.isAlive()) {
+			player.update();
+			Values.LastState = Engine.Game_ID;
+			sbg.enterState(Engine.Pause_ID);
+		}
 	}
 
 	public void enter(GameContainer gc, StateBasedGame sbg) throws SlickException {}
