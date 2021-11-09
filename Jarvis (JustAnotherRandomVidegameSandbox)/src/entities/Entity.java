@@ -75,6 +75,15 @@ public class Entity{
 	public int timeAlive() {
 		return (int) (Sys.getTime() - time) / 1000;
 	}
+	public float getXSpeed() {
+		return xSpeed;
+	}
+	public float getYSpeed() {
+		return ySpeed;
+	}
+	public Image getSprite() {
+		return sprite;
+	}
 	public float getSizeX() {
 		return sizeX;
 	}
