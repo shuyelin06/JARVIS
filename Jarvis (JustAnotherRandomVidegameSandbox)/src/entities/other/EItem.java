@@ -20,6 +20,8 @@ public class EItem extends Entity{
 		return itemID;
 	}
 	public void collisions() {	
+		if(this.isMarked()) return;
+		
 		// Check collisions with other blocks of the same ID
 		ArrayList<Entity> items = Engine.game.getEntities(EntType.Items); 
 		

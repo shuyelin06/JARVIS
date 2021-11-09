@@ -92,7 +92,7 @@ public class Player extends Living{
 			float barDisp = i * boxSize;
 			
 			
-			Engine.game.getSpriteSheet().getSubImage(0, Engine.game.getSpriteHash().get(id)).draw(
+			Engine.game.displaymanager.getSpriteSheet().getSubImage(0, Engine.game.displaymanager.getSpriteHash().get(id)).draw(
 					barDisp + 0.050208333333f * Engine.RESOLUTION_X + center, 
 					0.03703703703f * Engine.game.getGC().getHeight() + center // 5 pixel displacement downwards - block centering will later be automatically done.
 					);

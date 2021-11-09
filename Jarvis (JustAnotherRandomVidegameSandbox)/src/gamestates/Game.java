@@ -20,6 +20,7 @@ import core.Engine;
 import entities.Entity;
 import entities.living.*;
 import entities.other.Projectile;
+import managers.DisplayManager;
 import entities.Entity.EntType;
 import settings.Values;
 import structures.Block;
@@ -38,24 +39,19 @@ public class Game extends BasicGameState {
 	
 	private int id;
 	
-	// The World
-
-
-	private boolean createNewWorld = false; // If testing worldGen, change to true.
-
-	private World world;
+	// Managers
+	public DisplayManager displaymanager; // Manages the display / graphics in the game
 	
+
+	// Spawning
 	Destroyer d; // Despawning
-	
-	// Tileset
-	private HashMap<Integer, Integer> tileHash;
-	private SpriteSheet tileset;
 	
 	// The Player
 	private Player player;
+	// Entities
 	private HashMap<EntType, ArrayList<Entity>> entities;
-	
-	private Background bg;
+	// The World
+	private World world;
 	
 	// Constructor
 	public Game(int id) { this.id = id; } 
@@ -68,9 +64,6 @@ public class Game extends BasicGameState {
 	public ArrayList<Entity> getEntities(EntType type) { return entities.get(type); }
 	public HashMap<EntType, ArrayList<Entity>> getAllEntities(){ return entities; }
 	
-	public SpriteSheet getSpriteSheet() { return tileset; }
-	public HashMap<Integer, Integer> getSpriteHash() { return tileHash; }
-	
 	public void addEntity(EntType type, Entity e) { entities.get(type).add(e); }
 	
 	/* Initializing */
@@ -80,18 +73,9 @@ public class Game extends BasicGameState {
 		this.sbg = sbg;
 		this.gc = gc;		
 		
-		// Load Block Hashings
-		FileLoader.LoadBlockHashings();
-		
-		this.bg = new Background();
-		
-		// Initializations
-		this.d = new Destroyer(this);
-		
+		// Initializing the World, Player, and Entities list
 		this.world = new World();
-		
 		this.player = new Player();
-
 		this.entities = new HashMap<EntType, ArrayList<Entity>>() {
 			private static final long serialVersionUID = 1L;
 		{
@@ -100,15 +84,11 @@ public class Game extends BasicGameState {
 			put(EntType.Projectiles, new ArrayList<Entity>());
 		}};
 		
-		tileset = new SpriteSheet("res/tileset.png", 30, 30);
-		//block image hashes: key = block id, 
-		tileHash = new HashMap<Integer, Integer>();
-		tileHash.put(1, 1); //block id 1 = dirt
-		tileHash.put(2, 0); //block id 2 = grass
-		tileHash.put(3, 2); //block id 3 = stone
-		tileHash.put(4, 3);
-		tileHash.put(5, 4);
-		tileHash.put(6, 5);
+		// Initializing Destroying and Spawning Behaviors
+		this.d = new Destroyer(this);
+		
+		// Initializing the Managers
+		this.displaymanager = new DisplayManager(this);
 	}
 	
 	/*
@@ -136,59 +116,12 @@ public class Game extends BasicGameState {
 	
 	/* Rendering - Game's Camera */
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException 
-	{	
-		float[] bgPosition = renderPosition(0, Values.Surface);
-		bg.render(g, bgPosition[0], bgPosition[1]);
-		
-		// Render all blocks in loaded chunks
-		//int chunkX = (int) player.getPosition().getChunk() - Values.Render_Distance;
-		for(Chunk chunk: world.getAllChunks()) { // Iterate through every chunk
-			Block[][] blocks = chunk.getBlocks(); // Get the blocks in the chunk
-			
-			// For every object, render its position relative to the player (with the player being in the center)
-			for(int i = 0; i < Values.Chunk_Size_X; i++) {
-				for(int j = 0; j < Values.Chunk_Size_Y; j++) {
-					//sets the color according to the block id
-					g.setColor(Values.BlockHash.get(blocks[i][j].getID()));
-					
-					float[] position = renderPosition(chunk.getX() * Values.Chunk_Size_X + i, j);
-					if(position[0] > -Coordinate.ConversionFactor && position[0] < Engine.RESOLUTION_X
-							&& position[1] > -Coordinate.ConversionFactor && position[1] < Engine.RESOLUTION_Y)
-					{
-						//draws blocks
-						//temporary if statement until we have all the graphics for every block
-						if(blocks[i][j].getID() >= 1 && blocks[i][j].getID() <= 6) {
-							if(blocks[i][j].getID() == 2) { //if grass
-								int variant = world.getGrassVariant(blocks, i, j, chunk.getX());
-								if(variant == 7) {
-									tileset.getSubImage(0, 1).draw(position[0], position[1]);
-								}else {
-									tileset.getSubImage(variant, 0).draw(position[0],position[1]);
-								}
-							}else {
-								tileset.getSubImage(0, tileHash.get(blocks[i][j].getID())).draw(position[0], position[1]);
-							}
-						}else {
-							g.fillRect(position[0], position[1], Coordinate.ConversionFactor, Coordinate.ConversionFactor);
-						}
-					}
-				}
-			}
-			//chunkX++;
-		}
-		
-		// Render all entities
-		for(ArrayList<Entity> list: entities.values()) {
-			for(Entity e: list) {
-				float[] position = renderPosition(e.getPosition().getX(), e.getPosition().getY());
-	    		e.render(g, position[0], position[1]);
-			}	
-    	}
-		
-		// Render the player
-		player.render(g, Values.CenterX, Values.CenterY);
+	{
+		displaymanager.renderBackground(g); // Render the background of the game
+		displaymanager.renderBlocks(g); // Render all blocks
+		displaymanager.renderEntities(g); // Render all entities
+		displaymanager.renderPlayer(g); // Render player
 	}
-
 
 	/*
 	 * Update - Update different behaviors of the game

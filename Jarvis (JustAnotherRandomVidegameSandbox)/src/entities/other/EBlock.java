@@ -20,7 +20,7 @@ public class EBlock extends EItem {
 	}
 	
 	public void render(Graphics g, float x, float y) {
-		Engine.game.getSpriteSheet().getSubImage(0, Engine.game.getSpriteHash().get(itemID)).draw(x, y, 0.75f);
+		Engine.game.displaymanager.getSpriteSheet().getSubImage(0, Engine.game.displaymanager.getSpriteHash().get(itemID)).draw(x, y, 0.75f);
 		
 		float[] renderPos = Engine.game.renderPosition(position.getX(), position.getY());
 		g.setColor(Color.black);
