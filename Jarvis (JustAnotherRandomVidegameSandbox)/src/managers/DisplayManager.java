@@ -20,6 +20,7 @@ import world.World;
 
 // Will handle all of the game's graphics / display
 public class DisplayManager {
+	final private static double Span_Divide = 1.5;
 	// Everything will be displayed relative to this center (which is the player)
 	Coordinate center;
 	
@@ -63,40 +64,37 @@ public class DisplayManager {
 	public void renderBlocks(Graphics g) {
 		World world = game.getWorld();
 
-		for(Chunk chunk: world.getAllChunks()) {
-			if(chunk == null) continue;
-			
-			Block[][] blocks = chunk.getBlocks(); // Get the blocks in the chunk
-			
-			// For every object, render its position relative to the player (with the player being in the center)
-			for(int i = 0; i < Values.Chunk_Size_X; i++) {
-				for(int j = 0; j < Values.Chunk_Size_Y; j++) {
-					float[] position = positionOnScreen(chunk.getX() * Values.Chunk_Size_X + i, j);
-					
-					if(position[0] > -Coordinate.ConversionFactor && position[0] < Engine.RESOLUTION_X
-							&& position[1] > -Coordinate.ConversionFactor && position[1] < Engine.RESOLUTION_Y)
-					{
-						//draws blocks
-						//temporary if statement until we have all the graphics for every block
-						if(blocks[i][j].getID() >= 1 && blocks[i][j].getID() <= 6) {
-							if(blocks[i][j].getID() == 2) { //if grass
-								int variant = world.getGrassVariant(blocks, i, j, chunk.getX());
-								if(variant == 7) {
-									g.drawImage(tileset.getSubImage(0, 1), position[0], position[1]);
-									// tileset.getSubImage(0, 1).draw(position[0], position[1]);
-								}else {
-									g.drawImage(tileset.getSubImage(variant, 0), position[0], position[1]);
-									// tileset.getSubImage(variant, 0).draw(position[0],position[1]);
-								}
-							}else {
-								g.drawImage(tileset.getSubImage(0, tileHash.get(blocks[i][j].getID())), position[0], position[1]);
-								// tileset.getSubImage(0, tileHash.get(blocks[i][j].getID())).draw(position[0], position[1]);
-							}
-						}
+		// X Span
+		final int xSpan = (int) (Math.ceil(Engine.RESOLUTION_X / Coordinate.ConversionFactor) / Span_Divide);
+		final int ySpan = (int) (Math.ceil(Engine.RESOLUTION_Y / Coordinate.ConversionFactor) / Span_Divide);
+		
+		// Iterate through every block that will be displayed on screen
+		for(int i = -xSpan; i < xSpan; i++) {
+			for(int j = -ySpan; j < ySpan; j++) {
+				int blockX = (int) center.getX() + i;
+				int blockY = (int) center.getY() + j;
+				
+				int relChunkX = blockX % Values.Chunk_Size_X;
+				
+				Chunk c = world.getChunk(blockX / Values.Chunk_Size_X);
+				if(c == null) continue;
+				
+				int id = c.getBlocks()[relChunkX][blockY].getID();
+				if(id == 0) continue; // Block ID 0: Air
+				
+				float[] position = positionOnScreen(blockX, blockY);
+				if(id == 2) { // For Grass
+					int variant = world.getGrassVariant(c.getBlocks(), blockX % Values.Chunk_Size_X, blockY, c.getX());
+					if(variant == 7) {
+						g.drawImage(tileset.getSubImage(0, 1), position[0], position[1]);
+					}else {
+						g.drawImage(tileset.getSubImage(variant, 0), position[0], position[1]);
 					}
+				} else {
+					g.drawImage(tileset.getSubImage(0, tileHash.get(id)), position[0], position[1]);
 				}
 			}
-		}
+		} 
 	}
 	public void renderEntities(Graphics g) {
 		for(ArrayList<Entity> list: game.getAllEntities().values()) {
