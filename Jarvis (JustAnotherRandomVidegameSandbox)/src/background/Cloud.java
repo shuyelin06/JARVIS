@@ -5,7 +5,6 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
 import core.Engine;
-import support.Utility;
 
 public class Cloud 
 {
