@@ -261,6 +261,6 @@ public class Game extends BasicGameState {
 	}
 	
 	public void mouseWheelMoved(int change) {
-		
+		player.adjustInventorySlot(change);
 	}
 }

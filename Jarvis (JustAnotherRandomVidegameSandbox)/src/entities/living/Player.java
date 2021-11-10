@@ -138,6 +138,15 @@ public class Player extends Living{
 		this.inventorySelected = inventorySelected;
 	}
 	
+	public void adjustInventorySlot(int change) {
+		inventorySelected += change / 120;
+		if (inventorySelected < 0) {
+			inventorySelected = Inventory.Inventory_Size - 1;
+		} else if (inventorySelected > Inventory.Inventory_Size - 1) {
+			inventorySelected = 0;
+		}
+	}
+	
 	// Overwritten Collisions Method
 	public void collisions() {
 		ArrayList<Entity> items = Engine.game.getEntities(EntType.Items);
