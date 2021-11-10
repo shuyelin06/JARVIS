@@ -14,7 +14,7 @@ import entities.Entity;
 import gamestates.Game;
 import settings.Values;
 import structures.Block;
-import world.Background;
+import background.Background;
 import world.Chunk;
 import world.World;
 

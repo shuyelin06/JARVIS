@@ -105,7 +105,7 @@ public class Day extends Scene
 				nightAlpha = (float) ( -Math.cos( (time - (transitionLength % nightLength) ) * 0.005) * 0.5 + 0.5 );
 			}
 			
-			System.out.println(transitionLength + ", " + nightAlpha);
+			// System.out.println(transitionLength + ", " + nightAlpha);
 			
 			night.setAlpha(nightAlpha);
 			
