@@ -17,12 +17,12 @@ import java.util.function.Predicate;
 
 import core.Coordinate;
 import core.Engine;
+import core.Values;
 import entities.Entity;
 import entities.living.*;
 import entities.other.Projectile;
 import managers.DisplayManager;
 import entities.Entity.EntType;
-import settings.Values;
 import structures.Block;
 import world.Chunk;
 import world.World;
@@ -57,6 +57,7 @@ public class Game extends BasicGameState {
 	public Game(int id) { this.id = id; } 
 	
 	// Accessor Methods
+	public DisplayManager getDisplayManager() { return displaymanager; }
 	public int getID() { return id; }
 	public Player getPlayer() { return player; }
 	public GameContainer getGC() { return gc; }
@@ -91,29 +92,6 @@ public class Game extends BasicGameState {
 		this.displaymanager = new DisplayManager(this);
 	}
 	
-	/*
-	 * Helper Methods
-	 */
-	// Given two coordinates, display where they should be displayed on screen
-	public float[] renderPosition(float x2, float y2) {
-		float[] output = player.getPosition().displacement(x2, y2);
-		
-		output[0] = output[0] * Coordinate.ConversionFactor + Values.CenterX;
-		output[1] = Engine.RESOLUTION_Y - (output[1] * Coordinate.ConversionFactor + Values.CenterY);
-		
-		return output;
-	}
-	// Given some pixel on screen, returns their coordinate position in the game (might be slightly off)
-	public float[] getAbsoluteCoordinate(float x, float y) {
-		float[] output = new float[2];
-		
-		// Find the distance from the pixel center
-		output[0] = player.getPosition().getX() + (x - Values.CenterX) / Coordinate.ConversionFactor;
-		output[1] = player.getPosition().getY() + 1 + (Values.CenterY - y) / Coordinate.ConversionFactor;
-		
-		return output;
-	}
-	
 	/* Rendering - Game's Camera */
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException 
 	{
@@ -139,13 +117,13 @@ public class Game extends BasicGameState {
 		// Increments world time
 		world.incrementTime();
 		
-		// Update the player's movement
-		player.update();
-		
 		// Spawning Mechanics
 		Spawning.spawnEnemy(this, Values.Spawn_Rate); // If you want to stop spawning, set 5f to 0f.
 		// Derendering Mechanics
 		d.update();
+		
+		// Update the player
+		player.update();
 		
 		// Update all entities
 		for(ArrayList<Entity> list: entities.values()) {
@@ -182,7 +160,7 @@ public class Game extends BasicGameState {
 
   			case Input.KEY_SPACE: // Jump Key Mapping (Space & W)
   			case Input.KEY_W:{
-  				player.jump();
+  				player.jump(20);
   				break;
   			}
   			
@@ -226,14 +204,14 @@ public class Game extends BasicGameState {
 	}
 	public void controls() //all the control stuff
 	{
-		if ( gc.getInput().isKeyDown(Input.KEY_D) ) player.moveRight(); // Right Movement
-		if ( gc.getInput().isKeyDown(Input.KEY_A) ) player.moveLeft(); // Left Movement
+		if ( gc.getInput().isKeyDown(Input.KEY_D) ) player.setXSpeed(5f); // Right Movement
+		if ( gc.getInput().isKeyDown(Input.KEY_A) ) player.setXSpeed(-5f); // Left Movement
 		if ( gc.getInput().isKeyDown(Input.KEY_S) ) player.fall(); // Downwards movement
 	}
 	
 	public void cursorInput(float x, float y)
 	{
-		float[] mouseCoordinate = getAbsoluteCoordinate(x, y);
+		float[] mouseCoordinate = displaymanager.positionInGame(x, y);
 		
 		// Do not process cursor input outside the player's reach, or if the player is dead.
 		if(player.getPosition().magDisplacement(mouseCoordinate) > Values.Player_Reach || !player.isAlive()) return;

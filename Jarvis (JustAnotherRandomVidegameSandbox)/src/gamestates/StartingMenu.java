@@ -10,7 +10,7 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import background.Background;
 import core.Engine;
-import settings.Values;
+import core.Values;
 import structures.Particle;
 
 public class StartingMenu extends BasicGameState 

@@ -6,9 +6,9 @@ import java.util.Iterator;
 
 import core.Coordinate;
 import core.Engine;
+import core.Values;
 import entities.Entity.EntType;
 import entities.other.EBlock;
-import settings.Values;
 import structures.Block;
 import support.FileLoader;
 
@@ -113,7 +113,7 @@ public class World
 				if(lBlock == 0) { //left grass
 					if(rBlock == 0) {//right grass
 						return 3; //left, top, right
-					}else {
+					} else {
 						return 1; //left, top
 					}
 				}else if(rBlock == 0) {

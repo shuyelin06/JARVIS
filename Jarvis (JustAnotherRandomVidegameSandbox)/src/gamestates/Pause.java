@@ -8,7 +8,7 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 import core.Engine;
-import settings.Values;
+import core.Values;
 
 public class Pause extends BasicGameState
 {

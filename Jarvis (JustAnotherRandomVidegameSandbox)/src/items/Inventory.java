@@ -39,7 +39,9 @@ public class Inventory{
 		return false;
 	}
 	
-	public void pickUp(int id) {
+	public void pickUp(EItem item) {
+		int id = item.getID();
+		
 		if(idIndexMapping.containsKey(id)) {
 			items[idIndexMapping.get(id)][1]++;
 		} else {
@@ -47,7 +49,7 @@ public class Inventory{
 				if(items[i][0] == 0) {
 					idIndexMapping.put(id, i);
 					items[i][0] = id;
-					items[i][1] = 1;
+					items[i][1] = item.getCount();
 					break;
 				}
 			}

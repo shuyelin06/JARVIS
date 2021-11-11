@@ -2,7 +2,7 @@ package entities;
 
 import core.Coordinate;
 import core.Engine;
-import settings.Values;
+import core.Values;
 import structures.Block;
 import support.Utility;
 import world.Chunk;
@@ -20,129 +20,73 @@ import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Rectangle;
 
 public class Entity{
-	//
+	public enum EntType{ Player, Hostiles, Items, Projectiles }
+	
+	// Keeping track of the entity
+	protected long time;
 	protected boolean remove;
-	/*
-	 * Physics Variables
-	 */
-	protected final static float friction = 1.5f; // We will later move friction to platforms, so diff platforms have different frictions (ex. ice)
-	protected final static float drag = 0.75f;
-	protected final static float gravity = 0.85f;
 	
-	protected boolean onPlatform; // If the entity is on a platform (determines the forces of friction and gravity)
-	protected int jumpsLeft; // Determines how many jumps are left
-	
-	protected Coordinate position;
-	protected float xSpeed, ySpeed; // Entity velocity (pixels per second)
-	protected boolean direction; //direction facing variable, 0 = left; 1 = right
-	
-	/*
-	 * Render Variables
-	 */
+	// Render Variables
 	protected Image sprite; // The sprite rendered in for the Entity
 	protected float sizeX, sizeY; // The size of the Entity
-
-	/* 
-	 * Time
-	 */
-	protected long time;
+	protected boolean direction; // Direction facing variable; false = left; true = right
 	
-	public enum EntType{
-		Player, Hostiles, Items, Projectiles
-	}
+	// Physics Variables
+	protected Coordinate position; // Entity position
+	protected float xSpeed, ySpeed; // Entity velocity (pixels per second)
+	protected float mass;
+	
+	protected int jumps; // Determines how many jumps are left
+	
 	// Every entity will have some initial starting position
 	public Entity(float InitX, float InitY)
 	{
+		// Default tracking variables
+		this.time = Sys.getTime();
 		this.remove = false;
 		
+		// Default Variables
 		try {
 			sprite = new Image("res/placeholder.png");
 		} catch(Exception e) {}
-		
-		this.onPlatform = false;
-	
-		this.position = new Coordinate(InitX, InitY);
-		
-		this.xSpeed = 0f;
-		this.ySpeed = 0f;
 		this.direction = false;
+		this.sizeX = 1f;
+		this.sizeY = 1f;
+
 		
-		this.jumpsLeft = 0;
+		// Physics Variables
+		this.position = new Coordinate(InitX, InitY); // Position
 		
-		this.time = Sys.getTime();
+		this.xSpeed = this.ySpeed = 0f; // Speeds
+		this.mass = 1f; // Default Mass
+		
+		this.jumps = 0;
 	}
 	
-	public int timeAlive() {
-		return (int) (Sys.getTime() - time) / 1000;
-	}
-	public float getXSpeed() {
-		return xSpeed;
-	}
-	public float getYSpeed() {
-		return ySpeed;
-	}
-	public Image getSprite() {
-		return sprite;
-	}
-	public float getSizeX() {
-		return sizeX;
-	}
-	public float getSizeY() {
-		return sizeY;
-	}
-	// Methods returning the position of an object
-	public Coordinate getPosition() {
-		return position;
-	}
+	// Accessor Methods
+	public int timeAlive() { return (int) (Sys.getTime() - time) / 1000; }
 	
-	public void markForRemoval() {
-		this.remove = true;
-	}
-	public boolean isMarked() {
-		return remove;
-	}
+	public Image getSprite() { return sprite; }
+	public boolean getDirection() { return direction; }
+	public float getSizeX() { return sizeX; }
+	public float getSizeY() { return sizeY; }
 	
-	// Set Speeds
-	public void setXSpeed(float newSpeed) {
-		this.xSpeed = newSpeed;
-	}
-	public void setYSpeed(float newSpeed){
-		this.ySpeed = newSpeed;
-	}
-	public void moveRight(float maxSpeed, float acceleration) {
-		if(xSpeed + acceleration > maxSpeed) xSpeed = maxSpeed;
-		else xSpeed += acceleration;	
-	}
+	public Coordinate getPosition() { return position; }
+	public float getXSpeed() { return xSpeed; }
+	public float getYSpeed() { return ySpeed; }
 	
-	public void moveLeft(float maxSpeed, float acceleration) {
-		if(xSpeed - acceleration < 0 - maxSpeed) xSpeed = 0 - maxSpeed;
-		else xSpeed -= acceleration;
-	}
+	public boolean isMarked() { return remove; }
 	
-	public void jump(float speed) {
-		if(jumpsLeft > 0) {
-			this.onPlatform = false;
-			this.ySpeed = speed;
-			
-			jumpsLeft--;
-		}
-	}
-	public void fall() {
-		this.ySpeed -= Entity.gravity;
-	}
+	// Mutator Methods
+	public void markForRemoval() { this.remove = true; }
 	
 	// Updates the entity's position given its velocity
 	public void update() {
-		// Velocity Updating - X Velocity
-		float resistance = drag;
-		if(onPlatform) resistance = friction;
-		
-		if(resistance > Math.abs(xSpeed)) xSpeed = 0; 
-		else if(xSpeed > 0) xSpeed -= resistance;
-		else xSpeed += resistance;
+		// Forces Acting on X Velocity: Drag, Friction
+		xSpeed -= xSpeed * Values.Drag_Coefficient / this.mass;
 		
 		// Velocity Updating - Y Velocity
-		ySpeed -= gravity;
+		ySpeed -= Values.Acceleration_of_Gravity;
 		
 		// Collision detection 
 		collisions();
@@ -232,8 +176,7 @@ public class Entity{
 				// Default Y Collision - Stop Vertical Movement
 				
 				if(ySpeed < 0) {
-					jumpsLeft = 3; // Reset Jumps
-					onPlatform = true;
+					jumps = 3; // Reset Jumps
 				}
 				
 				// Interpolate the new y position
@@ -276,7 +219,7 @@ public class Entity{
 		
 		x = (int) temp; // Furthest x away
 		for(int j = 0; j < Math.ceil(sizeY); j++) {
-			render = Engine.game.renderPosition(x, position.getY() - j);
+			render = Engine.game.getDisplayManager().positionOnScreen(x, position.getY() - j);
 			g.setColor(Color.white);
 			g.draw(new Rectangle(render[0], render[1], Coordinate.ConversionFactor, Coordinate.ConversionFactor));
 		}
@@ -292,26 +235,9 @@ public class Entity{
 		for(int i = 0; i < max; i++) {
 			x = (int) position.getX() + i; // Get the absolute x coordinate
 
-			render = Engine.game.renderPosition(x, y);
+			render = Engine.game.getDisplayManager().positionOnScreen(x, position.getY() - y);
 			g.setColor(Color.cyan);
 			g.draw(new Rectangle(render[0], render[1], Coordinate.ConversionFactor, Coordinate.ConversionFactor));
 		} 
 	}
-	
-	public void render(Graphics g, float x, float y) {
-		if(xSpeed < 0)
-		{
-			sprite.draw(x + sizeX * Coordinate.ConversionFactor, y, -sizeX * Coordinate.ConversionFactor, sizeY * Coordinate.ConversionFactor); 
-		} else if (xSpeed == 0) {
-			//based on direction
-			if (!direction) {
-				sprite.draw(x + sizeX * Coordinate.ConversionFactor, y, -sizeX * Coordinate.ConversionFactor, sizeY * Coordinate.ConversionFactor); 
-			} else {
-				sprite.draw(x, y, sizeX * Coordinate.ConversionFactor, sizeY * Coordinate.ConversionFactor); 
-			}
-		} else
-		{
-			sprite.draw(x, y, sizeX * Coordinate.ConversionFactor, sizeY * Coordinate.ConversionFactor); 
-		}
-	}	
 }

@@ -12,8 +12,8 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import core.Coordinate;
 import core.Engine;
+import core.Values;
 import entities.Entity;
-import settings.Values;
 
 public class Debug extends BasicGameState
 {
@@ -45,7 +45,7 @@ public class Debug extends BasicGameState
 		// Render all entities
 		for(ArrayList<Entity> list: Engine.game.getAllEntities().values()) {
 			for(Entity e: list) {
-				float[] position = Engine.game.renderPosition(e.getPosition().getX(), e.getPosition().getY());
+				float[] position = Engine.game.displaymanager.positionOnScreen(e.getPosition().getX(), e.getPosition().getY());
 	    		e.debug(g, position[0], position[1]);
 			}	
     	}
