@@ -14,6 +14,7 @@ import entities.Entity;
 import gamestates.Game;
 import settings.Values;
 import structures.Block;
+import support.Utility;
 import background.Background;
 import world.Chunk;
 import world.World;
@@ -88,6 +89,14 @@ public class DisplayManager {
 					}else {
 						g.drawImage(tileset.getSubImage(variant, 0), position[0], position[1]);
 					}
+				} else if(id == 3) {
+					
+					if (Utility.random(0.0, 100.0) < 0.5) {
+						g.drawImage(tileset.getSubImage(1, tileHash.get(id)), position[0], position[1]);
+					} else {
+						g.drawImage(tileset.getSubImage(0, tileHash.get(id)), position[0], position[1]);
+					}
+					
 				} else {
 					g.drawImage(tileset.getSubImage(0, tileHash.get(id)), position[0], position[1]);
 				}
