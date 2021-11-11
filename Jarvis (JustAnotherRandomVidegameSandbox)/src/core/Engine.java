@@ -27,7 +27,7 @@ public class Engine extends StateBasedGame
 	 * Laptop Resolution: 1366 x 768
 	 */
 	public final static int RESOLUTION_X = 1920; 	
-	public final static int RESOLUTION_Y = 1440; 
+	public final static int RESOLUTION_Y = 1080; 
 	public final static int FRAMES_PER_SECOND = 60;
 	
 	public static final int StartingMenu_ID = 0;
