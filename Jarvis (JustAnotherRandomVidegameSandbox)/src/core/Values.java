@@ -1,12 +1,13 @@
-package settings;
+package core;
 
 import java.util.HashMap;
 import org.newdawn.slick.Color;
 
-import core.Engine;
-
 public class Values // this will be quite useful for organizing stuff later on
 {	
+	// Defines our block system
+	final public static int Pixels_Per_Block = 30;
+	
 	// Rendering Variables
 	final public static HashMap<Integer, Color> BlockHash = new HashMap<Integer, Color>(); // Stores our Block - Color Combinations
 	final public static int Render_Distance = 2; // Render distance
@@ -23,6 +24,7 @@ public class Values // this will be quite useful for organizing stuff later on
 	// Spawning Variables
 	final public static float SpawnX = Values.World_X_Size * Values.Chunk_Size_X / 2; // Player X Spawn
 	final public static float SpawnY = Surface + 32f; // Player Y Spawn
+	
 	final public static float Spawn_Rate = 3f; // Entity Spawn Rate
 	
 	// World Size Variables
@@ -32,6 +34,10 @@ public class Values // this will be quite useful for organizing stuff later on
 	
 	// Physics Variables
 	final public static float Terminal_X_Velocity = 13.5f; // X Terminal Velocity, 13.5
+	
+	final public static float Drag_Coefficient = 0.25f;
+	final public static float Friction_Coefficient = 0.5f;
+	final public static float Acceleration_of_Gravity = 0.75f;
 	
 	// GameState Storage
 	public static int LastState = 0; // Previous GameState

@@ -3,16 +3,21 @@ package managers;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.state.BasicGameState;
 
 import core.Coordinate;
 import core.Engine;
+import core.Values;
 import entities.Entity;
+import entities.Entity.EntType;
+import entities.living.Player;
 import gamestates.Game;
-import settings.Values;
+import items.Inventory;
 import structures.Block;
 import support.Utility;
 import background.Background;
@@ -49,12 +54,33 @@ public class DisplayManager {
 		tileHash.put(6, 5);
 	};
 	
+	// Returns the pixel coordinates on screen for some block coordinate
+	public float[] positionOnScreen(float x, float y) {
+		float[] output = center.displacement(x, y);
+		
+		output[0] = output[0] * Coordinate.ConversionFactor + Values.CenterX;
+		output[1] = Engine.RESOLUTION_Y - (output[1] * Coordinate.ConversionFactor + Values.CenterY);
+		
+		return output;
+	}
+	// Return block coordinates of some position on screen
+	public float[] positionInGame(float x, float y) {
+		float[] output = new float[2];
+		
+		// Find the distance from the pixel center
+		output[0] = center.getX() + (x - Values.CenterX) / Coordinate.ConversionFactor;
+		output[1] = center.getY() + 1 + (Values.CenterY - y) / Coordinate.ConversionFactor;
+		
+		return output;
+	}
+		
 	public SpriteSheet getSpriteSheet() {
 		return tileset;
 	}
 	public HashMap<Integer, Integer> getSpriteHash(){
 		return tileHash;
 	}
+	
 	public void renderBackground(Graphics g) {
 		float[] backgroundPosition = positionOnScreen(0, Values.Surface);
 		
@@ -77,6 +103,8 @@ public class DisplayManager {
 				
 				Chunk c = world.getChunk(blockX / Values.Chunk_Size_X);
 				if(c == null) continue;
+				 
+				if(relChunkX < 0) continue;
 				
 				int id = c.getBlocks()[relChunkX][blockY].getID();
 				if(id == 0) continue; // Block ID 0: Air
@@ -106,33 +134,89 @@ public class DisplayManager {
 	public void renderEntities(Graphics g) {
 		for(ArrayList<Entity> list: game.getAllEntities().values()) {
 			for(Entity e: list) {
-				float[] position = positionOnScreen(e.getPosition().getX(), e.getPosition().getY());
-	    		e.render(g, position[0], position[1]);
+				renderEntity(g, e);
 			}	
     	}
+		// Outline EBlocks
+		for(Entity eBlock: game.getEntities(EntType.Items)) {
+			g.setColor(Color.black);
+			
+			float[] renderPos = positionOnScreen(eBlock.getPosition().getX(), eBlock.getPosition().getY());
+			g.drawRect(renderPos[0], renderPos[1], eBlock.getSizeX() * Coordinate.ConversionFactor, eBlock.getSizeY() * Coordinate.ConversionFactor);
+		}
 		
 	}
-	
 	public void renderPlayer(Graphics g) {
-		game.getPlayer().render(g, Values.CenterX, Values.CenterY);
+		Player p = game.getPlayer();
+		
+		renderEntity(g, p);
+		drawPlayerHealth(g, p);
+		drawPlayerInventory(g, p);
 	}
 	
-	// Returns the pixel coordinates of some object relative to the screen's center.
-	public float[] positionOnScreen(float x, float y) {
-		float[] output = center.displacement(x, y);
+	private void renderEntity(Graphics g, Entity e) {
+		float[] renderPosition = positionOnScreen(e.getPosition().getX(), e.getPosition().getY());
+		Image sprite = e.getSprite();
 		
-		output[0] = output[0] * Coordinate.ConversionFactor + Values.CenterX;
-		output[1] = Engine.RESOLUTION_Y - (output[1] * Coordinate.ConversionFactor + Values.CenterY);
-		
-		return output;
+		if(e.getDirection()) { // Moving right
+			sprite.draw(renderPosition[0], renderPosition[1], e.getSizeX() * Coordinate.ConversionFactor, e.getSizeY() * Coordinate.ConversionFactor); 
+		} else { // Moving left
+			sprite.draw(renderPosition[0] + e.getSizeX() * Coordinate.ConversionFactor, renderPosition[1], -e.getSizeX() * Coordinate.ConversionFactor, e.getSizeY() * Coordinate.ConversionFactor); 
+		}
 	}
-	public float[] positionInGame(float x, float y) {
-		float[] output = new float[2];
+	private void drawPlayerHealth(Graphics g, Player p) {
+		// Defining bar variables
+		final float BAR_WIDTH = (float) ((Engine.game.getGC().getWidth()/2) - (0.15625 * Engine.game.getGC().getWidth()));
+		final float BAR_HEIGHT = (float) (30f / 1080f) * Engine.game.getGC().getHeight();
 		
-		// Find the distance from the pixel center
-		output[0] = center.getX() + (x - Values.CenterX) / Coordinate.ConversionFactor;
-		output[1] = center.getY() + 1 + (Values.CenterY - y) / Coordinate.ConversionFactor;
+		// Player max health bar
+		g.setColor(new Color(0, 100, 0, 150));
+		g.fillRect((float) (Engine.game.getGC().getWidth() - (0.05208333333 * Engine.game.getGC().getWidth())), (float) (0.03703703703 * Engine.game.getGC().getHeight()), -BAR_WIDTH, BAR_HEIGHT);
 		
-		return output;
+		// Player health bar
+		g.setColor(new Color(0, 255, 0, 150));
+		g.fillRect((float) (Engine.game.getGC().getWidth() - (0.05208333333 * Engine.game.getGC().getWidth())), (float) (0.03703703703 * Engine.game.getGC().getHeight()), -BAR_WIDTH * Engine.game.getPlayer().getPercentHealth(), BAR_HEIGHT);
+		
+		// Health bar white outline
+		g.setColor(new Color(255, 255, 255));
+		g.drawRect((float) (Engine.game.getGC().getWidth() - (0.05208333333 * Engine.game.getGC().getWidth())), (float) (0.03703703703 * Engine.game.getGC().getHeight()), -BAR_WIDTH, BAR_HEIGHT);
 	}
+	private void drawPlayerInventory(Graphics g, Player p) {
+		// Defining bar variables
+		final float BAR_WIDTH = (float) ((Engine.game.getGC().getWidth()/2) - (0.15625 * Engine.game.getGC().getWidth()));
+		final float BAR_HEIGHT = (float) ((60f / 1080f) * Engine.game.getGC().getHeight());
+		
+		// Inventory grey coloration 
+		g.setColor(new Color(150, 150, 150, 150));
+		g.fillRect((float) (0.050208333333 * Engine.game.getGC().getWidth()), (float) (0.03703703703 * Engine.game.getGC().getHeight()), BAR_WIDTH, BAR_HEIGHT);
+		
+		// Inventory outline
+		g.setColor(new Color(255, 255, 255));
+		g.drawRect((float) (0.050208333333 * Engine.game.getGC().getWidth()), (float) (0.03703703703f * Engine.game.getGC().getHeight()), BAR_WIDTH, BAR_HEIGHT);
+		
+		// Draw every item in the player's inventory
+		final float boxSize = BAR_WIDTH / (float) Inventory.Inventory_Size;
+		int[][] list = p.getInventory().getItems();
+		final float center = (boxSize - (float) Coordinate.ConversionFactor) / 2f;
+		
+		for(int i = 0; i < list.length; i++) {
+			Integer id = list[i][0];
+			if(id == 0) continue;
+			Integer count = list[i][1];
+			
+			float barDisp = i * boxSize;
+			
+			
+			Engine.game.displaymanager.getSpriteSheet().getSubImage(0, Engine.game.displaymanager.getSpriteHash().get(id)).draw(
+					barDisp + 0.050208333333f * Engine.RESOLUTION_X + center, 
+					0.03703703703f * Engine.game.getGC().getHeight() + center // 5 pixel displacement downwards - block centering will later be automatically done.
+					);
+			g.drawString(count.toString(), barDisp + 0.050208333333f * Engine.RESOLUTION_X,  0.03703703703f * Engine.game.getGC().getHeight()); // Text	
+		}
+		
+		// Draw a box around the selected item
+		g.setColor(Color.black);
+		g.drawRect(p.inventorySelected() * boxSize + 0.050208333333f * Engine.RESOLUTION_X, 0.03703703703f * Engine.game.getGC().getHeight(), boxSize, BAR_HEIGHT);
+	}
+	
 }

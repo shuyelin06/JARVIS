@@ -2,7 +2,7 @@ package world;
 
 import java.util.Arrays;
 
-import settings.Values;
+import core.Values;
 import gamestates.Game;
 import structures.Block;
 import support.SimplexNoise;

@@ -3,7 +3,7 @@ package support;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Sound;
 
-import settings.Values;
+import core.Values;
 import structures.Block;
 import world.Chunk;
 

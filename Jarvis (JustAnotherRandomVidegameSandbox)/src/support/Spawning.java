@@ -4,10 +4,10 @@ import org.newdawn.slick.SlickException;
 
 import core.Coordinate;
 import core.Engine;
+import core.Values;
 import entities.Entity.EntType;
 import entities.living.*;
 import gamestates.Game;
-import settings.Values;
 import structures.Block;
 
 public class Spawning {

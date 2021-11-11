@@ -13,7 +13,7 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import background.Background;
 import core.Engine;
-import settings.Values;
+import core.Values;
 import structures.Particle;
 import support.FileLoader;
 import world.WorldGen;
@@ -23,7 +23,7 @@ public class WorldSelect extends BasicGameState
 	//Gamestate ID
 	int id;
 	
-	private boolean createNewWorld = true;
+	private boolean createNewWorld = false;
 	
 	//World selected ID
 	private int worldID, worldIDMax, worldIDMin;

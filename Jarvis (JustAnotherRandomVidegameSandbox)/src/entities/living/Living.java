@@ -1,6 +1,7 @@
 package entities.living;
 
 import core.Engine;
+import core.Values;
 import entities.Entity;
 
 public class Living extends Entity{
@@ -23,8 +24,8 @@ public class Living extends Entity{
 	protected int regenRate;
 	protected int regenInc;
 	
-	public Living(float x, float y) {
-		super(x,y);
+	public Living(float InitX, float InitY) {
+		super(InitX, InitY);
 		
 		// Invincibility
 		this.iFrames = 0;
@@ -47,27 +48,20 @@ public class Living extends Entity{
 		timeLastHit = 0;
 	}
 	
-	public void moveRight(float maxSpeed, float acceleration) {
-		if(xSpeed + acceleration > maxSpeed) xSpeed = maxSpeed;
-		else xSpeed += acceleration;	
+	public float getPercentHealth() { return this.percentageHealth; }
+	public void setXSpeed(float acceleration) {
+		xSpeed += acceleration;
 	}
-	
-	public void moveLeft(float maxSpeed, float acceleration) {
-		if(xSpeed - acceleration < 0 - maxSpeed) xSpeed = 0 - maxSpeed;
-		else xSpeed -= acceleration;
-	}
-	
 	public void jump(float speed) {
-		if(jumpsLeft > 0) {
-			this.onPlatform = false;
+		if(jumps > 0) {
 			this.ySpeed = speed;
-			
-			jumpsLeft--;
+			jumps--;
 		}
 	}
 	public void fall() {
-		this.ySpeed -= Entity.gravity;
+		this.ySpeed -= Values.Acceleration_of_Gravity;
 	}
+
 	public void takeDamage(int dmg, boolean i) { //boolean for iFrames cause for certain piercing attacks that don't trigger them
 		//this mimics the mechanics in Terraria
 		if(iFrames == 0) {

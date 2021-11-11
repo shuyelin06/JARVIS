@@ -4,9 +4,9 @@ import java.util.ArrayList;
 
 import org.lwjgl.Sys;
 
+import core.Values;
 import entities.Entity;
 import gamestates.Game;
-import settings.Values;
 
 public class Destroyer{
 	final private static float Update_Timer = 3; // Called every __ seconds

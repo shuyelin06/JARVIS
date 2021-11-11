@@ -1,6 +1,6 @@
 package world;
 
-import settings.Values;
+import core.Values;
 import structures.Block;
 import structures.Tree;
 import support.FileLoader;

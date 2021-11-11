@@ -1,7 +1,5 @@
 package core;
 
-import settings.Values;
-
 public class Coordinate{
 	public static final int ConversionFactor = 30; // Conversion: 1 Block = 20 Pixels
 	private float x, y;
