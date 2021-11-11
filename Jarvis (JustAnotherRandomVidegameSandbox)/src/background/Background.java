@@ -21,11 +21,16 @@ public class Background
 	{
 		if(y > -500)
 		{
-			day.render(g, x, y, Engine.game.getWorld().getTime());
+			day.render(g, x, y);
 		}
 		if(y < 0)
 		{
 			underground.render(g, x, y);
 		}
+	}
+	
+	public void update()
+	{
+		day.update(Engine.game.getWorld().getTime());
 	}
 }

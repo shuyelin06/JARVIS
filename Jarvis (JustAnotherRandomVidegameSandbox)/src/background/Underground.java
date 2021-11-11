@@ -1,6 +1,5 @@
 package background;
 
-import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
@@ -38,8 +37,23 @@ public class Underground extends Scene
 		
 		bg.draw(0, 0, Engine.RESOLUTION_X, Engine.RESOLUTION_Y);
 		
-		top.draw(0, 0, Engine.RESOLUTION_X, 256);
-		bottom.draw(0, Engine.RESOLUTION_Y - 256, Engine.RESOLUTION_X, 256);
+		top.draw((x * 0.25f % Engine.RESOLUTION_X) + Engine.RESOLUTION_X,
+				0, 
+				-Engine.RESOLUTION_X, 
+				Engine.RESOLUTION_Y * 0.475f);
+		top.draw((x * 0.25f % Engine.RESOLUTION_X) + (2 * Engine.RESOLUTION_X),
+				0,
+				-Engine.RESOLUTION_X, 
+				Engine.RESOLUTION_Y * 0.475f);
+		
+		bottom.draw((x * 0.3f % Engine.RESOLUTION_X) + Engine.RESOLUTION_X,
+				Engine.RESOLUTION_Y - (Engine.RESOLUTION_Y * 0.237f), 
+				-Engine.RESOLUTION_X, 
+				Engine.RESOLUTION_Y * 0.237f);
+		bottom.draw((x * 0.3f % Engine.RESOLUTION_X) + (2 * Engine.RESOLUTION_X),
+				Engine.RESOLUTION_Y - (Engine.RESOLUTION_Y * 0.237f),
+				-Engine.RESOLUTION_X, 
+				Engine.RESOLUTION_Y * 0.237f);
 		
 	}
 }

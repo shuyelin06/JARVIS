@@ -28,13 +28,11 @@ public class DisplayManager {
 	private HashMap<Integer, Integer> tileHash;
 	private SpriteSheet tileset;
 	
-	private Background background;
 	private Game game;
 	
 	public DisplayManager(Game g) throws SlickException {
 		this.center = g.getPlayer().getPosition();
 		
-		this.background = new Background();
 		this.game = g;
 		
 		
@@ -59,7 +57,7 @@ public class DisplayManager {
 	public void renderBackground(Graphics g) {
 		float[] backgroundPosition = positionOnScreen(0, Values.Surface);
 		
-		background.render(g, backgroundPosition[0], backgroundPosition[1]);
+		game.getBackground().render(g, backgroundPosition[0], backgroundPosition[1]);
 	}
 	public void renderBlocks(Graphics g) {
 		World world = game.getWorld();
