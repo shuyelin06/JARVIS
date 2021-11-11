@@ -52,6 +52,8 @@ public class Game extends BasicGameState {
 	private HashMap<EntType, ArrayList<Entity>> entities;
 	// The World
 	private World world;
+	// the background
+	private Background bg;
 	
 	// Constructor
 	public Game(int id) { this.id = id; } 
@@ -62,6 +64,7 @@ public class Game extends BasicGameState {
 	public Player getPlayer() { return player; }
 	public GameContainer getGC() { return gc; }
 	public World getWorld() { return world; }
+	public Background getBackground() { return bg; }
 	public ArrayList<Entity> getEntities(EntType type) { return entities.get(type); }
 	public HashMap<EntType, ArrayList<Entity>> getAllEntities(){ return entities; }
 	
@@ -84,6 +87,7 @@ public class Game extends BasicGameState {
 			put(EntType.Items, new ArrayList<Entity>());
 			put(EntType.Projectiles, new ArrayList<Entity>());
 		}};
+		bg = new Background();
 		
 		// Initializing Destroying and Spawning Behaviors
 		this.d = new Destroyer(this);
@@ -95,7 +99,7 @@ public class Game extends BasicGameState {
 	/* Rendering - Game's Camera */
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException 
 	{
-		displaymanager.renderBackground(g); // Render the background of the game
+		displaymanager.renderBackground(g); // Render the background of the game 
 		displaymanager.renderBlocks(g); // Render all blocks
 		displaymanager.renderEntities(g); // Render all entities
 		displaymanager.renderPlayer(g); // Render player
@@ -116,6 +120,12 @@ public class Game extends BasicGameState {
 		
 		// Increments world time
 		world.incrementTime();
+		
+		// Update the player's movement
+		player.update();
+		
+		// background updating
+		bg.update();
 		
 		// Spawning Mechanics
 		Spawning.spawnEnemy(this, Values.Spawn_Rate); // If you want to stop spawning, set 5f to 0f.

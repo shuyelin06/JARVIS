@@ -70,31 +70,34 @@ public class WorldSelect extends BasicGameState
 		bg = new Background();
 		
 		//image settings
+		
+		// 100 width: (int) (0.05208333333*gc.getWidth());
+		// 100 height: (int) (0.09259259259*gc.getHeight());
 		setImage("res/placeholder.png");
 		mainButtonX = gc.getWidth()/2;
 		mainButtonY = gc.getHeight()/3;
-		mainButtonW = 300;
-		mainButtonH = 100;
+		mainButtonW = 3* (int) (0.05208333333*gc.getWidth());
+		mainButtonH = (int) (0.09259259259*gc.getHeight());
 		w1ButtonX = 2*gc.getWidth()/3;
 		w1ButtonY = 2*gc.getHeight()/3;
-		w1ButtonW = 100;
-		w1ButtonH = 100;
+		w1ButtonW = (int) (0.05208333333*gc.getWidth());
+		w1ButtonH = (int) (0.09259259259*gc.getHeight());
 		w2ButtonX = gc.getWidth()/3;
 		w2ButtonY = 2*gc.getHeight()/3;
-		w2ButtonW = 100;
-		w2ButtonH = 100;
+		w2ButtonW = (int) (0.05208333333*gc.getWidth());
+		w2ButtonH = (int) (0.09259259259*gc.getHeight());
 		worldImageX = gc.getWidth()/2;
 		worldImageY = 2*gc.getHeight()/3;
-		worldImageW = 100;
-		worldImageH = 100;
+		worldImageW = (int) (0.05208333333*gc.getWidth());
+		worldImageH = (int) (0.09259259259*gc.getHeight());
 		s1ButtonX = gc.getWidth()/5;
 		s1ButtonY = gc.getHeight()/5;
-		s1ButtonW = 100;
-		s1ButtonH = 100;
+		s1ButtonW = (int) (0.05208333333*gc.getWidth());
+		s1ButtonH = (int) (0.09259259259*gc.getHeight());
 		newWorldButtonX = 4*gc.getWidth()/5;
 		newWorldButtonY = gc.getHeight()/5;
-		newWorldButtonW = 100;
-		newWorldButtonH = 100;
+		newWorldButtonW = (int) (0.05208333333*gc.getWidth());
+		newWorldButtonH = (int) (0.09259259259*gc.getHeight());
 		
 		readyStart = false;
 		readySettings = false;

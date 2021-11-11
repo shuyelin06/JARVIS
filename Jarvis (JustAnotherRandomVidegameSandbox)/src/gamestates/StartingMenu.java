@@ -39,8 +39,13 @@ public class StartingMenu extends BasicGameState
 		setImage("res/placeholder.png");
 		mainButtonX = gc.getWidth()/2;
 		mainButtonY = gc.getHeight()/3;
-		mainButtonW = 300;
-		mainButtonH = 100;
+		
+		//image settings
+		
+		// 100 width: (int) (0.05208333333*gc.getWidth());
+		// 100 height: (int) (0.09259259259*gc.getHeight());
+		mainButtonW = 3* (int) (0.05208333333*gc.getWidth());
+		mainButtonH = (int) (0.09259259259*gc.getHeight());
 	}
 	
 	//render, all visuals

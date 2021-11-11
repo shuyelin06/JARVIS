@@ -1,5 +1,6 @@
 package gamestates;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
@@ -37,8 +38,36 @@ public class Loading extends BasicGameState
 	//render, all visuals
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException 
 	{
+		drawLoadingBars(gc, g);
 	}
 
+	public void drawLoadingBars(GameContainer gc, Graphics g) {
+		//image settings
+		// 100 width: (int) (0.05208333333*gc.getWidth());
+		// 100 height: (int) (0.09259259259*gc.getHeight());
+		final float BAR_WIDTH = gc.getWidth() - (int) (0.05208333333*gc.getWidth());
+		
+		//height 300
+		final float BAR_HEIGHT = 3* (int) (0.09259259259*gc.getHeight());
+		
+		final float BAR_X = gc.getWidth() / 2;
+		final float BAR_Y = gc.getHeight() / 2;
+		final float PERCENT_LOADED = tasksDone / totalTasks;
+		
+		// max loading bar
+		g.setColor(new Color(0, 100, 0, 150));
+		g.fillRect(BAR_X - (BAR_HEIGHT / 2), BAR_Y - (BAR_WIDTH / 2), BAR_WIDTH, BAR_HEIGHT);
+		
+		// current loaded
+		g.setColor(new Color(0, 255, 0, 150));
+		g.fillRect(BAR_X - (BAR_HEIGHT / 2), BAR_Y - (BAR_WIDTH / 2), BAR_WIDTH*PERCENT_LOADED, BAR_HEIGHT);
+		
+		// white outline
+		g.setColor(new Color(255, 255, 255));
+		g.fillRect(BAR_X - (BAR_HEIGHT / 2), BAR_Y - (BAR_WIDTH / 2), BAR_WIDTH, BAR_HEIGHT);
+	}
+	
+	
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {}
 
 	public void enter(GameContainer gc, StateBasedGame sbg) throws SlickException 

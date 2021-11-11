@@ -48,7 +48,7 @@ public class Day extends Scene
 		}
 	}
 	
-	public void render(Graphics g, float x, float y, int time)
+	public void render(Graphics g, float x, float y)
 	{
 		sky.draw(0, 0, Engine.RESOLUTION_X, Engine.RESOLUTION_Y);
 		
@@ -94,7 +94,15 @@ public class Day extends Scene
 		
 		g.setColor(new Color(50, 122, 32));
 		g.fillRect(0, Engine.RESOLUTION_Y * 0.79f + (y * 0.3f), Engine.RESOLUTION_X, Engine.RESOLUTION_Y * 0.5f);
+			
 		
+		night.setAlpha(nightAlpha);
+		night.draw(0, 0, Engine.RESOLUTION_X, Engine.RESOLUTION_Y);
+
+	}
+	
+	public void update(int time)
+	{
 		if(time % (dayLength + nightLength + (transitionLength * 2) ) == 0)
 		{
 			nightAlpha = 0;
@@ -108,12 +116,5 @@ public class Day extends Scene
 		{
 			nightAlpha -= 0.92 / transitionLength;
 		}
-		
-		// System.out.println(transitionLength + ", " + nightAlpha);
-		
-		night.setAlpha(nightAlpha);
-		
-		night.draw(0, 0, Engine.RESOLUTION_X, Engine.RESOLUTION_Y);
-
 	}
 }

@@ -19,6 +19,7 @@ import entities.living.Player;
 import gamestates.Game;
 import items.Inventory;
 import structures.Block;
+import support.Utility;
 import background.Background;
 import world.Chunk;
 import world.World;
@@ -33,13 +34,11 @@ public class DisplayManager {
 	private HashMap<Integer, Integer> tileHash;
 	private SpriteSheet tileset;
 	
-	private Background background;
 	private Game game;
 	
 	public DisplayManager(Game g) throws SlickException {
 		this.center = g.getPlayer().getPosition();
 		
-		this.background = new Background();
 		this.game = g;
 		
 		
@@ -85,7 +84,7 @@ public class DisplayManager {
 	public void renderBackground(Graphics g) {
 		float[] backgroundPosition = positionOnScreen(0, Values.Surface);
 		
-		background.render(g, backgroundPosition[0], backgroundPosition[1]);
+		game.getBackground().render(g, backgroundPosition[0], backgroundPosition[1]);
 	}
 	public void renderBlocks(Graphics g) {
 		World world = game.getWorld();
@@ -118,6 +117,14 @@ public class DisplayManager {
 					}else {
 						g.drawImage(tileset.getSubImage(variant, 0), position[0], position[1]);
 					}
+				} else if(id == 3) {
+					
+					if (Utility.random(0.0, 100.0) < 0.5) {
+						g.drawImage(tileset.getSubImage(1, tileHash.get(id)), position[0], position[1]);
+					} else {
+						g.drawImage(tileset.getSubImage(0, tileHash.get(id)), position[0], position[1]);
+					}
+					
 				} else {
 					g.drawImage(tileset.getSubImage(0, tileHash.get(id)), position[0], position[1]);
 				}
