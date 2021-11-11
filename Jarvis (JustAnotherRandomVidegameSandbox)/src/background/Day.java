@@ -109,8 +109,6 @@ public class Day extends Scene
 			nightAlpha -= 0.92 / transitionLength;
 		}
 		
-		// System.out.println(transitionLength + ", " + nightAlpha);
-		
 		night.setAlpha(nightAlpha);
 		
 		night.draw(0, 0, Engine.RESOLUTION_X, Engine.RESOLUTION_Y);
