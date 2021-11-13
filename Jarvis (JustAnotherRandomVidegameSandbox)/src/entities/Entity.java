@@ -34,9 +34,7 @@ public class Entity{
 	// Physics Variables
 	protected Coordinate position; // Entity position
 	protected float xSpeed, ySpeed; // Entity velocity (pixels per second)
-	protected float mass;
-	
-	protected int jumps; // Determines how many jumps are left
+	protected float mass; // Entity mass
 	
 	// Every entity will have some initial starting position
 	public Entity(float InitX, float InitY)
@@ -59,8 +57,6 @@ public class Entity{
 		
 		this.xSpeed = this.ySpeed = 0f; // Speeds
 		this.mass = 1f; // Default Mass
-		
-		this.jumps = 0;
 	}
 	
 	// Accessor Methods
@@ -131,7 +127,12 @@ public class Entity{
 			for(int j = 0; j < Math.ceil(sizeY); j++) {
 				if(blocks[x % Values.Chunk_Size_X][(int) position.getY() - j].getID() != 0) {
 					// Collision detected
-					onCollision(Collision.X, x);
+					if(xSpeed < 0) position.setXPos(x + 1f + collisionError);
+					else if(xSpeed > 0) position.setXPos(x - this.sizeX - collisionError);
+					
+					xSpeed = 0f;
+					
+					onCollision();
 					break;
 				}
 			}
@@ -153,41 +154,19 @@ public class Entity{
 				c = Engine.game.getWorld().getChunk(x / Values.Chunk_Size_X);
 				
 				if(c.getBlocks()[x % Values.Chunk_Size_X][y].getID() != 0){
-					onCollision(Collision.Y, y);
+					// Interpolate the new y position
+					if(ySpeed < 0) position.setYPos(y + this.sizeY + collisionError);
+					else if(ySpeed > 0) position.setYPos(y - 1f - collisionError);
+					
+					ySpeed = 0f;
+					
+					onCollision();
 					break;
 				}
 			} 
 		} catch(Exception e) {}
 	}
 	
-	// Code for what happens on collision
-	private void onCollision(Collision collision, int blockCoord) {
-		switch(collision) {
-			case X: // X Collision Code
-				// Default X Collision - Stop Horizontal Movement
-				
-				// Interpolate the new x position
-				if(xSpeed < 0) position.setXPos(blockCoord + 1f + collisionError);
-				else if(xSpeed > 0) position.setXPos(blockCoord - this.sizeX - collisionError);
-				
-				xSpeed = 0f;
-				break;
-			case Y: // Y Collision Code
-				// Default Y Collision - Stop Vertical Movement
-				
-				if(ySpeed < 0) {
-					jumps = 3; // Reset Jumps
-				}
-				
-				// Interpolate the new y position
-				if(ySpeed < 0) position.setYPos(blockCoord + this.sizeY + collisionError);
-				else if(ySpeed > 0) position.setYPos(blockCoord - 1f - collisionError);
-				
-				ySpeed = 0f;
-				break;
-		}
-		onCollision();
-	}
 	protected void onCollision() {} // Empty collision method that can be used in other classes
 	
 	// Returns true if this entity will collide with another entity e.

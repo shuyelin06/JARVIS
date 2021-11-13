@@ -170,7 +170,7 @@ public class Game extends BasicGameState {
 
   			case Input.KEY_SPACE: // Jump Key Mapping (Space & W)
   			case Input.KEY_W:{
-  				player.jump(20);
+  				player.jump(12.5f);
   				break;
   			}
   			
@@ -214,8 +214,8 @@ public class Game extends BasicGameState {
 	}
 	public void controls() //all the control stuff
 	{
-		if ( gc.getInput().isKeyDown(Input.KEY_D) ) player.setXSpeed(5f); // Right Movement
-		if ( gc.getInput().isKeyDown(Input.KEY_A) ) player.setXSpeed(-5f); // Left Movement
+		if ( gc.getInput().isKeyDown(Input.KEY_D) ) player.setXSpeed(7.5f); // Right Movement
+		if ( gc.getInput().isKeyDown(Input.KEY_A) ) player.setXSpeed(-7.5f); // Left Movement
 		if ( gc.getInput().isKeyDown(Input.KEY_S) ) player.fall(); // Downwards movement
 	}
 	

@@ -26,12 +26,14 @@ public class Enemy extends Living {
 		sizeX = 1f;
 		sizeY = 1f;
 		healthRegen = false;
+		
+		this.jumps = 0;
 	}
 	// Overwritten update method
 	public void update() {
-		ai(target);
-		
 		super.update();
+		
+		ai(target);
 	}
 	// Overwritten collisions method
 	public void collisions() {
@@ -45,9 +47,9 @@ public class Enemy extends Living {
 	public void ai(Player p) {
 		if(Utility.getDistance(this, p) <= aggroRange) {
 			if(Utility.changeX(this, p) > 0) {
-				setXSpeed(10f);
+				setXSpeed(5f);
 			}else if(Utility.changeX(this, p) < 0) {
-				setXSpeed(-10f);
+				setXSpeed(-5f);
 			}
 			if(Utility.random(0,100) < 25) {
 				jump(10);

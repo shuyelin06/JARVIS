@@ -33,11 +33,9 @@ public class Values // this will be quite useful for organizing stuff later on
 	final public static int Chunk_Size_Y = 2048; // Chunk Y Size (in blocks)
 	
 	// Physics Variables
-	final public static float Terminal_X_Velocity = 13.5f; // X Terminal Velocity, 13.5
-	
-	final public static float Drag_Coefficient = 0.25f;
+	final public static float Drag_Coefficient = 0.35f;
 	final public static float Friction_Coefficient = 0.5f;
-	final public static float Acceleration_of_Gravity = 0.75f;
+	final public static float Acceleration_of_Gravity = 0.5f;
 	
 	// GameState Storage
 	public static int LastState = 0; // Previous GameState

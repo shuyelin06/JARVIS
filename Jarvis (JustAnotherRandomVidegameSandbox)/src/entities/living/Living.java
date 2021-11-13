@@ -24,6 +24,8 @@ public class Living extends Entity{
 	protected int regenRate;
 	protected int regenInc;
 	
+	protected int jumps; // Determines how many jumps are left
+	
 	public Living(float InitX, float InitY) {
 		super(InitX, InitY);
 		
@@ -46,6 +48,8 @@ public class Living extends Entity{
 		
 		// Other
 		timeLastHit = 0;
+		
+		jumps = 0;
 	}
 	
 	public float getPercentHealth() { return this.percentageHealth; }
@@ -55,6 +59,7 @@ public class Living extends Entity{
 	public void jump(float speed) {
 		if(jumps > 0) {
 			this.ySpeed = speed;
+			
 			jumps--;
 		}
 	}
@@ -121,6 +126,10 @@ public class Living extends Entity{
 		}
 	}
 		
+	protected void onCollision() {
+		this.jumps = 1;
+	}
+	
 	public void update() {
 		if(curHealth < 0) {
 			this.remove = true;
