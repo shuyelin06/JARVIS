@@ -51,11 +51,13 @@ public class Cloud
 		xSpeed = (w * w) * 0.00002f;
 	}
 	
-	
 	public void render(Graphics g, float x, float y)
 	{
-		this.x += this.xSpeed;
-		
 		sprite.draw((x + this.x) % (Engine.RESOLUTION_X + w) - w, this.y, w, h);
+	}
+	
+	public void update()
+	{
+		this.x += this.xSpeed;
 	}
 }

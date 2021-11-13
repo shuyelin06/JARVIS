@@ -121,9 +121,6 @@ public class Game extends BasicGameState {
 		// Increments world time
 		world.incrementTime();
 		
-		// Update the player's movement
-		player.update();
-		
 		// background updating
 		bg.update();
 		
