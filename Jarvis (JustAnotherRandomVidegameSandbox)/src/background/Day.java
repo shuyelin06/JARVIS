@@ -16,14 +16,18 @@ public class Day extends Scene
 	private Image mountains;
 	private Image night;
 	private Image stars;
+	private Image sunset;
 	
 	private float nightAlpha;
+	private float sunsetAlpha;
 	private int tLength;
 	private int dayLength;
 	private int nightLength;
 	private int total;
 	private int resX; //placeholders so this code is actually readable
 	private int resY;
+	
+	private Color filler;
 	
 	private Cloud[] clouds;
 	private Sun sun;
@@ -35,21 +39,24 @@ public class Day extends Scene
 		dayLength = Values.dayLength;
 		nightLength = Values.nightLength;
 		nightAlpha = 0;
+		sunsetAlpha = 0;
 		total = dayLength + nightLength + (tLength * 2);
 		resX = Engine.RESOLUTION_X;
 		resY = Engine.RESOLUTION_Y;
 		
 		sky = new Image("res/Background/daySky.png");
+		sunset = new Image("res/Background/sunset.png");
+		night = new Image("res/Background/night.png");
+		stars = new Image("res/Background/stars.png");
 		
 		hillsFront = new Image("res/Background/hills1.png");
 		hillsBack = new Image("res/Background/hills1-80.png");
 		mountains = new Image("res/Background/mountains-60.png");
+
+		filler = new Color(50, 122, 32);
 		
-		night = new Image("res/Background/night.png");
-		stars = new Image("res/Background/stars.png");
-		
-		clouds = new Cloud[5];
-		sun = new Sun(0, resY, dayLength);
+		clouds = new Cloud[7];
+		sun = new Sun(0, resY, dayLength + tLength);
 		moon = new Moon(0, resY, nightLength);
 		
 		for(int i = 0; i < clouds.length; i++)
@@ -62,19 +69,26 @@ public class Day extends Scene
 	{
 		y  *= 0.5f; //parallax
 		
-		sky.draw(0, 0, Engine.RESOLUTION_X, resY);
+		sky.draw(0, 0, resX, resY);
 		
 		night.setAlpha(nightAlpha); //still don't know how to do overlapping stuff w/out using 2 different images
+		sunset.setAlpha(sunsetAlpha);
 		stars.setAlpha(nightAlpha);
 		
 		night.draw(0, 0, resX, resY);
-		stars.draw(0, 0, Engine.RESOLUTION_X, resY);
+		sunset.draw(0, 0, resX, resY);
+		stars.draw(0, 0, resX, resY);
 		
 		sun.render(g);		
 		moon.render(g);
 		
+		for(int i = 0; i < clouds.length; i++) //the clouds
+		{
+			clouds[i].render(g, x, y);
+		}
+		
 		//i should make different class for all the background layers
-		mountains.draw(x * 0.2f % Engine.RESOLUTION_X,
+		mountains.draw(x * 0.2f % resX,
 				resY * 0.35f + (y * 0.2f), 
 				resX, 
 				resY * 0.5f);
@@ -84,10 +98,8 @@ public class Day extends Scene
 				resX, 
 				resY * 0.5f);
 		
-		for(int i = 0; i < clouds.length; i++) //the clouds
-		{
-			clouds[i].render(g, x  * 0.15f, y * 0.2f);
-		}
+		g.setColor(filler);
+		g.fillRect(0, resY * 0.79f + (y * 0.3f), resX, resY * 0.5f);	
 		
 		//hills layer 1
 		hillsBack.draw( (x * 0.25f % resX) + resX, //i should add a new texture
@@ -110,26 +122,24 @@ public class Day extends Scene
 				resY * 0.5f + (y * 0.3f),
 				resX, 
 				resY * 0.3f);
-		
-		g.setColor(new Color(50, 122, 32));
-		g.fillRect(0, resY * 0.79f + (y * 0.3f), resX, resY * 0.5f);
-		
 	}
-	
+
 	public void update(int time)
 	{
-		if(time % total == 0)
-		{
-			nightAlpha = 0;
-		}
+		int temp = time % total;
 		
-		if(time % total > dayLength &&
-				time % total < dayLength + tLength)
+		if(temp > dayLength &&
+			temp < dayLength + tLength)
 		{
+			sunsetAlpha = (float)Math.sin(3.14159 * (temp - dayLength) / tLength); //https://www.desmos.com/calculator/wxnsmit4pw
 			nightAlpha += 0.92 / tLength;
-		} else if(time % total > total - tLength)
+		} else if(temp > total - tLength)
 		{
+			sunsetAlpha = (float)Math.sin(3.14159 * (temp - (total - tLength)) / tLength);
 			nightAlpha -= 0.92 / tLength;
+		} else
+		{
+			sunsetAlpha = 0;
 		}
 		
 		for(int i = 0; i < clouds.length; i++) //the clouds
@@ -137,13 +147,18 @@ public class Day extends Scene
 			clouds[i].update();
 		}
 		
-		if(time % total < dayLength)
+		if(temp < dayLength + tLength * 0.5) //sun
 		{
-			sun.update(time % total);
+			sun.update(temp + tLength * 0.5f);
+		} else if (temp > total - tLength * 0.5)
+		{
+			sun.update(temp - (total - tLength * 0.5f));
 		}
-		if((time + dayLength + tLength) % total < nightLength * 2)
+		
+		if(temp > dayLength + tLength) //moon
 		{
-			moon.update((time - dayLength - tLength) % total);
+			moon.update(temp - dayLength - tLength);
+
 		}
 	}
 }

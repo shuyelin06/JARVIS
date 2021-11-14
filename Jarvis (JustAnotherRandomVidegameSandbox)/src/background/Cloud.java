@@ -14,6 +14,7 @@ public class Cloud
 	private float h;
 	
 	private float xSpeed;
+	private float parallax;
 	
 	private int cloudType;
 	
@@ -26,7 +27,7 @@ public class Cloud
 		this.x = (float) Math.random() * Engine.RESOLUTION_X;
 		this.y = (float) Math.random() * Engine.RESOLUTION_Y * 0.4f;
 		
-		this.w = 192 + (float)(Math.random() * 96);
+		this.w = 288 + (int)(Math.random() * 192);
 		this.h = w * 0.5f + (float)(Math.random() * 32);
 		
 		cloudType = (int)(Math.random() * 4);
@@ -48,12 +49,14 @@ public class Cloud
 			sprite = new Image("res/Background/cloud-4.png");
 		}
 		
-		xSpeed = (w * w) * 0.00002f;
+		xSpeed = (w * w) * 0.000005f;
+		parallax  = w * 0.0003f;
+		System.out.println(parallax + "");
 	}
 	
 	public void render(Graphics g, float x, float y)
 	{
-		sprite.draw((x + this.x) % (Engine.RESOLUTION_X + w) - w, this.y, w, h);
+		sprite.draw((x  * parallax + this.x) % (Engine.RESOLUTION_X + w) - w, this.y + y * parallax, w, h);
 	}
 	
 	public void update()

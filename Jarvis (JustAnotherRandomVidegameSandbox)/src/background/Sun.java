@@ -25,7 +25,7 @@ public class Sun
 		}
 	}
 	
-	public void update(int time)
+	public void update(float time)
 	{
 		float temp = dayLength * 0.5f;
 		

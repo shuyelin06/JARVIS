@@ -28,6 +28,5 @@ public class Moon extends Sun
 	public void render(Graphics g)
 	{
 		super.render(g);
-		g.drawString("x: " + x + ", y: " + y, 100, 200);
 	}
 }

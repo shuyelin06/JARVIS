@@ -143,10 +143,11 @@ public class WorldGen{
 			}
 		}
 		
+		System.out.println("Chunk done generating");
 		return(blocks);
 	}
 	
-	public Block[][] structures(Block[][] blocks)
+	public Block[][] structures(Block[][] blocks) //oh boy
 	{
 		for(int i = 0; i < Values.Chunk_Size_X; i++)
 		{
