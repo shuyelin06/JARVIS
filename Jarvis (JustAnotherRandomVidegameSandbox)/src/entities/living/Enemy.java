@@ -35,24 +35,23 @@ public class Enemy extends Living {
 		
 		ai(target);
 	}
-	// Overwritten collisions method
-	public void collisions() {
+
+	// Overwritten entity collision method
+	protected void entityCollisions() {
 		if(this.entityCollision(target)) {
 			target.takeDamage(1, true);
 		}
-		
-		super.collisions();
 	}
 	
 	public void ai(Player p) {
 		if(Utility.getDistance(this, p) <= aggroRange) {
 			if(Utility.changeX(this, p) > 0) {
-				setXSpeed(5f);
+				setXSpeed(2.5f);
 			}else if(Utility.changeX(this, p) < 0) {
-				setXSpeed(-5f);
+				setXSpeed(-2.5f);
 			}
 			if(Utility.random(0,100) < 25) {
-				jump(10);
+				jump(10f);
 			}
 			
 		}

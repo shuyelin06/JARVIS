@@ -26,16 +26,13 @@ public class Projectile extends Entity{
 	// Overwriting the update method
 	public void update() {
 		// Collision detection 
-		collisions();
+		checkCollisions();
 		
 		// Position updating
 		position.update(xSpeed, ySpeed);
-		
-		// Direction updating
-		if (xSpeed < 0) direction = false;
-		if (xSpeed > 0) direction = true;
 	}
-	protected void onCollision() {
+	protected void onBlockCollision() {
+		// Blow up blocks
 		int centerX = (int) position.getX();
 		int centerY = (int) position.getY();
 		

@@ -107,26 +107,29 @@ public class DisplayManager {
 				if(relChunkX < 0) continue;
 				
 				int id = c.getBlocks()[relChunkX][blockY].getID();
-				if(id == 0) continue; // Block ID 0: Air
-				
 				float[] position = positionOnScreen(blockX, blockY);
-				if(id == 2) { // For Grass
-					int variant = world.getGrassVariant(c.getBlocks(), blockX % Values.Chunk_Size_X, blockY, c.getX());
-					if(variant == 7) {
-						g.drawImage(tileset.getSubImage(0, 1), position[0], position[1]);
-					}else {
-						g.drawImage(tileset.getSubImage(variant, 0), position[0], position[1]);
-					}
-				} else if(id == 3) {
-					
-					if (Utility.random(0.0, 100.0) < 0.5) {
-						g.drawImage(tileset.getSubImage(1, tileHash.get(id)), position[0], position[1]);
-					} else {
+				
+				switch(id) {
+					case 0: // Air, don't do anything
+						break;
+					case 2: // Grass
+						int variant = world.getGrassVariant(c.getBlocks(), blockX % Values.Chunk_Size_X, blockY, c.getX());
+						if(variant == 7) {
+							g.drawImage(tileset.getSubImage(0, 1), position[0], position[1]);
+						}else {
+							g.drawImage(tileset.getSubImage(variant, 0), position[0], position[1]);
+						}
+						break;
+					case 3: // Stone?
+						if (Utility.random(0.0, 100.0) < 0.5) {
+							g.drawImage(tileset.getSubImage(1, tileHash.get(id)), position[0], position[1]);
+						} else {
+							g.drawImage(tileset.getSubImage(0, tileHash.get(id)), position[0], position[1]);
+						}
+						break;
+					default: // Every other block
 						g.drawImage(tileset.getSubImage(0, tileHash.get(id)), position[0], position[1]);
-					}
-					
-				} else {
-					g.drawImage(tileset.getSubImage(0, tileHash.get(id)), position[0], position[1]);
+						break;
 				}
 			}
 		} 
@@ -153,6 +156,7 @@ public class DisplayManager {
 		drawPlayerHealth(g, p);
 		drawPlayerInventory(g, p);
 	}
+	
 	
 	private void renderEntity(Graphics g, Entity e) {
 		float[] renderPosition = positionOnScreen(e.getPosition().getX(), e.getPosition().getY());

@@ -22,6 +22,7 @@ import entities.Entity;
 import entities.living.*;
 import entities.other.Projectile;
 import managers.DisplayManager;
+import managers.KeyManager;
 import entities.Entity.EntType;
 import structures.Block;
 import world.Chunk;
@@ -40,6 +41,7 @@ public class Game extends BasicGameState {
 	private int id;
 	
 	// Managers
+	public KeyManager keyManager;
 	public DisplayManager displaymanager; // Manages the display / graphics in the game
 	
 
@@ -78,7 +80,7 @@ public class Game extends BasicGameState {
 		this.gc = gc;		
 		
 		// Initializing the World, Player, and Entities list
-		this.world = new World();
+		this.world = new World(this);
 		this.player = new Player();
 		this.entities = new HashMap<EntType, ArrayList<Entity>>() {
 			private static final long serialVersionUID = 1L;
@@ -94,6 +96,7 @@ public class Game extends BasicGameState {
 		
 		// Initializing the Managers
 		this.displaymanager = new DisplayManager(this);
+		this.keyManager = new KeyManager(this);
 	}
 	
 	/* Rendering - Game's Camera */
@@ -111,7 +114,8 @@ public class Game extends BasicGameState {
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException
 	{	 
 		// Check player key presses
-		controls();
+		keysDown();
+		
 		// Mouse input, x and y
 		cursorInput(gc.getInput().getMouseX(), gc.getInput().getMouseY());	
 		
@@ -158,6 +162,7 @@ public class Game extends BasicGameState {
 	public void leave(GameContainer gc, StateBasedGame sbg) {}
 
 	/* Key Mappings */
+	private void keysDown() { KeyManager.keyList.stream().filter(keyManager).forEach(keyManager::keyDown); }
 	public void keyPressed(int key, char c)
 	{
   		switch(key) {
@@ -209,13 +214,7 @@ public class Game extends BasicGameState {
   		}
   		
 	}
-	public void controls() //all the control stuff
-	{
-		if ( gc.getInput().isKeyDown(Input.KEY_D) ) player.setXSpeed(7.5f); // Right Movement
-		if ( gc.getInput().isKeyDown(Input.KEY_A) ) player.setXSpeed(-7.5f); // Left Movement
-		if ( gc.getInput().isKeyDown(Input.KEY_S) ) player.fall(); // Downwards movement
-	}
-	
+
 	public void cursorInput(float x, float y)
 	{
 		float[] mouseCoordinate = displaymanager.positionInGame(x, y);

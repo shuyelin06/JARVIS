@@ -15,7 +15,7 @@ public class Values // this will be quite useful for organizing stuff later on
 	final public static float CenterX = Engine.RESOLUTION_X / 2; // Player Center X
 	final public static float CenterY = Engine.RESOLUTION_Y / 2; // Player Center Y
 	
-	//background variables
+	// Background variables
 	final public static int nightLength = 1200;
 	final public static int dayLength = 1800;
 	final public static int transitionLength = 300;
@@ -38,9 +38,9 @@ public class Values // this will be quite useful for organizing stuff later on
 	final public static int Chunk_Size_Y = 2048; // Chunk Y Size (in blocks)
 	
 	// Physics Variables
-	final public static float Drag_Coefficient = 0.35f;
+	final public static float Drag_Coefficient = 0.45f;
 	final public static float Friction_Coefficient = 0.5f;
-	final public static float Acceleration_of_Gravity = 0.5f;
+	final public static float Acceleration_of_Gravity = 0.75f;
 	
 	// GameState Storage
 	public static int LastState = 0; // Previous GameState

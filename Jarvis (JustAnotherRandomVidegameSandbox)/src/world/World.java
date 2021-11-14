@@ -7,13 +7,18 @@ import java.util.Iterator;
 import core.Coordinate;
 import core.Engine;
 import core.Values;
+import entities.living.Player;
 import entities.Entity.EntType;
 import entities.other.EBlock;
+import gamestates.Game;
 import structures.Block;
 import support.FileLoader;
 
 public class World 
 {
+	// Memory addresses for variables to be used
+	private Player player;
+	
 	// World Name
 	private String worldName;
 	
@@ -27,9 +32,10 @@ public class World
 	private int timeCycle;
 	
 	// Generate world from scratch
-	public World()
+	public World(Game game)
 	{
-		this.worldName = "Default World"; 
+		// Default World Name
+		this.worldName = "Untitled"; 
 		
 		// Time Settings (36000 means 1 day per 10 min)
 		this.time = 0;
@@ -37,8 +43,27 @@ public class World
 		
 		// Chunk Generation 
 		renderedChunks = new HashMap<Integer, Chunk>();
+		
+		// Memory Addresses
+		this.player = game.getPlayer();
 	}
 	
+	// Accessor Methods
+	public Collection<Chunk> getAllChunks() { return renderedChunks.values(); }
+	public Chunk getChunk(int i) { return renderedChunks.get(i); }
+	public String getWorldName() { return worldName; }
+	public int getTime() { return time; }
+	
+	// Mutator Methods
+	public void changeName(String worldName) { this.worldName = worldName; }
+	
+	// Main method in world that is called in game
+	public void update() {
+		renderChunks((int) player.getPosition().getChunk());
+		incrementTime();
+	}
+	
+	// Renders all chunks at a certain render distance from the player
 	public void renderChunks(int playerChunk) {
 		leftMostChunk = playerChunk - Values.Render_Distance;
 		rightMostChunk = playerChunk + Values.Render_Distance;
@@ -64,14 +89,15 @@ public class World
 		}
 	}
 	
-	public void changeName(String worldName) { this.worldName = worldName; }
-	
-	public Collection<Chunk> getAllChunks() { return renderedChunks.values(); }
-	public Chunk getChunk(int i) { return renderedChunks.get(i); }
-	public String getWorldName() { return worldName; }
+	// Increments the world time
+	public void incrementTime() {
+		time++; // Increment the world time
+		time %= timeCycle; // At the Time Cycle, loop back to 0
+	}
+		
 	
 	/*
-	 * Simple block destroying / placing
+	 * Block Placement and Destruction
 	 */
 	public void placeBlock(int x, int y) {
 		try {
@@ -103,6 +129,9 @@ public class World
 		} catch(Exception e) {}
 	}
 	
+	/*
+	 * World helper methods
+	 */
 	//precondition: the block at i, j  is a grass block
 	public int getGrassVariant(Block[][] blocks, int i, int j, int chunkIndex) {
 		int lBlock = getAdjacentBlock(blocks, i, j, chunkIndex, -1);
@@ -189,15 +218,5 @@ public class World
 		return true;
 	}
 	
-	//increments time in world
-	public void incrementTime() {
-		time++;
-		if (time >= timeCycle) {
-			time = 0;
-		}
-	}
 	
-	public int getTime() {
-		return time;
-	}
 }

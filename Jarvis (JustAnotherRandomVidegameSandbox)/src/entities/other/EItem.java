@@ -17,9 +17,8 @@ public class EItem extends Entity{
 	public int getID() { return itemID; }
 	public int getCount() { return count; }
 	
-	public void collisions() {	
-		super.collisions();
-		
+	// Overwritten entity collision method
+	protected void entityCollisions() {
 		// Check collisions with other EItems
 		ArrayList<Entity> items = Engine.game.getEntities(EntType.Items); 
 		

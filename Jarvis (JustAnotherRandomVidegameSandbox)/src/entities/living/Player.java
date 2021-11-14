@@ -55,9 +55,7 @@ public class Player extends Living{
 	}
 	
 	// Overwritten Collisions Method
-	public void collisions() {
-		super.collisions();
-		
+	protected void entityCollisions() {
 		ArrayList<Entity> items = Engine.game.getEntities(EntType.Items);
 		
 		for(Entity e: items) {
@@ -68,7 +66,5 @@ public class Player extends Living{
 				e.markForRemoval();
 			}
 		}
-	}
-	
-	
+	}	
 }

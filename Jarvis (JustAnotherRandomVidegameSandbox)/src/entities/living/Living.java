@@ -126,10 +126,10 @@ public class Living extends Entity{
 		}
 	}
 		
-	protected void onCollision() {
-		this.jumps = 1;
+	protected void onBlockYCollision () {
+		this.jumps = (int) -Math.signum(ySpeed);
 	}
-	
+
 	public void update() {
 		if(curHealth < 0) {
 			this.remove = true;
