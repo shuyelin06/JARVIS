@@ -23,7 +23,8 @@ public class WorldGen extends Thread{
 		noise = new SimplexNoise(seed); // Later will be used with the noise parameter for custom seeds
 	}
 	
-	public void run() {
+	public void run() 
+	{
 		generateWorld();
 	}
 	/*
@@ -45,6 +46,8 @@ public class WorldGen extends Thread{
 			// Increment the loading bar
 			Engine.loading.finishedTask();
 		}
+		
+		//biomes(Values.World_X_Size);
 	}
 	
 	
@@ -59,7 +62,6 @@ public class WorldGen extends Thread{
 			
 			terrain[i] = temp * 32 + Values.Surface;
 			
-			//step 2: block placement (will move to separate method or class)
 			for(int j = 0; j < Values.Chunk_Size_Y; j++)
 			{
 				if(j < terrain[i] - (Math.random() * 2 + 5))
@@ -150,9 +152,16 @@ public class WorldGen extends Thread{
 			}
 		}
 		
-		System.out.println("Chunk done generating");
 		return(blocks);
 	}
+	
+//	public Block[][] biomes(int worldSize)
+//	{
+//		for(int i = 0; i < worldSize; i++)
+//		{
+//			
+//		}
+//	}
 	
 	public Block[][] structures(Block[][] blocks) //oh boy
 	{

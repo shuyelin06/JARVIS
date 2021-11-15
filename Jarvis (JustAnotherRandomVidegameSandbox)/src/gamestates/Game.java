@@ -44,7 +44,6 @@ public class Game extends BasicGameState {
 	public KeyManager keyManager;
 	public DisplayManager displaymanager; // Manages the display / graphics in the game
 	
-
 	// Spawning
 	Destroyer d; // Despawning
 	
