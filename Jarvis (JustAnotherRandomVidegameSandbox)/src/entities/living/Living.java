@@ -98,9 +98,6 @@ public class Living extends Entity{
 	}
 	public void regen() {
 		if(healthRegen && timeLastHit >= regenTimer && curHealth < maxHealth) {
-//			if(Utility.random(0, 100) < 5) { //replace this with increment health every x frames
-//				curHealth++;
-//			}
 			regenInc++;
 			if(regenInc % regenRate == 0) {
 				curHealth++;
