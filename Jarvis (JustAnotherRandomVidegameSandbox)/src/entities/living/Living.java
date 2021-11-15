@@ -127,7 +127,7 @@ public class Living extends Entity{
 	}
 		
 	protected void onBlockYCollision () {
-		this.jumps = (int) -Math.signum(ySpeed);
+		this.jumps = (int) -Math.signum(ySpeed) * 2;
 	}
 
 	public void update() {
