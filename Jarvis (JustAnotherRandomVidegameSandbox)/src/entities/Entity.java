@@ -57,7 +57,7 @@ public class Entity{
 	}
 	
 	// Accessor Methods
-	public int timeAlive() { return (int) (Sys.getTime() - time) / 1000; }
+	public float timeAlive() { return (float) (Sys.getTime() - time) / 1000; }
 	
 	public Image getSprite() { return sprite; }
 	public boolean getDirection() { return xSpeed > 0; } // False - Left, True - Right

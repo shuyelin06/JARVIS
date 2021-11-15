@@ -5,16 +5,23 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Set;
 
+import core.Coordinate;
+import core.Engine;
+import entities.Entity.EntType;
+import entities.living.Player;
+import entities.other.EBlock;
 import entities.other.EItem;
 
 public class Inventory{
 	public static final int Inventory_Size = 10;
 	
+	private Coordinate playerPos;
 	HashMap<Integer, Integer> idIndexMapping; // First entry: id, second entry: index
 	int[][] items; // 
 	// private HashMap<Integer,Integer> items;
 	
-	public Inventory() {
+	public Inventory(Player p) {
+		this.playerPos = p.getPosition();
 		this.items = new int[Inventory_Size][2];
 		this.idIndexMapping = new HashMap<Integer, Integer>();
 	}
@@ -39,6 +46,7 @@ public class Inventory{
 		return false;
 	}
 	
+	// Pick Up EItem
 	public void pickUp(EItem item) {
 		int id = item.getID();
 		
@@ -55,7 +63,9 @@ public class Inventory{
 			}
 		}
 	}
-	public void drop(int id) {
+	
+	// Place Block
+	public void place(int id) {
 		// To drop, reduce count - if the count is 0, remove from hashmap and reset the array
 		if(idIndexMapping.containsKey(id)) {
 			int index = idIndexMapping.get(id);
@@ -67,5 +77,20 @@ public class Inventory{
 			}
 		} 
 		
+	}
+	
+	// Drop Item
+	public void drop(int index) {
+		// To drop, reduce count - if the count is 0, remove from hashmap and reset the array
+		if(items[index][1] > 0) {
+			items[index][1]--;
+			
+			Engine.game.addEntity(EntType.Items, new EBlock(items[index][0], playerPos.getX(), playerPos.getY()));
+			
+			if(items[index][1] == 0) {
+				idIndexMapping.remove(items[index][0]);
+				items[index][0] = 0;
+			}
+		}	
 	}
 }

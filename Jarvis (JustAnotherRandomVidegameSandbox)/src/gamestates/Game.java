@@ -187,7 +187,11 @@ public class Game extends BasicGameState {
   				sbg.enterState(Engine.Debug_ID);
   				break;
   			
-  			case Input.KEY_R:
+  			case Input.KEY_G: // Drop Item
+  				player.dropItem();
+  				break;
+  				
+  			case Input.KEY_R: // ROCKET GO BOOM
   				float x = gc.getInput().getAbsoluteMouseX() - Values.CenterX;
   				float y = Values.CenterY - gc.getInput().getAbsoluteMouseY();
   				
