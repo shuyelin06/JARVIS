@@ -93,13 +93,16 @@ public class WorldGen extends Thread{
 		}
 		else
 		{
-//			for(int i = 0; i < Values.Chunk_Size_X; i++)
-//			{
-//				for(int j = 0; j < Values.Chunk_Size_Y; j++)
-//				{
-//					blocks[i][j].setID(3);
-//				}
-//			}
+			for(int i = 0; i < Values.Chunk_Size_X; i++)
+			{
+				for(int j = 0; j < Values.Chunk_Size_Y; j++)
+				{
+					if(blocks[i][j].getID() != 0)
+					{
+						blocks[i][j].setID(3);
+					}
+				}
+			}
 		}
 		
 		return(blocks);
