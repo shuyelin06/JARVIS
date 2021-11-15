@@ -33,13 +33,13 @@ public class Values // this will be quite useful for organizing stuff later on
 	final public static float Spawn_Rate = 3f; // Entity Spawn Rate
 	
 	// World Size Variables
-	final public static int World_X_Size = 32; // World Size (in chunks)
+	final public static int World_X_Size = 64; // World Size (in chunks)
 	final public static int Chunk_Size_X = 16; // Chunk X Size (in blocks)
 	final public static int Chunk_Size_Y = 2048; // Chunk Y Size (in blocks)
 	
 	// Physics Variables
-	final public static float Drag_Coefficient = 0.45f;
-	final public static float Friction_Coefficient = 0.5f;
+	final public static float Drag_Coefficient = 0.045f;
+	final public static float Friction_Coefficient = 0.05f;
 	final public static float Acceleration_of_Gravity = 0.75f;
 	
 	// GameState Storage

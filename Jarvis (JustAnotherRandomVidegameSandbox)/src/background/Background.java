@@ -4,7 +4,6 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 
 import core.Engine;
-import gamestates.Game;
 
 public class Background
 {
