@@ -136,12 +136,10 @@ public class WorldSelect extends BasicGameState
 						
 			Engine.game.respawn();
 			
-			// Check if we want to create a new world or not
-			if(createNewWorld) {
-				Engine.loading.load(Loading.Command.GenerateWorld, this.id, Engine.Game_ID, Values.World_X_Size);
-			} else {
-				sbg.enterState(Engine.Game_ID);
-			}
+			// Send to Loading Screen on World Creation
+			if(createNewWorld) sbg.enterState(Engine.Loading_ID); 
+			// Else, directly enter the game
+			else sbg.enterState(Engine.Game_ID);
 		}
 		
 		if (readySettings) {
