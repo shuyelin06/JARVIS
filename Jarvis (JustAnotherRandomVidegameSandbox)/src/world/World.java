@@ -113,7 +113,7 @@ public class World
 			
 			if(blocks[x % Values.Chunk_Size_X][y].getID() == 0) {
 				blocks[x % Values.Chunk_Size_X][y] = new Block(id);
-				Engine.game.getPlayer().getInventory().drop(id);
+				Engine.game.getPlayer().getInventory().place(id);
 			}
 		} catch(Exception e) {}
 	}

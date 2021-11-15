@@ -28,7 +28,7 @@ public class Player extends Living{
 			sprite = new Image("res/pratt.png");
 		} catch(Exception e) {}
 		
-		this.inventory = new Inventory();
+		this.inventory = new Inventory(this);
 		
 		this.sizeY = 2f;
 		this.sizeX = 1.3f; // Only use sizes to the 10th PLACE 
@@ -54,6 +54,9 @@ public class Player extends Living{
 		}
 	}
 	
+	public void dropItem() {
+		inventory.drop(inventorySelected);
+	}
 	// Overwritten Collisions Method
 	protected void entityCollisions() {
 		ArrayList<Entity> items = Engine.game.getEntities(EntType.Items);
@@ -61,6 +64,10 @@ public class Player extends Living{
 		for(Entity e: items) {
 			EItem item = (EItem) e;
 			
+			// Can only pick up after 0.5 seconds of existing
+			if(e.timeAlive() < 0.5) continue;
+			
+			// Pick up item
 			if(inventory.hasSpace(item.getID()) && this.entityCollision(e)) {
 				inventory.pickUp(item);
 				e.markForRemoval();
