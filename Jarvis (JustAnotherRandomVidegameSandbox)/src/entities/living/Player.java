@@ -66,5 +66,12 @@ public class Player extends Living{
 				e.markForRemoval();
 			}
 		}
-	}	
+	}
+	
+	public void respawn() {
+		position.setX(Values.SpawnX);
+		position.setY(Values.SpawnY);
+		curHealth = maxHealth;
+		alive = true;
+	}
 }

@@ -142,12 +142,14 @@ public class WorldSelect extends BasicGameState
 			
 			// Enter Game gamestate
 			Values.LastState = Engine.WorldSelect_ID;
+			readyStart = !readyStart;
 			sbg.enterState(Engine.Game_ID);
 			Engine.sound.playBackgroundMusic("Morning"); // Begin game background music
 		}
 		
 		if (readySettings) {
 			Values.LastState = Engine.WorldSelect_ID;
+			readySettings = !readySettings;
 			sbg.enterState(Engine.Settings_ID);
 			//settings gamestate
 		}
