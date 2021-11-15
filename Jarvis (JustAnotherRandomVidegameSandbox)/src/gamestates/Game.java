@@ -98,7 +98,7 @@ public class Game extends BasicGameState {
 		this.displaymanager = new DisplayManager(this);
 		this.keyManager = new KeyManager(this);
 	}
-	
+
 	/* Rendering - Game's Camera */
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException 
 	{
@@ -158,7 +158,10 @@ public class Game extends BasicGameState {
 		}
 	}
 
-	public void enter(GameContainer gc, StateBasedGame sbg) throws SlickException {}
+	public void enter(GameContainer gc, StateBasedGame sbg) throws SlickException {
+		// this.entities.clear();
+		Engine.sound.playBackgroundMusic("Morning"); // Begin game background music
+	}
 	public void leave(GameContainer gc, StateBasedGame sbg) {}
 
 	/* Key Mappings */

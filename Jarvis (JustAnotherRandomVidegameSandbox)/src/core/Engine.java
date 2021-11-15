@@ -37,8 +37,11 @@ public class Engine extends StateBasedGame
     public static final int Debug_ID = 4;
     public static final int Settings_ID = 5;
     
+    public static final int Loading_ID = 6;
+    
     public static StartingMenu startingMenu;
     public static WorldSelect worldSelect;
+    public static Loading loading;
     public static Game game;
     public static Pause pause;
     public static Debug debug;
@@ -54,6 +57,8 @@ public class Engine extends StateBasedGame
 		
 		startingMenu = new StartingMenu(StartingMenu_ID);
 		worldSelect = new WorldSelect(WorldSelect_ID);
+		loading = new Loading(Loading_ID);
+		
 		game = new Game(Game_ID);
 		pause = new Pause(Pause_ID);
 		debug = new Debug(Debug_ID);
@@ -66,6 +71,7 @@ public class Engine extends StateBasedGame
 		
 		addState(startingMenu);
 		addState(worldSelect);
+		addState(loading);
 		addState(game);
 		addState(pause);
 		addState(debug);

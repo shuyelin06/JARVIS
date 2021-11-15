@@ -7,5 +7,8 @@ public class Item{
 		this.id = id;
 	}
 	
-	
+	// Main method all items wil follow
+	public void use() {
+		
+	}
 }

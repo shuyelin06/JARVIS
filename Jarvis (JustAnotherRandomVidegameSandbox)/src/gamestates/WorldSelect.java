@@ -125,27 +125,23 @@ public class WorldSelect extends BasicGameState
 	//update, runs consistently
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException
 	{	
+		// Start the game
 		if (readyStart) {
-			if (worldID == 1) {
-				Engine.game.getWorld().changeName("1");
-			} else if (worldID == 2) {
-				Engine.game.getWorld().changeName("2");
-			} else if (worldID == 3) {
-				Engine.game.getWorld().changeName("3");
-			}
-			
-			// Check if we want to create a new world or not
-			if(createNewWorld) {
-				WorldGen gen = new WorldGen(Engine.game.getWorld().getWorldName(), (int) (Math.random() * 10000));
-				gen.generateWorld();
-			}
+			Integer i = worldID;
+			Engine.game.getWorld().changeName(i.toString());
 			
 			// Enter Game gamestate
 			Values.LastState = Engine.WorldSelect_ID;
 			readyStart = !readyStart;
+						
 			Engine.game.respawn();
-			sbg.enterState(Engine.Game_ID);
-			Engine.sound.playBackgroundMusic("Morning"); // Begin game background music
+			
+			// Check if we want to create a new world or not
+			if(createNewWorld) {
+				Engine.loading.load(Loading.Command.GenerateWorld, this.id, Engine.Game_ID, Values.World_X_Size);
+			} else {
+				sbg.enterState(Engine.Game_ID);
+			}
 		}
 		
 		if (readySettings) {

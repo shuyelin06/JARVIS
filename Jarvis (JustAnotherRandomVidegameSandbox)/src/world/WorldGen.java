@@ -1,12 +1,13 @@
 package world;
 
+import core.Engine;
 import core.Values;
 import structures.Block;
 import structures.Tree;
 import support.FileLoader;
 import support.SimplexNoise;
 
-public class WorldGen{
+public class WorldGen extends Thread{
 	// World-Specific Variables 
 	private SimplexNoise noise; //noise for the rest
 	//might add other noises for other things
@@ -22,6 +23,9 @@ public class WorldGen{
 		noise = new SimplexNoise(seed); // Later will be used with the noise parameter for custom seeds
 	}
 	
+	public void run() {
+		generateWorld();
+	}
 	/*
 	 * Method to generate an entire world from scratch
 	 * 
@@ -37,6 +41,9 @@ public class WorldGen{
 			
 			blocks = generate(chunkX * Values.Chunk_Size_X, blocks);
 			FileLoader.SaveChunk(worldName, new Chunk(chunkX, blocks));
+			
+			// Increment the loading bar
+			Engine.loading.finishedTask();
 		}
 	}
 	
