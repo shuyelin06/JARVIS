@@ -104,8 +104,11 @@ public class DisplayManager {
 				Chunk c = world.getChunk(blockX / Values.Chunk_Size_X);
 				if(c == null) continue;
 				 
+				// Fail safes
 				if(relChunkX < 0) continue;
-				
+				if(blockY < 0 || blockY > Values.Chunk_Size_Y - 1) continue;
+					
+				// Get the block ID
 				int id = c.getBlocks()[relChunkX][blockY].getID();
 				float[] position = positionOnScreen(blockX, blockY);
 				
@@ -120,12 +123,7 @@ public class DisplayManager {
 							g.drawImage(tileset.getSubImage(variant, 0), position[0], position[1]);
 						}
 						break;
-					case 3: // Stone?
-//						if (Utility.random(0.0, 100.0) < 0.5) {
-//							g.drawImage(tileset.getSubImage(1, tileHash.get(id)), position[0], position[1]);
-//						} else {
-//							g.drawImage(tileset.getSubImage(0, tileHash.get(id)), position[0], position[1]);
-//						}
+					case 3: // Stone
 						g.drawImage(tileset.getSubImage(c.getBlocks()[relChunkX][blockY].getVariant(), tileHash.get(id)), position[0], position[1]);
 						break;
 					default: // Every other block

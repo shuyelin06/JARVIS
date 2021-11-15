@@ -8,25 +8,17 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 import core.Engine;
+import core.Values;
 import world.WorldGen;
 
 public class Loading extends BasicGameState
 {
 	// Loading screen 
-	private int next; // If loading succeeds, move to next screen
-	
-	Command command;
-	
 	private int totalTasks;
 	private int tasksDone;
 	
-	private StateBasedGame sbg;
 	int id;
-	
-	public enum Command {
-		GenerateWorld
-	}
-	
+
 	public Loading(int id) 
 	{
 		this.id = id;
@@ -36,25 +28,11 @@ public class Loading extends BasicGameState
 	}
 
 	// Returns the ID code for this game state
-	public int getID() 
-	{
-		return id;
-	}
-	
+	public int getID() { return id; }
 	public void finishedTask() { this.tasksDone++; }
-	public void load(Command command, int previous, int next, int totalTasks) {
-		// Initialize the variables in the loading screen
-		this.command = command;
-		this.next = next;
-		
-		this.tasksDone = 0;
-		this.totalTasks = totalTasks;
-		
-		sbg.enterState(this.id);
-	}
 	
 	// Initializer, first time
-	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException { this.sbg = sbg; }
+	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {}
 	
 	// Rendering the loading bar
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException { drawLoadingBars(gc, g); }
@@ -87,21 +65,16 @@ public class Loading extends BasicGameState
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException { 
 		if(tasksDone > totalTasks - 1) {
 			sbg.enterState(Engine.Game_ID);
-//			Engine.sound.playBackgroundMusic("Morning"); // Begin game background music
-//			
-//			sbg.enterState(Engine.Game_ID);
 		}
 	}
 
 	public void enter(GameContainer gc, StateBasedGame sbg) throws SlickException 
 	{
-		switch(command) {
-			case GenerateWorld: // World Generation
-				WorldGen gen = new WorldGen(Engine.game.getWorld().getWorldName(), (int) (Math.random() * 10000));
-				gen.start();
-				break;
-		}
+		this.totalTasks = Values.World_X_Size;
+		this.tasksDone = 0;
 		
+		WorldGen gen = new WorldGen(Engine.game.getWorld().getWorldName(), (int) (Math.random() * 10000));
+		gen.start();	
 	}
 
 	public void leave(GameContainer gc, StateBasedGame sbg)  {}

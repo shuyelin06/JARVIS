@@ -24,11 +24,12 @@ public class Cloud
 	{
 		sprite = new Image("res/placeholder.png");
 		
+		
 		this.x = (float) Math.random() * Engine.RESOLUTION_X;
 		this.y = (float) Math.random() * Engine.RESOLUTION_Y * 0.4f;
 		
-		this.w = 288 + (int)(Math.random() * 192);
-		this.h = w * 0.5f + (float)(Math.random() * 32);
+		this.w = 256 + 32 * (int)(Math.random() * 3);
+		this.h = w * 0.4375f + 28 * (int)(Math.random() * 2);
 		
 		cloudType = (int)(Math.random() * 4);
 		
@@ -56,7 +57,8 @@ public class Cloud
 	
 	public void render(Graphics g, float x, float y)
 	{
-		sprite.draw((x  * parallax + this.x) % (Engine.RESOLUTION_X + w) - w, this.y + y * parallax, w, h);
+		sprite.setFilter(Image.FILTER_NEAREST);
+		sprite.draw((x * parallax + this.x) % (Engine.RESOLUTION_X + w) - w, this.y + y * parallax, w, h);
 	}
 	
 	public void update()
