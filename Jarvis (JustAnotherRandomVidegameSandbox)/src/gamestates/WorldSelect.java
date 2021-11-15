@@ -16,7 +16,6 @@ import core.Engine;
 import core.Values;
 import structures.Particle;
 import support.FileLoader;
-import world.WorldGen;
 
 public class WorldSelect extends BasicGameState 
 {

@@ -28,11 +28,7 @@ public class Loading extends BasicGameState
 	}
 
 	// Returns the ID code for this game state
-	public int getID() 
-	{
-		return id;
-	}
-	
+	public int getID() { return id; }
 	public void finishedTask() { this.tasksDone++; }
 	
 	// Initializer, first time
