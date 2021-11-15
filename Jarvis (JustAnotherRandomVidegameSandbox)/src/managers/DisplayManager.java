@@ -121,11 +121,12 @@ public class DisplayManager {
 						}
 						break;
 					case 3: // Stone?
-						if (Utility.random(0.0, 100.0) < 0.5) {
-							g.drawImage(tileset.getSubImage(1, tileHash.get(id)), position[0], position[1]);
-						} else {
-							g.drawImage(tileset.getSubImage(0, tileHash.get(id)), position[0], position[1]);
-						}
+//						if (Utility.random(0.0, 100.0) < 0.5) {
+//							g.drawImage(tileset.getSubImage(1, tileHash.get(id)), position[0], position[1]);
+//						} else {
+//							g.drawImage(tileset.getSubImage(0, tileHash.get(id)), position[0], position[1]);
+//						}
+						g.drawImage(tileset.getSubImage(c.getBlocks()[relChunkX][blockY].getVariant(), tileHash.get(id)), position[0], position[1]);
 						break;
 					default: // Every other block
 						g.drawImage(tileset.getSubImage(0, tileHash.get(id)), position[0], position[1]);
