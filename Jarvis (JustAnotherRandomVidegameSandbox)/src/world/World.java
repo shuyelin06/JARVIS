@@ -51,7 +51,10 @@ public class World
 	// Accessor Methods
 	public Collection<Chunk> getAllChunks() { return renderedChunks.values(); }
 	public Chunk getChunk(int i) { return renderedChunks.get(i); }
-	public String getWorldName() { return worldName; }
+	public String getWorldName() { 
+		renderedChunks.clear();
+		return worldName; 
+	}
 	public int getTime() { return time; }
 	
 	// Mutator Methods
