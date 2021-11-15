@@ -27,7 +27,9 @@ public class EItem extends Entity{
 			if(i == index) continue;
 			EItem e2 = (EItem) items.get(i);
 			
-			if(this.itemID != e2.itemID && entityCollision(e2)) { // If not the same ID, no stacking will occur
+			if(e2.isMarked()) continue;
+			
+			if(this.itemID == e2.itemID && entityCollision(e2)) { // If not the same ID, no stacking will occur
 				this.count += e2.count;
 				e2.markForRemoval();
 			}
