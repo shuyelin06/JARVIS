@@ -89,8 +89,9 @@ public class DisplayManager {
 	}
 	
 	public void renderTutorial(Graphics g) {
-		
-		game.getTutorial().render(g);
+		if (game.getTutorial().canRender()) {
+			game.getTutorial().render(g);
+		}
 	}
 	
 	public void renderBlocks(Graphics g) {

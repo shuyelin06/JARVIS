@@ -134,6 +134,9 @@ public class Game extends BasicGameState {
 		// background updating
 		bg.update();
 		
+		// tutorial updating
+		tutorial.update();
+		
 		// Spawning Mechanics
 		Spawning.spawnEnemy(this, Values.Spawn_Rate); // If you want to stop spawning, set 5f to 0f.
 		// Derendering Mechanics

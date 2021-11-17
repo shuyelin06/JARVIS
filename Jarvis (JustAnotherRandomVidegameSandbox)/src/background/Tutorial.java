@@ -8,6 +8,8 @@ public class Tutorial {
 	
 	private Image wasdImage;
 	private float wasdX, wasdY, wasdW, wasdH;
+	private float time;
+	private boolean canRender;
 	
 	public Tutorial() {
 		this.wasdX = 50;
@@ -16,11 +18,25 @@ public class Tutorial {
 		this.wasdW = 288f;
 		//187
 		this.wasdH = 187f;
+		time = 0;
+		canRender = true;
 		setImage("res/wasd.png");
 	}
 	
 	public void render (Graphics g) {
 		wasdImage.draw(wasdX, wasdY, wasdW, wasdH);
+	}
+	
+	public void update () {
+		if (time < 500) {
+			time++;
+		} else {
+			canRender = false;
+		}
+	}
+	
+	public boolean canRender() {
+		return canRender;
 	}
 	
 	//acccessors
