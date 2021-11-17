@@ -30,7 +30,7 @@ public class Day extends Scene
 		resY = Engine.RESOLUTION_Y;
 		
 		mountains = new Layer("hillsBack", "res/Background/mountains-60.png", 0.2f, 0, 0.3f, resX, 0.5f);
-		hillsBack = new Layer("hillsBack", "res/Background/hills1-80.png", 0.3f, 0, 0.35f, resX, 0.25f);
+		hillsBack = new Layer("hillsBack", "res/Background/dunes.png", 0.3f, 0, 0.35f, resX, 0.25f);
 		hillsFront  = new Layer("hillsFront", "res/Background/hills1.png", 0.4f, 0, 0.4f, resX, 0.3f);
 
 		frontFiller = new Color(50, 122, 32);
