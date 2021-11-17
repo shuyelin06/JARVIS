@@ -5,6 +5,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
 import core.Engine;
+import core.Values;
 
 public class Cloud 
 {
@@ -22,8 +23,7 @@ public class Cloud
 	
 	public Cloud() throws SlickException
 	{
-		sprite = new Image("res/placeholder.png");
-		
+		sprite = Values.Images.get("placeholder");
 		
 		this.x = (float) Math.random() * Engine.RESOLUTION_X;
 		this.y = (float) Math.random() * Engine.RESOLUTION_Y * 0.4f;
@@ -35,19 +35,19 @@ public class Cloud
 		
 		if(cloudType == 0)
 		{
-			sprite = new Image("res/Background/cloud-1.png");
+			sprite = Values.Images.get("cloud-1");
 		} 
 		else if(cloudType == 1)
 		{
-			sprite = new Image("res/Background/cloud-2.png");
+			sprite = Values.Images.get("cloud-2");
 		}
 		else if(cloudType == 2)
 		{
-			sprite = new Image("res/Background/cloud-3.png");
+			sprite = Values.Images.get("cloud-3");
 		} 
 		else if(cloudType == 3)
 		{
-			sprite = new Image("res/Background/cloud-4.png");
+			sprite = Values.Images.get("cloud-4");
 		}
 		
 		xSpeed = (w * w) * 0.000005f;

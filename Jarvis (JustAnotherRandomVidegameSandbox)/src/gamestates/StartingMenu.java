@@ -12,6 +12,7 @@ import background.Background;
 import core.Engine;
 import core.Values;
 import structures.Particle;
+import support.FileLoader;
 
 public class StartingMenu extends BasicGameState 
 {
@@ -34,9 +35,11 @@ public class StartingMenu extends BasicGameState
 	// Initializer, first time
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException 
 	{		
+		FileLoader.LoadResFiles();
+		
 		bg = new Background();
 		//image settings
-		setImage("res/placeholder.png");
+		setImage("placeholder");
 		mainButtonX = gc.getWidth()/2;
 		mainButtonY = gc.getHeight()/3;
 		
@@ -132,19 +135,19 @@ public class StartingMenu extends BasicGameState
 	public void drawImages(Graphics g) {
 		//image drawing
 		
-		setImage("res/menu/startButton.png");
+		setImage("startButton");
 		mainButton.setFilter(Image.FILTER_NEAREST);
 		mainButton.draw(mainButtonX - (mainButtonW / 2), mainButtonY - (mainButtonH / 2), mainButtonW, mainButtonH);
 		
 	}
 	
-	public void setImage(String filepath)
+	public void setImage(String file)
 	{
 		try
 		{
-			mainButton = new Image(filepath);
+			mainButton = Values.Images.get(file);
 		}
-		catch(SlickException e)		
+		catch(Exception e)		
 		{
 			System.out.println("Image not found!");
 		}

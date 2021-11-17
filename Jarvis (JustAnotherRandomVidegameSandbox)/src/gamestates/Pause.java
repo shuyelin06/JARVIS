@@ -35,7 +35,7 @@ public class Pause extends BasicGameState
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException 
 	{
 		this.sbg = sbg;
-		setImage("res/placeholder.png");
+		setImage("placeholder");
 		respawnButtonX = gc.getWidth()/2;
 		respawnButtonY = gc.getHeight()/3;
 		returnButtonX = gc.getWidth()/2;
@@ -123,22 +123,22 @@ public class Pause extends BasicGameState
 	public void drawImages(Graphics g) {
 		//image drawing
 		
-		setImage("res/menu/startButton.png");
+		setImage("startButton");
 		respawnButton.setFilter(Image.FILTER_NEAREST);
 		respawnButton.draw(respawnButtonX - (respawnButtonW / 2), respawnButtonY - (respawnButtonH / 2), respawnButtonW, respawnButtonH);
-		setImage("res/menu/startButton.png");
+		setImage("startButton");
 		returnButton.setFilter(Image.FILTER_NEAREST);
 		returnButton.draw(returnButtonX - (returnButtonW / 2), returnButtonY - (returnButtonH / 2), returnButtonW, returnButtonH);
 	}
 
-	public void setImage(String filepath)
+	public void setImage(String file)
 	{
 		try
 		{
-			respawnButton = new Image(filepath);
-			returnButton = new Image(filepath);
+			respawnButton = Values.Images.get(file);;
+			returnButton = Values.Images.get(file);;
 		}
-		catch(SlickException e)		
+		catch(Exception e)		
 		{
 			System.out.println("Image not found!");
 		}

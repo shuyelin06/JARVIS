@@ -5,6 +5,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
 import core.Engine;
+import core.Values;
 
 public class Layer 
 {
@@ -14,7 +15,7 @@ public class Layer
 	
 	float x, y, w, h, resX, resY;
 	
-	public Layer(String id, String imagePath, float parallax, float x, float y, float w, float h)
+	public Layer(String id, String image, float parallax, float x, float y, float w, float h)
 	{
 		resX = Engine.RESOLUTION_X;
 		resY = Engine.RESOLUTION_Y;
@@ -24,8 +25,8 @@ public class Layer
 		this.parallax = parallax;
 		this.id = id;
 		
-		try { sprite = new Image(imagePath); } 
-		catch (SlickException e) { }
+		try { sprite = Values.Images.get(image); } 
+		catch (Exception e) { }
 	}
 	
 	public void render(Graphics g, float x, float y)

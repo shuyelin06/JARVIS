@@ -54,7 +54,7 @@ public class Settings extends BasicGameState {
 		bg = new Background();
 		
 		//image settings
-		setImage("res/placeholder.png");
+		setImage("placeholder");
 		mainButtonX = gc.getWidth()/2;
 		mainButtonY = gc.getHeight()/3;
 		mainButtonW = 300;
@@ -183,11 +183,11 @@ public class Settings extends BasicGameState {
 	public void drawImages(Graphics g) {
 		//image drawing
 		
-		setImage("res/menu/startButton.png");
+		setImage("startButton");
 		mainButton.setFilter(Image.FILTER_NEAREST);
 		mainButton.draw(mainButtonX - (mainButtonW / 2), mainButtonY - (mainButtonH / 2), mainButtonW, mainButtonH);
 		
-		setImage("res/placeholder.png");
+		setImage("placeholder");
 		m1Button.draw(m1ButtonX - (m1ButtonW / 2), m1ButtonY - (m1ButtonH / 2), m1ButtonW, m1ButtonH);
 		m2Button.draw(m2ButtonX - (m2ButtonW / 2), m2ButtonY - (m2ButtonH / 2), m2ButtonW, m2ButtonH);
 		
@@ -196,16 +196,16 @@ public class Settings extends BasicGameState {
 			
 	}
 	
-	public void setImage(String filepath)
+	public void setImage(String file)
 	{
 		try
 		{
-			mainButton = new Image(filepath);
-			m1Button = new Image(filepath);
-			m2Button = new Image(filepath);
-			volumeImage = new Image(filepath);
+			mainButton = Values.Images.get(file);
+			m1Button = Values.Images.get(file);
+			m2Button = Values.Images.get(file);
+			volumeImage = Values.Images.get(file);
 		}
-		catch(SlickException e)		
+		catch(Exception e)		
 		{
 			System.out.println("Image not found!");
 		}

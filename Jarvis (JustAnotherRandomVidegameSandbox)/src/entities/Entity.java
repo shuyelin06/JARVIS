@@ -44,7 +44,7 @@ public class Entity{
 		
 		// Rendering Variables
 		try {
-			sprite = new Image("res/placeholder.png");
+			sprite = Values.Images.get("placeholder");
 		} catch(Exception e) {}
 		this.sizeX = 1f;
 		this.sizeY = 1f;

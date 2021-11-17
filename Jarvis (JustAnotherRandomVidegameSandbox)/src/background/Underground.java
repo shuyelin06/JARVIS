@@ -5,6 +5,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
 import core.Engine;
+import core.Values;
 
 public class Underground extends Scene
 {	
@@ -17,9 +18,9 @@ public class Underground extends Scene
 	
 	public Underground() throws SlickException 
 	{
-		bg = new Image("res/Background/grey.png");
-		top = new Image("res/Background/caveTop.png");
-		bottom = new Image("res/Background/caveBottom.png");
+		bg = Values.Images.get("grey");
+		top = Values.Images.get("caveTop");
+		bottom = Values.Images.get("caveBottom");
 	}
 	
 	public void render(Graphics g, float x, float y)

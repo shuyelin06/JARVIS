@@ -26,7 +26,7 @@ public class Player extends Living{
 		super(Values.SpawnX, Values.SpawnY); 
 		
 		try {
-			sprite = new Image("res/pratt.png");
+			sprite = Values.Images.get("pratt");
 		} catch(Exception e) {}
 		
 		this.inventory = new Inventory(this);
