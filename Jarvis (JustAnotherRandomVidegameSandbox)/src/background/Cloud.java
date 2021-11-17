@@ -52,7 +52,6 @@ public class Cloud
 		
 		xSpeed = (w * w) * 0.000005f;
 		parallax  = w * 0.0003f;
-		System.out.println(parallax + "");
 	}
 	
 	public void render(Graphics g, float x, float y)

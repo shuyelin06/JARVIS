@@ -11,6 +11,7 @@ import entities.living.Player;
 import entities.Entity.EntType;
 import entities.other.EBlock;
 import gamestates.Game;
+import items.Item;
 import structures.Block;
 import support.FileLoader;
 
@@ -102,21 +103,6 @@ public class World
 	/*
 	 * Block Placement and Destruction
 	 */
-	public void placeBlock(int x, int y) {
-		try {
-			int id = Engine.game.getPlayer().selectedItem();
-			if(id == 0) return;
-			
-			int chunkX = x / Values.Chunk_Size_X;
-			
-			Block[][] blocks = renderedChunks.get(chunkX).getBlocks();
-			
-			if(blocks[x % Values.Chunk_Size_X][y].getID() == 0) {
-				blocks[x % Values.Chunk_Size_X][y] = new Block(id);
-				Engine.game.getPlayer().getInventory().drop(id);
-			}
-		} catch(Exception e) {}
-	}
 	public void destroyBlock(int x, int y) {
 		try {
 			// Find the chunk the block is in

@@ -16,9 +16,9 @@ public class Values // this will be quite useful for organizing stuff later on
 	final public static float CenterY = Engine.RESOLUTION_Y / 2; // Player Center Y
 	
 	// Background variables
-	final public static int nightLength = 600;
-	final public static int dayLength = 720;
-	final public static int transitionLength = 360;
+	final public static int nightLength = 3200;
+	final public static int dayLength = 3200;
+	final public static int transitionLength = 1400;
 	
 	// Player Variables
 	final public static float Player_Reach = 10f;
@@ -33,7 +33,7 @@ public class Values // this will be quite useful for organizing stuff later on
 	final public static float Spawn_Rate = 3f; // Entity Spawn Rate
 	
 	// World Size Variables
-	final public static int World_X_Size = 32; // World Size (in chunks)
+	final public static int World_X_Size = 64; // World Size (in chunks)
 	final public static int Chunk_Size_X = 16; // Chunk X Size (in blocks)
 	final public static int Chunk_Size_Y = 2048; // Chunk Y Size (in blocks)
 	

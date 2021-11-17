@@ -14,8 +14,6 @@ public class Day extends Scene
 	private Layer hillsBack;
 	private Layer mountains;
 	
-	private Sky sky;
-	
 	private int resX; //placeholders so this code is actually readable
 	private int resY;
 	
@@ -34,8 +32,6 @@ public class Day extends Scene
 		mountains = new Layer("hillsBack", "res/Background/mountains-60.png", 0.2f, 0, 0.3f, resX, 0.5f);
 		hillsBack = new Layer("hillsBack", "res/Background/hills1-80.png", 0.3f, 0, 0.35f, resX, 0.25f);
 		hillsFront  = new Layer("hillsFront", "res/Background/hills1.png", 0.4f, 0, 0.4f, resX, 0.3f);
-		
-		sky = new Sky();
 
 		frontFiller = new Color(50, 122, 32);
 		backFiller = new Color(43, 132, 69);
@@ -52,8 +48,6 @@ public class Day extends Scene
 	public void render(Graphics g, float x, float y)
 	{
 		y  *= 0.5f; //parallax
-		
-		sky.render(g);
 		
 		for(int i = 0; i < clouds.length; i++) //the clouds
 		{
@@ -74,9 +68,7 @@ public class Day extends Scene
 	}
 
 	public void update(int time)
-	{
-		sky.update(time);
-		
+	{	
 		for(int i = 0; i < clouds.length; i++) //the clouds
 		{
 			clouds[i].update();

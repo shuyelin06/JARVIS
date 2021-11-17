@@ -23,7 +23,8 @@ public class WorldGen extends Thread{
 		noise = new SimplexNoise(seed); // Later will be used with the noise parameter for custom seeds
 	}
 	
-	public void run() {
+	public void run() 
+	{
 		generateWorld();
 	}
 	/*
@@ -45,11 +46,70 @@ public class WorldGen extends Thread{
 			// Increment the loading bar
 			Engine.loading.finishedTask();
 		}
+		
+		biomes(Values.World_X_Size);
 	}
 	
+	private void biomes(int worldSize)
+	{
+		int position = (int)(Math.random() * 20);
+		int biomeSize = (int)(worldSize * 0.5f) + position;
+		
+		for(int chunkX = position; chunkX < biomeSize; chunkX++)
+		{
+			//System.out.println(chunkX);
+			Block[][] blocks = new Block[Values.Chunk_Size_X][Values.Chunk_Size_Y];
+			
+			if(chunkX == position)
+			{
+				blocks = biomeGen(FileLoader.LoadChunk(worldName, chunkX).getBlocks(), -1);
+			} 
+			else if(chunkX == biomeSize - 1)
+			{
+				blocks = biomeGen(FileLoader.LoadChunk(worldName, chunkX).getBlocks(), 1);
+			} else
+			{
+				blocks = biomeGen(FileLoader.LoadChunk(worldName, chunkX).getBlocks(), 0);
+			}
+			
+			FileLoader.SaveChunk(worldName, new Chunk(chunkX, blocks));
+		}
+	}
+	
+	private Block[][] biomeGen(Block[][] inputBlocks, int edge)
+	{
+		Block[][] blocks = inputBlocks;
+		System.out.println(edge);
+		
+		if(edge != 0)
+		{
+			for(int i = 0; i < Values.Chunk_Size_X; i++)
+			{
+				for(int j = 0; j < Values.Chunk_Size_Y; j++)
+				{
+					blocks[i][j].setID(2);
+				}
+			}
+		}
+		else
+		{
+			for(int i = 0; i < Values.Chunk_Size_X; i++)
+			{
+				for(int j = 0; j < Values.Chunk_Size_Y; j++)
+				{
+					if(blocks[i][j].getID() != 0)
+					{
+						blocks[i][j].setID(3);
+					}
+				}
+			}
+		}
+		
+		return(blocks);
+	}
 	
 	// Returns a 2D array of blocks for a chunk.
-	public Block[][] generate(int x, Block[][] blocks)
+	private Block[][] generate(int x, Block[][] blocks)
 	{
 		double[] terrain = new double[Values.Chunk_Size_X];
 		
@@ -59,7 +119,6 @@ public class WorldGen extends Thread{
 			
 			terrain[i] = temp * 32 + Values.Surface;
 			
-			//step 2: block placement (will move to separate method or class)
 			for(int j = 0; j < Values.Chunk_Size_Y; j++)
 			{
 				if(j < terrain[i] - (Math.random() * 2 + 5))
@@ -83,7 +142,7 @@ public class WorldGen extends Thread{
 		return(blocks);
 	}
 	
-	public Block[][] populate(Block[][] blocks, int x)
+	private Block[][] populate(Block[][] blocks, int x)
 	{
 
 		float[][] caves = new float[Values.Chunk_Size_X][Values.Chunk_Size_Y];
@@ -150,11 +209,10 @@ public class WorldGen extends Thread{
 			}
 		}
 		
-		System.out.println("Chunk done generating");
 		return(blocks);
 	}
 	
-	public Block[][] structures(Block[][] blocks) //oh boy
+	private Block[][] structures(Block[][] blocks) //oh boy
 	{
 		for(int i = 0; i < Values.Chunk_Size_X; i++)
 		{
@@ -163,7 +221,7 @@ public class WorldGen extends Thread{
 		return(blocks);
 	}
 	
-	public boolean adjacentTo(int x, int y, char direction, int id, Block[][] blocks)
+	private boolean adjacentTo(int x, int y, char direction, int id, Block[][] blocks)
 	{
 		if(direction == 'n')
 		{
@@ -197,7 +255,7 @@ public class WorldGen extends Thread{
 		return(false);
 	}
 	
-	public int adjacentTo(int x, int y, int id, Block[][] blocks) //method for seeing if a certain kind of block is next to it
+	private int adjacentTo(int x, int y, int id, Block[][] blocks) //method for seeing if a certain kind of block is next to it
 	//still need to fix
 	{
 		int count = 0;

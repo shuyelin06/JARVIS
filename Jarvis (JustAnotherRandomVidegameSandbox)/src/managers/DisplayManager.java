@@ -18,6 +18,7 @@ import entities.Entity.EntType;
 import entities.living.Player;
 import gamestates.Game;
 import items.Inventory;
+import items.Item;
 import structures.Block;
 import support.Utility;
 import background.Background;
@@ -205,13 +206,15 @@ public class DisplayManager {
 		
 		// Draw every item in the player's inventory
 		final float boxSize = BAR_WIDTH / (float) Inventory.Inventory_Size;
-		int[][] list = p.getInventory().getItems();
+		Item[] list = p.getInventory().getItems();
 		final float center = (boxSize - (float) Coordinate.ConversionFactor) / 2f;
 		
 		for(int i = 0; i < list.length; i++) {
-			Integer id = list[i][0];
+			if(list[i] == null) continue;
+			
+			Integer id = list[i].getID();
 			if(id == 0) continue;
-			Integer count = list[i][1];
+			Integer count = list[i].getCount();
 			
 			float barDisp = i * boxSize;
 			

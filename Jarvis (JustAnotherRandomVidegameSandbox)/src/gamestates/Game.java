@@ -45,7 +45,6 @@ public class Game extends BasicGameState {
 	public KeyManager keyManager;
 	public DisplayManager displaymanager; // Manages the display / graphics in the game
 	
-
 	// Spawning
 	Destroyer d; // Despawning
 	
@@ -195,7 +194,11 @@ public class Game extends BasicGameState {
   				sbg.enterState(Engine.Debug_ID);
   				break;
   			
-  			case Input.KEY_R:
+  			case Input.KEY_G: // Drop Item
+  				player.dropItem();
+  				break;
+  				
+  			case Input.KEY_R: // ROCKET GO BOOM
   				float x = gc.getInput().getAbsoluteMouseX() - Values.CenterX;
   				float y = Values.CenterY - gc.getInput().getAbsoluteMouseY();
   				
@@ -234,12 +237,13 @@ public class Game extends BasicGameState {
 		
 		if(gc.getInput().isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)) // Left click - destroy a block
 		{
-			world.destroyBlock((int) mouseCoordinate[0], (int) mouseCoordinate[1]);
+			player.useItem(mouseCoordinate[0], mouseCoordinate[1]);
+			// 
 		}
 		
 		if(gc.getInput().isMouseButtonDown(Input.MOUSE_RIGHT_BUTTON)) // Right click - place a block
 		{
-			world.placeBlock((int) mouseCoordinate[0], (int) mouseCoordinate[1]);
+			world.destroyBlock((int) mouseCoordinate[0], (int) mouseCoordinate[1]);
 		}
 		
 		if(gc.getInput().isKeyDown(Input.KEY_E)) // Test explosion, just for fun lol

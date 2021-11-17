@@ -4,15 +4,18 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 
 import core.Engine;
-import gamestates.Game;
 
 public class Background
 {
+	private int time;
+	private Sky sky;
 	private Day day;
 	private Underground underground;
 	
 	public Background() throws SlickException
 	{
+		time = 0;
+		sky = new Sky();
 		day = new Day();
 		underground = new Underground();
 	}
@@ -21,6 +24,7 @@ public class Background
 	{
 		if(y > -500)
 		{
+			sky.render(g);
 			day.render(g, x, y);
 		}
 		if(y < 0)
@@ -31,6 +35,9 @@ public class Background
 	
 	public void update()
 	{
-		day.update(Engine.game.getWorld().getTime());
+		time = Engine.game.getWorld().getTime();
+		
+		day.update(time);
+		sky.update(time);
 	}
 }

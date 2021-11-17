@@ -13,6 +13,7 @@ import core.Values;
 import entities.Entity;
 import entities.other.EItem;
 import items.Inventory;
+import items.Item;
 
 public class Player extends Living{	
 	private Inventory inventory;
@@ -28,7 +29,7 @@ public class Player extends Living{
 			sprite = new Image("res/pratt.png");
 		} catch(Exception e) {}
 		
-		this.inventory = new Inventory();
+		this.inventory = new Inventory(this);
 		
 		this.sizeY = 2f;
 		this.sizeX = 1.3f; // Only use sizes to the 10th PLACE 
@@ -38,12 +39,10 @@ public class Player extends Living{
 	}
 	
 	public int inventorySelected() { return this.inventorySelected; }
-	public int selectedItem() { return inventory.getItems()[inventorySelected][0]; }
+	public Item selectedItem() { return inventory.getItems()[inventorySelected]; }
 	public Inventory getInventory() { return inventory; }
 
-	public void changeInventorySlot(int inventorySelected) {
-		this.inventorySelected = inventorySelected;
-	}
+	public void changeInventorySlot(int inventorySelected) { this.inventorySelected = inventorySelected; }
 	
 	public void adjustInventorySlot(int change) {
 		inventorySelected += change / 120;
@@ -54,6 +53,22 @@ public class Player extends Living{
 		}
 	}
 	
+	public void useItem(float x, float y) {
+		Item item = selectedItem();
+		if(item != null) {
+			item.use(x, y);
+		}
+	}
+	public void dropItem() {
+		inventory.drop(inventorySelected);
+	}
+	
+	public void update() {
+		super.update();
+		
+		inventory.filter();
+	}
+	
 	// Overwritten Collisions Method
 	protected void entityCollisions() {
 		ArrayList<Entity> items = Engine.game.getEntities(EntType.Items);
@@ -61,6 +76,10 @@ public class Player extends Living{
 		for(Entity e: items) {
 			EItem item = (EItem) e;
 			
+			// Can only pick up after 0.5 seconds of existing
+			if(e.timeAlive() < 0.25f) continue;
+			
+			// Pick up item
 			if(inventory.hasSpace(item.getID()) && this.entityCollision(e)) {
 				inventory.pickUp(item);
 				e.markForRemoval();

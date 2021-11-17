@@ -1,11 +1,6 @@
 package world;
 
-import java.util.Arrays;
-
-import core.Values;
-import gamestates.Game;
 import structures.Block;
-import support.SimplexNoise;
 
 public class Chunk{	
 	// All blocks in the chunk

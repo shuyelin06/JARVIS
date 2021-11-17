@@ -57,7 +57,7 @@ public class Entity{
 	}
 	
 	// Accessor Methods
-	public int timeAlive() { return (int) (Sys.getTime() - time) / 1000; }
+	public float timeAlive() { return (float) (Sys.getTime() - time) / 1000; }
 	
 	public Image getSprite() { return sprite; }
 	public boolean getDirection() { return xSpeed > 0; } // False - Left, True - Right
@@ -72,6 +72,8 @@ public class Entity{
 	
 	// Mutator Methods
 	public void markForRemoval() { this.remove = true; }
+	public void setSpeedX(float xSpeed) { this.xSpeed = xSpeed; }
+	public void setSpeedY(float ySpeed) { this.ySpeed = ySpeed; }
 	
 	// Main method called for all entities
 	public void update() {
@@ -125,7 +127,9 @@ public class Entity{
 			blocks = c.getBlocks();
 			
 			for(int j = 0; j < Math.ceil(sizeY); j++) {
-				if(blocks[x % Values.Chunk_Size_X][(int) position.getY() - j].getID() != 0) {
+				Block b = blocks[x % Values.Chunk_Size_X][(int) position.getY() - j];
+				
+				if(!Block.Passable_Blocks.contains(b.getID())) {
 					// Collision detected
 					if(xSpeed < 0) position.setXPos(x + 1f + collisionError);
 					else if(xSpeed > 0) position.setXPos(x - this.sizeX - collisionError);
@@ -151,10 +155,9 @@ public class Entity{
 			
 			for(int i = 0; i < max; i++) {
 				x = (int) position.getX() + i; // Get the absolute x coordinate
-
-				c = Engine.game.getWorld().getChunk(x / Values.Chunk_Size_X);
+				Block b = Engine.game.getWorld().getChunk(x / Values.Chunk_Size_X).getBlocks()[x % Values.Chunk_Size_X][y];
 				
-				if(c.getBlocks()[x % Values.Chunk_Size_X][y].getID() != 0){
+				if(!Block.Passable_Blocks.contains(b.getID())){
 					// Interpolate the new y position
 					if(ySpeed < 0) position.setYPos(y + this.sizeY + collisionError);
 					else if(ySpeed > 0) position.setYPos(y - 1f - collisionError);
