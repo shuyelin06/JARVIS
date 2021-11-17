@@ -230,12 +230,13 @@ public class Game extends BasicGameState {
 		
 		if(gc.getInput().isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)) // Left click - destroy a block
 		{
-			world.destroyBlock((int) mouseCoordinate[0], (int) mouseCoordinate[1]);
+			player.useItem(mouseCoordinate[0], mouseCoordinate[1]);
+			// 
 		}
 		
 		if(gc.getInput().isMouseButtonDown(Input.MOUSE_RIGHT_BUTTON)) // Right click - place a block
 		{
-			world.placeBlock((int) mouseCoordinate[0], (int) mouseCoordinate[1]);
+			world.destroyBlock((int) mouseCoordinate[0], (int) mouseCoordinate[1]);
 		}
 		
 		if(gc.getInput().isKeyDown(Input.KEY_E)) // Test explosion, just for fun lol
