@@ -11,6 +11,7 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 import background.Background;
+import background.Tutorial;
 
 import java.util.HashMap;
 import java.util.function.Predicate;
@@ -55,6 +56,8 @@ public class Game extends BasicGameState {
 	private World world;
 	// the background
 	private Background bg;
+	// The Tutorial
+	private Tutorial tutorial;
 	
 	// Constructor
 	public Game(int id) { this.id = id; } 
@@ -66,6 +69,7 @@ public class Game extends BasicGameState {
 	public GameContainer getGC() { return gc; }
 	public World getWorld() { return world; }
 	public Background getBackground() { return bg; }
+	public Tutorial getTutorial() { return tutorial; }
 	public ArrayList<Entity> getEntities(EntType type) { return entities.get(type); }
 	public HashMap<EntType, ArrayList<Entity>> getAllEntities(){ return entities; }
 	
@@ -88,7 +92,9 @@ public class Game extends BasicGameState {
 			put(EntType.Items, new ArrayList<Entity>());
 			put(EntType.Projectiles, new ArrayList<Entity>());
 		}};
+		
 		bg = new Background();
+		tutorial = new Tutorial();
 		
 		// Initializing Destroying and Spawning Behaviors
 		this.d = new Destroyer(this);
@@ -105,6 +111,7 @@ public class Game extends BasicGameState {
 		displaymanager.renderBlocks(g); // Render all blocks
 		displaymanager.renderEntities(g); // Render all entities
 		displaymanager.renderPlayer(g); // Render player
+		displaymanager.renderTutorial(g); // Render tutorial
 	}
 
 	/*

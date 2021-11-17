@@ -87,6 +87,12 @@ public class DisplayManager {
 		
 		game.getBackground().render(g, backgroundPosition[0], backgroundPosition[1]);
 	}
+	
+	public void renderTutorial(Graphics g) {
+		
+		game.getTutorial().render(g);
+	}
+	
 	public void renderBlocks(Graphics g) {
 		World world = game.getWorld();
 
