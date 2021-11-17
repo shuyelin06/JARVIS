@@ -123,10 +123,10 @@ public class Pause extends BasicGameState
 	public void drawImages(Graphics g) {
 		//image drawing
 		
-		setImage("res/menu/startButton.png");
+		setImage("res/menu/respawnButton.png");
 		respawnButton.setFilter(Image.FILTER_NEAREST);
 		respawnButton.draw(respawnButtonX - (respawnButtonW / 2), respawnButtonY - (respawnButtonH / 2), respawnButtonW, respawnButtonH);
-		setImage("res/menu/startButton.png");
+		setImage("res/menu/backButton.png");
 		returnButton.setFilter(Image.FILTER_NEAREST);
 		returnButton.draw(returnButtonX - (returnButtonW / 2), returnButtonY - (returnButtonH / 2), returnButtonW, returnButtonH);
 	}
