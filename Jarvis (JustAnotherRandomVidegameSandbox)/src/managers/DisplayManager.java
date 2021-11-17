@@ -50,9 +50,11 @@ public class DisplayManager {
 		tileHash.put(1, 1); //block id 1 = dirt
 		tileHash.put(2, 0); //block id 2 = grass
 		tileHash.put(3, 2); //block id 3 = stone
-		tileHash.put(4, 3);
-		tileHash.put(5, 4);
-		tileHash.put(6, 5);
+		tileHash.put(4, 3); //coal
+		tileHash.put(5, 4);	//gold
+		tileHash.put(6, 5); //mine diamonds
+		tileHash.put(7, 6); //sand
+		tileHash.put(8, 7); //sandstone
 	};
 	
 	// Returns the pixel coordinates on screen for some block coordinate

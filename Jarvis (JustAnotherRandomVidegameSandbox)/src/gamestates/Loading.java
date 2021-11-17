@@ -70,7 +70,7 @@ public class Loading extends BasicGameState
 
 	public void enter(GameContainer gc, StateBasedGame sbg) throws SlickException 
 	{
-		this.totalTasks = Values.World_X_Size;
+		this.totalTasks = Values.World_X_Size + 1;
 		this.tasksDone = 0;
 		
 		WorldGen gen = new WorldGen(Engine.game.getWorld().getWorldName(), (int) (Math.random() * 10000));

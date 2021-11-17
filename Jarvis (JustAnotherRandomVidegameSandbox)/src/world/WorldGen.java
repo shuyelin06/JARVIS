@@ -1,5 +1,7 @@
 package world;
 
+import java.util.ArrayList;
+
 import core.Engine;
 import core.Values;
 import structures.Block;
@@ -11,7 +13,7 @@ public class WorldGen extends Thread{
 	// World-Specific Variables 
 	private SimplexNoise noise; //noise for the rest
 	//might add other noises for other things
-	
+
 	private String worldName;
 	
 	// Variables used in world generation
@@ -48,65 +50,39 @@ public class WorldGen extends Thread{
 		}
 		
 		biomes(Values.World_X_Size);
+		Engine.loading.finishedTask();
+		
+		Engine.game.getWorld().clearChunks();
 	}
 	
 	private void biomes(int worldSize)
 	{
-		int position = (int)(Math.random() * 20);
-		int biomeSize = (int)(worldSize * 0.5f) + position;
+		int desertPosition = (int)(worldSize * 0.2f);
+		int desertSize = (int)(worldSize * 0.5f) + desertPosition;
 		
-		for(int chunkX = position; chunkX < biomeSize; chunkX++)
+		for(int chunkX = desertPosition; chunkX < desertSize; chunkX++)
 		{
 			//System.out.println(chunkX);
 			Block[][] blocks = new Block[Values.Chunk_Size_X][Values.Chunk_Size_Y];
 			
-			if(chunkX == position)
+			if(chunkX == desertPosition)
 			{
-				blocks = biomeGen(FileLoader.LoadChunk(worldName, chunkX).getBlocks(), -1);
+				blocks = BiomeGens.desertGen(FileLoader.LoadChunk(worldName, chunkX).getBlocks(), -1);
 			} 
-			else if(chunkX == biomeSize - 1)
+			else if(chunkX == desertSize - 1)
 			{
-				blocks = biomeGen(FileLoader.LoadChunk(worldName, chunkX).getBlocks(), 1);
-			} else
+				blocks = BiomeGens.desertGen(FileLoader.LoadChunk(worldName, chunkX).getBlocks(), 1);
+			} 
+			else
 			{
-				blocks = biomeGen(FileLoader.LoadChunk(worldName, chunkX).getBlocks(), 0);
+				blocks = BiomeGens.desertGen(FileLoader.LoadChunk(worldName, chunkX).getBlocks(), 0);
 			}
 			
 			FileLoader.SaveChunk(worldName, new Chunk(chunkX, blocks));
 		}
 	}
 	
-	private Block[][] biomeGen(Block[][] inputBlocks, int edge)
-	{
-		Block[][] blocks = inputBlocks;
-		System.out.println(edge);
-		
-		if(edge != 0)
-		{
-			for(int i = 0; i < Values.Chunk_Size_X; i++)
-			{
-				for(int j = 0; j < Values.Chunk_Size_Y; j++)
-				{
-					blocks[i][j].setID(2);
-				}
-			}
-		}
-		else
-		{
-			for(int i = 0; i < Values.Chunk_Size_X; i++)
-			{
-				for(int j = 0; j < Values.Chunk_Size_Y; j++)
-				{
-					if(blocks[i][j].getID() != 0)
-					{
-						blocks[i][j].setID(3);
-					}
-				}
-			}
-		}
-		
-		return(blocks);
-	}
+	
 	
 	// Returns a 2D array of blocks for a chunk.
 	private Block[][] generate(int x, Block[][] blocks)
@@ -142,7 +118,7 @@ public class WorldGen extends Thread{
 		return(blocks);
 	}
 	
-	private Block[][] populate(Block[][] blocks, int x)
+	private Block[][] populate(Block[][] blocks, int x) //basic grasslands generation
 	{
 
 		float[][] caves = new float[Values.Chunk_Size_X][Values.Chunk_Size_Y];
@@ -196,16 +172,6 @@ public class WorldGen extends Thread{
 						blocks[i][j].setID(2);
 					}
 				}
-				
-				if(blocks[i][j].getID() == 2 && adjacentTo(i, j, 'n', 0, blocks) 
-						&& adjacentTo(i, j + 1, 'e', 0, blocks) && adjacentTo(i, j + 1, 'w', 0, blocks)) // tree generation bruhhhh
-				{
-					if(i % (4 + (int)Math.random() * 3) == 0)
-					{
-						blocks[i][j + 1].setID(3);
-					}
-					
-				}	
 			}
 		}
 		
@@ -216,7 +182,18 @@ public class WorldGen extends Thread{
 	{
 		for(int i = 0; i < Values.Chunk_Size_X; i++)
 		{
-			
+			for(int j = 0; j < Values.Chunk_Size_Y; i++)
+			{
+				if(blocks[i][j].getID() == 2 && adjacentTo(i, j, 'n', 0, blocks) 
+						&& adjacentTo(i, j + 1, 'e', 0, blocks) && adjacentTo(i, j + 1, 'w', 0, blocks)) // tree generation bruhhhh
+				{
+					if(i % (4 + (int)Math.random() * 3) == 0)
+					{
+						blocks[i][j + 1].setID(3);
+					}
+					
+				}	
+			}		
 		}
 		return(blocks);
 	}
