@@ -19,8 +19,8 @@ public class BiomeGens //just holds all the biome generation, for organization p
 				{
 					switch(blocks[i][j].getID())
 					{
-						case(1): blocks[i][j].setID(5); //change to 7 and 8 once i manage to get sand and sandstone textures
-						case(2): blocks[i][j].setID(5);
+						case(1): blocks[i][j].setID(5); break; //change to 7 and 8 once i manage to get sand and sandstone textures
+						case(2): blocks[i][j].setID(5); break; 
 						case(3): blocks[i][j].setID(6);
 					}
 				}
@@ -34,8 +34,8 @@ public class BiomeGens //just holds all the biome generation, for organization p
 				{
 					switch(blocks[i][j].getID())
 					{
-						case(1): blocks[i][j].setID(5);
-						case(2): blocks[i][j].setID(5);
+						case(1): blocks[i][j].setID(5); break;
+						case(2): blocks[i][j].setID(5); break;
 						case(3): blocks[i][j].setID(6);
 					}
 				}
@@ -50,8 +50,8 @@ public class BiomeGens //just holds all the biome generation, for organization p
 				{
 					switch(blocks[i][j].getID())
 					{
-						case(1): blocks[i][j].setID(5);
-						case(2): blocks[i][j].setID(5);
+						case(1): blocks[i][j].setID(5); break;
+						case(2): blocks[i][j].setID(5); break;
 						case(3): blocks[i][j].setID(6);
 					}
 				}
