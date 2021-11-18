@@ -58,7 +58,7 @@ public class WorldGen extends Thread{
 	private void biomes(int worldSize)
 	{
 		int desertPosition = (int)(worldSize * 0.2f);
-		int desertSize = (int)(worldSize * 0.5f) + desertPosition;
+		int desertSize = (int)(worldSize * 0.3f) + desertPosition;
 		
 		for(int chunkX = desertPosition; chunkX < desertSize; chunkX++)
 		{
