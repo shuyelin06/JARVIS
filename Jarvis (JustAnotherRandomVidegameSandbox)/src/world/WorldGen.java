@@ -12,8 +12,7 @@ import support.SimplexNoise;
 public class WorldGen extends Thread{
 	// World-Specific Variables 
 	private SimplexNoise noise; //noise for the rest
-	//might add other noises for other things
-
+	
 	private String worldName;
 	
 	// Variables used in world generation
@@ -49,27 +48,24 @@ public class WorldGen extends Thread{
 			Engine.loading.finishedTask();
 		}
 		
-		biomes(Values.World_X_Size);
+		biomes();
 		Engine.loading.finishedTask();
 		
 		Engine.game.getWorld().clearChunks();
 	}
 	
-	private void biomes(int worldSize)
-	{
-		int desertPosition = (int)(worldSize * 0.2f);
-		int desertSize = (int)(worldSize * 0.3f) + desertPosition;
-		
-		for(int chunkX = desertPosition; chunkX < desertSize; chunkX++)
+	private void biomes()
+	{		
+		for(int chunkX = Values.desertStart; chunkX < Values.desertEnd; chunkX++)
 		{
 			//System.out.println(chunkX);
 			Block[][] blocks = new Block[Values.Chunk_Size_X][Values.Chunk_Size_Y];
 			
-			if(chunkX == desertPosition)
+			if(chunkX == Values.desertStart)
 			{
 				blocks = BiomeGens.desertGen(FileLoader.LoadChunk(worldName, chunkX).getBlocks(), -1);
 			} 
-			else if(chunkX == desertSize - 1)
+			else if(chunkX == Values.desertEnd - 1)
 			{
 				blocks = BiomeGens.desertGen(FileLoader.LoadChunk(worldName, chunkX).getBlocks(), 1);
 			} 
@@ -178,27 +174,9 @@ public class WorldGen extends Thread{
 		return(blocks);
 	}
 	
-	private Block[][] structures(Block[][] blocks) //oh boy
-	{
-		for(int i = 0; i < Values.Chunk_Size_X; i++)
-		{
-			for(int j = 0; j < Values.Chunk_Size_Y; i++)
-			{
-				if(blocks[i][j].getID() == 2 && adjacentTo(i, j, 'n', 0, blocks) 
-						&& adjacentTo(i, j + 1, 'e', 0, blocks) && adjacentTo(i, j + 1, 'w', 0, blocks)) // tree generation bruhhhh
-				{
-					if(i % (4 + (int)Math.random() * 3) == 0)
-					{
-						blocks[i][j + 1].setID(3);
-					}
-					
-				}	
-			}		
-		}
-		return(blocks);
-	}
 	
-	private boolean adjacentTo(int x, int y, char direction, int id, Block[][] blocks)
+	//utility methods below
+	public static boolean adjacentTo(int x, int y, char direction, int id, Block[][] blocks)
 	{
 		if(direction == 'n')
 		{
@@ -232,7 +210,7 @@ public class WorldGen extends Thread{
 		return(false);
 	}
 	
-	private int adjacentTo(int x, int y, int id, Block[][] blocks) //method for seeing if a certain kind of block is next to it
+	public static int adjacentTo(int x, int y, int id, Block[][] blocks) //method for seeing if a certain kind of block is next to it
 	//still need to fix
 	{
 		int count = 0;
@@ -253,7 +231,7 @@ public class WorldGen extends Thread{
 		return(count);
 	}
 	
-	private boolean inBounds(int x, int y) //to avoid the out of bounds error
+	public static boolean inBounds(int x, int y) //to avoid the out of bounds error
 	{
 		return(x > -1 && x < Values.Chunk_Size_X
 		&& y > -1 && y < Values.Chunk_Size_Y);

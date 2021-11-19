@@ -19,9 +19,6 @@ import entities.living.Player;
 import gamestates.Game;
 import items.Inventory;
 import items.Item;
-import structures.Block;
-import support.Utility;
-import background.Background;
 import world.Chunk;
 import world.World;
 

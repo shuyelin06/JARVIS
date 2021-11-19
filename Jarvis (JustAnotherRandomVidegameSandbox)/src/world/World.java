@@ -203,6 +203,4 @@ public class World
 		}
 		return true;
 	}
-	
-	
 }

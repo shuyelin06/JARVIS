@@ -18,7 +18,7 @@ public class Scene
 	protected Color frontFiller;
 	protected Color backFiller;
 	
-	protected Cloud[] clouds;
+	float temp;
 	
 	public Scene() throws SlickException
 	{
@@ -31,25 +31,25 @@ public class Scene
 
 		frontFiller = foreground.getColor();
 		backFiller = middleground.getColor();
+	}
+	
+	public void setSceneAlpha(float f)
+	{
+		temp = f;
+		foreground.setAlpha(f);
+		middleground.setAlpha(f);
+		background.setAlpha(f);
 		
-		clouds = new Cloud[7];
-
-		
-		for(int i = 0; i < clouds.length; i++)
-		{
-			clouds[i] = new Cloud();
-		}
+		frontFiller.a = f;
+		backFiller.a = f;
 	}
 	
 	public void render(Graphics g, float x, float y)
 	{
 		y  *= 0.5f; //parallax
-		
-		for(int i = 0; i < clouds.length; i++) //the clouds
-		{
-			clouds[i].render(g, x, y);
-		}
 	
+		g.drawString(temp + "", 100, 200);
+		
 		background.render(g, x, y);
 		
 		g.setColor(backFiller);
@@ -61,13 +61,5 @@ public class Scene
 		g.fillRect(0, resY * 0.7f + (y * 0.4f), resX, resY * 0.5f);	
 		
 		foreground.render(g, x, y);
-	}
-
-	public void update(int time)
-	{	
-		for(int i = 0; i < clouds.length; i++) //the clouds
-		{
-			clouds[i].update();
-		}
 	}
 }

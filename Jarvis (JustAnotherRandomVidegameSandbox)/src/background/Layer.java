@@ -12,11 +12,13 @@ public class Layer
 	Image sprite;
 	String id;
 	float parallax;
+	float alpha;
 	
 	float x, y, w, h, resX, resY;
 	
 	public Layer(String id, String imagePath, float parallax, float x, float y, float w, float h)
 	{
+		alpha = 1;
 		resX = Engine.RESOLUTION_X;
 		resY = Engine.RESOLUTION_Y;
 		x = 0;
@@ -34,8 +36,10 @@ public class Layer
 	public void render(Graphics g, float x, float y)
 	{
 		sprite.setFilter(Image.FILTER_NEAREST);
-		sprite.draw(x * parallax % resX, y * parallax + this.y, w, h);
-		sprite.draw(x * parallax % resX + resX, y * parallax + this.y, w, h);
+		sprite.setAlpha(alpha);
+		g.drawString(alpha + "", 100, 300);
+		sprite.draw(x * parallax % w, y * parallax + this.y, w, h);
+		sprite.draw(x * parallax % w + w, y * parallax + this.y, w, h);
 	}
 	
 	public void update(float x, float y)
@@ -45,7 +49,7 @@ public class Layer
 	
 	public void setAlpha(float alpha)
 	{
-		sprite.setAlpha(alpha);
+		this.alpha = alpha;
 	}
 	
 	public void setImage(String imagePath)
