@@ -13,11 +13,11 @@ public class Tutorial {
 	
 	public Tutorial() {
 		this.wasdX = 50;
-		this.wasdY = 843;
+		this.wasdY = 890;
 		//288
-		this.wasdW = 288f;
+		this.wasdW = 216f;
 		//187
-		this.wasdH = 187f;
+		this.wasdH = 140f;
 		time = 0;
 		canRender = true;
 		setImage("res/wasd.png");
@@ -30,6 +30,9 @@ public class Tutorial {
 	public void update () {
 		if (time < 500) {
 			time++;
+		} else if(time < 1000) {
+			time++;
+			setImage("res/mouseLeftRight.jpg");
 		} else {
 			canRender = false;
 		}
