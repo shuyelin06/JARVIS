@@ -8,6 +8,8 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
+import org.newdawn.slick.geom.Circle;
+import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.state.BasicGameState;
 
 import core.Coordinate;
@@ -27,6 +29,8 @@ import world.World;
 
 // Will handle all of the game's graphics / display
 public class DisplayManager {
+	private Graphics graphics;
+	
 	final private static double Span_Divide = 1.5;
 	// Everything will be displayed relative to this center (which is the player)
 	Coordinate center;
@@ -37,9 +41,10 @@ public class DisplayManager {
 	
 	private Game game;
 	
-	public DisplayManager(Game g) throws SlickException {
+	public DisplayManager(Game g, Graphics graphics) throws SlickException {
 		this.center = g.getPlayer().getPosition();
 		
+		this.graphics = graphics;
 		this.game = g;
 		
 		
@@ -84,6 +89,19 @@ public class DisplayManager {
 		return tileHash;
 	}
 	
+	public void pinpoint(float x, float y) {
+		graphics.setColor(Color.black);
+		
+		float[] renderPos = positionOnScreen(x, y);
+		graphics.fill(new Circle(renderPos[0], renderPos[1], 5f));
+	}
+	public void highlightBlock(int x1, int y1) {
+		graphics.setColor(Color.white);
+		
+		float[] renderPos = positionOnScreen(x1, y1);
+		graphics.draw(new Rectangle(renderPos[0], renderPos[1], Coordinate.ConversionFactor, Coordinate.ConversionFactor));
+		
+	}
 	public void renderBackground(Graphics g) {
 		float[] backgroundPosition = positionOnScreen(0, Values.Surface);
 		
