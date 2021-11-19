@@ -54,23 +54,26 @@ public class Settings extends BasicGameState {
 		bg = new Background();
 		
 		//image settings
+		// 100 width: (int) (0.05208333333*gc.getWidth());
+		// 100 height: (int) (0.09259259259*gc.getHeight());
+		
 		setImage("res/placeholder.png");
 		mainButtonX = gc.getWidth()/2;
 		mainButtonY = gc.getHeight()/3;
-		mainButtonW = 300;
-		mainButtonH = 100;
+		mainButtonW = 3* (int) (0.05208333333*gc.getWidth());
+		mainButtonH = (int) (0.09259259259*gc.getHeight());
 		m1ButtonX = 2*gc.getWidth()/3;
 		m1ButtonY = 2*gc.getHeight()/3;
-		m1ButtonW = 100;
-		m1ButtonH = 100;
+		m1ButtonW = (int) (0.05208333333*gc.getWidth());
+		m1ButtonH = (int) (0.09259259259*gc.getHeight());
 		m2ButtonX = gc.getWidth()/3;
 		m2ButtonY = 2*gc.getHeight()/3;
-		m2ButtonW = 100;
-		m2ButtonH = 100;
+		m2ButtonW = (int) (0.05208333333*gc.getWidth());
+		m2ButtonH = (int) (0.09259259259*gc.getHeight());
 		volumeImageX = gc.getWidth()/2;
 		volumeImageY = 2*gc.getHeight()/3;
-		volumeImageW = 100;
-		volumeImageH = 100;
+		volumeImageW = (int) (0.05208333333*gc.getWidth());
+		volumeImageH = (int) (0.09259259259*gc.getHeight());
 		
 		readyStart = false;
 	}
