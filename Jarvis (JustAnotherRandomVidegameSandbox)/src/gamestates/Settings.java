@@ -94,10 +94,11 @@ public class Settings extends BasicGameState {
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException
 	{	
 		if (readyStart) {
-			
+			readyStart = false;
 			//enter last state
+			final int storedLast = Values.LastState;
 			Values.LastState = Engine.Settings_ID;
-			sbg.enterState(Values.LastState);
+			sbg.enterState(storedLast);
 			
 		}
 		
@@ -144,16 +145,14 @@ public class Settings extends BasicGameState {
 				&& (y > m1ButtonY - (m1ButtonH / 2))
 				&& (y < m1ButtonY + (m1ButtonH / 2))
 				) {
-			//increase volume
-			
+			Engine.sound.increaseVolume();
 		}
 		if ((x > m2ButtonX - (m2ButtonW / 2))
 				&& (x < m2ButtonX + (m2ButtonW / 2))
 				&& (y > m2ButtonY - (m2ButtonH / 2))
 				&& (y < m2ButtonY + (m2ButtonH / 2))
 				) {
-			//decrease volume
-			
+			Engine.sound.decreaseVolume();
 		}
 		
 		//check for type of firework
@@ -187,11 +186,12 @@ public class Settings extends BasicGameState {
 		mainButton.setFilter(Image.FILTER_NEAREST);
 		mainButton.draw(mainButtonX - (mainButtonW / 2), mainButtonY - (mainButtonH / 2), mainButtonW, mainButtonH);
 		
-		setImage("res/placeholder.png");
+		setImage("res/volumeUp.png");
 		m1Button.draw(m1ButtonX - (m1ButtonW / 2), m1ButtonY - (m1ButtonH / 2), m1ButtonW, m1ButtonH);
+		setImage("res/volumeDown.png");
 		m2Button.draw(m2ButtonX - (m2ButtonW / 2), m2ButtonY - (m2ButtonH / 2), m2ButtonW, m2ButtonH);
 		
-		
+		setImage("res/placeholder.png");
 		volumeImage.draw(volumeImageX - (volumeImageW / 2), volumeImageY - (volumeImageH / 2), volumeImageW, volumeImageH);
 			
 	}
