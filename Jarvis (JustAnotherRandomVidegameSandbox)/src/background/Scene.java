@@ -25,9 +25,9 @@ public class Scene
 		resX = Engine.RESOLUTION_X;
 		resY = Engine.RESOLUTION_Y;
 		
-		foreground = new Layer("foreground", "res/placeholder.png", 0.4f, 0, 0.4f, 1, 0.35f);
-		middleground = new Layer("middleground", "res/placeholder.png", 0.3f, 0, 0.4f, 1, 0.25f);
-		background  = new Layer("background", "res/placeholder.png", 0.2f, 0, 0.35f, 1, 0.4f);
+		foreground = new Layer("foreground", "res/placeholder.png", 0.4f, 0, 0.4f, 1.8f, 0.35f);
+		middleground = new Layer("middleground", "res/placeholder.png", 0.3f, 0, 0.4f, 1f, 0.25f);
+		background  = new Layer("background", "res/placeholder.png", 0.2f, 0, 0.35f, 1f, 0.4f);
 
 		frontFiller = foreground.getColor();
 		backFiller = middleground.getColor();

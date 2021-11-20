@@ -6,7 +6,6 @@ import org.newdawn.slick.SlickException;
 import core.Coordinate;
 import core.Engine;
 import core.Values;
-import world.WorldGen;
 
 public class Background
 {
