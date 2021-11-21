@@ -40,8 +40,6 @@ public class Debug extends BasicGameState
 	{
 		Engine.game.render(gc, sbg, g);
 		
-		
-		Engine.game.getPlayer().debug();
 		// Render all entities
 		for(ArrayList<Entity> list: Engine.game.getAllEntities().values()) {
 			for(Entity e: list) {
@@ -49,6 +47,7 @@ public class Debug extends BasicGameState
 	    		e.debug();
 			}	
     	}
+		Engine.game.getPlayer().debug();
 	}
 
 	//update, runs consistently

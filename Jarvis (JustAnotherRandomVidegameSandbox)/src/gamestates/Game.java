@@ -184,7 +184,7 @@ public class Game extends BasicGameState {
 
   			case Input.KEY_SPACE: // Jump Key Mapping (Space & W)
   			case Input.KEY_W:{
-  				player.jump(500f);
+  				player.jump(20f);
   				break;
   			}
   			

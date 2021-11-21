@@ -31,8 +31,8 @@ public class Player extends Living{
 		
 		this.inventory = new Inventory(this);
 		
-		this.sizeY = 1.9f;
-		this.sizeX = 1f; // Only use sizes to the 10th PLACE 
+		this.sizeY = 1.85f;
+		this.sizeX = 0.99f; // Only use sizes to the 10th PLACE 
 		curHealth = 100;
 		maxHealth = 100;
 		healthRegen = true;
