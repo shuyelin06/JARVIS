@@ -92,7 +92,7 @@ public class Entity{
 	/*
 	 * Collision Detection
 	 */
-	private static final float collisionError = 0.001f; // Prevents the object from sticking
+	private static final float collisionError = 0.0001f; // Prevents the object from sticking
 	
 	// Empty block collision method that can be used in other classes
 	protected void onBlockXCollision() {} // Specific to x collisions
@@ -107,68 +107,12 @@ public class Entity{
 	
 	// Empty collision method for us to check for unique entity collisions
 	protected void entityCollisions() {}; 
+	
 	// Checks entity - block collisions
 	protected void blockCollisions() {
-		// Defining Memory Used
-		Chunk c;
-		Block[][] blocks;
-		
-		float temp;
-		int x, y;
-		
-		// Check for horizontal collisions
 		try {
-			temp = position.getX() + xSpeed / Engine.FRAMES_PER_SECOND;
-			if(xSpeed > 0) temp += sizeX;
-			
-			x = (int) temp; // Furthest x away
-			
-			c = Engine.game.getWorld().getChunk(x / Values.Chunk_Size_X);	
-			blocks = c.getBlocks();
-			
-			for(int j = 0; j < Math.ceil(sizeY); j++) {
-				Block b = blocks[x % Values.Chunk_Size_X][(int) position.getY() - j];
-				
-				if(!Block.Passable_Blocks.contains(b.getID())) {
-					// Collision detected
-					if(xSpeed < 0) position.setXPos(x + 1f + collisionError);
-					else if(xSpeed > 0) position.setXPos(x - this.sizeX - collisionError);
-					
-					onBlockXCollision();
-					onBlockCollision();
-					
-					xSpeed = 0;	
-					break;
-				}
-			}
-		} catch(Exception e) {}
-		
-		// Checking for vertical collisions
-		try {
-			temp = position.getY() + ySpeed / Engine.FRAMES_PER_SECOND;
-			if(ySpeed < 0) temp -= sizeY;
-			
-			y = (int) Math.ceil(temp);
-			
-			int max = (int) (Math.ceil(sizeX) + 1);
-			if(position.getX() - Math.floor(position.getX()) < Math.ceil(sizeX) - sizeX) max--;
-			
-			for(int i = 0; i < max; i++) {
-				x = (int) position.getX() + i; // Get the absolute x coordinate
-				Block b = Engine.game.getWorld().getChunk(x / Values.Chunk_Size_X).getBlocks()[x % Values.Chunk_Size_X][y];
-				
-				if(!Block.Passable_Blocks.contains(b.getID())){
-					// Interpolate the new y position
-					if(ySpeed < 0) position.setYPos(y + this.sizeY + collisionError);
-					else if(ySpeed > 0) position.setYPos(y - 1f - collisionError);
-					
-					onBlockYCollision();
-					onBlockCollision();
-					
-					ySpeed = 0f;
-					break;
-				}
-			} 
+			checkHorizontalCollision(); // Check for horizontal collisions
+			checkVerticalCollision(); // Check for vertical collisions
 		} catch(Exception e) {}
 	};
 	
@@ -191,36 +135,155 @@ public class Entity{
 		
 		return Utility.rectangleOverlap(rec1, rec2);
 	}
+		
+	private void checkVerticalCollision() {
+		float TBAdjustment = sizeY / 2f + Math.signum(-ySpeed) * sizeY / 2f;
+		
+		float yBorder = position.getY() + ySpeed / Engine.FRAMES_PER_SECOND;
+		yBorder -= TBAdjustment;
+		
+		int leftX = (int) position.getX();
+		int rightX = (int) (position.getX() + sizeX);
+		
+		if(ySpeed > 0) {
+			for(int i = (int) Math.ceil(position.getY()); i <= (int) Math.ceil(yBorder); i++) {
+				for(int j = leftX; j <= rightX; j++) {
+					Block b = Engine.game.getWorld().getChunk(j / Values.Chunk_Size_X).getBlocks()[j % Values.Chunk_Size_X][i];
+					if(!Block.Passable_Blocks.contains(b.getID())) {
+						// Adjust Y Position
+						this.position.setY(i - 1f - collisionError);
+						
+						// Call Collision Methods
+						onBlockYCollision();
+						onBlockCollision();
+						
+						ySpeed = 0f;
+						break;
+					}
+					
+				}
+			}
+		} else if (ySpeed < 0) {
+			for(int i = (int) Math.ceil(position.getY()); i >= (int) Math.ceil(yBorder); i--) {
+				for(int j = leftX; j <= rightX; j++) {
+					Block b = Engine.game.getWorld().getChunk(j / Values.Chunk_Size_X).getBlocks()[j % Values.Chunk_Size_X][i];
+					if(!Block.Passable_Blocks.contains(b.getID())) {
+						// Adjust Y Position
+						this.position.setY(i + sizeY + collisionError);
+						
+						// Call Collision Methods
+						onBlockYCollision();
+						onBlockCollision();
+						
+						ySpeed = 0f;
+						break;
+					}
+					
+				}
+			}
+		}
+	}
+	private void checkHorizontalCollision() {
+		// Adjust x position based on player movement direction
+		float LRAdjustment = sizeX / 2f + Math.signum(xSpeed) * sizeX / 2f; 
+		
+		// Find x next frame
+		float xBorder = position.getX() + xSpeed / Engine.FRAMES_PER_SECOND;
+		xBorder += LRAdjustment;
+		
+		int topY = (int) Math.ceil(position.getY() - collisionError);
+		int bottomY = (int) Math.ceil(position.getY() - sizeY);
+		
+		if(xSpeed > 0) {
+			for(int i = (int) position.getX(); i <= (int) xBorder; i++) {
+				for(int j = bottomY; j <= topY; j++) {
+					Block b = Engine.game.getWorld().getChunk(i / Values.Chunk_Size_X).getBlocks()[i % Values.Chunk_Size_X][j];
+					if(!Block.Passable_Blocks.contains(b.getID())) {
+						// Adjust X Position
+						position.setX(i - sizeX - collisionError);
+						
+						// Call Collision Methods
+						onBlockXCollision();
+						onBlockCollision();
+						
+						xSpeed = 0f;
+						break;
+					}
+					
+				}
+			}
+		} else if (xSpeed < 0) {
+			for(int i = (int) position.getX(); i >= (int) xBorder; i--) {
+				for(int j = bottomY; j <= topY; j++) {
+					Block b = Engine.game.getWorld().getChunk(i / Values.Chunk_Size_X).getBlocks()[i % Values.Chunk_Size_X][j];
+					if(!Block.Passable_Blocks.contains(b.getID())) {
+						// Adjust X Position
+						position.setX(i + 1 + collisionError);
+						
+						// Call Collision Methods
+						onBlockXCollision();
+						onBlockCollision();
+						
+						xSpeed = 0f;
+						break;
+					}
+				}
+			}
+		}
+	}
 	
 	// Used in debugging (to be moved)
-	public void debug(Graphics g, float x, float y) {
-		float[] render;
-		float temp;
+	public void debug() {
+		// Adjust x position based on player movement direction
+		float LRAdjustment = sizeX / 2f + Math.signum(xSpeed) * sizeX / 2f; 
 		
-		temp = position.getX() + xSpeed / Engine.FRAMES_PER_SECOND;
-		if(xSpeed > 0) temp += sizeX;
+		// Find x next frame
+		float xBorder = position.getX() + xSpeed / Engine.FRAMES_PER_SECOND;
+		xBorder += LRAdjustment;
 		
-		x = (int) temp; // Furthest x away
-		for(int j = 0; j < Math.ceil(sizeY); j++) {
-			render = Engine.game.getDisplayManager().positionOnScreen(x, position.getY() - j);
-			g.setColor(Color.white);
-			g.draw(new Rectangle(render[0], render[1], Coordinate.ConversionFactor, Coordinate.ConversionFactor));
+		int topY = (int) Math.ceil(position.getY() - collisionError);
+		int bottomY = (int) Math.ceil(position.getY() - sizeY);
+		
+		Engine.game.displaymanager.pinpoint(xBorder, position.getY() - sizeY / 2f);
+		
+		if(xSpeed > 0) {
+			for(int i = (int) position.getX(); i <= (int) xBorder; i++) {
+				for(int j = bottomY; j <= topY; j++) {
+					// if(topY - bottomY == 1) System.out.println("TRUE");
+					Engine.game.displaymanager.highlightBlock(i, j);
+				}
+			}
+		} else if (xSpeed < 0) {
+			for(int i = (int) position.getX(); i >= (int) xBorder; i--) {
+				for(int j = bottomY; j <= topY; j++) {
+					// if(topY - bottomY == 1) System.out.println("TRUE");
+					Engine.game.displaymanager.highlightBlock(i, j);
+				}
+			}
+		}
+
+		float TBAdjustment = sizeY / 2f + Math.signum(-ySpeed) * sizeY / 2f;
+		
+		float yBorder = position.getY() + ySpeed / Engine.FRAMES_PER_SECOND;
+		yBorder -= TBAdjustment;
+		
+		int leftX = (int) position.getX();
+		int rightX = (int) (position.getX() + sizeX);
+		
+		Engine.game.displaymanager.pinpoint(position.getX() + sizeX / 2f, yBorder);
+		if(ySpeed > 0) {
+			for(int i = (int) position.getY(); i <= (int) yBorder; i++) {
+				for(int j = leftX; j <= rightX; j++) {
+					Engine.game.displaymanager.highlightBlock(j, i);
+				}
+			}
+		} else if (ySpeed < 0) {
+			for(int i = (int) position.getY(); i >= (int) yBorder; i--) {
+				for(int j = leftX; j <= rightX; j++) {
+					Engine.game.displaymanager.highlightBlock(j, i);
+				}
+			}
 		}
 		
-		temp = position.getY() + ySpeed / Engine.FRAMES_PER_SECOND;
-		if(ySpeed < 0) temp -= sizeY;
-		
-		y = (int) Math.ceil(temp);
-		
-		int max = (int) (Math.ceil(sizeX) + 1);
-		if(position.getX() - Math.floor(position.getX()) < Math.ceil(sizeX) - sizeX) max--;
-		
-		for(int i = 0; i < max; i++) {
-			x = (int) position.getX() + i; // Get the absolute x coordinate
-
-			render = Engine.game.getDisplayManager().positionOnScreen(x, position.getY() - y);
-			g.setColor(Color.cyan);
-			g.draw(new Rectangle(render[0], render[1], Coordinate.ConversionFactor, Coordinate.ConversionFactor));
-		} 
 	}
 }

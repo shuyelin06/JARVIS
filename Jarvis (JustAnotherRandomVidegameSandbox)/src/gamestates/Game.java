@@ -100,7 +100,7 @@ public class Game extends BasicGameState {
 		this.d = new Destroyer(this);
 		
 		// Initializing the Managers
-		this.displaymanager = new DisplayManager(this);
+		this.displaymanager = new DisplayManager(this, gc.getGraphics());
 		this.keyManager = new KeyManager(this);
 	}
 
@@ -184,7 +184,7 @@ public class Game extends BasicGameState {
 
   			case Input.KEY_SPACE: // Jump Key Mapping (Space & W)
   			case Input.KEY_W:{
-  				player.jump(12.5f);
+  				player.jump(20f);
   				break;
   			}
   			
