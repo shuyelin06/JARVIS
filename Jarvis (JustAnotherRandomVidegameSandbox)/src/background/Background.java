@@ -80,7 +80,8 @@ public class Background
 	
 	public void update()
 	{
-		time = Engine.game.getWorld().getTime();
+		//time = Engine.game.getWorld().getTime();
+		time++;
 		
 		for(int i = 0; i < clouds.length; i++) //the clouds
 		{

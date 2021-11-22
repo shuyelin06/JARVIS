@@ -21,7 +21,7 @@ public class StartingMenu extends BasicGameState
 	private boolean readyStart;
 	
 	//image background variables
-	private Background bg;
+	public static Background bg;
 	private Image mainButton;
 	private int mainButtonX, mainButtonY, mainButtonW, mainButtonH;
 	
@@ -76,6 +76,7 @@ public class StartingMenu extends BasicGameState
 			WorldSelect.particles.get(i).update(gc);
 		}
 		
+		bg.update();
 	}
 
 	public void enter(GameContainer gc, StateBasedGame sbg) throws SlickException 
