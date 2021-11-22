@@ -18,7 +18,7 @@ public class Hills extends Scene
 		middleground.setImage("res/Background/hills1-80.png");
 		foreground.setImage("res/Background/hills1.png");
 
-		frontFiller = new Color(50, 122, 32);
+		frontFiller = new Color(56, 128, 36);
 		backFiller = new Color(43, 132, 69);
 	}
 }
