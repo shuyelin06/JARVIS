@@ -1,12 +1,17 @@
 package core;
 
+
+
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
 import gamestates.*;
+import managers.KeyManager;
 import managers.SoundManager;
+import structures.Block;
 
 /*
  * Perlin Noise - 
@@ -81,6 +86,12 @@ public class Engine extends StateBasedGame
 	public static void main(String[] args) 
 	{
 		try {
+			// Intializing Lists
+			Block.Passable_Blocks.add(0); // Initializing Passable Blocks list
+			KeyManager.keyList.add(Input.KEY_S); // Initializing key list
+			KeyManager.keyList.add(Input.KEY_D);
+			KeyManager.keyList.add(Input.KEY_A);
+			
 			AppGameContainer appgc = new AppGameContainer(new Engine("pogger"));
 			
 			System.setProperty("org.lwjgl.opengl.Window.undecorated", "true");

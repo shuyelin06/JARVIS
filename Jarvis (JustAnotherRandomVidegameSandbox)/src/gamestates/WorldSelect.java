@@ -22,7 +22,7 @@ public class WorldSelect extends BasicGameState
 	//Gamestate ID
 	int id;
 	
-	private boolean createNewWorld = false;
+	private boolean createNewWorld = true;
 	
 	//World selected ID
 	private int worldID, worldIDMax, worldIDMin;
