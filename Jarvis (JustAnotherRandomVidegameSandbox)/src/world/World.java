@@ -99,7 +99,9 @@ public class World
 		time %= timeCycle; // At the Time Cycle, loop back to 0
 	}
 		
-	
+	public void clearChunks() {
+		renderedChunks.clear();
+	}
 	/*
 	 * Block Placement and Destruction
 	 */
@@ -201,6 +203,4 @@ public class World
 		}
 		return true;
 	}
-	
-	
 }

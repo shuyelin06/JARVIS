@@ -11,9 +11,12 @@ import support.FileLoader;
 
 public class SoundManager {
 	private Sound background;
+	private float pitch, volume;
 	
 	public SoundManager() {
 		background = null;
+		pitch = 1f;
+		volume = 0.5f;
 	}
 	
 	public void playSound(String name) {
@@ -27,10 +30,23 @@ public class SoundManager {
 		if(background != null) background.stop(); // Stop the existing background music
 		
 		background = Values.Sounds.get(name); // Get the background music desired
-		background.loop(); // Loop the background music
+		background.loop(pitch, volume); // Loop the background music
 	}
 	
 	public void stopBackgroundMusic() {
 		if(background != null) background.stop();
+	}
+	
+	public void increaseVolume() {
+		volume += 0.1;
+		if (volume > 1) {
+			volume = 1;
+		}
+	}
+	public void decreaseVolume() {
+		volume -= 0.1;
+		if (volume < 0) {
+			volume = 0;
+		}
 	}
 }

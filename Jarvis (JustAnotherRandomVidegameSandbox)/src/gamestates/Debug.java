@@ -40,15 +40,14 @@ public class Debug extends BasicGameState
 	{
 		Engine.game.render(gc, sbg, g);
 		
-		
-		Engine.game.getPlayer().debug(g, Values.CenterX, Values.CenterY);
 		// Render all entities
 		for(ArrayList<Entity> list: Engine.game.getAllEntities().values()) {
 			for(Entity e: list) {
 				float[] position = Engine.game.displaymanager.positionOnScreen(e.getPosition().getX(), e.getPosition().getY());
-	    		e.debug(g, position[0], position[1]);
+	    		e.debug();
 			}	
     	}
+		Engine.game.getPlayer().debug();
 	}
 
 	//update, runs consistently

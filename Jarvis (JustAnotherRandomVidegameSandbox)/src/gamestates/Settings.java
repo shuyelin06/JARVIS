@@ -55,22 +55,27 @@ public class Settings extends BasicGameState {
 		
 		//image settings
 		setImage("placeholder");
+		// 100 width: (int) (0.05208333333*gc.getWidth());
+		// 100 height: (int) (0.09259259259*gc.getHeight());
+		
+		setImage("placeholder");
+		
 		mainButtonX = gc.getWidth()/2;
 		mainButtonY = gc.getHeight()/3;
-		mainButtonW = 300;
-		mainButtonH = 100;
+		mainButtonW = 3* (int) (0.05208333333*gc.getWidth());
+		mainButtonH = (int) (0.09259259259*gc.getHeight());
 		m1ButtonX = 2*gc.getWidth()/3;
 		m1ButtonY = 2*gc.getHeight()/3;
-		m1ButtonW = 100;
-		m1ButtonH = 100;
+		m1ButtonW = (int) (0.05208333333*gc.getWidth());
+		m1ButtonH = (int) (0.09259259259*gc.getHeight());
 		m2ButtonX = gc.getWidth()/3;
 		m2ButtonY = 2*gc.getHeight()/3;
-		m2ButtonW = 100;
-		m2ButtonH = 100;
+		m2ButtonW = (int) (0.05208333333*gc.getWidth());
+		m2ButtonH = (int) (0.09259259259*gc.getHeight());
 		volumeImageX = gc.getWidth()/2;
 		volumeImageY = 2*gc.getHeight()/3;
-		volumeImageW = 100;
-		volumeImageH = 100;
+		volumeImageW = (int) (0.05208333333*gc.getWidth());
+		volumeImageH = (int) (0.09259259259*gc.getHeight());
 		
 		readyStart = false;
 	}
@@ -94,10 +99,11 @@ public class Settings extends BasicGameState {
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException
 	{	
 		if (readyStart) {
-			
+			readyStart = false;
 			//enter last state
+			final int storedLast = Values.LastState;
 			Values.LastState = Engine.Settings_ID;
-			sbg.enterState(Values.LastState);
+			sbg.enterState(storedLast);
 			
 		}
 		
@@ -144,16 +150,14 @@ public class Settings extends BasicGameState {
 				&& (y > m1ButtonY - (m1ButtonH / 2))
 				&& (y < m1ButtonY + (m1ButtonH / 2))
 				) {
-			//increase volume
-			
+			Engine.sound.increaseVolume();
 		}
 		if ((x > m2ButtonX - (m2ButtonW / 2))
 				&& (x < m2ButtonX + (m2ButtonW / 2))
 				&& (y > m2ButtonY - (m2ButtonH / 2))
 				&& (y < m2ButtonY + (m2ButtonH / 2))
 				) {
-			//decrease volume
-			
+			Engine.sound.decreaseVolume();
 		}
 		
 		//check for type of firework
@@ -185,11 +189,16 @@ public class Settings extends BasicGameState {
 		Values.Images.get("startButton").setFilter(Image.FILTER_NEAREST);
 		Values.Images.get("startButton").draw(mainButtonX - (mainButtonW / 2), mainButtonY - (mainButtonH / 2), mainButtonW, mainButtonH);
 		
+		setImage("startButton");
+		mainButton.setFilter(Image.FILTER_NEAREST);
+		mainButton.draw(mainButtonX - (mainButtonW / 2), mainButtonY - (mainButtonH / 2), mainButtonW, mainButtonH);
+		
+		setImage("volumeUp");
+		m1Button.draw(m1ButtonX - (m1ButtonW / 2), m1ButtonY - (m1ButtonH / 2), m1ButtonW, m1ButtonH);
+		setImage("volumeDown");
+		m2Button.draw(m2ButtonX - (m2ButtonW / 2), m2ButtonY - (m2ButtonH / 2), m2ButtonW, m2ButtonH);
+		
 		setImage("placeholder");
-		Values.Images.get("placeholder").draw(m1ButtonX - (m1ButtonW / 2), m1ButtonY - (m1ButtonH / 2), m1ButtonW, m1ButtonH);
-		Values.Images.get("placeholder").draw(m2ButtonX - (m2ButtonW / 2), m2ButtonY - (m2ButtonH / 2), m2ButtonW, m2ButtonH);
-		
-		
 		volumeImage.draw(volumeImageX - (volumeImageW / 2), volumeImageY - (volumeImageH / 2), volumeImageW, volumeImageH);
 			
 	}

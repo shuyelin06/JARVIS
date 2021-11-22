@@ -15,7 +15,7 @@ public class Spawning {
 
 		//prob is the percent chance that you want a new enemy to spawn; scale it to how often the update method gets called
  		if(g.getEntities(EntType.Hostiles).size() < 5) {
- 			if(Utility.random(0.0, 100.0) <= prob) {
+ 			if(!safeZone(g) && Utility.random(0.0, 100.0) <= prob) {
  				//for now it just drops a new enemy on the player's head
  				float x = g.getPlayer().getPosition().getX();
  				float y = g.getPlayer().getPosition().getY();
@@ -28,6 +28,20 @@ public class Spawning {
 			
  			}
  		}
+	}
+	
+	//for now just checks if coordinates of player is near the spawn point, later change this to biomes
+	public static boolean safeZone(Game g) {
+		float x = g.getPlayer().getPosition().getX();
+		float y = g.getPlayer().getPosition().getY();
+		int rangeX = 32;
+		int rangeY = 128;
+		if(x > Values.SpawnX-rangeX && x < Values.SpawnX+rangeX) {
+			if(y > Values.SpawnY-rangeY && y < Values.SpawnY+rangeY) {
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	public static Coordinate getOpenArea(Game g, int minDistance, int maxDistance, int elevationDiff, int w, int h, float prob) {

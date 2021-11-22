@@ -9,18 +9,17 @@ import core.Values;
 
 public class Underground extends Scene
 {	
-	private Image bg;
-	private Image bottom;
-	private Image top;
+	private Layer bg;
+	private Layer bottom;
+	private Layer top;
 	
 	private float alpha;
 	
-	
 	public Underground() throws SlickException 
 	{
-		bg = Values.Images.get("grey");
-		top = Values.Images.get("caveTop");
-		bottom = Values.Images.get("caveBottom");
+		bg = new Layer("caves", "grey", 0.2f, 0, 0, 4, 1);
+		bottom = new Layer("cavesBottom", "caveBottom", 0.3f, 0, 0.8f, 4, 0.2f);
+		top  = new Layer("cavesTop", "caveTop", 0.4f, 0, 0, 1, 0.3f);
 	}
 	
 	public void render(Graphics g, float x, float y)
@@ -32,29 +31,13 @@ public class Underground extends Scene
 		{
 			alpha = y / -500f;
 		}
+		
 		bg.setAlpha(alpha);
 		top.setAlpha(alpha);
 		bottom.setAlpha(alpha);
 		
-		bg.draw(0, 0, Engine.RESOLUTION_X, Engine.RESOLUTION_Y);
-		
-		top.draw((x * 0.25f % Engine.RESOLUTION_X) + Engine.RESOLUTION_X,
-				0, 
-				-Engine.RESOLUTION_X, 
-				Engine.RESOLUTION_Y * 0.475f);
-		top.draw((x * 0.25f % Engine.RESOLUTION_X) + (2 * Engine.RESOLUTION_X),
-				0,
-				-Engine.RESOLUTION_X, 
-				Engine.RESOLUTION_Y * 0.475f);
-		
-		bottom.draw((x * 0.3f % Engine.RESOLUTION_X) + Engine.RESOLUTION_X,
-				Engine.RESOLUTION_Y - (Engine.RESOLUTION_Y * 0.237f), 
-				-Engine.RESOLUTION_X, 
-				Engine.RESOLUTION_Y * 0.237f);
-		bottom.draw((x * 0.3f % Engine.RESOLUTION_X) + (2 * Engine.RESOLUTION_X),
-				Engine.RESOLUTION_Y - (Engine.RESOLUTION_Y * 0.237f),
-				-Engine.RESOLUTION_X, 
-				Engine.RESOLUTION_Y * 0.237f);
-		
+		bg.render(g, x, 0);
+		top.render(g, x, 0);
+		bottom.render(g, x, 0);	
 	}
 }

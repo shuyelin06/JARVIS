@@ -22,8 +22,8 @@ public class Enemy extends Living {
 			this.sprite = Values.Images.get("mushroom");
 		} catch(Exception e) {}
 		
-		contactDmg = 1;
-		aggroRange = 18;
+		contactDmg = 5;
+		aggroRange = 20;
 		sizeX = 1f;
 		sizeY = 1f;
 		healthRegen = false;
@@ -35,24 +35,28 @@ public class Enemy extends Living {
 		super.update();
 		
 		ai(target);
+		if (!alive) {
+			this.markForRemoval();
+		}
 	}
 
 	// Overwritten entity collision method
 	protected void entityCollisions() {
 		if(this.entityCollision(target)) {
-			target.takeDamage(1, true);
+			target.takeDamage(contactDmg, true);
+			this.takeDamage(1, true);
 		}
 	}
 	
 	public void ai(Player p) {
 		if(Utility.getDistance(this, p) <= aggroRange) {
 			if(Utility.changeX(this, p) > 0) {
-				setXSpeed(2.5f);
+				setXSpeed(6.5f);
 			}else if(Utility.changeX(this, p) < 0) {
-				setXSpeed(-2.5f);
+				setXSpeed(-6.5f);
 			}
 			if(Utility.random(0,100) < 25) {
-				jump(10f);
+				jump(15f);
 			}
 			
 		}

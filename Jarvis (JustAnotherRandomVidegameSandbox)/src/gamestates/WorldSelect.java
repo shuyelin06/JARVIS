@@ -37,7 +37,6 @@ public class WorldSelect extends BasicGameState
 	public static int fireworkType = 0;
 	
 	//background
-	private Background bg;
 	//image variables
 	private Image mainButton;
 	private Image w1Button;
@@ -64,9 +63,6 @@ public class WorldSelect extends BasicGameState
 		worldID = 1;
 		worldIDMax = 3;
 		worldIDMin = 1;
-		
-		//background
-		bg = new Background();
 		
 		//image settings
 		
@@ -109,7 +105,7 @@ public class WorldSelect extends BasicGameState
 		// Render the list of worlds
 		g.setBackground(new Color(100, 100, 100));
 		
-		bg.render(g, 0, 0);
+		StartingMenu.bg.render(g, 0, 0);
 		
 		//draws all buttons and world number image
 		drawImages(g);
@@ -150,6 +146,8 @@ public class WorldSelect extends BasicGameState
 		for (int i = 0; i < particles.size(); i++) {
 			particles.get(i).update(gc);
 		}
+		
+		StartingMenu.bg.update();
 		
 	}
 

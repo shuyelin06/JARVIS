@@ -11,6 +11,7 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 import background.Background;
+import background.Tutorial;
 
 import java.util.HashMap;
 import java.util.function.Predicate;
@@ -55,6 +56,8 @@ public class Game extends BasicGameState {
 	private World world;
 	// the background
 	private Background bg;
+	// The Tutorial
+	private Tutorial tutorial;
 	
 	// Constructor
 	public Game(int id) { this.id = id; } 
@@ -66,6 +69,7 @@ public class Game extends BasicGameState {
 	public GameContainer getGC() { return gc; }
 	public World getWorld() { return world; }
 	public Background getBackground() { return bg; }
+	public Tutorial getTutorial() { return tutorial; }
 	public ArrayList<Entity> getEntities(EntType type) { return entities.get(type); }
 	public HashMap<EntType, ArrayList<Entity>> getAllEntities(){ return entities; }
 	
@@ -88,13 +92,15 @@ public class Game extends BasicGameState {
 			put(EntType.Items, new ArrayList<Entity>());
 			put(EntType.Projectiles, new ArrayList<Entity>());
 		}};
+		
 		bg = new Background();
+		tutorial = new Tutorial();
 		
 		// Initializing Destroying and Spawning Behaviors
 		this.d = new Destroyer(this);
 		
 		// Initializing the Managers
-		this.displaymanager = new DisplayManager(this);
+		this.displaymanager = new DisplayManager(this, gc.getGraphics());
 		this.keyManager = new KeyManager(this);
 	}
 
@@ -105,6 +111,7 @@ public class Game extends BasicGameState {
 		displaymanager.renderBlocks(g); // Render all blocks
 		displaymanager.renderEntities(g); // Render all entities
 		displaymanager.renderPlayer(g); // Render player
+		displaymanager.renderTutorial(g); // Render tutorial
 	}
 
 	/*
@@ -126,6 +133,9 @@ public class Game extends BasicGameState {
 		
 		// background updating
 		bg.update();
+		
+		// tutorial updating
+		tutorial.update();
 		
 		// Spawning Mechanics
 		Spawning.spawnEnemy(this, Values.Spawn_Rate); // If you want to stop spawning, set 5f to 0f.
@@ -174,7 +184,7 @@ public class Game extends BasicGameState {
 
   			case Input.KEY_SPACE: // Jump Key Mapping (Space & W)
   			case Input.KEY_W:{
-  				player.jump(12.5f);
+  				player.jump(20f);
   				break;
   			}
   			

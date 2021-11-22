@@ -1,5 +1,6 @@
 package managers;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 
@@ -10,7 +11,7 @@ import gamestates.Game;
 
 // Tracks keys that are pressed down
 public class KeyManager implements Predicate<Integer>{
-	final public static List<Integer> keyList = List.of(Input.KEY_S, Input.KEY_D, Input.KEY_A);
+	public static ArrayList<Integer> keyList = new ArrayList<Integer>();
 	
 	private Player player;
 	private Input input;
