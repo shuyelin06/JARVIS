@@ -37,10 +37,10 @@ public class Sky
 		resX = Engine.RESOLUTION_X;
 		resY = Engine.RESOLUTION_Y;
 		
-		blue = new Image("res/Background/daySky.png");
-		sunset = new Image("res/Background/sunset.png");
-		night = new Image("res/Background/night.png");
-		stars = new Image("res/Background/stars.png");
+		blue = Values.Images.get("daySky");
+		sunset = Values.Images.get("sunset");
+		night = Values.Images.get("night");
+		stars = Values.Images.get("stars");
 		
 		sun = new Sun(0, resY, dayLength + tLength);
 		moon = new Moon(0, resY, nightLength);

@@ -3,6 +3,7 @@ package entities.living;
 import org.newdawn.slick.Image;
 
 import core.Engine;
+import core.Values;
 import support.Utility;
 
 public class Enemy extends Living {
@@ -18,7 +19,7 @@ public class Enemy extends Living {
 		target = Engine.game.getPlayer();
 
 		try {
-			this.sprite = new Image("res/mushroom.png");
+			this.sprite = Values.Images.get("mushroom");
 		} catch(Exception e) {}
 		
 		contactDmg = 5;

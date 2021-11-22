@@ -11,8 +11,8 @@ import org.newdawn.slick.state.StateBasedGame;
 import gamestates.*;
 import managers.KeyManager;
 import managers.SoundManager;
+import support.FileLoader;
 import structures.Block;
-
 /*
  * Perlin Noise - 
  * Simplex Noise - Both very common algorithms for random world generation 
@@ -58,7 +58,8 @@ public class Engine extends StateBasedGame
 	{
 		super(name);
 		
-		sound = new SoundManager();
+		FileLoader.LoadResFiles(); // Initializing res files
+		sound = new SoundManager(); // Initializing sound manager
 		
 		startingMenu = new StartingMenu(StartingMenu_ID);
 		worldSelect = new WorldSelect(WorldSelect_ID);
@@ -74,9 +75,13 @@ public class Engine extends StateBasedGame
 	{
 		gc.setShowFPS(false);
 		
+
+		
 		addState(startingMenu);
 		addState(worldSelect);
+		
 		addState(loading);
+		
 		addState(game);
 		addState(pause);
 		addState(debug);
@@ -100,7 +105,7 @@ public class Engine extends StateBasedGame
 			appgc.setTargetFrameRate(FRAMES_PER_SECOND);
 			appgc.start();
 			appgc.setVSync(true);
-
+						
 		} catch (SlickException e) 
 		{
 			e.printStackTrace();

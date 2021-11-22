@@ -4,6 +4,8 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
+import core.Values;
+
 public class Tutorial {
 	
 	private Image wasdImage;
@@ -20,7 +22,7 @@ public class Tutorial {
 		this.wasdH = 140f;
 		time = 0;
 		canRender = true;
-		setImage("res/wasd.png");
+		setImage("wasd");
 	}
 	
 	public void render (Graphics g) {
@@ -32,7 +34,7 @@ public class Tutorial {
 			time++;
 		} else if(time < 1000) {
 			time++;
-			setImage("res/mouseLeftRight.jpg");
+			// setImage("mouseLeftRight");
 		} else {
 			canRender = false;
 		}
@@ -57,13 +59,13 @@ public class Tutorial {
 	}
 	
 	//setting images
-	public void setImage(String filepath)
+	public void setImage(String name)
 	{
 		try
 		{
-			wasdImage = new Image(filepath);
+			wasdImage = Values.Images.get(name);
 		}
-		catch(SlickException e)		
+		catch(Exception e)		
 		{
 			System.out.println("Image not found!");
 		}

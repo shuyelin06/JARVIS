@@ -5,6 +5,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
 import core.Engine;
+import core.Values;
 
 public class Sun 
 {
@@ -20,8 +21,8 @@ public class Sun
 		this.y = y;
 		this.dayLength = dayLength;
 		try {
-			sprite = new Image("res/Background/sun.png");
-		} catch (SlickException e) {
+			sprite = Values.Images.get("sun");
+		} catch (Exception e) {
 		}
 	}
 	

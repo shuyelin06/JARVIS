@@ -14,9 +14,9 @@ public class Hills extends Scene
 		resX = Engine.RESOLUTION_X;
 		resY = Engine.RESOLUTION_Y;
 		
-		background.setImage("res/Background/mountains-60.png");
-		middleground.setImage("res/Background/hills1-80.png");
-		foreground.setImage("res/Background/hills1.png");
+		background.setImage("mountains-60");
+		middleground.setImage("hills1-80");
+		foreground.setImage("hills1");
 
 		frontFiller = new Color(56, 128, 36);
 		backFiller = new Color(43, 132, 69);

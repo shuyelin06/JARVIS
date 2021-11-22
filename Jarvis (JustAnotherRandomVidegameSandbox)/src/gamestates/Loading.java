@@ -1,5 +1,7 @@
 package gamestates;
 
+import java.io.File;
+
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -9,6 +11,7 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import core.Engine;
 import core.Values;
+import support.FileLoader;
 import world.WorldGen;
 
 public class Loading extends BasicGameState
@@ -70,11 +73,11 @@ public class Loading extends BasicGameState
 
 	public void enter(GameContainer gc, StateBasedGame sbg) throws SlickException 
 	{
-		this.totalTasks = Values.World_X_Size + 1;
 		this.tasksDone = 0;
+		this.totalTasks = Values.World_X_Size;
 		
 		WorldGen gen = new WorldGen(Engine.game.getWorld().getWorldName(), (int) (Math.random() * 10000));
-		gen.start();	
+		gen.start();
 	}
 
 	public void leave(GameContainer gc, StateBasedGame sbg)  {}

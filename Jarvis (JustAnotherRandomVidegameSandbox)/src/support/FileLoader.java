@@ -1,8 +1,10 @@
 package support;
 
 import org.newdawn.slick.Color;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.Sound;
 
+import core.Engine;
 import core.Values;
 import structures.Block;
 import world.Chunk;
@@ -14,7 +16,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
 
-public class FileLoader{
+public class FileLoader {
 	
 	// Creates all directories / subdirectories for our world
 	public static boolean createWorldFolders(String name) {
@@ -102,48 +104,49 @@ public class FileLoader{
 		return new Chunk(chunkX, blocks);
 	}
 
-	
-	/*
-	 * Load
-	 */
-	public static HashMap<String, Sound> LoadSoundFiles() {
-		System.out.println(" --- Loading Sound Files --- ");
-		
-		HashMap<String, Sound> soundHashing = new HashMap<String, Sound>();
-		
-		getSoundInDir(new File(Values.Sound_Path), soundHashing);
-		System.out.println(soundHashing.size());
-		
-		System.out.println(" --- Finished Loading Sound Files --- ");
-		return soundHashing;
-	}
-	
-	private static void getSoundInDir(File dir, HashMap<String, Sound> soundHash) {
-		try {
-			for(final File f: dir.listFiles()) {
-				if(f.isDirectory()) {
-					System.out.println("New sound directory found: ");
-					getSoundInDir(f, soundHash);
-				} else {
-					System.out.println("Loading sound file " + f.getName());
-					soundHash.put(f.getName(), new Sound(f.getPath()));
-				}
-				
-			}
-		} catch (Exception e) { System.out.println("Error in loading sound files"); }
-		
-	}
-	
-	
-	
+
 	/*
 	 * Block Hashings
 	 * 
 	 * Save and Load block hashings (id - color mappings)
 	 */
+	public static void LoadResFiles() {
+		System.out.println(" --- Loading Images and Sounds --- ");
+
+		LoadDirectory(new File(Values.Res_Folder), Values.Images, Values.Sounds);
+		
+		System.out.println(" --- " + Values.Sounds.size() + " Sound Files Loaded ---");
+		System.out.println(" --- " + Values.Images.size() + " Images Loaded ---");
+	}
+	private static void LoadDirectory(File dir, HashMap<String, Image> images, HashMap<String, Sound> sounds) {
+		for(final File f: dir.listFiles()) {
+			if(f.isDirectory()) {
+				System.out.println("New Directory Found: " + f.getName());
+				LoadDirectory(f, images, sounds);
+			} else {
+				try {
+					System.out.println("Attempting to Load File: " + f.getName());
+					String[] split = f.getName().split("\\.");
+					
+					if(split[1].toLowerCase().equals("png")) {
+						images.put(split[0], new Image(f.getPath()));
+						System.out.println("Loaded File as Image");
+					} else if(split[1].toLowerCase().equals("ogg")) {
+						sounds.put(split[0], new Sound(f.getPath()));
+						System.out.println("Loaded File as Sound");
+					} else {
+						System.out.println("File Loading Failed");
+					}
+				} catch(Exception e) {
+					System.out.println(e.getMessage());
+					System.out.println("Failed to Load File");
+				}
+			}
+		}
+	}
 	
 	// Add a new block hashing
-	public static void AddBlockHasing(int[] idRGBA) {
+	public static void AddBlockHashing(int[] idRGBA) {
 		try {
 			FileWriter writer = new FileWriter(Values.Hash_File_Path, true);
 			

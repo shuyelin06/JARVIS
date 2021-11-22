@@ -2,6 +2,8 @@ package core;
 
 import java.util.HashMap;
 import org.newdawn.slick.Color;
+import org.newdawn.slick.Image;
+import org.newdawn.slick.Sound;
 
 public class Values // this will be quite useful for organizing stuff later on
 {	
@@ -9,11 +11,15 @@ public class Values // this will be quite useful for organizing stuff later on
 	final public static int Pixels_Per_Block = 30;
 	
 	// Rendering Variables
+	final public static HashMap<String, Image> Images = new HashMap<String, Image>();
 	final public static HashMap<Integer, Color> BlockHash = new HashMap<Integer, Color>(); // Stores our Block - Color Combinations
 	final public static int Render_Distance = 2; // Render distance
 	
 	final public static float CenterX = Engine.RESOLUTION_X / 2; // Player Center X
 	final public static float CenterY = Engine.RESOLUTION_Y / 2; // Player Center Y
+	
+	// Sound Variables
+	final public static HashMap<String, Sound> Sounds = new HashMap<String, Sound>();
 	
 	// Background variables
 	final public static int nightLength = 3200;
@@ -50,7 +56,8 @@ public class Values // this will be quite useful for organizing stuff later on
 	public static int LastState = 0; // Previous GameState
 	
 	// File Save Paths
-	final public static String Sound_Path = "res/Sound"; // Directory where sound is stored
+	// final public static String Sound_Path = "res/Sound"; // Directory where sound is stored
+	final public static String Res_Folder = "res/";
 	final public static String Save_Folder = "saves/"; // Directory where all world information will be saved
 	final public static String Hash_File_Path = "src/settings/BlockHashing.txt"; // File where all block hashing will be located
 }

@@ -68,7 +68,7 @@ public class WorldSelect extends BasicGameState
 		
 		// 100 width: (int) (0.05208333333*gc.getWidth());
 		// 100 height: (int) (0.09259259259*gc.getHeight());
-		setImage("res/placeholder.png");
+		setImage("placeholder");
 		mainButtonX = gc.getWidth()/2;
 		mainButtonY = gc.getHeight()/3;
 		mainButtonW = 3* (int) (0.05208333333*gc.getWidth());
@@ -103,7 +103,6 @@ public class WorldSelect extends BasicGameState
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException 
 	{
 		// Render the list of worlds
-		String[] worldList = FileLoader.getWorldList();
 		g.setBackground(new Color(100, 100, 100));
 		
 		StartingMenu.bg.render(g, 0, 0);
@@ -132,7 +131,7 @@ public class WorldSelect extends BasicGameState
 			Engine.game.respawn();
 			
 			// Send to Loading Screen on World Creation
-			if(createNewWorld) sbg.enterState(Engine.Loading_ID); 
+			if(createNewWorld) { sbg.enterState(Engine.Loading_ID); }
 			// Else, directly enter the game
 			else sbg.enterState(Engine.Game_ID);
 		}
@@ -256,48 +255,48 @@ public class WorldSelect extends BasicGameState
 	public void drawImages(Graphics g) {
 		//image drawing
 		
-		setImage("res/menu/startButton.png");
+		setImage("startButton");
 		mainButton.setFilter(Image.FILTER_NEAREST);
 		mainButton.draw(mainButtonX - (mainButtonW / 2), mainButtonY - (mainButtonH / 2), mainButtonW, mainButtonH);
 		
-		setImage("res/menu/arrowRight.png");
+		setImage("arrowRight");
 		w1Button.draw(w1ButtonX - (w1ButtonW / 2), w1ButtonY - (w1ButtonH / 2), w1ButtonW, w1ButtonH);
-		setImage("res/menu/arrowLeft.png");
+		setImage("arrowLeft");
 		w2Button.draw(w2ButtonX - (w2ButtonW / 2), w2ButtonY - (w2ButtonH / 2), w2ButtonW, w2ButtonH);
 		
-		setImage("res/menu/arrowLeft.png");
+		setImage("arrowLeft");
 		s1Button.draw(s1ButtonX - (s1ButtonW / 2), s1ButtonY - (s1ButtonH / 2), s1ButtonW, s1ButtonH);
-		setImage("res/menu/arrowRight.png");
+		setImage("arrowRight");
 		newWorldButton.draw(newWorldButtonX - (newWorldButtonW / 2), newWorldButtonY - (newWorldButtonH / 2), newWorldButtonW, newWorldButtonH);
 		
 		//draws based on world number
 		if (worldID == 1) {
-			setImage("res/menu/1.png");
+			setImage("1");
 		} else if (worldID == 2) {
-			setImage("res/menu/2.png");
+			setImage("2");
 		} else if (worldID == 3) {
-			setImage("res/menu/3.png");
+			setImage("3");
 		} else if (worldID == 4) {
-			setImage("res/menu/4.png");
+			setImage("4");
 		} else if (worldID == 5) {
-			setImage("res/menu/5.png");
+			setImage("5");
 		}
 		worldImage.draw(worldImageX - (worldImageW / 2), worldImageY - (worldImageH / 2), worldImageW, worldImageH);
 			
 	}
 	
-	public void setImage(String filepath)
+	public void setImage(String file)
 	{
 		try
 		{
-			mainButton = new Image(filepath);
-			w1Button = new Image(filepath);
-			w2Button = new Image(filepath);
-			worldImage = new Image(filepath);
-			s1Button = new Image(filepath);
-			newWorldButton = new Image(filepath);
+			mainButton = Values.Images.get(file);
+			w1Button = Values.Images.get(file);
+			w2Button = Values.Images.get(file);
+			worldImage = Values.Images.get(file);
+			s1Button = Values.Images.get(file);
+			newWorldButton = Values.Images.get(file);
 		}
-		catch(SlickException e)		
+		catch(Exception e)		
 		{
 			System.out.println("Image not found!");
 		}

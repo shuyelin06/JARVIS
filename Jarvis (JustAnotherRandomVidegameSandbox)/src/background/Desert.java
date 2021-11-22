@@ -13,9 +13,9 @@ public class Desert extends Scene
 		resX = Engine.RESOLUTION_X;
 		resY = Engine.RESOLUTION_Y;
 		
-		background.setImage("res/Background/mountains-60.png");
-		middleground.setImage("res/Background/dunes-80.png");
-		foreground.setImage("res/Background/dunes.png");
+		background.setImage("mountains-60");
+		middleground.setImage("dunes-80");
+		foreground.setImage("dunes");
 		
 		frontFiller = new Color(233, 201, 124);
 		backFiller = new Color(182, 136, 80);
