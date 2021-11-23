@@ -14,6 +14,8 @@ import org.newdawn.slick.state.StateBasedGame;
 import background.Background;
 import core.Engine;
 import core.Values;
+import managers.ImageManager;
+import managers.SoundManager;
 import structures.Particle;
 import world.WorldGen;
 
@@ -150,14 +152,14 @@ public class Settings extends BasicGameState {
 				&& (y > m1ButtonY - (m1ButtonH / 2))
 				&& (y < m1ButtonY + (m1ButtonH / 2))
 				) {
-			Engine.sound.increaseVolume();
+			SoundManager.increaseVolume();
 		}
 		if ((x > m2ButtonX - (m2ButtonW / 2))
 				&& (x < m2ButtonX + (m2ButtonW / 2))
 				&& (y > m2ButtonY - (m2ButtonH / 2))
 				&& (y < m2ButtonY + (m2ButtonH / 2))
 				) {
-			Engine.sound.decreaseVolume();
+			SoundManager.decreaseVolume();
 		}
 		
 		//check for type of firework
@@ -186,8 +188,8 @@ public class Settings extends BasicGameState {
 	
 	public void drawImages(Graphics g) {
 		//image drawing
-		Values.Images.get("startButton").setFilter(Image.FILTER_NEAREST);
-		Values.Images.get("startButton").draw(mainButtonX - (mainButtonW / 2), mainButtonY - (mainButtonH / 2), mainButtonW, mainButtonH);
+		ImageManager.getImage("startButton").setFilter(Image.FILTER_NEAREST);
+		ImageManager.getImage("startButton").draw(mainButtonX - (mainButtonW / 2), mainButtonY - (mainButtonH / 2), mainButtonW, mainButtonH);
 		
 		setImage("startButton");
 		mainButton.setFilter(Image.FILTER_NEAREST);
@@ -207,10 +209,10 @@ public class Settings extends BasicGameState {
 	{
 		try
 		{
-			mainButton = Values.Images.get(file);
-			m1Button = Values.Images.get(file);
-			m2Button = Values.Images.get(file);
-			volumeImage = Values.Images.get(file);
+			mainButton = ImageManager.getImage(file);
+			m1Button = ImageManager.getImage(file);
+			m2Button = ImageManager.getImage(file);
+			volumeImage = ImageManager.getImage(file);
 		}
 		catch(Exception e)		
 		{

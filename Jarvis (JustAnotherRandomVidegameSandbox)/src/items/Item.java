@@ -1,7 +1,5 @@
 package items;
 
-import java.util.HashSet;
-
 import core.Engine;
 import gamestates.Game;
 
@@ -11,9 +9,7 @@ public class Item{
 	protected int id;
 	protected int count;
 	
-	public enum ItemType{
-		Block, Consumable, Tool
-	}
+	public enum ItemType{ Block, Consumable, Tool }
 	
 	public Item(int id, int count) {
 		this.id = id;

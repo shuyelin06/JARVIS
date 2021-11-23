@@ -23,14 +23,15 @@ import entities.Entity;
 import entities.living.*;
 import entities.other.Projectile;
 import managers.DisplayManager;
+import managers.FileManager;
 import managers.KeyManager;
+import managers.SoundManager;
 import entities.Entity.EntType;
 import structures.Block;
 import world.Chunk;
 import world.World;
 import world.WorldGen;
 import support.Destroyer;
-import support.FileLoader;
 import support.Spawning;
 import support.Utility;
 
@@ -169,7 +170,7 @@ public class Game extends BasicGameState {
 
 	public void enter(GameContainer gc, StateBasedGame sbg) throws SlickException {
 		// this.entities.clear();
-		Engine.sound.playBackgroundMusic("Morning"); // Begin game background music
+		SoundManager.playBackgroundMusic("Morning"); // Begin game background music
 	}
 	public void leave(GameContainer gc, StateBasedGame sbg) {}
 
@@ -241,7 +242,6 @@ public class Game extends BasicGameState {
 		if(gc.getInput().isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)) // Left click - destroy a block
 		{
 			player.useItem(mouseCoordinate[0], mouseCoordinate[1]);
-			// 
 		}
 		
 		if(gc.getInput().isMouseButtonDown(Input.MOUSE_RIGHT_BUTTON)) // Right click - place a block

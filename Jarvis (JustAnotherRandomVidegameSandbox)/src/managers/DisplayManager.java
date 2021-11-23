@@ -63,8 +63,8 @@ public class DisplayManager {
 	public float[] positionOnScreen(float x, float y) {
 		float[] output = center.displacement(x, y);
 		
-		output[0] = output[0] * Coordinate.ConversionFactor + Values.CenterX;
-		output[1] = Engine.RESOLUTION_Y - (output[1] * Coordinate.ConversionFactor + Values.CenterY);
+		output[0] = output[0] * Values.Pixels_Per_Block + Values.CenterX;
+		output[1] = Engine.RESOLUTION_Y - (output[1] * Values.Pixels_Per_Block + Values.CenterY);
 		
 		return output;
 	}
@@ -73,8 +73,8 @@ public class DisplayManager {
 		float[] output = new float[2];
 		
 		// Find the distance from the pixel center
-		output[0] = center.getX() + (x - Values.CenterX) / Coordinate.ConversionFactor;
-		output[1] = center.getY() + 1 + (Values.CenterY - y) / Coordinate.ConversionFactor;
+		output[0] = center.getX() + (x - Values.CenterX) / Values.Pixels_Per_Block ;
+		output[1] = center.getY() + 1 + (Values.CenterY - y) / Values.Pixels_Per_Block ;
 		
 		return output;
 	}
@@ -96,7 +96,7 @@ public class DisplayManager {
 		graphics.setColor(Color.white);
 		
 		float[] renderPos = positionOnScreen(x1, y1);
-		graphics.draw(new Rectangle(renderPos[0], renderPos[1], Coordinate.ConversionFactor, Coordinate.ConversionFactor));
+		graphics.draw(new Rectangle(renderPos[0], renderPos[1], Values.Pixels_Per_Block , Values.Pixels_Per_Block ));
 		
 	}
 	public void renderBackground(Graphics g) {
@@ -115,8 +115,8 @@ public class DisplayManager {
 		World world = game.getWorld();
 
 		// X Span
-		final int xSpan = (int) (Math.ceil(Engine.RESOLUTION_X / Coordinate.ConversionFactor) / Span_Divide);
-		final int ySpan = (int) (Math.ceil(Engine.RESOLUTION_Y / Coordinate.ConversionFactor) / Span_Divide);
+		final int xSpan = (int) (Math.ceil(Engine.RESOLUTION_X / Values.Pixels_Per_Block) / Span_Divide);
+		final int ySpan = (int) (Math.ceil(Engine.RESOLUTION_Y / Values.Pixels_Per_Block ) / Span_Divide);
 		
 		// Iterate through every block that will be displayed on screen
 		for(int i = -xSpan; i < xSpan; i++) {
@@ -169,7 +169,7 @@ public class DisplayManager {
 			g.setColor(Color.black);
 			
 			float[] renderPos = positionOnScreen(eBlock.getPosition().getX(), eBlock.getPosition().getY());
-			g.drawRect(renderPos[0], renderPos[1], eBlock.getSizeX() * Coordinate.ConversionFactor, eBlock.getSizeY() * Coordinate.ConversionFactor);
+			g.drawRect(renderPos[0], renderPos[1], eBlock.getSizeX() * Values.Pixels_Per_Block, eBlock.getSizeY() * Values.Pixels_Per_Block );
 		}
 		
 	}
@@ -187,9 +187,9 @@ public class DisplayManager {
 		Image sprite = e.getSprite();
 		
 		if(e.getDirection()) { // Moving right
-			sprite.draw(renderPosition[0], renderPosition[1], e.getSizeX() * Coordinate.ConversionFactor, e.getSizeY() * Coordinate.ConversionFactor); 
+			sprite.draw(renderPosition[0], renderPosition[1], e.getSizeX() * Values.Pixels_Per_Block, e.getSizeY() * Values.Pixels_Per_Block ); 
 		} else { // Moving left
-			sprite.draw(renderPosition[0] + e.getSizeX() * Coordinate.ConversionFactor, renderPosition[1], -e.getSizeX() * Coordinate.ConversionFactor, e.getSizeY() * Coordinate.ConversionFactor); 
+			sprite.draw(renderPosition[0] + e.getSizeX() * Values.Pixels_Per_Block , renderPosition[1], -e.getSizeX() * Values.Pixels_Per_Block , e.getSizeY() * Values.Pixels_Per_Block); 
 		}
 	}
 	private void drawPlayerHealth(Graphics g, Player p) {
@@ -225,7 +225,7 @@ public class DisplayManager {
 		// Draw every item in the player's inventory
 		final float boxSize = BAR_WIDTH / (float) Inventory.Inventory_Size;
 		Item[] list = p.getInventory().getItems();
-		final float center = (boxSize - (float) Coordinate.ConversionFactor) / 2f;
+		final float center = (boxSize - (float) Values.Pixels_Per_Block) / 2f;
 		
 		for(int i = 0; i < list.length; i++) {
 			if(list[i] == null) continue;

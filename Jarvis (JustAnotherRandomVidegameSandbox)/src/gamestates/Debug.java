@@ -79,28 +79,6 @@ public class Debug extends BasicGameState
 
 	}
 	
-	public void mousePressed(int button, int x, int y)
-	{
-		
-	}
-	
-	
-	private ArrayList<Line> getGridLines(){
-		ArrayList<Line> lines = new ArrayList<Line>();
-		
-		// Get horizontal gridlines
-		for(int i = 0; i < (int) (Engine.RESOLUTION_Y / Coordinate.ConversionFactor) + 1; i++) {
-			float y = Coordinate.ConversionFactor * i;
-			lines.add(new Line(0, y, Engine.RESOLUTION_X, y));
-		}
-		
-		// Get vertical gridlines
-		for(int i = 0; i < (int) (Engine.RESOLUTION_X / Coordinate.ConversionFactor) + 1; i++) {
-			float x = Coordinate.ConversionFactor * i;
-			lines.add(new Line(x, 0, x, Engine.RESOLUTION_Y));
-		}
-		
-		return lines;
-	}
-	// Returns the ID code for this game state
+	public void mousePressed(int button, int x, int y){}
+
 }

@@ -12,8 +12,8 @@ import entities.Entity.EntType;
 import entities.other.EBlock;
 import gamestates.Game;
 import items.Item;
+import managers.FileManager;
 import structures.Block;
-import support.FileLoader;
 
 public class World 
 {
@@ -77,7 +77,7 @@ public class World
 			// Check if chunk is rendered
 			if(renderedChunks.containsKey(x)) continue;
 			else   {
-				Chunk c = FileLoader.LoadChunk(worldName, x);
+				Chunk c = FileManager.LoadChunk(worldName, x);
 				if(c != null) renderedChunks.put(x, c);
 			}
 		}
@@ -87,7 +87,7 @@ public class World
 		while(iterator.hasNext()) {
 			Integer i = iterator.next();
 			if(i < leftMostChunk || i > rightMostChunk) {
-				FileLoader.SaveChunk(worldName, renderedChunks.get(i));
+				FileManager.SaveChunk(worldName, renderedChunks.get(i));
 				iterator.remove();
 			}
 		}

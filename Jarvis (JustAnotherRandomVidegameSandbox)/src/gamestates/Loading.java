@@ -11,7 +11,7 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import core.Engine;
 import core.Values;
-import support.FileLoader;
+import managers.FileManager;
 import world.WorldGen;
 
 public class Loading extends BasicGameState

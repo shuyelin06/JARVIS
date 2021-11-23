@@ -1,7 +1,6 @@
 package core;
 
 public class Coordinate{
-	public static final int ConversionFactor = 30; // Conversion: 1 Block = 20 Pixels
 	private float x, y;
 	
 	public Coordinate(float InitX, float InitY) {
@@ -9,31 +8,17 @@ public class Coordinate{
 		this.y = InitY;
 	}
 	
-	public void setXPos(float x){
-		this.x = x;
-	}
-	public void setYPos(float y) {
-		this.y = y;
-	}
+	public void setXPos(float x){ this.x = x; }
+	public void setYPos(float y) { this.y = y; }
+	
 	public void update(float xSpeed, float ySpeed) {
 		x += xSpeed / (float) Engine.FRAMES_PER_SECOND;
 		y += ySpeed / (float) Engine.FRAMES_PER_SECOND;
 	}
 	
 	// Get Positions
-	public float getX() {
-		return x;
-	}
-	public float getY() {
-		return y;
-	}
-	//set positions directly (these methods should probably be used with caution, i just added them as a way to manipulate coordinates)
-	public void setX(float x) {
-		this.x = x;
-	}
-	public void setY(float y) {
-		this.y = y;
-	}
+	public float getX() { return x; }
+	public float getY() { return y; }
 	
 	// Finds the chunk the coordinate is located in
 	public float getChunk() {

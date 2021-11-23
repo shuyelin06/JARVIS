@@ -14,6 +14,7 @@ import entities.Entity;
 import entities.other.EItem;
 import items.Inventory;
 import items.Item;
+import managers.ImageManager;
 
 public class Player extends Living{	
 	private Inventory inventory;
@@ -26,7 +27,7 @@ public class Player extends Living{
 		super(Values.SpawnX, Values.SpawnY); 
 		
 		try {
-			sprite = Values.Images.get("pratt");
+			sprite = ImageManager.getImage("pratt");
 		} catch(Exception e) {}
 		
 		this.inventory = new Inventory(this);
@@ -88,8 +89,8 @@ public class Player extends Living{
 	}
 	
 	public void respawn() {
-		position.setX(Values.SpawnX);
-		position.setY(Values.SpawnY);
+		position.setXPos(Values.SpawnX);
+		position.setYPos(Values.SpawnY);
 		curHealth = maxHealth;
 		alive = true;
 	}

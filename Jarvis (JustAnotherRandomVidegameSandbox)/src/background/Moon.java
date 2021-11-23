@@ -5,6 +5,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
 import core.Values;
+import managers.ImageManager;
 
 public class Moon extends Sun
 {
@@ -17,7 +18,7 @@ public class Moon extends Sun
 		phase = 0;
 		
 		try {
-			sprite = Values.Images.get("moon");
+			sprite = ImageManager.getImage("moon");
 		} catch (Exception e) {
 		}
 	}

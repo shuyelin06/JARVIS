@@ -9,9 +9,9 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
 import gamestates.*;
+import managers.FileManager;
 import managers.KeyManager;
 import managers.SoundManager;
-import support.FileLoader;
 import structures.Block;
 /*
  * Perlin Noise - 
@@ -51,15 +51,12 @@ public class Engine extends StateBasedGame
     public static Pause pause;
     public static Debug debug;
     public static Settings settings;
-
-    public static SoundManager sound;
     
 	public Engine(String name) 
 	{
 		super(name);
 		
-		FileLoader.LoadResFiles(); // Initializing res files
-		sound = new SoundManager(); // Initializing sound manager
+		FileManager.LoadResFiles(); // Initializing res files
 		
 		startingMenu = new StartingMenu(StartingMenu_ID);
 		worldSelect = new WorldSelect(WorldSelect_ID);

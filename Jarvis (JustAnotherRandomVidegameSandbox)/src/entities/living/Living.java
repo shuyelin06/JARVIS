@@ -3,6 +3,7 @@ package entities.living;
 import core.Engine;
 import core.Values;
 import entities.Entity;
+import managers.SoundManager;
 
 public class Living extends Entity{
 	/*
@@ -70,7 +71,7 @@ public class Living extends Entity{
 	public void takeDamage(int dmg, boolean i) { //boolean for iFrames cause for certain piercing attacks that don't trigger them
 		//this mimics the mechanics in Terraria
 		if(iFrames == 0) {
-			Engine.sound.playSound("Breh"); // Testing sound effects
+			SoundManager.playSound("Breh"); // Testing sound effects
 			
 			if(healthRegen) {
 				timeLastHit = 0;
@@ -99,21 +100,13 @@ public class Living extends Entity{
 	public void regen() {
 		if(healthRegen && timeLastHit >= regenTimer && curHealth < maxHealth) {
 			regenInc++;
-			if(regenInc % regenRate == 0) {
-				curHealth++;
-			}
-		
+			if(regenInc % regenRate == 0) { curHealth++; }	
 		}
 	}
 
 	//gives entity number of iframs that will automatically start ticking down each frame in update()
-	public void setIFrames(int frames) {
-		iFrames = frames;
-	}
-	
-	public boolean isAlive() {
-		return alive;
-	}
+	public void setIFrames(int frames) { iFrames = frames; }
+	public boolean isAlive() { return alive; }
 	
 	public void takeDamage(int damage) {
 		curHealth -= damage;
@@ -123,9 +116,7 @@ public class Living extends Entity{
 		}
 	}
 		
-	protected void onBlockYCollision () {
-		this.jumps = (int) -Math.signum(ySpeed) * 2;
-	}
+	protected void onBlockYCollision () { this.jumps = (int) -Math.signum(ySpeed) * 2; }
 
 	public void update() {
 		if(curHealth < 0) {

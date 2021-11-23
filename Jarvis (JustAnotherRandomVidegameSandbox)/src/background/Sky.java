@@ -6,6 +6,7 @@ import org.newdawn.slick.SlickException;
 
 import core.Engine;
 import core.Values;
+import managers.ImageManager;
 
 public class Sky
 {
@@ -37,10 +38,10 @@ public class Sky
 		resX = Engine.RESOLUTION_X;
 		resY = Engine.RESOLUTION_Y;
 		
-		blue = Values.Images.get("daySky");
-		sunset = Values.Images.get("sunset");
-		night = Values.Images.get("night");
-		stars = Values.Images.get("stars");
+		blue = ImageManager.getImage("daySky");
+		sunset = ImageManager.getImage("sunset");
+		night = ImageManager.getImage("night");
+		stars = ImageManager.getImage("stars");
 		
 		sun = new Sun(0, resY, dayLength + tLength);
 		moon = new Moon(0, resY, nightLength);

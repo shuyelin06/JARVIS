@@ -43,9 +43,6 @@ public class Entity{
 		this.remove = false;
 		
 		// Rendering Variables
-		try {
-			sprite = Values.Images.get("placeholder");
-		} catch(Exception e) {}
 		this.sizeX = 1f;
 		this.sizeY = 1f;
 
@@ -89,9 +86,7 @@ public class Entity{
 	}
 	
 	
-	/*
-	 * Collision Detection
-	 */
+	/* Collision Detection */
 	private static final float collisionError = 0.0001f; // Prevents the object from sticking
 	
 	// Empty block collision method that can be used in other classes
@@ -151,7 +146,7 @@ public class Entity{
 					Block b = Engine.game.getWorld().getChunk(j / Values.Chunk_Size_X).getBlocks()[j % Values.Chunk_Size_X][i];
 					if(!Block.Passable_Blocks.contains(b.getID())) {
 						// Adjust Y Position
-						this.position.setY(i - 1f - collisionError);
+						this.position.setYPos(i - 1f - collisionError);
 						
 						// Call Collision Methods
 						onBlockYCollision();
@@ -169,7 +164,7 @@ public class Entity{
 					Block b = Engine.game.getWorld().getChunk(j / Values.Chunk_Size_X).getBlocks()[j % Values.Chunk_Size_X][i];
 					if(!Block.Passable_Blocks.contains(b.getID())) {
 						// Adjust Y Position
-						this.position.setY(i + sizeY + collisionError);
+						this.position.setYPos(i + sizeY + collisionError);
 						
 						// Call Collision Methods
 						onBlockYCollision();
@@ -200,7 +195,7 @@ public class Entity{
 					Block b = Engine.game.getWorld().getChunk(i / Values.Chunk_Size_X).getBlocks()[i % Values.Chunk_Size_X][j];
 					if(!Block.Passable_Blocks.contains(b.getID())) {
 						// Adjust X Position
-						position.setX(i - sizeX - collisionError);
+						position.setXPos(i - sizeX - collisionError);
 						
 						// Call Collision Methods
 						onBlockXCollision();
@@ -218,7 +213,7 @@ public class Entity{
 					Block b = Engine.game.getWorld().getChunk(i / Values.Chunk_Size_X).getBlocks()[i % Values.Chunk_Size_X][j];
 					if(!Block.Passable_Blocks.contains(b.getID())) {
 						// Adjust X Position
-						position.setX(i + 1 + collisionError);
+						position.setXPos(i + 1 + collisionError);
 						
 						// Call Collision Methods
 						onBlockXCollision();

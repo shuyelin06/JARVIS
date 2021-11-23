@@ -4,9 +4,9 @@ import java.util.ArrayList;
 
 import core.Engine;
 import core.Values;
+import managers.FileManager;
 import structures.Block;
 import structures.Tree;
-import support.FileLoader;
 import support.SimplexNoise;
 
 public class WorldGen extends Thread{
@@ -35,14 +35,14 @@ public class WorldGen extends Thread{
 	 */
 	public void generateWorld() {
 		// Create the folders for the world
-		FileLoader.createWorldFolders(worldName);
+		FileManager.createWorldFolders(worldName);
 		
 		// For every chunk 1 - World.World_X_Size, generate it using the generate() function and save it to file.
 		for(int chunkX = 0; chunkX < Values.World_X_Size; chunkX++) {
 			Block[][] blocks = new Block[Values.Chunk_Size_X][Values.Chunk_Size_Y];
 			
 			blocks = generate(chunkX * Values.Chunk_Size_X, blocks);
-			FileLoader.SaveChunk(worldName, new Chunk(chunkX, blocks));
+			FileManager.SaveChunk(worldName, new Chunk(chunkX, blocks));
 			
 			// Increment the loading bar
 			Engine.loading.finishedTask();
@@ -63,18 +63,18 @@ public class WorldGen extends Thread{
 			
 			if(chunkX == Values.desertStart)
 			{
-				blocks = BiomeGens.desertGen(FileLoader.LoadChunk(worldName, chunkX).getBlocks(), -1);
+				blocks = BiomeGens.desertGen(FileManager.LoadChunk(worldName, chunkX).getBlocks(), -1);
 			} 
 			else if(chunkX == Values.desertEnd - 1)
 			{
-				blocks = BiomeGens.desertGen(FileLoader.LoadChunk(worldName, chunkX).getBlocks(), 1);
+				blocks = BiomeGens.desertGen(FileManager.LoadChunk(worldName, chunkX).getBlocks(), 1);
 			} 
 			else
 			{
-				blocks = BiomeGens.desertGen(FileLoader.LoadChunk(worldName, chunkX).getBlocks(), 0);
+				blocks = BiomeGens.desertGen(FileManager.LoadChunk(worldName, chunkX).getBlocks(), 0);
 			}
 			
-			FileLoader.SaveChunk(worldName, new Chunk(chunkX, blocks));
+			FileManager.SaveChunk(worldName, new Chunk(chunkX, blocks));
 		}
 	}
 	

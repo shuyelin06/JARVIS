@@ -7,6 +7,7 @@ import org.newdawn.slick.SlickException;
 
 import core.Engine;
 import core.Values;
+import managers.ImageManager;
 
 public class Layer 
 {
@@ -30,7 +31,7 @@ public class Layer
 		this.parallax = parallax;
 		this.id = id;
 		
-		try { sprite = Values.Images.get(image); } 
+		try { sprite = ImageManager.getImage(image); } 
 		catch (Exception e) { }
 	}
 	
@@ -57,7 +58,7 @@ public class Layer
 	{
 		try
 		{
-			sprite = Values.Images.get(name);
+			sprite = ImageManager.getImage(name);
 		}
 		catch (Exception e) { }
 	}
