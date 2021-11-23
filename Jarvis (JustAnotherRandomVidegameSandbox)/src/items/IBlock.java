@@ -1,11 +1,18 @@
 package items;
 
+import org.newdawn.slick.Image;
+
+import core.Engine;
 import core.Values;
 import structures.Block;
 
 //Blocks that are items
 public class IBlock extends Item{
-	public IBlock(int id, int count) { super(id, count); }
+	public IBlock(int id, int count) { 
+		super(id, count, 
+				game.displaymanager.getSpriteSheet().getSubImage(0, game.displaymanager.getSpriteHash().get(id))
+				); 
+	}
 	
 	public void use(float x, float y) {
 		try {

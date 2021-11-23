@@ -1,5 +1,7 @@
 package items;
 
+import org.newdawn.slick.Image;
+
 import core.Engine;
 import gamestates.Game;
 
@@ -9,16 +11,21 @@ public class Item{
 	protected int id;
 	protected int count;
 	
+	protected Image sprite;
+	
 	public enum ItemType{ Block, Consumable, Tool }
 	
-	public Item(int id, int count) {
+	public Item(int id, int count, Image sprite) {
 		this.id = id;
 		this.count = count;
+		
+		this.sprite = sprite;
 	}
 	
 	// Accessor Methods
 	public int getID() { return id; }
 	public int getCount() { return count; }
+	public Image getImage() { return sprite; }
 	
 	// Mutator Methods
 	public void setID(int id) { this.id = id; }
@@ -33,9 +40,9 @@ public class Item{
 		// For now, + numbers = Block Item
 		if(id > 0) {
 			return new IBlock(id, count);
-		} else {
+		} else if(id == -1){
+			return new Gun();
 			// - Numbers = Other Items
-			return null;
-		}
+		} else return null;
 	}
 }

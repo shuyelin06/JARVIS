@@ -228,18 +228,17 @@ public class DisplayManager {
 		final float center = (boxSize - (float) Values.Pixels_Per_Block) / 2f;
 		
 		for(int i = 0; i < list.length; i++) {
-			if(list[i] == null) continue;
+			if(list[i] == null) continue; // If the item is null, skip
+			else if(list[i].getID() == 0) continue; // ID of 0 indicates an empty space
 			
-			Integer id = list[i].getID();
-			if(id == 0) continue;
 			Integer count = list[i].getCount();
-			
 			float barDisp = i * boxSize;
 			
-			
-			Engine.game.displaymanager.getSpriteSheet().getSubImage(0, Engine.game.displaymanager.getSpriteHash().get(id)).draw(
+			list[i].getImage().draw(
 					barDisp + 0.050208333333f * Engine.RESOLUTION_X + center, 
-					0.03703703703f * Engine.game.getGC().getHeight() + center // 5 pixel displacement downwards - block centering will later be automatically done.
+					0.03703703703f * Engine.game.getGC().getHeight() + center,
+					Values.Pixels_Per_Block,
+					Values.Pixels_Per_Block
 					);
 			g.drawString(count.toString(), barDisp + 0.050208333333f * Engine.RESOLUTION_X,  0.03703703703f * Engine.game.getGC().getHeight()); // Text	
 		}
