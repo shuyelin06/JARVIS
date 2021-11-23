@@ -18,16 +18,16 @@ public class Scene
 	protected Color frontFiller;
 	protected Color backFiller;
 	
-	float temp;
+	float alpha;
 	
 	public Scene() throws SlickException
 	{
 		resX = Engine.RESOLUTION_X;
 		resY = Engine.RESOLUTION_Y;
 		
-		foreground = new Layer("foreground", "placeholder", 0.4f, 0, 0.4f, 1.8f, 0.35f);
-		middleground = new Layer("middleground", "placeholder", 0.3f, 0, 0.4f, 1f, 0.25f);
-		background  = new Layer("background", "placeholder", 0.2f, 0, 0.35f, 1f, 0.4f);
+		foreground = new Layer("placeholder", 0.4f, 0, 0.4f, 1.8f, 0.35f);
+		middleground = new Layer("placeholder", 0.3f, 0, 0.4f, 1f, 0.25f);
+		background  = new Layer("placeholder", 0.2f, 0, 0.35f, 1f, 0.4f);
 
 		frontFiller = foreground.getColor();
 		backFiller = middleground.getColor();
@@ -35,7 +35,7 @@ public class Scene
 	
 	public void setSceneAlpha(float f)
 	{
-		temp = f;
+		alpha = f;
 		foreground.setAlpha(f);
 		middleground.setAlpha(f);
 		background.setAlpha(f);
@@ -47,18 +47,16 @@ public class Scene
 	public void render(Graphics g, float x, float y)
 	{
 		y  *= 0.5f; //parallax
-	
-		g.drawString(temp + "", 100, 200);
 		
 		background.render(g, x, y);
 		
 		g.setColor(backFiller);
-		g.fillRect(0, resY * 0.6f + (y * 0.3f), resX, resY * 0.25f);	
+		g.fillRect(0, resY * 0.6f + (y * middleground.getParallax()), resX, resY * 0.25f);	
 		
 		middleground.render(g, x - 600, y);
 		
 		g.setColor(frontFiller);
-		g.fillRect(0, resY * 0.7f + (y * 0.4f), resX, resY * 0.5f);	
+		g.fillRect(0, resY * 0.7f + (y * foreground.getParallax()), resX, resY * 0.5f);	
 		
 		foreground.render(g, x, y);
 	}

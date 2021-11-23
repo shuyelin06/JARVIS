@@ -107,6 +107,7 @@ public class Living extends Entity{
 	//gives entity number of iframs that will automatically start ticking down each frame in update()
 	public void setIFrames(int frames) { iFrames = frames; }
 	public boolean isAlive() { return alive; }
+	public boolean getInvincible() { return iFrames > 0; }
 	
 	public void takeDamage(int damage) {
 		curHealth -= damage;

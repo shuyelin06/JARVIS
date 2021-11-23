@@ -1,8 +1,9 @@
-package background;
+package background.biome;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.SlickException;
 
+import background.Scene;
 import core.Engine;
 
 public class Desert extends Scene
@@ -10,8 +11,6 @@ public class Desert extends Scene
 	public Desert() throws SlickException
 	{
 		super();
-		resX = Engine.RESOLUTION_X;
-		resY = Engine.RESOLUTION_Y;
 		
 		background.setImage("mountains-60");
 		middleground.setImage("dunes-80");

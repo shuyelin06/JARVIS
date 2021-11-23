@@ -1,9 +1,11 @@
-package background;
+package background.biome;
 
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
+import background.Layer;
+import background.Scene;
 import core.Engine;
 import core.Values;
 
@@ -17,9 +19,9 @@ public class Underground extends Scene
 	
 	public Underground() throws SlickException 
 	{
-		bg = new Layer("caves", "grey", 0.2f, 0, 0, 4, 1);
-		bottom = new Layer("cavesBottom", "caveBottom", 0.3f, 0, 0.8f, 4, 0.2f);
-		top  = new Layer("cavesTop", "caveTop", 0.4f, 0, 0, 1, 0.3f);
+		bg = new Layer("grey", 0.2f, 0, 0, 4, 1);
+		bottom = new Layer("caveBottom", 0.3f, 0, 0.8f, 4, 0.2f);
+		top  = new Layer("caveTop", 0.4f, 0, 0, 1, 0.3f);
 	}
 	
 	public void render(Graphics g, float x, float y)

@@ -1,9 +1,10 @@
-package background;
+package background.biome;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 
+import background.Scene;
 import core.Engine;
 
 public class Hills extends Scene

@@ -265,10 +265,17 @@ public class WorldSelect extends BasicGameState
 		setImage("arrowLeft");
 		w2Button.draw(w2ButtonX - (w2ButtonW / 2), w2ButtonY - (w2ButtonH / 2), w2ButtonW, w2ButtonH);
 		
-		setImage("arrowLeft");
+		setImage("cogwheel");
 		s1Button.draw(s1ButtonX - (s1ButtonW / 2), s1ButtonY - (s1ButtonH / 2), s1ButtonW, s1ButtonH);
-		setImage("arrowRight");
+		setImage("refresh");
 		newWorldButton.draw(newWorldButtonX - (newWorldButtonW / 2), newWorldButtonY - (newWorldButtonH / 2), newWorldButtonW, newWorldButtonH);
+		if (createNewWorld) {
+			g.setColor(new Color(100, 255, 100));
+		} else {
+			g.setColor(new Color(255, 100, 100));
+		}
+		g.drawRect(newWorldButtonX - (newWorldButtonW / 2), newWorldButtonY - (newWorldButtonH / 2), newWorldButtonW, newWorldButtonH);
+		
 		
 		//draws based on world number
 		if (worldID == 1) {

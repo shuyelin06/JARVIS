@@ -3,6 +3,10 @@ package background;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 
+import background.biome.Desert;
+import background.biome.Hills;
+import background.biome.Underground;
+import background.sky.Sky;
 import core.Coordinate;
 import core.Engine;
 import core.Values;
