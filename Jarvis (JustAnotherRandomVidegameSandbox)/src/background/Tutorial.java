@@ -5,6 +5,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
 import core.Values;
+import managers.ImageManager;
 
 public class Tutorial {
 	
@@ -63,7 +64,7 @@ public class Tutorial {
 	{
 		try
 		{
-			wasdImage = Values.Images.get(name);
+			wasdImage = ImageManager.getImage(name);
 		}
 		catch(Exception e)		
 		{

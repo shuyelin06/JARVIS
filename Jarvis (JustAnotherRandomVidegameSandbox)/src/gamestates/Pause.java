@@ -10,6 +10,7 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import core.Engine;
 import core.Values;
+import managers.ImageManager;
 
 public class Pause extends BasicGameState
 {
@@ -30,12 +31,15 @@ public class Pause extends BasicGameState
 	{
 		this.id = id;
 	}
+	
+	// Returns the ID code for this game state
+	public int getID() { return id; }
+
 
 	// Initializer, first time
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException 
 	{
 		this.sbg = sbg;
-		setImage("placeholder");
 		respawnButtonX = gc.getWidth()/2;
 		respawnButtonY = gc.getHeight()/3;
 		returnButtonX = gc.getWidth()/2;
@@ -50,6 +54,9 @@ public class Pause extends BasicGameState
 		
 		returnButtonW = 3* (int) (0.05208333333*gc.getWidth());
 		returnButtonH = (int) (0.09259259259*gc.getHeight());
+		
+		this.respawnButton = ImageManager.getImage("respawnButton");
+		this.returnButton = ImageManager.getImage("backButton");
 	}
 	
 	//render, all visuals
@@ -75,15 +82,9 @@ public class Pause extends BasicGameState
 		}
 	}
 
-	public void enter(GameContainer gc, StateBasedGame sbg) throws SlickException 
-	{
-		
-	}
+	public void enter(GameContainer gc, StateBasedGame sbg) throws SlickException {}
 
-	public void leave(GameContainer gc, StateBasedGame sbg) 
-	{
-		
-	}
+	public void leave(GameContainer gc, StateBasedGame sbg) {}
 
 
 	public void keyPressed(int key, char c)
@@ -120,40 +121,15 @@ public class Pause extends BasicGameState
 		// sbg.enterState(2);
 	}
 	
+	// Image Drawing
 	public void drawImages(Graphics g) {
-		//image drawing
-		setImage("startButton");
+		// Draw respawn button
 		respawnButton.setFilter(Image.FILTER_NEAREST);
 		respawnButton.draw(respawnButtonX - (respawnButtonW / 2), respawnButtonY - (respawnButtonH / 2), respawnButtonW, respawnButtonH);
-		setImage("startButton");
 		
-		setImage("respawnButton");
-		respawnButton.setFilter(Image.FILTER_NEAREST);
-		respawnButton.draw(respawnButtonX - (respawnButtonW / 2), respawnButtonY - (respawnButtonH / 2), respawnButtonW, respawnButtonH);
-		setImage("backButton");
-		
+		// Draw back button
 		returnButton.setFilter(Image.FILTER_NEAREST);
 		returnButton.draw(returnButtonX - (returnButtonW / 2), returnButtonY - (returnButtonH / 2), returnButtonW, returnButtonH);
 	}
-
-	public void setImage(String file)
-	{
-		try
-		{
-			respawnButton = Values.Images.get(file);;
-			returnButton = Values.Images.get(file);;
-		}
-		catch(Exception e)		
-		{
-			System.out.println("Image not found!");
-		}
-	}
-	
-	// Returns the ID code for this game state
-	public int getID() 
-	{
-		return id;
-	}
-
 
 }

@@ -9,7 +9,8 @@ public class EBlock extends EItem {
 	public EBlock(int id, float x, float y) {
 		super(x + 0.15f, y);
 
-		this.sprite = Engine.game.displaymanager.getSpriteSheet().getSubImage(0, Engine.game.displaymanager.getSpriteHash().get(id));
+		this.sprite = Engine.game.displaymanager.getSpriteSheet().getSubImage(
+				0, Engine.game.displaymanager.getSpriteHash().get(id));
 		
 		this.sizeX = EBlock_Size;
 		this.sizeY = EBlock_Size;

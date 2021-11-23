@@ -11,15 +11,11 @@ public class Values // this will be quite useful for organizing stuff later on
 	final public static int Pixels_Per_Block = 30;
 	
 	// Rendering Variables
-	final public static HashMap<String, Image> Images = new HashMap<String, Image>();
 	final public static HashMap<Integer, Color> BlockHash = new HashMap<Integer, Color>(); // Stores our Block - Color Combinations
 	final public static int Render_Distance = 2; // Render distance
 	
 	final public static float CenterX = Engine.RESOLUTION_X / 2; // Player Center X
 	final public static float CenterY = Engine.RESOLUTION_Y / 2; // Player Center Y
-	
-	// Sound Variables
-	final public static HashMap<String, Sound> Sounds = new HashMap<String, Sound>();
 	
 	// Background variables
 	final public static int nightLength = 3200;

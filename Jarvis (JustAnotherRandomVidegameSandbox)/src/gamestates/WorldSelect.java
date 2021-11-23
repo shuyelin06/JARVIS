@@ -14,8 +14,9 @@ import org.newdawn.slick.state.StateBasedGame;
 import background.Background;
 import core.Engine;
 import core.Values;
+import managers.FileManager;
+import managers.ImageManager;
 import structures.Particle;
-import support.FileLoader;
 
 public class WorldSelect extends BasicGameState 
 {
@@ -296,12 +297,12 @@ public class WorldSelect extends BasicGameState
 	{
 		try
 		{
-			mainButton = Values.Images.get(file);
-			w1Button = Values.Images.get(file);
-			w2Button = Values.Images.get(file);
-			worldImage = Values.Images.get(file);
-			s1Button = Values.Images.get(file);
-			newWorldButton = Values.Images.get(file);
+			mainButton = ImageManager.getImage(file);
+			w1Button = ImageManager.getImage(file);
+			w2Button = ImageManager.getImage(file);
+			worldImage = ImageManager.getImage(file);
+			s1Button = ImageManager.getImage(file);
+			newWorldButton = ImageManager.getImage(file);
 		}
 		catch(Exception e)		
 		{

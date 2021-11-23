@@ -4,6 +4,7 @@ import org.newdawn.slick.Image;
 
 import core.Engine;
 import core.Values;
+import managers.ImageManager;
 import support.Utility;
 
 public class Enemy extends Living {
@@ -19,7 +20,7 @@ public class Enemy extends Living {
 		target = Engine.game.getPlayer();
 
 		try {
-			this.sprite = Values.Images.get("mushroom");
+			this.sprite = ImageManager.getImage("mushroom");
 		} catch(Exception e) {}
 		
 		contactDmg = 5;

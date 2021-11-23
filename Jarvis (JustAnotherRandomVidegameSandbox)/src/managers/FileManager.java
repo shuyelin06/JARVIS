@@ -1,10 +1,8 @@
-package support;
+package managers;
 
-import org.newdawn.slick.Color;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Sound;
 
-import core.Engine;
 import core.Values;
 import structures.Block;
 import world.Chunk;
@@ -13,10 +11,9 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.HashMap;
 
-public class FileLoader {
+public class FileManager {
 	
 	// Creates all directories / subdirectories for our world
 	public static boolean createWorldFolders(String name) {
@@ -97,26 +94,21 @@ public class FileLoader {
 			}
 			
 			reader.close();
-		} catch(IOException err) {
-			System.out.println("There was an error in loading chunk " + chunkX);
-		}
-
+		} catch(IOException err) { System.out.println("There was an error in loading chunk " + chunkX); }
 		return new Chunk(chunkX, blocks);
 	}
 
 
 	/*
-	 * Block Hashings
-	 * 
-	 * Save and Load block hashings (id - color mappings)
+	 * Res File Loading: Load all OGG and PNG files in the RES folder
 	 */
 	public static void LoadResFiles() {
 		System.out.println(" --- Loading Images and Sounds --- ");
 
-		LoadDirectory(new File(Values.Res_Folder), Values.Images, Values.Sounds);
+		LoadDirectory(new File(Values.Res_Folder), ImageManager.getImageHash(), SoundManager.getSoundHash());
 		
-		System.out.println(" --- " + Values.Sounds.size() + " Sound Files Loaded ---");
-		System.out.println(" --- " + Values.Images.size() + " Images Loaded ---");
+		System.out.println(" --- " + SoundManager.getSize() + " Sound Files Loaded ---");
+		System.out.println(" --- " + ImageManager.getSize() + " Images Loaded ---");
 	}
 	private static void LoadDirectory(File dir, HashMap<String, Image> images, HashMap<String, Sound> sounds) {
 		for(final File f: dir.listFiles()) {
@@ -142,84 +134,6 @@ public class FileLoader {
 					System.out.println("Failed to Load File");
 				}
 			}
-		}
-	}
-	
-	// Add a new block hashing
-	public static void AddBlockHashing(int[] idRGBA) {
-		try {
-			FileWriter writer = new FileWriter(Values.Hash_File_Path, true);
-			
-			writer.write(Integer.toString(idRGBA[0]) + " "); // Block ID
-			writer.write(Integer.toString(idRGBA[1]) + " "); // R
-			writer.write(Integer.toString(idRGBA[2]) + " "); // G
-			writer.write(Integer.toString(idRGBA[3]) + " "); // B
-			writer.write(Integer.toString(idRGBA[4]) + " "); // A
-		} catch(IOException e) {
-			System.out.println("There was an error in adding a new block hash");
-		}
-	}
-
-	
-	// Load block hashings
-	public static void LoadBlockHashings(){
-		System.out.println(" --- Loading Block Hashings --- ");
-		
-		try {
-			// Instantiating file reader
-			FileReader reader = new FileReader(Values.Hash_File_Path);
-			
-			// Instantiating variables needed for reading
-			String[] values = new String[5];
-			Arrays.fill(values, "");
-			
-			int data = reader.read();
-			int index = 0;
-			
-			// File reading
-			while(data != -1) {		
-				// I don't know what the ASCII character 13 is, but it shows up so I'm skipping it so it doesn't cause errors
-				if(data == 13) {}
-				
-				// Input character is a number
-				else if(47 < data && data < 58) {
-					values[index] += (char) data;
-				} 
-				
-				// Input character is a space
-				else if(data == 32) {
-					index++;
-					values[index] = ""; // Clear the preexisting value
-				} 
-				
-				// Input character is a newline
-				else if(data == 10){
-					System.out.println("Adding New Block Hash: ");
-					
-					int i = Integer.parseInt(values[0]);
-					Color c = new Color(
-							Integer.parseInt(values[1]), 
-							Integer.parseInt(values[2]), 
-							Integer.parseInt(values[3]), 
-							Integer.parseInt(values[4]));
-					
-					Values.BlockHash.put(Integer.parseInt(values[0]), c);
-					
-					index = 0;
-					values[index] = "";
-					
-					System.out.println("Block ID: " + i);
-					System.out.println("Block Color: " + c + "\n");
-				}
-				
-				data = reader.read();
-			}
-			
-			reader.close();
-			
-			System.out.println(" --- Finished Loading Block Hashings --- ");
-		} catch(IOException error) {
-			System.out.println("There was an error in loading block hashings");
 		}
 	}
 }

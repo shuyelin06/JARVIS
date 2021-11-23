@@ -40,7 +40,7 @@ public class Background
 	
 	public void render(Graphics g, float x, float y)
 	{
-		float currentChunk = (x - Values.CenterX) / Coordinate.ConversionFactor / Values.Chunk_Size_X * -1;
+		float currentChunk = (x - Values.CenterX) / Values.Pixels_Per_Block / Values.Chunk_Size_X * -1;
 		if(y > -500)
 		{
 			sky.render(g);

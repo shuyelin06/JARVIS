@@ -6,6 +6,7 @@ import org.newdawn.slick.SlickException;
 
 import core.Engine;
 import core.Values;
+import managers.ImageManager;
 
 public class Cloud 
 {
@@ -17,38 +18,20 @@ public class Cloud
 	private float xSpeed;
 	private float parallax;
 	
-	private int cloudType;
+	private Integer cloudType;
 	
 	Image sprite;
 	
 	public Cloud() throws SlickException
 	{
-		sprite = Values.Images.get("placeholder");
-		
 		this.x = (float) Math.random() * Engine.RESOLUTION_X;
 		this.y = (float) Math.random() * Engine.RESOLUTION_Y * 0.4f;
 		
 		this.w = 256 + 32 * (int)(Math.random() * 3);
 		this.h = w * 0.4375f + 28 * (int)(Math.random() * 2);
 		
-		cloudType = (int)(Math.random() * 4);
-		
-		if(cloudType == 0)
-		{
-			sprite = Values.Images.get("cloud-1");
-		} 
-		else if(cloudType == 1)
-		{
-			sprite = Values.Images.get("cloud-2");
-		}
-		else if(cloudType == 2)
-		{
-			sprite = Values.Images.get("cloud-3");
-		} 
-		else if(cloudType == 3)
-		{
-			sprite = Values.Images.get("cloud-4");
-		}
+		cloudType = (int)(Math.random() * 4) + 1;
+		sprite = ImageManager.getImage("cloud-" + cloudType.toString());
 		
 		xSpeed = (w * w) * 0.000005f;
 		parallax  = w * 0.0003f;

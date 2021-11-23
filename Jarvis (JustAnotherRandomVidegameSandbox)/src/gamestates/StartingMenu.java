@@ -11,8 +11,9 @@ import org.newdawn.slick.state.StateBasedGame;
 import background.Background;
 import core.Engine;
 import core.Values;
+import managers.FileManager;
+import managers.ImageManager;
 import structures.Particle;
-import support.FileLoader;
 
 public class StartingMenu extends BasicGameState 
 {
@@ -35,7 +36,7 @@ public class StartingMenu extends BasicGameState
 	// Initializer, first time
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException 
 	{		
-		FileLoader.LoadResFiles();
+		FileManager.LoadResFiles();
 		
 		bg = new Background();
 		//image settings
@@ -146,7 +147,7 @@ public class StartingMenu extends BasicGameState
 	{
 		try
 		{
-			mainButton = Values.Images.get(file);
+			mainButton = ImageManager.getImage(file);
 		}
 		catch(Exception e)		
 		{

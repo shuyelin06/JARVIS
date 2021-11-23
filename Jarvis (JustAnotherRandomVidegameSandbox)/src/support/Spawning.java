@@ -57,7 +57,7 @@ public class Spawning {
 		for(int i = minDistance; i < maxDistance; i ++) {
 			if(Utility.random(0.0, 100.0) <= prob) {
 				
-			coord.setX(playerX + i * direction);
+			coord.setXPos(playerX + i * direction);
 			
 			//so that it doesn't check out of world
 			if(coord.getX() > Values.World_X_Size * Values.Chunk_Size_X - w
@@ -68,7 +68,7 @@ public class Spawning {
 				return null;
 			}
 			
-			coord.setY(playerY);
+			coord.setYPos(playerY);
 			int indexX = Engine.game.getWorld().getBlockIndex(coord)[0];
 			//System.out.println("indexX: " + indexX);
 			
@@ -79,7 +79,7 @@ public class Spawning {
 				for(int j = (int)playerY; j < (int)playerY + elevationDiff; j++) {
 					Coordinate tempCoord = new Coordinate(coord.getX(),j);
 					if(Engine.game.getWorld().openArea(tempCoord, w, h) && blocks[indexX][j-2].getID() != 0) {
-						coord.setY(j);						
+						coord.setYPos(j);						
 						return coord;
 					}
 				}
@@ -91,7 +91,7 @@ public class Spawning {
 					//System.out.println(blocks[indexX][j-1].getID());
 					Coordinate tempCoord = new Coordinate(coord.getX(),j);
 					if(Engine.game.getWorld().openArea(tempCoord, w, h) && blocks[indexX][j-1].getID() != 0) {
-						coord.setY(j);						
+						coord.setYPos(j);						
 						return coord;
 					}
 					

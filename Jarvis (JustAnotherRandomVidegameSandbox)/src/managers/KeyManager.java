@@ -22,10 +22,7 @@ public class KeyManager implements Predicate<Integer>{
 	}
 	
 	// Predicate required method
-	public boolean test(Integer key) {
-		return input.isKeyDown(key);
-	}
-	
+	public boolean test(Integer key) { return input.isKeyDown(key); }
 	public void keyDown(int key) {
 		switch(key) {
 			case Input.KEY_A:
@@ -36,8 +33,7 @@ public class KeyManager implements Predicate<Integer>{
 				break;
 			case Input.KEY_S:
 				player.fall();
-				break;
-			
+				break;	
 		}
 	}
 	

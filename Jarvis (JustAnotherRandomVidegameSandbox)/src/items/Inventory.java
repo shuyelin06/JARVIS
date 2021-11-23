@@ -22,6 +22,8 @@ public class Inventory{
 		this.playerPos = p.getPosition();
 		this.items = new Item[Inventory_Size];
 		this.idIndexMapping = new HashMap<Integer, Integer>();
+		
+		this.items[0] = Item.GetItem(-1, 1);
 	}
 		
 	public Item[] getItems() { return items; }
