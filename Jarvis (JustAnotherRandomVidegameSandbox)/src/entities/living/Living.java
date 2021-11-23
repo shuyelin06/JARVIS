@@ -111,6 +111,10 @@ public class Living extends Entity{
 		iFrames = frames;
 	}
 	
+	public boolean getInvincible() {
+		return iFrames>0;
+	}
+	
 	public boolean isAlive() {
 		return alive;
 	}

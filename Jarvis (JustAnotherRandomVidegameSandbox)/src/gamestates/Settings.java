@@ -32,6 +32,10 @@ public class Settings extends BasicGameState {
 	
 	//background
 	private Background bg;
+	
+	private float volume;
+	private Integer volumeMeter;
+	
 	//image variables
 	private Image mainButton;
 	private Image m1Button;
@@ -111,6 +115,8 @@ public class Settings extends BasicGameState {
 			particles.get(i).update(gc);
 		}
 		
+		volume = Engine.sound.getVolume();
+		volumeMeter = (int) (volume * 10);
 	}
 
 	public void enter(GameContainer gc, StateBasedGame sbg) throws SlickException 
@@ -198,7 +204,8 @@ public class Settings extends BasicGameState {
 		setImage("volumeDown");
 		m2Button.draw(m2ButtonX - (m2ButtonW / 2), m2ButtonY - (m2ButtonH / 2), m2ButtonW, m2ButtonH);
 		
-		setImage("placeholder");
+		setImage(volumeMeter.toString());
+		
 		volumeImage.draw(volumeImageX - (volumeImageW / 2), volumeImageY - (volumeImageH / 2), volumeImageW, volumeImageH);
 			
 	}
