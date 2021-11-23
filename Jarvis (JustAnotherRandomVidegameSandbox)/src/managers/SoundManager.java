@@ -49,4 +49,8 @@ public class SoundManager {
 			volume = 0;
 		}
 	}
+	
+	public float getVolume() {
+		return volume;
+	}
 }
