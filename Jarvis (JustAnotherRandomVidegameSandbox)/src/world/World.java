@@ -123,6 +123,7 @@ public class World
 	/*
 	 * World helper methods
 	 */
+	
 	//precondition: the block at i, j  is a grass block
 	public int getGrassVariant(Block[][] blocks, int i, int j, int chunkIndex) {
 		int lBlock = getAdjacentBlock(blocks, i, j, chunkIndex, -1);

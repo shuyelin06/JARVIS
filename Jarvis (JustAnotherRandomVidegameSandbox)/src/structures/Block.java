@@ -16,10 +16,12 @@ public class Block{
 		
 		this.id = id;
 		variant = 0;
-		if(id == 2) { //grass
-			setGrassVar();
-		}else if(id == 3) { //stone
+		
+		if(id == 3) { //stone
 			setRockVar();
+		} else
+		{
+			setVariant();
 		}
 	}
 	public int getID() {
@@ -34,13 +36,17 @@ public class Block{
 		return variant;
 	}
 	
-	public void setGrassVar() {
-		
-		
+	public void setVariant() 
+	{
+		variant = (int)(Math.random() * 4);
 	}
 	
 	public void setRockVar() {
-		if(Utility.random(0, 10000)<1) {
+		if(Utility.random(0, 100) < 1) {
+			variant = 2;
+		}
+		else if(Math.random() > 0.5)
+		{
 			variant = 1;
 		}
 		

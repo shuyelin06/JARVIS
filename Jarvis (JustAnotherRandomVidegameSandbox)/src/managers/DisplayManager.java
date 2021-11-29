@@ -152,7 +152,7 @@ public class DisplayManager {
 						g.drawImage(tileset.getSubImage(c.getBlocks()[relChunkX][blockY].getVariant(), tileHash.get(id)), position[0], position[1]);
 						break;
 					default: // Every other block
-						g.drawImage(tileset.getSubImage(0, tileHash.get(id)), position[0], position[1]);
+						g.drawImage(tileset.getSubImage(c.getBlocks()[relChunkX][blockY].getVariant(), tileHash.get(id)), position[0], position[1]);
 						break;
 				}
 			}

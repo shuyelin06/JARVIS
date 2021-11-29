@@ -15,7 +15,7 @@ public class Background
 {
 	private int time;
 	private Sky sky;
-	private Hills day;
+	private Hills hills;
 	private Desert desert;
 	private Underground underground;
 	
@@ -25,7 +25,7 @@ public class Background
 	{
 		time = 0;
 		sky = new Sky();
-		day = new Hills();
+		hills = new Hills();
 		desert = new Desert();
 		
 		underground = new Underground();
@@ -57,7 +57,7 @@ public class Background
 			} 
 			else 
 			{
-				day.render(g, x, y);
+				hills.render(g, x, y);
 			}
 			
 			if(currentChunk > Values.desertStart - 1
