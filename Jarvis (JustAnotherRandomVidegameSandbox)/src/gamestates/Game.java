@@ -22,6 +22,8 @@ import core.Values;
 import entities.Entity;
 import entities.living.*;
 import entities.other.Projectile;
+import items.Inventory;
+import items.Item;
 import managers.DisplayManager;
 import managers.FileManager;
 import managers.KeyManager;
@@ -59,6 +61,9 @@ public class Game extends BasicGameState {
 	private Background bg;
 	// The Tutorial
 	private Tutorial tutorial;
+	
+	//temporary variables for item swap
+	private int index1, index2;
 	
 	// Constructor
 	public Game(int id) { this.id = id; } 
@@ -103,6 +108,10 @@ public class Game extends BasicGameState {
 		// Initializing the Managers
 		this.displaymanager = new DisplayManager(this, gc.getGraphics());
 		this.keyManager = new KeyManager(this);
+		
+		// Swap Index settings
+		this.index1 = -1;
+		this.index2 = -1;
 	}
 
 	/* Rendering - Game's Camera */
@@ -258,6 +267,38 @@ public class Game extends BasicGameState {
 					world.destroyBlock((int) mouseCoordinate[0] + i, (int) mouseCoordinate[1] + j);
 				}
 			}
+		}
+	}
+	
+	public void mousePressed(int button, int x, int y) {
+		if (button == Input.MOUSE_LEFT_BUTTON) {
+			checkItemSwap(x, y);
+		}
+	}
+	
+	public void checkItemSwap(float x, float y) {
+		final float BAR_X = (float) (0.050208333333 * getGC().getWidth());
+		final float BAR_Y = (float) (0.03703703703 * getGC().getHeight());
+		final float BAR_WIDTH = (float) ((Engine.game.getGC().getWidth()/2) - (0.15625 * Engine.game.getGC().getWidth()));
+		final float BAR_HEIGHT = (float) ((60f / 1080f) * Engine.game.getGC().getHeight());
+		// Draw every item in the player's inventory
+		final float boxSize = BAR_WIDTH / (float) Inventory.Inventory_Size;
+		
+		if (x > BAR_X && x < BAR_X + BAR_WIDTH && y > BAR_Y && y < BAR_Y + BAR_HEIGHT) {
+			
+			if (index1 == -1) {
+				//set index1 to what is in the bar
+				index1 = (int) ((x - BAR_X) / boxSize);
+			} else {
+				//set index2 to what is in the bar
+				index2 = (int) ((x - BAR_X) / boxSize);
+				player.getInventory().swapElements(index1, index2);
+				index1 = -1;
+				index2 = -1;
+			}
+		} else {
+			index1 = -1;
+			index2 = -1;
 		}
 	}
 	
