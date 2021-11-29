@@ -202,17 +202,6 @@ public class Game extends BasicGameState {
   				player.dropItem();
   				break;
   				
-  			case Input.KEY_R: // ROCKET GO BOOM
-  				float x = gc.getInput().getAbsoluteMouseX() - Values.CenterX;
-  				float y = Values.CenterY - gc.getInput().getAbsoluteMouseY();
-  				
-  				double theta = Math.atan(y / x);
-  				if(x < 0) theta = theta + Math.PI;
-  				
-  				Projectile p = new Projectile(player.getPosition().getX(), player.getPosition().getY(), theta);
-  				entities.get(EntType.Projectiles).add(p);
-  				break;
-  			
   			// All Inventory Key Bindings
   			case Input.KEY_1:
   			case Input.KEY_2:
@@ -243,29 +232,9 @@ public class Game extends BasicGameState {
 		{
 			player.useItem(mouseCoordinate[0], mouseCoordinate[1]);
 		}
-		
-		if(gc.getInput().isMouseButtonDown(Input.MOUSE_RIGHT_BUTTON)) // Right click - place a block
-		{
-			world.destroyBlock((int) mouseCoordinate[0], (int) mouseCoordinate[1]);
-		}
-		
-		if(gc.getInput().isKeyDown(Input.KEY_E)) // Test explosion, just for fun lol
-		{
-			for(int i = -2; i < 3; i++)
-			{
-				for(int j = -2; j < 3; j++)
-				{
-					world.destroyBlock((int) mouseCoordinate[0] + i, (int) mouseCoordinate[1] + j);
-				}
-			}
-		}
 	}
 	
-	public void mouseWheelMoved(int change) {
-		player.adjustInventorySlot(change);
-	}
+	public void mouseWheelMoved(int change) { player.adjustInventorySlot(change); }
 	
-	public void respawn() {
-		player.respawn();
-	}
+	public void respawn() { player.respawn(); }
 }

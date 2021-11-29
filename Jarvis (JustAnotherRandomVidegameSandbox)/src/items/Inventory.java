@@ -16,18 +16,21 @@ public class Inventory{
 	private HashMap<Integer, Integer> idIndexMapping; // First entry: id, second entry: index
 	
 	private Item[] items;
-	// private HashMap<Integer,Integer> items;
 	
 	public Inventory(Player p) {
 		this.playerPos = p.getPosition();
 		this.items = new Item[Inventory_Size];
 		this.idIndexMapping = new HashMap<Integer, Integer>();
 		
-		this.items[0] = Item.GetItem(-1, 1);
+		this.items[0] = Item.GetItem(-1, 0); // Gun 
+		this.items[1] = Item.GetItem(-2, 0); // Pickaxe
 	}
 		
+	public boolean hasItem(int id) { return idIndexMapping.containsKey(id); }
 	public Item[] getItems() { return items; }
 	public int getIndexMap(int id) { return idIndexMapping.get(id); }
+	
+	public void removeItem(int id) { items[idIndexMapping.get(id)].decreaseCount(1); }
 	
 	// Filter out items whose counts are 0
 	public void filter() {

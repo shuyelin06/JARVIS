@@ -15,13 +15,25 @@ public class Gun extends Item{
   }
   
   public void use(float x, float y){
-    // Find the angle the player is aiming
-    Coordinate pos = game.getPlayer().getPosition();
+	Inventory inv = game.getPlayer().getInventory();
+	
+	// Check if the player has gold in their inventory
+	if(inv.hasItem(5)) {
+		// Find the angle the player is aiming
+	    Coordinate pos = game.getPlayer().getPosition();
+	    
+	    double theta = Math.atan2(y - pos.getY(), x - pos.getX()); 
+	    
+	    // Spawn new projectile 
+	    Projectile p = new Projectile(pos.getX(), pos.getY(), theta);
+	    p.updateSprite(Engine.game.displaymanager.getSpriteSheet().getSubImage(
+				0, Engine.game.displaymanager.getSpriteHash().get(5)));
+	    game.addEntity(EntType.Projectiles, p);
+	    
+	    // Decrement the amount of gold 
+		inv.removeItem(5);
+	}
+	
     
-    double theta = Math.atan((y - pos.getY()) / (x - pos.getX())); 
-    if(x - pos.getX() < 0) theta = theta + Math.PI;
-    
-    // Spawn new projectile 
-    game.addEntity(EntType.Projectiles, new Projectile(pos.getX(), pos.getY(), theta));
   }
 }

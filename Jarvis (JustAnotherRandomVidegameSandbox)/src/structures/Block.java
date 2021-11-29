@@ -12,6 +12,9 @@ public class Block{
 	protected int id; // Id of the block
 	protected int variant;
 	
+	final public static int Max_Durability = 100;
+	protected int durability;
+	
 	public Block(int id) {
 		
 		this.id = id;
@@ -21,18 +24,16 @@ public class Block{
 		}else if(id == 3) { //stone
 			setRockVar();
 		}
+		
+		this.durability = Max_Durability;
 	}
-	public int getID() {
-		return id;
-	}
-	public void setID(int id)
-	{
-		this.id = id;
-	}
+	public int getID() { return id; }
+	public void setID(int id) { this.id = id; }
 	
-	public int getVariant() {
-		return variant;
-	}
+	public int getDurability() { return this.durability; }
+	public void hit(int efficiency) { this.durability -= efficiency; }
+	
+	public int getVariant() { return variant; }
 	
 	public void setGrassVar() {
 		
