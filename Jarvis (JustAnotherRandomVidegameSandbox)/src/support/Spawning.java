@@ -96,14 +96,16 @@ public class Spawning {
 	public static Coordinate checkVertical(Coordinate coord, int playerY, int eleDiff, int w, int h, int direction) {
 		Block[][] block = Engine.game.getWorld().getChunk((int) coord.getChunk()).getBlocks();
 		int indX = Engine.game.getWorld().getBlockIndex(coord)[0];
+		if(indX > w && indX < Values.Chunk_Size_X-w) {
 		Coordinate tempCoord = new Coordinate(coord.getX(),playerY);
 		for(int j = 0; j < eleDiff; j++) {
 			tempCoord.setYPos(playerY + direction*j);
-			if(Engine.game.getWorld().openArea(tempCoord, w, h) && block[indX][(int)tempCoord.getY()-w].getID() != 0) {
+			if(Engine.game.getWorld().openArea(tempCoord, w, h) /*&& block[indX][(int)tempCoord.getY()-w].getID() != 0*/) {
 				return tempCoord;
 
 			}
 			
+		}
 		}
 		return null;
 	}

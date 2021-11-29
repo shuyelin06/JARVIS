@@ -188,7 +188,6 @@ public class World
 		
 		return blockIndex;
 	}
-	//pretty sure this isn't actually working rn
 	public boolean openArea(Coordinate c, int w, int h) {
 		int x = getBlockIndex(c)[0];
 		int y = getBlockIndex(c)[1];
@@ -196,11 +195,12 @@ public class World
 		for(int i = x - w; i <= x + w; i++) {
 			for(int j = y - h; j <= y + h; j++) {
 				
-				if(this.getChunk((int)c.getChunk()).getBlocks()[x][y].getID() != 0){
+				if(this.getChunk((int)c.getChunk()).getBlocks()[i][j].getID() != 0){
 					return false;
 				}
 			}
 		}
+		
 		return true;
 	}
 }
