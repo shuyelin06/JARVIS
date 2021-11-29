@@ -83,6 +83,12 @@ public class Inventory{
 			Engine.game.addEntity(EntType.Items, eblock);
 		}	
 	}
-		
+	
+	public void swapElements(int index1, int index2) {
+		Item item1 = items[index1];
+		Item item2 = items[index2];
+		idIndexMapping.replace(item1.getID(), index2);
+		idIndexMapping.replace(item2.getID(), index1);
+	}
 
 }
