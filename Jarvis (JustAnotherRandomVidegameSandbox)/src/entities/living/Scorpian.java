@@ -2,6 +2,7 @@ package entities.living;
 
 import managers.ImageManager;
 
+//supposed to be spelled with an "a"
 public class Scorpian extends Enemy{
 
 	public Scorpian (float x, float y) {
