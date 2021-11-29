@@ -42,7 +42,7 @@ public class Block{
 	}
 	
 	public void setRockVar() {
-		if(Utility.random(0, 100) < 1) {
+		if(Utility.random(0, 10000) < 1) {
 			variant = 2;
 		}
 		else if(Math.random() > 0.5)
