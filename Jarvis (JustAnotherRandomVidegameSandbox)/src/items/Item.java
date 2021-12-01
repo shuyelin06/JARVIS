@@ -33,16 +33,22 @@ public class Item{
 	public void increaseCount(int i) { count += i; }
 	public void decreaseCount(int i) { count -= i; }
 	
-	// Main method all items will follow
+	// Main method all items will use
 	public void use(float x, float y) {} // Absolute Coordinates of the Mouse in Game
 	
+	// Returns some item based on a provided ID and Count
 	public static Item GetItem(int id, int count) {
 		// For now, + numbers = Block Item
 		if(id > 0) {
 			return new IBlock(id, count);
-		} else if(id == -1){
-			return new Gun();
-			// - Numbers = Other Items
-		} else return null;
+		} else {
+			switch(id) {
+			case -1:
+				return new Gun();
+			case -2:
+				return new Tool();
+			}
+		} 
+		return null;
 	}
 }

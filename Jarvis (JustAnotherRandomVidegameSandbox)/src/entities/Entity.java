@@ -68,6 +68,8 @@ public class Entity{
 	public boolean isMarked() { return remove; }
 	
 	// Mutator Methods
+	public void updateSprite(Image image) { this.sprite = image; }
+	
 	public void markForRemoval() { this.remove = true; }
 	public void setSpeedX(float xSpeed) { this.xSpeed = xSpeed; }
 	public void setSpeedY(float ySpeed) { this.ySpeed = ySpeed; }

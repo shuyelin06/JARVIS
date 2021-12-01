@@ -18,9 +18,11 @@ import core.Values;
 import entities.Entity;
 import entities.Entity.EntType;
 import entities.living.Player;
+import entities.other.EBlock;
 import gamestates.Game;
 import items.Inventory;
 import items.Item;
+import structures.Block;
 import world.Chunk;
 import world.World;
 
@@ -59,6 +61,14 @@ public class DisplayManager {
 		tileHash.put(8, 7); //sandstone
 	};
 	
+	// Return the pixel position of a game coordinate on screen
+	public float screenX(float gameX) { return (gameX - center.getX()) * Values.Pixels_Per_Block + Values.CenterX; }
+	public float screenY(float gameY) { return Engine.RESOLUTION_Y - ((gameY - center.getY()) * Values.Pixels_Per_Block + Values.CenterY); }
+	
+	// Return the position of a screen coordinate in the game
+	public float gameX(float screenX) { return center.getX() + (screenX - Values.CenterX) / Values.Pixels_Per_Block; }
+	public float gameY(float screenY) { return center.getY() + 1 + (Values.CenterY - screenY) / Values.Pixels_Per_Block; }
+	
 	// Returns the pixel coordinates on screen for some block coordinate
 	public float[] positionOnScreen(float x, float y) {
 		float[] output = center.displacement(x, y);
@@ -86,23 +96,21 @@ public class DisplayManager {
 		return tileHash;
 	}
 	
+	// Debug Methods
 	public void pinpoint(float x, float y) {
 		graphics.setColor(Color.black);
-		
-		float[] renderPos = positionOnScreen(x, y);
-		graphics.fill(new Circle(renderPos[0], renderPos[1], 5f));
+		graphics.fill(new Circle(screenX(x), screenY(y), 5f));
 	}
 	public void highlightBlock(int x1, int y1) {
 		graphics.setColor(Color.white);
-		
-		float[] renderPos = positionOnScreen(x1, y1);
-		graphics.draw(new Rectangle(renderPos[0], renderPos[1], Values.Pixels_Per_Block , Values.Pixels_Per_Block ));
-		
+		graphics.draw(new Rectangle(screenX(x1), screenY(y1), Values.Pixels_Per_Block , Values.Pixels_Per_Block ));
 	}
-	public void renderBackground(Graphics g) {
+	
+	// Render Methods
+	public void renderBackground(Graphics g) { 
 		float[] backgroundPosition = positionOnScreen(0, Values.Surface);
 		
-		game.getBackground().render(g, backgroundPosition[0], backgroundPosition[1]);
+		game.getBackground().render(g, screenX(0), screenY(Values.Surface));
 	}
 	
 	public void renderTutorial(Graphics g) {
@@ -134,12 +142,12 @@ public class DisplayManager {
 				if(blockY < 0 || blockY > Values.Chunk_Size_Y - 1) continue;
 					
 				// Get the block ID
-				int id = c.getBlocks()[relChunkX][blockY].getID();
+				Block b = c.getBlocks()[relChunkX][blockY];
+				int id = b.getID();
 				float[] position = positionOnScreen(blockX, blockY);
 				
+				if(id == 0) continue;
 				switch(id) {
-					case 0: // Air, don't do anything
-						break;
 					case 2: // Grass
 						int variant = world.getGrassVariant(c.getBlocks(), blockX % Values.Chunk_Size_X, blockY, c.getX());
 						if(variant == 7) {
@@ -155,23 +163,35 @@ public class DisplayManager {
 						g.drawImage(tileset.getSubImage(c.getBlocks()[relChunkX][blockY].getVariant(), tileHash.get(id)), position[0], position[1]);
 						break;
 				}
+				
+				if(b.getDurability() != Block.Max_Durability) {
+					Image crack = ImageManager.getImage("crack");
+					crack = crack.getScaledCopy(Values.Pixels_Per_Block, Values.Pixels_Per_Block);
+					
+					crack.setImageColor(0f, 0f, 0f, (float) (Block.Max_Durability - b.getDurability()) / Block.Max_Durability);
+					crack.draw(position[0], position[1]);
+				}
 			}
 		} 
 	}
 	public void renderEntities(Graphics g) {
 		for(ArrayList<Entity> list: game.getAllEntities().values()) {
 			for(Entity e: list) {
+				// Render Entities
 				renderEntity(g, e);
+				
+				// Outline EBlocks
+				if(e instanceof EBlock) {
+					g.setColor(Color.black);
+					g.drawRect(
+							screenX(e.getPosition().getX()), // X Position
+							screenY(e.getPosition().getY()), // Y Position
+							e.getSizeX() * Values.Pixels_Per_Block, // Width
+							e.getSizeY() * Values.Pixels_Per_Block // Height
+						);
+				}
 			}	
     	}
-		// Outline EBlocks
-		for(Entity eBlock: game.getEntities(EntType.Items)) {
-			g.setColor(Color.black);
-			
-			float[] renderPos = positionOnScreen(eBlock.getPosition().getX(), eBlock.getPosition().getY());
-			g.drawRect(renderPos[0], renderPos[1], eBlock.getSizeX() * Values.Pixels_Per_Block, eBlock.getSizeY() * Values.Pixels_Per_Block );
-		}
-		
 	}
 	public void renderPlayer(Graphics g) {
 		Player p = game.getPlayer();
