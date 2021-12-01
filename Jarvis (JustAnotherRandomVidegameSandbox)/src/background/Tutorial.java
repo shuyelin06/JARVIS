@@ -39,6 +39,9 @@ public class Tutorial {
 		} else if(time < 1000) {
 			time++;
 			setImage("mouseLeftRight");
+		} else if(time < 1500) {
+			time++;
+			setImage("p");
 		} else {
 			canRender = false;
 		}
