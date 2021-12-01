@@ -19,7 +19,6 @@ public class StartingMenu extends BasicGameState
 {
 	int id;
 	
-	private Image test;
 	private int time;
 	//ready to start boolean
 	private boolean readyStart;
@@ -39,8 +38,7 @@ public class StartingMenu extends BasicGameState
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException 
 	{		
 		FileManager.LoadResFiles();
-		
-		test = new Image("res/pratt.png");
+
 		time = 0;
 		bg = new Background();
 		//image settings
@@ -63,9 +61,6 @@ public class StartingMenu extends BasicGameState
 		bg.render(g, 0, 0);
 		drawImages(g);
 		
-		test.setFilter(Image.FILTER_NEAREST);
-		test.setImageColor(time * 0.01f, 1, 1, 1);
-		test.draw(100, 100, 100, 100);
 		time++;
 		
 		//draws fireworks
