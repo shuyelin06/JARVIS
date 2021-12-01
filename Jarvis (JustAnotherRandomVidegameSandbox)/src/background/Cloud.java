@@ -17,10 +17,11 @@ public class Cloud
 	
 	private float xSpeed;
 	private float parallax;
+	private float color;
 	
 	private Integer cloudType;
 	
-	Image sprite;
+	private Image sprite;
 	
 	public Cloud() throws SlickException
 	{
@@ -29,6 +30,8 @@ public class Cloud
 		
 		this.w = 256 + 32 * (int)(Math.random() * 3);
 		this.h = w * 0.4375f + 28 * (int)(Math.random() * 2);
+		
+		color = 1;
 		
 		cloudType = (int)(Math.random() * 4) + 1;
 		sprite = ImageManager.getImage("cloud-" + cloudType.toString());
@@ -40,11 +43,14 @@ public class Cloud
 	public void render(Graphics g, float x, float y)
 	{
 		sprite.setFilter(Image.FILTER_NEAREST);
+		sprite.setImageColor(color, color, color);
+		
 		sprite.draw((x * parallax + this.x) % (Engine.RESOLUTION_X + w) - w, this.y + y * parallax, w, h);
 	}
 	
-	public void update()
+	public void update(float nightAlpha)
 	{
+		color = 1 - nightAlpha * 0.6f;
 		this.x += this.xSpeed;
 	}
 }

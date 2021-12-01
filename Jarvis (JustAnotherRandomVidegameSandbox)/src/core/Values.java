@@ -18,9 +18,10 @@ public class Values // this will be quite useful for organizing stuff later on
 	final public static float CenterY = Engine.RESOLUTION_Y / 2; // Player Center Y
 	
 	// Background variables
-	final public static int nightLength = 3200;
-	final public static int dayLength = 3200;
-	final public static int transitionLength = 1400;
+	final public static int nightLength = 3200; //3200
+	final public static int dayLength = 3200; //3200
+	final public static int transitionLength = 1400; //1400
+	final public static int totalLength = nightLength + dayLength + transitionLength * 2;
 	
 	// Player Variables
 	final public static float Player_Reach = 10f;

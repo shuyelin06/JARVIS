@@ -31,9 +31,9 @@ public class Sky
 		tLength = Values.transitionLength;
 		dayLength = Values.dayLength;
 		nightLength = Values.nightLength;
+		total = Values.totalLength;
 		nightAlpha = 0;
 		sunsetAlpha = 0;
-		total = dayLength + nightLength + (tLength * 2);
 		
 		resX = Engine.RESOLUTION_X;
 		resY = Engine.RESOLUTION_Y;
@@ -69,30 +69,35 @@ public class Sky
 		
 		if(temp > dayLength &&
 				temp < dayLength + tLength)
-			{
-				sunsetAlpha = (float)Math.sin(3.14159 * (temp - dayLength) / tLength); //https://www.desmos.com/calculator/wxnsmit4pw
-				nightAlpha += 0.92 / tLength;
-			} else if(temp > total - tLength)
-			{
-				sunsetAlpha = (float)Math.sin(3.14159 * (temp - (total - tLength)) / tLength);
-				nightAlpha -= 0.92 / tLength;
-			} else
-			{
-				sunsetAlpha = 0;
-			}
-			
-			if(temp < dayLength + tLength * 0.5) //sun
-			{
-				sun.update(temp + tLength * 0.5f);
-			} else if (temp > total - tLength * 0.5)
-			{
-				sun.update(temp - (total - tLength * 0.5f));
-			}
-			
-			if(temp > dayLength + tLength) //moon
-			{
-				moon.update(temp - dayLength - tLength);
+		{
+			sunsetAlpha = (float)Math.sin(3.14159 * (temp - dayLength) / tLength); //https://www.desmos.com/calculator/wxnsmit4pw
+			nightAlpha += 0.92 / tLength;
+		} 
+		else if(temp > total - tLength)
+		{
+			sunsetAlpha = (float)Math.sin(3.14159 * (temp - (total - tLength)) / tLength);
+			nightAlpha -= 0.92 / tLength;
+		} 
+		else
+		{
+			sunsetAlpha = 0;
+		}
+		
+		if(temp < dayLength + tLength * 0.5) //sun
+		{
+			sun.update(temp + tLength * 0.5f);
+		} 
+		else if (temp > total - tLength * 0.5)
+		{
+			sun.update(temp - (total - tLength * 0.5f));
+		}
+		
+		if(temp > dayLength + tLength) //moon
+		{
+			moon.update(temp - dayLength - tLength);
 
-			}
+		}
 	}
+	
+	public float getNightAlpha() { return nightAlpha; }
 }
