@@ -14,6 +14,8 @@ import core.Values;
 public class Background
 {
 	private int time;
+	private float nightAlpha;
+	
 	private Sky sky;
 	private Hills hills;
 	private Desert desert;
@@ -23,6 +25,7 @@ public class Background
 	
 	public Background() throws SlickException
 	{
+		nightAlpha = 0;
 		time = 0;
 		sky = new Sky();
 		hills = new Hills();
@@ -41,6 +44,7 @@ public class Background
 	public void render(Graphics g, float x, float y)
 	{
 		float currentChunk = (x - Values.CenterX) / Values.Pixels_Per_Block / Values.Chunk_Size_X * -1;
+		
 		if(y > -500)
 		{
 			sky.render(g);
@@ -84,14 +88,17 @@ public class Background
 	
 	public void update()
 	{
+		nightAlpha = sky.getNightAlpha();
 		//time = Engine.game.getWorld().getTime();
 		time++;
 		
 		for(int i = 0; i < clouds.length; i++) //the clouds
 		{
-			clouds[i].update();
+			clouds[i].update(nightAlpha);
 		}
 		
+		desert.update(nightAlpha);
+		hills.update(nightAlpha);
 		sky.update(time);
 	}
 	

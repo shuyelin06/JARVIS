@@ -19,6 +19,8 @@ public class StartingMenu extends BasicGameState
 {
 	int id;
 	
+	private Image test;
+	private int time;
 	//ready to start boolean
 	private boolean readyStart;
 	
@@ -38,6 +40,8 @@ public class StartingMenu extends BasicGameState
 	{		
 		FileManager.LoadResFiles();
 		
+		test = new Image("res/pratt.png");
+		time = 0;
 		bg = new Background();
 		//image settings
 		setImage("placeholder");
@@ -58,6 +62,11 @@ public class StartingMenu extends BasicGameState
 		//temporary string graphics, will be replaced
 		bg.render(g, 0, 0);
 		drawImages(g);
+		
+		test.setFilter(Image.FILTER_NEAREST);
+		test.setImageColor(time * 0.01f, 1, 1, 1);
+		test.draw(100, 100, 100, 100);
+		time++;
 		
 		//draws fireworks
 		for (int i = 0; i < WorldSelect.particles.size(); i++) {
