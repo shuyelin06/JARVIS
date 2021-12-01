@@ -41,6 +41,8 @@ public class Tutorial {
 			setImage("mouseLeftRight");
 		} else if(time < 1500) {
 			time++;
+			//140
+			this.wasdW = Engine.RESOLUTION_X * 0.07291666666f;
 			setImage("p");
 		} else {
 			canRender = false;
