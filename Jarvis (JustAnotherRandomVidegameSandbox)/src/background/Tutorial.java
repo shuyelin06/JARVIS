@@ -44,6 +44,9 @@ public class Tutorial {
 			//140
 			this.wasdW = Engine.RESOLUTION_X * 0.07291666666f;
 			setImage("p");
+		} else if(time < 2000) {
+			time++;
+			setImage("esc");
 		} else {
 			canRender = false;
 		}

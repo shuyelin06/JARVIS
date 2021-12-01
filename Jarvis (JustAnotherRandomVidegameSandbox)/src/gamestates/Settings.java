@@ -119,6 +119,8 @@ public class Settings extends BasicGameState {
 		
 		volume = SoundManager.getVolume();
 		volumeMeter = (int) (volume * 10);
+		
+		bg.update();
 	}
 
 	public void enter(GameContainer gc, StateBasedGame sbg) throws SlickException 
