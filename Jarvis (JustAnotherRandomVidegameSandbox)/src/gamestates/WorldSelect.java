@@ -37,7 +37,6 @@ public class WorldSelect extends BasicGameState
 	public static int arraySize = 50;
 	public static int fireworkType = 0;
 	
-	//background
 	//image variables
 	private Image mainButton;
 	private Image w1Button;
@@ -266,8 +265,14 @@ public class WorldSelect extends BasicGameState
 		w2Button.draw(w2ButtonX - (w2ButtonW / 2), w2ButtonY - (w2ButtonH / 2), w2ButtonW, w2ButtonH);
 		
 		setImage("cogwheel");
+		s1Button.setCenterOfRotation(s1ButtonW / 2, s1ButtonH / 2);
+		s1Button.rotate(2);
 		s1Button.draw(s1ButtonX - (s1ButtonW / 2), s1ButtonY - (s1ButtonH / 2), s1ButtonW, s1ButtonH);
+		
+		
 		setImage("refresh");
+		newWorldButton.setCenterOfRotation(newWorldButtonW / 2, newWorldButtonH / 2);
+		newWorldButton.rotate(-2);
 		newWorldButton.draw(newWorldButtonX - (newWorldButtonW / 2), newWorldButtonY - (newWorldButtonH / 2), newWorldButtonW, newWorldButtonH);
 		if (createNewWorld) {
 			g.setColor(new Color(100, 255, 100));
