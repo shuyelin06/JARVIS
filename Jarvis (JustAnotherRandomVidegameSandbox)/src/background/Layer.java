@@ -42,7 +42,7 @@ public class Layer
 	{
 		sprite.setFilter(Image.FILTER_NEAREST);
 		sprite.setAlpha(alpha);
-		sprite.setImageColor(color, color, color);
+		sprite.setImageColor(color, color, color, alpha);
 		
 		sprite.draw(x * parallax % w, y * parallax + this.y, w, h);
 		sprite.draw(x * parallax % w + w, y * parallax + this.y, w, h);
