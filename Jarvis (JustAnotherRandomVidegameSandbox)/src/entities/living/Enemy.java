@@ -51,15 +51,19 @@ public class Enemy extends Living {
 	
 	public void ai(Player p) {
 		if(Utility.getDistance(this, p) <= aggroRange) {
-			if(Utility.changeX(this, p) > 0) {
-				setXSpeed(6.5f);
-			}else if(Utility.changeX(this, p) < 0) {
-				setXSpeed(-6.5f);
-			}
+			moveToPlayerX(p, 6.5f);
 			if(Utility.random(0,100) < 25) {
 				jump(15f);
 			}
 			
+		}
+	}
+	
+	public void moveToPlayerX(Player p, float speed) {
+		if(Utility.changeX(this, p) > 0) {
+			setXSpeed(speed);
+		}else if(Utility.changeX(this, p) < 0) {
+			setXSpeed(-speed);
 		}
 	}
 	
