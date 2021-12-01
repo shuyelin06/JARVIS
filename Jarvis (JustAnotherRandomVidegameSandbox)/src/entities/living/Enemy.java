@@ -32,13 +32,16 @@ public class Enemy extends Living {
 		this.jumps = 0;
 	}
 	// Overwritten update method
+	@Override
 	public void update() {
-		super.update();
+		if(this.position.magDisplacement(target.getPosition()) > Values.Entity_Despawn_Distance 
+				|| curHealth <= 0) { 
+			this.remove = true;
+			return;
+		}
 		
 		ai(target);
-		if (!alive) {
-			this.markForRemoval();
-		}
+		super.update();
 	}
 
 	// Overwritten entity collision method

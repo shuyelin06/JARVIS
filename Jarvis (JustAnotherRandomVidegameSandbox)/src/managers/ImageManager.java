@@ -10,6 +10,7 @@ public class ImageManager{
 	public static int getSize() { return Images.size(); }
 	public static HashMap<String, Image> getImageHash(){ return Images; }
 	
+	public static Image getPlaceholder() { return Images.get("placeholder"); }
 	public static Image getImage(String name) {
 		Image i = Images.get(name);
 		

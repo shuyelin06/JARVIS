@@ -12,6 +12,8 @@ import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.state.BasicGameState;
 
+import background.Background;
+import background.Tutorial;
 import core.Coordinate;
 import core.Engine;
 import core.Values;
@@ -20,104 +22,86 @@ import entities.Entity.EntType;
 import entities.living.Player;
 import entities.other.EBlock;
 import gamestates.Game;
-import items.Inventory;
-import items.Item;
+import inventory.Inventory;
+import inventory.Item;
 import structures.Block;
 import world.Chunk;
 import world.World;
 
 // Will handle all of the game's graphics / display
 public class DisplayManager {
+	final private static double Span_Divide = 1.5; // Determines the number of blocks to be rendered
+	
+	// Variables for easier accessing
+	private static Game game = Engine.game;
 	private Graphics graphics;
+
+	// Display everything relative to this center
+	private Coordinate center; 
 	
-	final private static double Span_Divide = 1.5;
-	// Everything will be displayed relative to this center (which is the player)
-	Coordinate center;
-	
-	// Tileset
+	// Block Sprites
 	private HashMap<Integer, Integer> tileHash;
 	private SpriteSheet tileset;
 	
-	private Game game;
+	// Rendering Variables
+	private Tutorial tutorial;
+	private Background background;
 	
-	public DisplayManager(Game g, Graphics graphics) throws SlickException {
-		this.center = g.getPlayer().getPosition();
+	public DisplayManager(Graphics graphics, Coordinate center) throws SlickException {
+		this.graphics = graphics; // Save Graphics Variable
 		
-		this.graphics = graphics;
-		this.game = g;
+		// Create tutorial and background 
+		this.tutorial = new Tutorial();
+		this.background = new Background();
 		
+		// Save center
+		this.center = center;
 		
-		// Tile set and hashings
+		// Initializing Block Spritesheet
 		tileset = new SpriteSheet("res/tileset.png", 30, 30);
-		//block image hashes: key = block id, 
+		
+		// Block Hashing: Key - Block ID,
 		tileHash = new HashMap<Integer, Integer>();
-		tileHash.put(1, 1); //block id 1 = dirt
-		tileHash.put(2, 0); //block id 2 = grass
-		tileHash.put(3, 2); //block id 3 = stone
-		tileHash.put(4, 3); //coal
-		tileHash.put(5, 4);	//gold
-		tileHash.put(6, 5); //mine diamonds
-		tileHash.put(7, 6); //sand
-		tileHash.put(8, 7); //sandstone
+		tileHash.put(1, 1); // Block ID 1 = dirt
+		tileHash.put(2, 0); // Block ID 2 = grass
+		tileHash.put(3, 2); // Block ID 3 = stone
+		tileHash.put(4, 3); // Block ID 4 = coal
+		tileHash.put(5, 4);	// Block ID 5 = gold
+		tileHash.put(6, 5); // Block ID 6 = diamonds
+		tileHash.put(7, 6); // Block ID 7 = sand
+		tileHash.put(8, 7); // Block ID 8 = sandstone
 	};
 	
-	// Return the pixel position of a game coordinate on screen
-	public float screenX(float gameX) { return (gameX - center.getX()) * Values.Pixels_Per_Block + Values.CenterX; }
+	// Accessor Methods
+	public SpriteSheet getSpriteSheet() { return tileset; }
+	public HashMap<Integer, Integer> getSpriteHash(){ return tileHash; }
+	
+	public Image getBlockSprite(int id) { return tileset.getSubImage(0, tileHash.get(id)); }
+	
+	// Helper Methods 
+	public float screenX(float gameX) { return (gameX - center.getX()) * Values.Pixels_Per_Block + Values.CenterX; } // Return the pixel position of a game coordinate on screen
 	public float screenY(float gameY) { return Engine.RESOLUTION_Y - ((gameY - center.getY()) * Values.Pixels_Per_Block + Values.CenterY); }
 	
-	// Return the position of a screen coordinate in the game
-	public float gameX(float screenX) { return center.getX() + (screenX - Values.CenterX) / Values.Pixels_Per_Block; }
+	public float gameX(float screenX) { return center.getX() + (screenX - Values.CenterX) / Values.Pixels_Per_Block; } // Return the position of a screen coordinate in the game
 	public float gameY(float screenY) { return center.getY() + 1 + (Values.CenterY - screenY) / Values.Pixels_Per_Block; }
 	
-	// Returns the pixel coordinates on screen for some block coordinate
-	public float[] positionOnScreen(float x, float y) {
-		float[] output = center.displacement(x, y);
-		
-		output[0] = output[0] * Values.Pixels_Per_Block + Values.CenterX;
-		output[1] = Engine.RESOLUTION_Y - (output[1] * Values.Pixels_Per_Block + Values.CenterY);
-		
-		return output;
-	}
-	// Return block coordinates of some position on screen
-	public float[] positionInGame(float x, float y) {
-		float[] output = new float[2];
-		
-		// Find the distance from the pixel center
-		output[0] = center.getX() + (x - Values.CenterX) / Values.Pixels_Per_Block ;
-		output[1] = center.getY() + 1 + (Values.CenterY - y) / Values.Pixels_Per_Block ;
-		
-		return output;
-	}
-		
-	public SpriteSheet getSpriteSheet() {
-		return tileset;
-	}
-	public HashMap<Integer, Integer> getSpriteHash(){
-		return tileHash;
-	}
-	
-	// Debug Methods
-	public void pinpoint(float x, float y) {
-		graphics.setColor(Color.black);
-		graphics.fill(new Circle(screenX(x), screenY(y), 5f));
-	}
-	public void highlightBlock(int x1, int y1) {
-		graphics.setColor(Color.white);
-		graphics.draw(new Rectangle(screenX(x1), screenY(y1), Values.Pixels_Per_Block , Values.Pixels_Per_Block ));
-	}
-	
 	// Render Methods
-	public void renderBackground(Graphics g) { 
-		float[] backgroundPosition = positionOnScreen(0, Values.Surface);
+	// Main Render Method
+	public void render(Graphics g) {
+		// Update variables in display manager
+		background.update(); // Update background
+		tutorial.update(); // Update tutorial
 		
-		game.getBackground().render(g, screenX(0), screenY(Values.Surface));
+		// Render everything
+		renderBackground(g); // Render background first
+		renderBlocks(g); // Render blocks on top of background
+		renderEntities(g); // Render entities on top of blocks
+		renderPlayer(g); // Render player UI on top of entities
+		renderTutorial(g); // Render tutorial on top of all else
 	}
 	
-	public void renderTutorial(Graphics g) {
-		if (game.getTutorial().canRender()) {
-			game.getTutorial().render(g);
-		}
-	}
+	public void renderBackground(Graphics g) { background.render(g, screenX(0), screenY(Values.Surface)); } 
+	public void renderTutorial(Graphics g) { if (tutorial.canRender()) { tutorial.render(g); } }
 	
 	public void renderBlocks(Graphics g) {
 		World world = game.getWorld();
@@ -144,23 +128,25 @@ public class DisplayManager {
 				// Get the block ID
 				Block b = c.getBlocks()[relChunkX][blockY];
 				int id = b.getID();
-				float[] position = positionOnScreen(blockX, blockY);
 				
+				float screenX = screenX(blockX);
+				float screenY = screenY(blockY);
+
 				if(id == 0) continue;
 				switch(id) {
 					case 2: // Grass
 						int variant = world.getGrassVariant(c.getBlocks(), blockX % Values.Chunk_Size_X, blockY, c.getX());
 						if(variant == 7) {
-							g.drawImage(tileset.getSubImage(0, 1), position[0], position[1]);
+							g.drawImage(tileset.getSubImage(0, 1), screenX, screenY);
 						}else {
-							g.drawImage(tileset.getSubImage(variant, 0), position[0], position[1]);
+							g.drawImage(tileset.getSubImage(variant, 0), screenX, screenY);
 						}
 						break;
 					case 3: // Stone
-						g.drawImage(tileset.getSubImage(c.getBlocks()[relChunkX][blockY].getVariant(), tileHash.get(id)), position[0], position[1]);
+						g.drawImage(tileset.getSubImage(c.getBlocks()[relChunkX][blockY].getVariant(), tileHash.get(id)), screenX, screenY);
 						break;
 					default: // Every other block
-						g.drawImage(tileset.getSubImage(0, tileHash.get(id)), position[0], position[1]);
+						g.drawImage(tileset.getSubImage(0, tileHash.get(id)), screenX, screenY);
 						break;
 				}
 				
@@ -169,7 +155,7 @@ public class DisplayManager {
 					crack = crack.getScaledCopy(Values.Pixels_Per_Block, Values.Pixels_Per_Block);
 					
 					crack.setImageColor(0f, 0f, 0f, (float) (Block.Max_Durability - b.getDurability()) / Block.Max_Durability);
-					crack.draw(position[0], position[1]);
+					crack.draw(screenX, screenY);
 				}
 			}
 		} 
@@ -196,20 +182,21 @@ public class DisplayManager {
 	public void renderPlayer(Graphics g) {
 		Player p = game.getPlayer();
 		
-		renderEntity(g, p);
 		drawPlayerHealth(g, p);
 		drawPlayerInventory(g, p);
 	}
 	
 	
 	private void renderEntity(Graphics g, Entity e) {
-		float[] renderPosition = positionOnScreen(e.getPosition().getX(), e.getPosition().getY());
+		float screenX = screenX(e.getPosition().getX());
+		float screenY = screenY(e.getPosition().getY());
+		
 		Image sprite = e.getSprite();
 		
 		if(e.getDirection()) { // Moving right
-			sprite.draw(renderPosition[0], renderPosition[1], e.getSizeX() * Values.Pixels_Per_Block, e.getSizeY() * Values.Pixels_Per_Block ); 
+			sprite.draw(screenX, screenY, e.getSizeX() * Values.Pixels_Per_Block, e.getSizeY() * Values.Pixels_Per_Block ); 
 		} else { // Moving left
-			sprite.draw(renderPosition[0] + e.getSizeX() * Values.Pixels_Per_Block , renderPosition[1], -e.getSizeX() * Values.Pixels_Per_Block , e.getSizeY() * Values.Pixels_Per_Block); 
+			sprite.draw(screenX + e.getSizeX() * Values.Pixels_Per_Block , screenY, -e.getSizeX() * Values.Pixels_Per_Block , e.getSizeY() * Values.Pixels_Per_Block); 
 		}
 	}
 	private void drawPlayerHealth(Graphics g, Player p) {
@@ -267,5 +254,16 @@ public class DisplayManager {
 		g.setColor(Color.black);
 		g.drawRect(p.inventorySelected() * boxSize + 0.050208333333f * Engine.RESOLUTION_X, 0.03703703703f * Engine.game.getGC().getHeight(), boxSize, BAR_HEIGHT);
 	}
+	
+	// Debug Methods
+	public void pinpoint(float x, float y) {
+		graphics.setColor(Color.black);
+		graphics.fill(new Circle(screenX(x), screenY(y), 5f));
+	}
+	public void highlightBlock(int x1, int y1) {
+		graphics.setColor(Color.white);
+		graphics.draw(new Rectangle(screenX(x1), screenY(y1), Values.Pixels_Per_Block , Values.Pixels_Per_Block ));
+	}
+	
 	
 }

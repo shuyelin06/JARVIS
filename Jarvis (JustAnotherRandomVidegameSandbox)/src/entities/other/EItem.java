@@ -3,6 +3,7 @@ package entities.other;
 import java.util.ArrayList;
 
 import core.Engine;
+import core.Values;
 import entities.Entity;
 
 public class EItem extends Entity{
@@ -17,10 +18,18 @@ public class EItem extends Entity{
 	public int getID() { return itemID; }
 	public int getCount() { return count; }
 	
+	@Override
+	public void update() {
+		if(timeAlive() > Values.Item_Despawn_Time) {
+			this.remove = true;
+			return;
+		}
+		super.update();
+	}
 	// Overwritten entity collision method
 	protected void entityCollisions() {
 		// Check collisions with other EItems
-		ArrayList<Entity> items = Engine.game.getEntities(EntType.Items); 
+		ArrayList<Entity> items = game.getEntities(EntType.Items); 
 		
 		int index = items.indexOf(this);
 		for(int i = 0; i < items.size(); i++) {
