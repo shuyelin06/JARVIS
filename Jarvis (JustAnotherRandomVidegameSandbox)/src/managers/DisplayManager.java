@@ -190,15 +190,20 @@ public class DisplayManager {
 	private void renderEntity(Graphics g, Entity e) {
 		float screenX = screenX(e.getPosition().getX());
 		float screenY = screenY(e.getPosition().getY());
-		
 		Image sprite = e.getSprite();
 		
 		if(e.getDirection()) { // Moving right
+			e.setPastDirection(true);
+		} else if (e.getLeft()){ // Moving left
+			e.setPastDirection(false);
+		}
+		if (e.getPastDirection()) { // Moving right
 			sprite.draw(screenX, screenY, e.getSizeX() * Values.Pixels_Per_Block, e.getSizeY() * Values.Pixels_Per_Block ); 
 		} else { // Moving left
 			sprite.draw(screenX + e.getSizeX() * Values.Pixels_Per_Block , screenY, -e.getSizeX() * Values.Pixels_Per_Block , e.getSizeY() * Values.Pixels_Per_Block); 
 		}
 	}
+	
 	private void drawPlayerHealth(Graphics g, Player p) {
 		// Defining bar variables
 		final float BAR_WIDTH = (float) ((Engine.game.getGC().getWidth()/2) - (0.15625 * Engine.game.getGC().getWidth()));

@@ -38,6 +38,7 @@ public class Entity{
 	protected Coordinate position; 		// Entity position
 	protected float xSpeed, ySpeed;		// Entity velocity (pixels per second)
 	protected float mass; 				// Entity mass
+	protected boolean pastDirection;    // Marker for direction faced
 	
 	// Every entity will have some initial starting position
 	public Entity(float InitX, float InitY) {
@@ -53,12 +54,15 @@ public class Entity{
 		this.position = new Coordinate(InitX, InitY); // Initial position
 		this.xSpeed = this.ySpeed = 0f; // Default speeds
 		this.mass = 1f; // Default Mass
+		this.pastDirection = false; // Start facing left
 	}
 	
 	// Accessor Methods
 	public float timeAlive() 		{ return (float) (Sys.getTime() - time) / 1000; }
 	public Image getSprite() 		{ return sprite; }
 	public boolean getDirection() 	{ return xSpeed > 0; } // False - Left, True - Right
+	public boolean getLeft()        { return xSpeed < 0; } // if true, then left
+	public boolean getPastDirection() { return pastDirection; }
 	public float getSizeX() 		{ return sizeX; }
 	public float getSizeY() 		{ return sizeY; }
 	public Coordinate getPosition() { return position; }
@@ -72,6 +76,7 @@ public class Entity{
 	public void markForRemoval() { this.remove = true; }
 	public void setSpeedX(float xSpeed) { this.xSpeed = xSpeed; }
 	public void setSpeedY(float ySpeed) { this.ySpeed = ySpeed; }
+	public void setPastDirection(boolean pastDirection) { this.pastDirection = pastDirection; }
 	
 	// Main method called for all entities
 	public void update() {
@@ -227,6 +232,7 @@ public class Entity{
 			}
 		}
 	}
+	
 	
 	// Used in debugging (to be moved)
 	public void debug() {
