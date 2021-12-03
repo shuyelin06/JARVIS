@@ -12,8 +12,8 @@ import core.Engine;
 import core.Values;
 import entities.Entity;
 import entities.other.EItem;
-import items.Inventory;
-import items.Item;
+import inventory.Inventory;
+import inventory.Item;
 import managers.ImageManager;
 
 public class Player extends Living{	
@@ -27,7 +27,7 @@ public class Player extends Living{
 		super(Values.SpawnX, Values.SpawnY); 
 		
 		try {
-			sprite = ImageManager.getImage("pratt");
+			sprite = ImageManager.getImage("guide");
 		} catch(Exception e) {}
 		
 		this.inventory = new Inventory(this);
@@ -64,9 +64,9 @@ public class Player extends Living{
 		inventory.drop(inventorySelected);
 	}
 	
+	@Override
 	public void update() {
 		super.update();
-		
 		inventory.filter();
 	}
 	

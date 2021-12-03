@@ -8,7 +8,7 @@ import org.newdawn.slick.Sound;
 public class Values // this will be quite useful for organizing stuff later on
 {	
 	// Defines our block system
-	final public static int Pixels_Per_Block = 30;
+	final public static int Pixels_Per_Block = 30; // Determines the size of everything in game
 	
 	// Rendering Variables
 	final public static HashMap<Integer, Color> BlockHash = new HashMap<Integer, Color>(); // Stores our Block - Color Combinations
@@ -16,6 +16,7 @@ public class Values // this will be quite useful for organizing stuff later on
 	
 	final public static float CenterX = Engine.RESOLUTION_X / 2; // Player Center X
 	final public static float CenterY = Engine.RESOLUTION_Y / 2; // Player Center Y
+	final public static float EBlock_Size = 0.75f;
 	
 	// Background variables
 	final public static int nightLength = 3200; //3200
@@ -34,6 +35,9 @@ public class Values // this will be quite useful for organizing stuff later on
 	final public static float SpawnY = Surface + 32f; // Player Y Spawn
 	
 	final public static float Spawn_Rate = 3f; // Entity Spawn Rate
+	
+	final public static float Entity_Despawn_Distance = (float) Math.sqrt(Engine.RESOLUTION_X * Engine.RESOLUTION_X + Engine.RESOLUTION_Y * Engine.RESOLUTION_Y);
+	final public static float Item_Despawn_Time = 10; // If an entity exists for >__ seconds, unload it
 	
 	// World Size Variables
 	final public static int World_X_Size = 64; // World Size (in chunks)

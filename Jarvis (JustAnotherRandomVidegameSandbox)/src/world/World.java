@@ -11,7 +11,7 @@ import entities.living.Player;
 import entities.Entity.EntType;
 import entities.other.EBlock;
 import gamestates.Game;
-import items.Item;
+import inventory.Item;
 import managers.FileManager;
 import structures.Block;
 

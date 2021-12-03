@@ -1,4 +1,4 @@
-package items;
+package inventory.items;
 
 import java.lang.Math;
 
@@ -6,14 +6,18 @@ import core.Coordinate;
 import core.Engine;
 import entities.Entity.EntType;
 import entities.other.Projectile;
+import inventory.Inventory;
+import inventory.Item;
 import managers.ImageManager;
 
 public class Gun extends Item{
   public Gun(){
-    super(-1, 1, 
-    		ImageManager.getImage("desert eagle"));
+    super(-1, 1);
+    
+    this.sprite = ImageManager.getImage("desert eagle");
   }
   
+  @Override
   public void use(float x, float y){
 	Inventory inv = game.getPlayer().getInventory();
 	
@@ -26,14 +30,13 @@ public class Gun extends Item{
 	    
 	    // Spawn new projectile 
 	    Projectile p = new Projectile(pos.getX(), pos.getY(), theta);
-	    p.updateSprite(Engine.game.displaymanager.getSpriteSheet().getSubImage(
-				0, Engine.game.displaymanager.getSpriteHash().get(5)));
+	    p.updateSprite(Engine.game.displayManager.getSpriteSheet().getSubImage(
+				0, Engine.game.displayManager.getSpriteHash().get(5)));
 	    game.addEntity(EntType.Projectiles, p);
 	    
 	    // Decrement the amount of gold 
 		inv.removeItem(5);
-	}
-	
-    
+	} 
   }
+  
 }

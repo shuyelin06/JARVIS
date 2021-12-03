@@ -1,16 +1,17 @@
-package items;
+package inventory.items;
 
 import core.Values;
+import inventory.Item;
 import managers.ImageManager;
 import structures.Block;
 
 public class Tool extends Item {
-	int strength;
+	private int strength;
 	
 	public Tool() {
-		super(-2, 1,
-				ImageManager.getImage("pickaxe"));
+		super(-2, 1);
 		
+		this.sprite = ImageManager.getImage("pickaxe");
 		this.strength = 10;
 	}
 	
