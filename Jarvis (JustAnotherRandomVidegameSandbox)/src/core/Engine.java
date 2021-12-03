@@ -56,8 +56,6 @@ public class Engine extends StateBasedGame
 	{
 		super(name);
 		
-		FileManager.LoadResFiles(); // Initializing res files
-		
 		startingMenu = new StartingMenu(StartingMenu_ID);
 		worldSelect = new WorldSelect(WorldSelect_ID);
 		loading = new Loading(Loading_ID);

@@ -12,13 +12,8 @@ public class SoundManager {
 	final private static HashMap<String, Sound> Sounds = new HashMap<String, Sound>();
 	
 	private static Sound background;
-	private static float pitch, volume;
-	
-	public SoundManager() {
-		background = null;
-		pitch = 1f;
-		volume = 0.5f;
-	}
+	private static float pitch = 1f;
+	private static float volume = 0.5f;
 	
 	public static int getSize() { return Sounds.size(); }
 	public static HashMap<String, Sound> getSoundHash(){ return Sounds; }
@@ -34,7 +29,10 @@ public class SoundManager {
 		if(background != null) background.stop(); // Stop the existing background music
 		
 		background = Sounds.get(name); // Get the background music desired
-		background.loop(pitch, volume); // Loop the background music
+		
+		System.out.println(pitch);
+		System.out.println(volume);
+		background.loop(1f,1f); // Loop the background music
 	}
 	
 	public static void stopBackgroundMusic() {
@@ -42,6 +40,7 @@ public class SoundManager {
 	}
 	
 	public static void increaseVolume() {
+		System.out.println(volume);
 		volume += 0.1;
 		if (volume > 1) {
 			volume = 1;
