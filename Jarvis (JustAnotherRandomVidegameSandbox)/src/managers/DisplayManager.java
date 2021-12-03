@@ -146,7 +146,7 @@ public class DisplayManager {
 						g.drawImage(tileset.getSubImage(c.getBlocks()[relChunkX][blockY].getVariant(), tileHash.get(id)), screenX, screenY);
 						break;
 					default: // Every other block
-						g.drawImage(tileset.getSubImage(0, tileHash.get(id)), screenX, screenY);
+						g.drawImage(tileset.getSubImage(c.getBlocks()[relChunkX][blockY].getVariant(), tileHash.get(id)), screenX, screenY);
 						break;
 				}
 				

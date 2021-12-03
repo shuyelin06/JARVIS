@@ -15,6 +15,9 @@ import core.Engine;
 import core.Values;
 import entities.Entity;
 import entities.living.*;
+import entities.other.Projectile;
+import inventory.Inventory;
+import inventory.Item;
 import managers.DisplayManager;
 import managers.KeyManager;
 import managers.SoundManager;
@@ -40,6 +43,9 @@ public class Game extends BasicGameState {
 	private HashMap<EntType, ArrayList<Entity>> entities;
 	// The World
 	private World world;
+	
+	//temporary variables for item swap
+	private int index1, index2;
 	
 	// Constructor
 	public Game(int id) { this.id = id; } 
@@ -89,6 +95,10 @@ public class Game extends BasicGameState {
 		// Initializing the Managers
 		this.displayManager = new DisplayManager(gc.getGraphics(), player.getPosition());
 		this.keyManager = new KeyManager(this);
+		
+		// Swap Index settings
+		this.index1 = -1;
+		this.index2 = -1;
 	}
 
 	@Override /* Render Everything in Game */
@@ -201,4 +211,37 @@ public class Game extends BasicGameState {
 					);
 		}
 	}
+
+	public void mousePressed(int button, int x, int y) {
+		if (button == Input.MOUSE_LEFT_BUTTON) {
+			checkItemSwap(x, y);
+		}
+	}
+	
+	public void checkItemSwap(float x, float y) {
+		final float BAR_X = (float) (0.050208333333 * getGC().getWidth());
+		final float BAR_Y = (float) (0.03703703703 * getGC().getHeight());
+		final float BAR_WIDTH = (float) ((Engine.game.getGC().getWidth()/2) - (0.15625 * Engine.game.getGC().getWidth()));
+		final float BAR_HEIGHT = (float) ((60f / 1080f) * Engine.game.getGC().getHeight());
+		// Draw every item in the player's inventory
+		final float boxSize = BAR_WIDTH / (float) Inventory.Inventory_Size;
+		
+		if (x > BAR_X && x < BAR_X + BAR_WIDTH && y > BAR_Y && y < BAR_Y + BAR_HEIGHT) {
+			
+			if (index1 == -1) {
+				//set index1 to what is in the bar
+				index1 = (int) ((x - BAR_X) / boxSize);
+			} else {
+				//set index2 to what is in the bar
+				index2 = (int) ((x - BAR_X) / boxSize);
+				player.getInventory().swapElements(index1, index2);
+				index1 = -1;
+				index2 = -1;
+			}
+		} else {
+			index1 = -1;
+			index2 = -1;
+		}
+	}
+
 }
