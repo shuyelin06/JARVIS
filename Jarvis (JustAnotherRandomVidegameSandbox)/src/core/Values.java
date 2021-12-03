@@ -44,10 +44,6 @@ public class Values // this will be quite useful for organizing stuff later on
 	final public static int Chunk_Size_X = 16; // Chunk X Size (in blocks)
 	final public static int Chunk_Size_Y = 2048; // Chunk Y Size (in blocks)
 	
-	// Biome Variables
-	public static int desertStart = (int) (Values.World_X_Size * 0.3);
-	public static int desertEnd = desertStart + (int) (Values.World_X_Size * 0.15);
-	
 	// Physics Variables
 	final public static float Drag_Coefficient = 0.45f;
 	final public static float Friction_Coefficient = 0.5f;

@@ -32,9 +32,6 @@ public class Settings extends BasicGameState {
 	public static int arraySize = 50;
 	public static int fireworkType = 0;
 	
-	//background
-	private Background bg;
-	
 	private float volume;
 	private Integer volumeMeter;
 	
@@ -58,8 +55,6 @@ public class Settings extends BasicGameState {
 	// Initializer, first time
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException 
 	{
-		//background
-		bg = new Background();
 		
 		//image settings
 		setImage("placeholder");
@@ -97,7 +92,7 @@ public class Settings extends BasicGameState {
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException 
 	{
 		//background
-		bg.render(g, 0, 0);
+		StartingMenu.bg.render(g, 0, 0);
 		
 		//draws all buttons and world number image
 		drawImages(g);
@@ -127,7 +122,7 @@ public class Settings extends BasicGameState {
 		volume = SoundManager.getVolume();
 		volumeMeter = (int) (volume * 10);
 		
-		bg.update();
+		StartingMenu.bg.update();
 	}
 
 	public void enter(GameContainer gc, StateBasedGame sbg) throws SlickException 

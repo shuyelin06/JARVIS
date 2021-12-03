@@ -52,7 +52,7 @@ public class DisplayManager {
 		
 		// Create tutorial and background 
 		this.tutorial = new Tutorial();
-		this.background = new Background();
+		this.background = new Background(Engine.Game_ID);
 		
 		// Save center
 		this.center = center;

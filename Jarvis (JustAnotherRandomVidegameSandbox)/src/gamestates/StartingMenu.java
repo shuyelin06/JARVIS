@@ -40,7 +40,7 @@ public class StartingMenu extends BasicGameState
 		FileManager.LoadResFiles();
 
 		time = 0;
-		bg = new Background();
+		bg = new Background(Engine.StartingMenu_ID);
 		//image settings
 		setImage("placeholder");
 		mainButtonX = gc.getWidth()/2;
