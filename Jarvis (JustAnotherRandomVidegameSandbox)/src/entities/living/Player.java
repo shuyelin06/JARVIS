@@ -26,6 +26,7 @@ public class Player extends Living{
 	{
 		super(Values.SpawnX, Values.SpawnY); 
 		
+		this.team = Team.Ally;
 		try {
 			sprite = ImageManager.getImage("pratt");
 		} catch(Exception e) {}
@@ -54,11 +55,13 @@ public class Player extends Living{
 		}
 	}
 	
-	public void useItem(float x, float y) {
+	public void useItem(float x, float y, boolean primary) {
 		Item item = selectedItem();
-		if(item != null) {
-			item.use(x, y);
-		}
+		
+		if(item == null) return;
+		
+		if(primary) item.use(x, y);
+		else item.use2(x, y);
 	}
 	public void dropItem() {
 		inventory.drop(inventorySelected);

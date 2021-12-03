@@ -15,7 +15,7 @@ import core.Engine;
 import core.Values;
 import entities.Entity;
 import entities.living.*;
-import entities.other.Projectile;
+import entities.projectiles.Projectile;
 import inventory.Inventory;
 import inventory.Item;
 import managers.DisplayManager;
@@ -62,8 +62,7 @@ public class Game extends BasicGameState {
 	public World getWorld() { return world; }
 	
 	// Mutator Methods
-	public void addAlly(Entity e) { entities.get(EntType.Allies).add(e); }
-	public void addEnemy(Entity e) { entities.get(EntType.Hostiles).add(e); }
+	public void addLiving(Entity e) { entities.get(EntType.Living).add(e); } 
 	public void addProjectile(Entity e) { entities.get(EntType.Projectiles).add(e); }
 	
  	public void addEntity(EntType type, Entity e) { entities.get(type).add(e); }
@@ -84,7 +83,7 @@ public class Game extends BasicGameState {
 		
 		// Initializing Player
 		this.player = new Player();
-		entities.get(EntType.Allies).add(player);
+		addLiving(player);
 		
 		// Initializing World
 		this.world = new World(this);
@@ -109,6 +108,7 @@ public class Game extends BasicGameState {
 	{	 
 		// Check Control Presses
 		checkControls();
+		inInventory = false;
 		
 		// Update The World
 		world.update();
@@ -199,16 +199,27 @@ public class Game extends BasicGameState {
 	}
 
 	// Mouse Mappings
-	@Override // Runs if mouse wheel moves
+	private boolean inInventory = false;
+	
 	public void mouseWheelMoved(int change) { player.adjustInventorySlot(change); }
 	private void checkCursorDown() {
+		if(inInventory) return;
+		
 		Input input = gc.getInput();
 		
 		if(input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)) {
 			player.useItem(
 					displayManager.gameX(input.getAbsoluteMouseX()),
-					displayManager.gameY(input.getAbsoluteMouseY())
+					displayManager.gameY(input.getAbsoluteMouseY()),
+					true 
 					);
+		} else if(input.isMouseButtonDown(Input.MOUSE_RIGHT_BUTTON)){
+			player.useItem(
+					displayManager.gameX(input.getAbsoluteMouseX()),
+					displayManager.gameY(input.getAbsoluteMouseY()),
+					false
+					);
+			
 		}
 	}
 
@@ -227,6 +238,7 @@ public class Game extends BasicGameState {
 		final float boxSize = BAR_WIDTH / (float) Inventory.Inventory_Size;
 		
 		if (x > BAR_X && x < BAR_X + BAR_WIDTH && y > BAR_Y && y < BAR_Y + BAR_HEIGHT) {
+			inInventory = true; 
 			
 			if (index1 == -1) {
 				//set index1 to what is in the bar

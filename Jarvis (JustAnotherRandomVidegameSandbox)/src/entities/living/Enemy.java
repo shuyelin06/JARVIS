@@ -17,6 +17,8 @@ public class Enemy extends Living {
 	public Enemy(float x, float y) 
 	{
 		super(x,y); 
+		
+		this.team = Team.Enemy;
 		target = Engine.game.getPlayer();
 
 		try {
@@ -48,7 +50,6 @@ public class Enemy extends Living {
 	protected void entityCollisions() {
 		if(this.entityCollision(target)) {
 			target.takeDamage(contactDmg, true);
-			this.takeDamage(1, true);
 		}
 	}
 	
