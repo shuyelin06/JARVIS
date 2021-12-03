@@ -10,7 +10,7 @@ public class Scorpian extends Enemy{
 	int jumpCD;
 //	boolean onGround;
 	boolean inSupaJump;
-	boolean xCollision;
+//	boolean xCollision;
 	
 	public Scorpian (float x, float y) {
 		super(x,y);
@@ -25,7 +25,7 @@ public class Scorpian extends Enemy{
 		
 //		onGround = false;
 		inSupaJump = false;
-		xCollision = false;
+//		xCollision = false;
 		
 		try {
 			this.sprite = ImageManager.getImage("placeholder");
@@ -42,10 +42,10 @@ public class Scorpian extends Enemy{
 		}
 	}
 	
-	public void update() {
-		xCollision = false;
-		super.update();
-	}
+//	public void update() {
+//		xCollision = false;
+//		super.update();
+//	}
 	
 	protected void onBlockYCollision() {
 		super.onBlockYCollision();
@@ -53,9 +53,9 @@ public class Scorpian extends Enemy{
 		inSupaJump = false;
 	}
 	
-	protected void onBlockXCollision() {
-		xCollision = true;
-	}
+//	protected void onBlockXCollision() {
+//		xCollision = true;
+//	}
 	
 	public void supaJump(Player p, float speed) {
 		jumpTimer++;
