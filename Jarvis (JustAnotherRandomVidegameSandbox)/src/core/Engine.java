@@ -101,7 +101,7 @@ public class Engine extends StateBasedGame
 			appgc.setDisplayMode(RESOLUTION_X, RESOLUTION_Y, false);
 			appgc.setTargetFrameRate(FRAMES_PER_SECOND);
 			appgc.start();
-			appgc.setVSync(true);
+			appgc.setVSync(false);
 						
 		} catch (SlickException e) 
 		{

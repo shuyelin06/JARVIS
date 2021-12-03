@@ -32,6 +32,9 @@ public class World
 	private int time;
 	private int timeCycle;
 	
+	private int desertStart;
+	private int desertEnd;
+	
 	// Generate world from scratch
 	public World(Game game)
 	{
@@ -47,6 +50,9 @@ public class World
 		
 		// Memory Addresses
 		this.player = game.getPlayer();
+		
+		desertStart = (int) (Values.World_X_Size * 0.3);
+		desertEnd = desertStart + (int) (Values.World_X_Size * 0.15);
 	}
 	
 	// Accessor Methods
@@ -57,9 +63,12 @@ public class World
 		return worldName; 
 	}
 	public int getTime() { return time; }
+	public int getDesertStart() { return desertStart; }
+	public int getDesertEnd() { return desertEnd; }
 	
 	// Mutator Methods
 	public void changeName(String worldName) { this.worldName = worldName; }
+	public void setDesert(String worldName, int start, int end) { desertStart = start; desertEnd = end; }
 	
 	// Main method in world that is called in game
 	public void update() {

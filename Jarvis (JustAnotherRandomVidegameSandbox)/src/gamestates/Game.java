@@ -99,7 +99,7 @@ public class Game extends BasicGameState {
 			put(EntType.Projectiles, new ArrayList<Entity>());
 		}};
 		
-		bg = new Background();
+		bg = new Background(Engine.Game_ID);
 		tutorial = new Tutorial();
 		
 		// Initializing Destroying and Spawning Behaviors
