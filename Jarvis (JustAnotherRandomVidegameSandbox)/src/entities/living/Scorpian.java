@@ -8,8 +8,9 @@ public class Scorpian extends Enemy{
 
 	int jumpTimer;
 	int jumpCD;
-	boolean onGround;
+//	boolean onGround;
 	boolean inSupaJump;
+	boolean xCollision;
 	
 	public Scorpian (float x, float y) {
 		super(x,y);
@@ -17,13 +18,14 @@ public class Scorpian extends Enemy{
 		sizeY = 3;
 		
 		contactDmg = 25;
-		aggroRange = 15;
+		aggroRange = 30;
 		
 		jumpTimer = 0;
-		jumpCD = 180; //should be 3 seconds
+		jumpCD = 120; //should be 2 seconds
 		
-		onGround = false;
+//		onGround = false;
 		inSupaJump = false;
+		xCollision = false;
 		
 		try {
 			this.sprite = ImageManager.getImage("placeholder");
@@ -35,15 +37,24 @@ public class Scorpian extends Enemy{
 	public void ai(Player p) {
 		if(Utility.getDistance(this, p) <= aggroRange) {
 			moveToPlayerX(p, 10f);
-			supaJump(p, 50f);
+			supaJump(p, 40f);
 			
 		}
 	}
 	
+	public void update() {
+		xCollision = false;
+		super.update();
+	}
+	
 	protected void onBlockYCollision() {
 		super.onBlockYCollision();
-		onGround = true;
+//		onGround = true;
 		inSupaJump = false;
+	}
+	
+	protected void onBlockXCollision() {
+		xCollision = true;
 	}
 	
 	public void supaJump(Player p, float speed) {
@@ -56,9 +67,12 @@ public class Scorpian extends Enemy{
 				inSupaJump = true;
 			}
 		}
+//		else if(xCollision) {
+//			jump(10f);
+//		}
 		if(inSupaJump) {
-			if(Math.abs(this.ySpeed) < 2) {
-				this.setSpeedY(-20f);
+			if(this.ySpeed < 0) {
+				this.setSpeedY(-50f);
 			}
 		}
 		
