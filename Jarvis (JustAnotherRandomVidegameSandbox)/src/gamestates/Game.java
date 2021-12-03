@@ -86,8 +86,6 @@ public class Game extends BasicGameState {
 		this.player = new Player();
 		entities.get(EntType.Allies).add(player);
 		
-		bg = new Background(Engine.Game_ID);
-		tutorial = new Tutorial();
 		// Initializing World
 		this.world = new World(this);
 		
