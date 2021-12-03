@@ -23,7 +23,7 @@ public class Projectile extends Entity{
 		this.ySpeed = (float) Math.sin(theta) * speed;
 	}
 
-	// Overwriting the update method
+	@Override // Overwriting the update method
 	public void update() {
 		// Collision detection 
 		checkCollisions();
@@ -31,6 +31,8 @@ public class Projectile extends Entity{
 		// Position updating
 		position.update(xSpeed, ySpeed);
 	}
+	
+	@Override
 	protected void onBlockCollision() {
 		// Blow up blocks
 		int centerX = (int) position.getX();
