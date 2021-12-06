@@ -43,7 +43,7 @@ public class World
 		
 		// Time Settings (36000 means 1 day per 10 min)
 		this.time = 0;
-		this.timeCycle = 18000;
+		this.timeCycle = Values.totalLength;
 		
 		// Chunk Generation 
 		renderedChunks = new HashMap<Integer, Chunk>();

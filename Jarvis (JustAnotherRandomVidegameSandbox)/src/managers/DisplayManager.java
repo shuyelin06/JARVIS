@@ -39,6 +39,11 @@ public class DisplayManager {
 	// Display everything relative to this center
 	private Coordinate center; 
 	
+	//lighting, fun
+	private float globalLight; //steven y will probably move all of this stuff to some other class, just here for now
+	private float tempLight; //temporary lighting so everything doesn't go black during the night
+	private float elevationLight; //gets darker as you go down
+	
 	// Block Sprites
 	private HashMap<Integer, Integer> tileHash;
 	private SpriteSheet tileset;
@@ -54,9 +59,13 @@ public class DisplayManager {
 		this.tutorial = new Tutorial();
 		this.background = new Background(Engine.Game_ID);
 		
+		tempLight = 0.8f;
+		globalLight = 0;
+		elevationLight = 0;
+		
 		// Save center
 		this.center = center;
-		
+				
 		// Initializing Block Spritesheet
 		tileset = new SpriteSheet("res/tileset.png", 30, 30);
 		
@@ -76,6 +85,8 @@ public class DisplayManager {
 	public SpriteSheet getSpriteSheet() { return tileset; }
 	public HashMap<Integer, Integer> getSpriteHash(){ return tileHash; }
 	
+	public Background getBackground() { return background; }
+	
 	public Image getBlockSprite(int id) { return tileset.getSubImage(0, tileHash.get(id)); }
 	
 	// Helper Methods 
@@ -91,6 +102,24 @@ public class DisplayManager {
 		// Update variables in display manager
 		background.update(); // Update background
 		tutorial.update(); // Update tutorial
+		
+		if(screenY(Values.Surface) < 0)
+		{
+			elevationLight = 1;
+		} 
+		else if(screenY(Values.Surface) > 500)
+		{
+			elevationLight = 0;
+		}
+		else
+		{
+			elevationLight = (500 - screenY(Values.Surface) ) / 500;
+		}
+		
+		globalLight = 1 - (Engine.game.getDisplayManager().getBackground().getSky().getNightAlpha() * tempLight) - elevationLight; 
+		if(globalLight < 0.1) globalLight = 0.1f;
+
+		//????????? LOLLLLLL WTF ARE THOSE ACESSSORS
 		
 		// Render everything
 		renderBackground(g); // Render background first
@@ -137,16 +166,18 @@ public class DisplayManager {
 					case 2: // Grass
 						int variant = world.getGrassVariant(c.getBlocks(), blockX % Values.Chunk_Size_X, blockY, c.getX());
 						if(variant == 7) {
-							g.drawImage(tileset.getSubImage(0, 1), screenX, screenY);
+							g.drawImage(setLight(tileset.getSubImage(0, 1)), screenX, screenY);
 						}else {
-							g.drawImage(tileset.getSubImage(variant, 0), screenX, screenY);
+							g.drawImage(setLight(tileset.getSubImage(variant, 0)), screenX, screenY);
 						}
 						break;
 					case 3: // Stone
-						g.drawImage(tileset.getSubImage(c.getBlocks()[relChunkX][blockY].getVariant(), tileHash.get(id)), screenX, screenY);
+						g.drawImage(setLight(tileset.getSubImage( c.getBlocks()[relChunkX][blockY].getVariant(), tileHash.get(id) ) ), 
+								screenX, screenY);
 						break;
 					default: // Every other block
-						g.drawImage(tileset.getSubImage(c.getBlocks()[relChunkX][blockY].getVariant(), tileHash.get(id)), screenX, screenY);
+						g.drawImage(setLight( tileset.getSubImage(c.getBlocks()[relChunkX][blockY].getVariant(), tileHash.get(id) ) ), 
+								screenX, screenY);
 						break;
 				}
 				
@@ -198,9 +229,9 @@ public class DisplayManager {
 			e.setPastDirection(false);
 		}
 		if (e.getPastDirection()) { // Moving right
-			sprite.draw(screenX, screenY, e.getSizeX() * Values.Pixels_Per_Block, e.getSizeY() * Values.Pixels_Per_Block ); 
+			setLight(sprite).draw(screenX, screenY, e.getSizeX() * Values.Pixels_Per_Block, e.getSizeY() * Values.Pixels_Per_Block ); 
 		} else { // Moving left
-			sprite.draw(screenX + e.getSizeX() * Values.Pixels_Per_Block , screenY, -e.getSizeX() * Values.Pixels_Per_Block , e.getSizeY() * Values.Pixels_Per_Block); 
+			setLight(sprite).draw(screenX + e.getSizeX() * Values.Pixels_Per_Block , screenY, -e.getSizeX() * Values.Pixels_Per_Block , e.getSizeY() * Values.Pixels_Per_Block); 
 		}
 	}
 	
@@ -258,6 +289,14 @@ public class DisplayManager {
 		// Draw a box around the selected item
 		g.setColor(Color.black);
 		g.drawRect(p.inventorySelected() * boxSize + 0.050208333333f * Engine.RESOLUTION_X, 0.03703703703f * Engine.game.getGC().getHeight(), boxSize, BAR_HEIGHT);
+	}
+	
+	private Image setLight(Image image)
+	{
+		image.setImageColor(globalLight, 
+				globalLight, 
+				globalLight);
+		return(image);
 	}
 	
 	// Debug Methods

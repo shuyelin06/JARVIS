@@ -25,6 +25,8 @@ public class Background
 	
 	private Cloud[] clouds;
 	
+	public Sky getSky() { return sky; }
+	
 	public Background(int gameState) throws SlickException
 	{
 		this.gameState = gameState;
@@ -110,8 +112,7 @@ public class Background
 	public void update()
 	{
 		nightAlpha = sky.getNightAlpha();
-		//time = Engine.game.getWorld().getTime();
-		time++;
+		time = Engine.game.getWorld().getTime();
 		
 		for(int i = 0; i < clouds.length; i++) //the clouds
 		{
