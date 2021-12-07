@@ -34,7 +34,7 @@ public class Values // this will be quite useful for organizing stuff later on
 	final public static float SpawnX = Values.World_X_Size * Values.Chunk_Size_X / 2; // Player X Spawn
 	final public static float SpawnY = Surface + 32f; // Player Y Spawn
 	
-	final public static float Spawn_Rate = 3f; // Entity Spawn Rate
+	final public static float Spawn_Rate = 2f; // Entity Spawn Rate
 	
 	final public static float Entity_Despawn_Distance = (float) Math.sqrt(Engine.RESOLUTION_X * Engine.RESOLUTION_X + Engine.RESOLUTION_Y * Engine.RESOLUTION_Y);
 	final public static float Item_Despawn_Time = 10; // If an entity exists for >__ seconds, unload it
