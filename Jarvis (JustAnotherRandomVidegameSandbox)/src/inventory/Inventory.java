@@ -77,7 +77,7 @@ public class Inventory{
 		// To drop, reduce count - if the count is 0, remove from hashmap and reset the array
 		Item item = items[index];
 		
-		if(item == null) return;
+		if(item == null || item.getID() < 0) return;
 		else if(item.getCount() > 0) {
 			item.decreaseCount(1);
 			

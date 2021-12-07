@@ -24,7 +24,7 @@ public class Entity{
 	protected static Game game = Engine.game;
 	
 	// Entity Type
-	public enum EntType{ Allies, Hostiles, Items, Projectiles }
+	public enum EntType{ Living, Items, Projectiles }
 	
 	// Management Variables
 	protected long time; 				// Tracks how long the entity has been alive

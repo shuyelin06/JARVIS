@@ -43,7 +43,8 @@ public class Item{
 	 * Main Method All Items Will Use
 	 * Parameters: Absolute Coordinates of the Mouse in Game
 	 */
-	public void use(float x, float y) {}
+	public void use(float x, float y) {} // Left click main functionality
+	public void use2(float x, float y) {} // Right click secondary functionality
 	
 	// Returns some item based on a provided ID and Count
 	public static Item GetItem(int id, int count) {
