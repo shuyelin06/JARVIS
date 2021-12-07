@@ -31,7 +31,7 @@ public class Scorpian extends Enemy{
 //		xCollision = false;
 		
 		try {
-			this.sprite = ImageManager.getImage("placeholder");
+			this.sprite = ImageManager.getImage("rockEnemy");
 		} catch(Exception e) {}
 		
 		
@@ -39,7 +39,7 @@ public class Scorpian extends Enemy{
 	
 	public void ai(Player p) {
 		if(Utility.getDistance(this, p) <= aggroRange) {
-			moveToPlayerX(p, 10f);
+			moveToPlayerX(p, 5f);
 			supaJump(p, 40f);
 			
 		}

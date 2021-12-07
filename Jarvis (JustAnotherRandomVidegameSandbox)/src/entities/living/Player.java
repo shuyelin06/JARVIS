@@ -70,6 +70,7 @@ public class Player extends Living{
 	@Override
 	public void update() {
 		super.update();
+		if(selectedItem() != null) selectedItem().update();
 		inventory.filter();
 	}
 	

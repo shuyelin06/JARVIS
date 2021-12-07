@@ -112,7 +112,14 @@ public class Background
 	public void update()
 	{
 		nightAlpha = sky.getNightAlpha();
-		time = Engine.game.getWorld().getTime();
+		if(gameState == Engine.Game_ID)
+		{
+			time = Engine.game.getWorld().getTime();
+		}
+		else
+		{
+			time++;
+		}
 		
 		for(int i = 0; i < clouds.length; i++) //the clouds
 		{

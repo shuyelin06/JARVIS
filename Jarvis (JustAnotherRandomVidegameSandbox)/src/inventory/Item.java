@@ -45,6 +45,7 @@ public class Item{
 	 */
 	public void use(float x, float y) {} // Left click main functionality
 	public void use2(float x, float y) {} // Right click secondary functionality
+	public void update() {} //for tools
 	
 	// Returns some item based on a provided ID and Count
 	public static Item GetItem(int id, int count) {
