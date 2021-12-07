@@ -103,22 +103,23 @@ public class DisplayManager {
 		background.update(); // Update background
 		tutorial.update(); // Update tutorial
 		
-		if(screenY(Values.Surface) < 0)
+		//i'll move this to a separate class, dw
+		if(screenY(Values.Surface) > 0)
 		{
-			elevationLight = 1;
+			elevationLight = 0; //surface
 		} 
-		else if(screenY(Values.Surface) > 500)
+		else if(screenY(Values.Surface) > -500)
 		{
-			elevationLight = 0;
+			elevationLight = Math.abs(screenY(Values.Surface)) / 500; //transition
+			
 		}
 		else
 		{
-			elevationLight = (500 - screenY(Values.Surface) ) / 500;
+			elevationLight = 1; //caves
 		}
 		
 		globalLight = 1 - (Engine.game.getDisplayManager().getBackground().getSky().getNightAlpha() * tempLight) - elevationLight; 
 		if(globalLight < 0.1) globalLight = 0.1f;
-
 		//????????? LOLLLLLL WTF ARE THOSE ACESSSORS
 		
 		// Render everything
@@ -127,6 +128,9 @@ public class DisplayManager {
 		renderEntities(g); // Render entities on top of blocks
 		renderPlayer(g); // Render player UI on top of entities
 		renderTutorial(g); // Render tutorial on top of all else
+		
+		g.setColor(new Color(255, 255, 255));
+		g.drawString(elevationLight + " ", 100, 200);
 	}
 	
 	public void renderBackground(Graphics g) { background.render(g, screenX(0), screenY(Values.Surface)); } 
@@ -160,15 +164,17 @@ public class DisplayManager {
 				
 				float screenX = screenX(blockX);
 				float screenY = screenY(blockY);
-
+				
 				if(id == 0) continue;
 				switch(id) {
 					case 2: // Grass
 						int variant = world.getGrassVariant(c.getBlocks(), blockX % Values.Chunk_Size_X, blockY, c.getX());
 						if(variant == 7) {
-							g.drawImage(setLight(tileset.getSubImage(0, 1)), screenX, screenY);
+							g.drawImage(setLight(tileset.getSubImage(0, 1)),
+									screenX, screenY);
 						}else {
-							g.drawImage(setLight(tileset.getSubImage(variant, 0)), screenX, screenY);
+							g.drawImage(setLight(tileset.getSubImage(variant, 0)), 
+									screenX, screenY);
 						}
 						break;
 					case 3: // Stone

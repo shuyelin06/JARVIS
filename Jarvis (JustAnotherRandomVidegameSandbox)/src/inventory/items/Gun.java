@@ -15,6 +15,7 @@ import managers.ImageManager;
 
 public class Gun extends Item {
 	private static HashMap<Integer, Float> IdScalingFactors = new HashMap<Integer, Float>();
+	private int shotTimer;
 	
 	public Gun(){
 		super(-1, 1);
@@ -30,7 +31,13 @@ public class Gun extends Item {
 		IdScalingFactors.put(7, 0.2f);
 		IdScalingFactors.put(8, 1f);
 	}
-  
+	
+	public void update()
+	{
+		super.update();
+		shotTimer++;
+	}
+	
   @Override
   public void use(float x, float y){
 	Inventory inv = game.getPlayer().getInventory();
@@ -38,15 +45,16 @@ public class Gun extends Item {
 	for(Item item: inv.getItems()) {
 		if(item == null) continue;
 		
-		if(IdScalingFactors .containsKey(item.getID())) {
+		if(IdScalingFactors .containsKey(item.getID()) && shotTimer >= 20) {
 		    // Spawn new blockbullet
+			shotTimer = 0;
 		    BlockBullet bullet = new BlockBullet(game.getPlayer(),
 		    		new Coordinate(x,y),
 		    		IdScalingFactors.get(item.getID()),
 		    		item.getID()
 		    		);
 		    game.addEntity(EntType.Projectiles, bullet);
-			
+		    
 			inv.removeItem(item.getID());
 			break;
 		}
@@ -60,8 +68,9 @@ public class Gun extends Item {
 		for(Item item: inv.getItems()) {
 			if(item == null) continue;
 			
-			if(IdScalingFactors .containsKey(item.getID())) {
+			if(IdScalingFactors.containsKey(item.getID()) && shotTimer > 60) {
 			    // Spawn new blockbullet
+				shotTimer = 0;
 			    BlockBomb bomb = new BlockBomb(game.getPlayer(),
 			    		new Coordinate(x,y),
 			    		IdScalingFactors.get(item.getID()),
