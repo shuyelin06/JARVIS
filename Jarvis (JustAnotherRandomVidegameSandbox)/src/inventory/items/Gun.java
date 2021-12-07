@@ -41,7 +41,6 @@ public class Gun extends Item {
 	public void update()
 	{
 		super.update();
-		shotTimer++;
 	}
 	
   @Override
@@ -51,9 +50,8 @@ public class Gun extends Item {
 	for(Item item: inv.getItems()) {
 		if(item == null) continue;
 		
-  if(IdScalingFactors .containsKey(item.getID()) && Sys.getTime() - lastShot > Cooldown * 1000) {
+		if(IdScalingFactors .containsKey(item.getID()) && Sys.getTime() - lastShot > Cooldown * 1000) {
 		    // Spawn new blockbullet
-			shotTimer = 0;
 		    BlockBullet bullet = new BlockBullet(game.getPlayer(),
 		    		new Coordinate(x,y),
 		    		IdScalingFactors.get(item.getID()),
@@ -78,7 +76,6 @@ public class Gun extends Item {
 			
 			if(IdScalingFactors .containsKey(item.getID()) && Sys.getTime() - lastShot > Cooldown * 1000) {
 			    // Spawn new blockbullet
-				shotTimer = 0;
 			    BlockBomb bomb = new BlockBomb(game.getPlayer(),
 			    		new Coordinate(x,y),
 			    		IdScalingFactors.get(item.getID()),
