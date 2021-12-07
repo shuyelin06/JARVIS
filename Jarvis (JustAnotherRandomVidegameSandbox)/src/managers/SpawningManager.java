@@ -33,9 +33,9 @@ public class SpawningManager {
  				//for now it just drops a new enemy on the player's head
  				float x = g.getPlayer().getPosition().getX();
  				float y = g.getPlayer().getPosition().getY();
- 				Coordinate coord = getOpenArea(g, 15, 25, 20, 1, 1, prob);
+ 				Coordinate coord = getOpenArea(g, 15, 25, 20, 3, 3, prob);
  				if(coord != null) {
- 					g.getEntities(EntType.Living).add(new Enemy(coord.getX(), coord.getY()));
+ 					g.getEntities(EntType.Living).add(new Scorpian(coord.getX(), coord.getY()));
  				}
 			
  			}
@@ -81,43 +81,44 @@ public class SpawningManager {
 			}
 			
 			coord.setYPos(playerY);
-			int indexX = Engine.game.getWorld().getBlockIndex(coord)[0];
-			//System.out.println("indexX: " + indexX);
 			
+			int indexX = Engine.game.getWorld().getBlockIndex(coord)[0];
 			int indexY = Engine.game.getWorld().getBlockIndex(coord)[1];
+			
 			float indexChunk = coord.getChunk();
 			Block[][] blocks = Engine.game.getWorld().getChunk((int) indexChunk).getBlocks();
+			
+			//if coord is block, check upwards
 			if(blocks[indexX][indexY].getID() != 0) {
-				for(int j = (int)playerY; j < (int)playerY + elevationDiff; j++) {
-					Coordinate tempCoord = new Coordinate(coord.getX(),j);
-					if(Engine.game.getWorld().openArea(tempCoord, w, h) && blocks[indexX][j-2].getID() != 0) {
-						coord.setYPos(j);						
-						return coord;
-					}
-				}
+				return checkVertical(coord, (int)playerY, elevationDiff, w, h, 1);
+
 			}
-			//System.out.println("block ID getting checked: " + blocks[indexX][indexY].getID());
 			//if it is open air, check downwards
 			else if(blocks[indexX][indexY].getID() == 0) { 
-				for(int j = (int)playerY; j > (int)playerY - elevationDiff; j--) {
-					//System.out.println(blocks[indexX][j-1].getID());
-					Coordinate tempCoord = new Coordinate(coord.getX(),j);
-					if(Engine.game.getWorld().openArea(tempCoord, w, h) && blocks[indexX][j-1].getID() != 0) {
-						coord.setYPos(j);						
-						return coord;
-					}
-					
-				}
+				return checkVertical(coord, (int)playerY, elevationDiff, w, h, -1);
+
 			}
-//			if(/* if block at indexX, indexY of the indexChunkth chunk is open air*/) {
-//				//then start checking down to find the ground until it is too far away
-					//within this, have a method that checks like a 3x3 area or something
-//			} /* else, continue in the loop to check farther to the sides*/
+
 			}
 		}
 		
-		
-		
+		return null;
+	}
+	//checks up/down for an open area given by the openArea method in World
+	public static Coordinate checkVertical(Coordinate coord, int playerY, int eleDiff, int w, int h, int direction) {
+		Block[][] block = Engine.game.getWorld().getChunk((int) coord.getChunk()).getBlocks();
+		int indX = Engine.game.getWorld().getBlockIndex(coord)[0];
+		if(indX > w && indX < Values.Chunk_Size_X-w) {
+		Coordinate tempCoord = new Coordinate(coord.getX(),playerY);
+		for(int j = 0; j < eleDiff; j++) {
+			tempCoord.setYPos(playerY + direction*j);
+			if(Engine.game.getWorld().openArea(tempCoord, w, h) /*&& block[indX][(int)tempCoord.getY()-w].getID() != 0*/) {
+				return tempCoord;
+
+			}
+			
+		}
+		}
 		return null;
 	}
 }
