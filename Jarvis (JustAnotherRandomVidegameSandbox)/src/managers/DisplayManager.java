@@ -118,7 +118,7 @@ public class DisplayManager {
 			elevationLight = 1; //caves
 		}
 		
-		globalLight = 1 - (Engine.game.getDisplayManager().getBackground().getSky().getNightAlpha() * tempLight) - elevationLight; 
+		globalLight = 1 - elevationLight - (Engine.game.getDisplayManager().getBackground().getSky().getNightAlpha() * tempLight); 
 		if(globalLight < 0.1) globalLight = 0.1f;
 		//????????? LOLLLLLL WTF ARE THOSE ACESSSORS
 		
