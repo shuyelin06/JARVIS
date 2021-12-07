@@ -30,12 +30,12 @@ public class SpawningManager {
 		// prob is the percent chance that you want a new enemy to spawn; scale it to how often the update method gets called
  		if(g.getEntities(EntType.Living).size() < 7) {
  			if(!safeZone(g) && Utility.random(0.0, 100.0) <= prob) {
- 				//for now it just drops a new enemy on the player's head
- 				float x = g.getPlayer().getPosition().getX();
- 				float y = g.getPlayer().getPosition().getY();
  				Coordinate coord = getOpenArea(g, 15, 25, 20, 3, 3, prob);
  				if(coord != null) {
- 					g.getEntities(EntType.Living).add(new Scorpian(coord.getX(), coord.getY()));
+ 					if(Utility.random(0,1) < 1) {
+ 						g.getEntities(EntType.Living).add(new Scorpian(coord.getX(), coord.getY()));
+ 					}
+ 					g.getEntities(EntType.Living).add(new Enemy(coord.getX(), coord.getY()));
  				}
 			
  			}
