@@ -25,6 +25,9 @@ public class Enemy extends Living {
 			this.sprite = ImageManager.getImage("mushroom");
 		} catch(Exception e) {}
 		
+		this.maxHealth = 5;
+		this.curHealth = maxHealth;
+		
 		contactDmg = 5;
 		aggroRange = 20;
 		sizeX = 1f;

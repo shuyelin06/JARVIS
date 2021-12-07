@@ -283,6 +283,7 @@ public class DisplayManager {
 			Integer count = list[i].getCount();
 			float barDisp = i * boxSize;
 			
+			list[i].getImage().setImageColor(1f, 1f, 1f);
 			list[i].getImage().draw(
 					barDisp + 0.050208333333f * Engine.RESOLUTION_X + center, 
 					0.03703703703f * Engine.game.getGC().getHeight() + center,

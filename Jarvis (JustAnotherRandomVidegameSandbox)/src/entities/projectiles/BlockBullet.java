@@ -6,7 +6,7 @@ import core.Coordinate;
 import entities.living.Living;
 
 public class BlockBullet extends Projectile {
-	private static float baseDamage = 50f;
+	private static float baseDamage = 20f;
 	private static float baseSpeed = 50f;
 	
 	public BlockBullet(Living origin, Coordinate target, float scaling, int id) {
