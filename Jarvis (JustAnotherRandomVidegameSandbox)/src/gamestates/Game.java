@@ -202,10 +202,22 @@ public class Game extends BasicGameState {
 	private boolean inInventory = false;
 	
 	public void mouseWheelMoved(int change) { player.adjustInventorySlot(change); }
-	private void checkCursorDown() {
-		if(inInventory) return;
+	private boolean inInventory(float x, float y) {
+		final float BAR_X = (float) (0.050208333333 * getGC().getWidth());
+		final float BAR_Y = (float) (0.03703703703 * getGC().getHeight());
+		final float BAR_WIDTH = (float) ((Engine.game.getGC().getWidth()/2) - (0.15625 * Engine.game.getGC().getWidth()));
+		final float BAR_HEIGHT = (float) ((60f / 1080f) * Engine.game.getGC().getHeight());
 		
+		return x > BAR_X && x < BAR_X + BAR_WIDTH && y > BAR_Y && y < BAR_Y + BAR_HEIGHT;
+	}
+	private void checkCursorDown() {
 		Input input = gc.getInput();
+		
+		// Do not do anything if mouse is in inventory
+		float x = input.getAbsoluteMouseX();
+		float y = input.getAbsoluteMouseY();
+		if(inInventory(x,y)) return;
+		
 		
 		if(input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)) {
 			player.useItem(
@@ -237,7 +249,7 @@ public class Game extends BasicGameState {
 		// Draw every item in the player's inventory
 		final float boxSize = BAR_WIDTH / (float) Inventory.Inventory_Size;
 		
-		if (x > BAR_X && x < BAR_X + BAR_WIDTH && y > BAR_Y && y < BAR_Y + BAR_HEIGHT) {
+		if (inInventory(x,y)) {
 			inInventory = true; 
 			
 			if (index1 == -1) {

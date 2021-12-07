@@ -1,5 +1,7 @@
 package inventory.items;
 
+import core.Coordinate;
+import core.Engine;
 import core.Values;
 import inventory.Item;
 import managers.ImageManager;
@@ -16,6 +18,11 @@ public class Tool extends Item {
 	}
 	
 	public void use(float x, float y) {
+		// Only break blocks within a certain radius of the player
+		float dist = Engine.game.getPlayer().getPosition().magDisplacement(new Coordinate(x,y));
+		if(dist > 10) return;
+		
+		
 		int BlockX = (int) x;
 		int BlockY = (int) y;
 		
