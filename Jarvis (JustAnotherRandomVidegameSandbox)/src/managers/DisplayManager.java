@@ -130,7 +130,6 @@ public class DisplayManager {
 		renderTutorial(g); // Render tutorial on top of all else
 		
 		g.setColor(new Color(255, 255, 255));
-		g.drawString(elevationLight + " ", 100, 200);
 	}
 	
 	public void renderBackground(Graphics g) { background.render(g, screenX(0), screenY(Values.Surface)); } 
