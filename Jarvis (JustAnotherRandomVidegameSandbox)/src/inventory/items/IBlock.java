@@ -28,7 +28,5 @@ public class IBlock extends Item{
 				this.count--;
 			}
 		} catch(Exception e){}
-		
-		
 	}
 }

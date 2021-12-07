@@ -26,10 +26,10 @@ public class KeyManager implements Predicate<Integer>{
 	public void keyDown(int key) {
 		switch(key) {
 			case Input.KEY_A:
-				player.setXSpeed(-7.5f);
+				player.setXSpeed(-10f);
 				break;
 			case Input.KEY_D:
-				player.setXSpeed(7.5f);
+				player.setXSpeed(10f);
 				break;
 			case Input.KEY_S:
 				player.fall();

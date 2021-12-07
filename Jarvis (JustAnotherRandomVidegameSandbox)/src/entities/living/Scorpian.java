@@ -17,6 +17,9 @@ public class Scorpian extends Enemy{
 		sizeX = 3;
 		sizeY = 3;
 		
+		this.maxHealth = 50;
+		this.curHealth = maxHealth;
+		
 		contactDmg = 25;
 		aggroRange = 30;
 		
@@ -72,7 +75,7 @@ public class Scorpian extends Enemy{
 //		}
 		if(inSupaJump) {
 			if(this.ySpeed < 0) {
-				this.setSpeedY(-50f);
+				this.setSpeedY(-75f);
 			}
 		}
 		
