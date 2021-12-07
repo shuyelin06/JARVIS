@@ -3,6 +3,7 @@ package structures;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 
+import gamestates.Settings;
 import gamestates.StartingMenu;
 import gamestates.WorldSelect;
 
@@ -67,15 +68,19 @@ public class Particle {
 		//remove if off screen
 		if (y >= gc.getHeight()) {
 			WorldSelect.particles.remove(this);
+			Settings.particles.remove(this);
 		}
 		if (y <= 0) {
 			WorldSelect.particles.remove(this);
+			Settings.particles.remove(this);
 		}
 		if (x >= gc.getWidth()) {
 			WorldSelect.particles.remove(this);
+			Settings.particles.remove(this);
 		}
 		if (x <= 0) {
 			WorldSelect.particles.remove(this);
+			Settings.particles.remove(this);
 		}
 	}
 	

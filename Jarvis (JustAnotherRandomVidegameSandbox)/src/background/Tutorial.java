@@ -4,6 +4,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
+import core.Engine;
 import core.Values;
 import managers.ImageManager;
 
@@ -15,12 +16,14 @@ public class Tutorial {
 	private boolean canRender;
 	
 	public Tutorial() {
-		this.wasdX = 50;
-		this.wasdY = 890;
+		//50
+		this.wasdX = Engine.RESOLUTION_X * 0.02604166666f;
+		//890
+		this.wasdY = Engine.RESOLUTION_Y * 0.82407407407f;
 		//288
-		this.wasdW = 216f;
-		//187
-		this.wasdH = 140f;
+		this.wasdW = Engine.RESOLUTION_X * 0.1125f;
+		//140
+		this.wasdH = Engine.RESOLUTION_Y * 0.12962962963f;
 		time = 0;
 		canRender = true;
 		setImage("wasd");
@@ -35,7 +38,15 @@ public class Tutorial {
 			time++;
 		} else if(time < 1000) {
 			time++;
-			// setImage("mouseLeftRight");
+			setImage("mouseLeftRight");
+		} else if(time < 1500) {
+			time++;
+			//140
+			this.wasdW = Engine.RESOLUTION_X * 0.07291666666f;
+			setImage("p");
+		} else if(time < 2000) {
+			time++;
+			setImage("esc");
 		} else {
 			canRender = false;
 		}

@@ -14,18 +14,28 @@ import core.Values;
 public class Background
 {
 	private int time;
+	private float nightAlpha;
+	private int gameState;
+	private int[] desertPosition;
+	
 	private Sky sky;
-	private Hills day;
+	private Hills hills;
 	private Desert desert;
 	private Underground underground;
 	
 	private Cloud[] clouds;
 	
-	public Background() throws SlickException
+	public Sky getSky() { return sky; }
+	
+	public Background(int gameState) throws SlickException
 	{
+		this.gameState = gameState;
+		nightAlpha = 0;
 		time = 0;
+		desertPosition = new int[2];
+		
 		sky = new Sky();
-		day = new Hills();
+		hills = new Hills();
 		desert = new Desert();
 		
 		underground = new Underground();
@@ -36,11 +46,28 @@ public class Background
 		{
 			clouds[i] = new Cloud();
 		}
+		
+		loadVariables();
+	}
+	
+	private void loadVariables() //gets variables accessed from other places and makes it a local variable for less typing
+	{
+		if(gameState == Engine.Game_ID)
+		{
+			desertPosition[0] = Engine.game.getWorld().getDesertStart();
+			desertPosition[1] = Engine.game.getWorld().getDesertEnd();
+		}
+		else
+		{
+			desertPosition[0] = 0; 
+			desertPosition[1] = 0;
+		}
 	}
 	
 	public void render(Graphics g, float x, float y)
-	{
+	{	
 		float currentChunk = (x - Values.CenterX) / Values.Pixels_Per_Block / Values.Chunk_Size_X * -1;
+		
 		if(y > -500)
 		{
 			sky.render(g);
@@ -50,27 +77,27 @@ public class Background
 				clouds[i].render(g, x, y);
 			}
 			
-			if(currentChunk > Values.desertStart
-					&& currentChunk < Values.desertEnd)
+			if(currentChunk > desertPosition[0]
+					&& currentChunk < desertPosition[1])
 			{
 				desert.render(g, x, y);
 			} 
 			else 
 			{
-				day.render(g, x, y);
+				hills.render(g, x, y);
 			}
 			
-			if(currentChunk > Values.desertStart - 1
-					&& currentChunk < Values.desertStart)
+			if(currentChunk > desertPosition[0] - 1
+					&& currentChunk < desertPosition[0])
 			{
-				desert.setSceneAlpha(transition(currentChunk, Values.desertStart - 1, Values.desertStart));
+				desert.setSceneAlpha(transition(currentChunk, desertPosition[0] - 1, desertPosition[0]));
 				desert.render(g, x, y);
 			}
 			
-			if(currentChunk < Values.desertEnd + 1
-					&& currentChunk > Values.desertEnd)
+			if(currentChunk < desertPosition[1] + 1
+					&& currentChunk > desertPosition[1])
 			{
-				desert.setSceneAlpha(transition(currentChunk, Values.desertEnd + 1, Values.desertEnd));
+				desert.setSceneAlpha(transition(currentChunk, desertPosition[1] + 1, desertPosition[1]));
 				desert.render(g, x, y);
 			}
 
@@ -84,14 +111,16 @@ public class Background
 	
 	public void update()
 	{
-		//time = Engine.game.getWorld().getTime();
-		time++;
+		nightAlpha = sky.getNightAlpha();
+		time = Engine.game.getWorld().getTime();
 		
 		for(int i = 0; i < clouds.length; i++) //the clouds
 		{
-			clouds[i].update();
+			clouds[i].update(nightAlpha);
 		}
 		
+		desert.update(nightAlpha);
+		hills.update(nightAlpha);
 		sky.update(time);
 	}
 	

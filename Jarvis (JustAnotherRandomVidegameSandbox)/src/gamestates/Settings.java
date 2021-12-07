@@ -32,9 +32,6 @@ public class Settings extends BasicGameState {
 	public static int arraySize = 50;
 	public static int fireworkType = 0;
 	
-	//background
-	private Background bg;
-	
 	private float volume;
 	private Integer volumeMeter;
 	
@@ -43,10 +40,12 @@ public class Settings extends BasicGameState {
 	private Image m1Button;
 	private Image m2Button;
 	private Image volumeImage;
+	private Image instructions;
 	private int mainButtonX, mainButtonY, mainButtonW, mainButtonH;
 	private int m1ButtonX, m1ButtonY, m1ButtonW, m1ButtonH;
 	private int m2ButtonX, m2ButtonY, m2ButtonW, m2ButtonH;
 	private int volumeImageX, volumeImageY, volumeImageW, volumeImageH;
+	private int instructionsX, instructionsY, instructionsW, instructionsH;
 	
 	public Settings(int id) 
 	{
@@ -56,8 +55,6 @@ public class Settings extends BasicGameState {
 	// Initializer, first time
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException 
 	{
-		//background
-		bg = new Background();
 		
 		//image settings
 		setImage("placeholder");
@@ -82,6 +79,11 @@ public class Settings extends BasicGameState {
 		volumeImageY = 2*gc.getHeight()/3;
 		volumeImageW = (int) (0.05208333333*gc.getWidth());
 		volumeImageH = (int) (0.09259259259*gc.getHeight());
+		//679 x 136
+		instructionsX = gc.getWidth()/5;
+		instructionsY = gc.getHeight()/5;
+		instructionsW = (int) (0.35364583333*gc.getWidth());
+		instructionsH = (int) (0.12592592592*gc.getHeight());
 		
 		readyStart = false;
 	}
@@ -90,7 +92,7 @@ public class Settings extends BasicGameState {
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException 
 	{
 		//background
-		bg.render(g, 0, 0);
+		StartingMenu.bg.render(g, 0, 0);
 		
 		//draws all buttons and world number image
 		drawImages(g);
@@ -119,6 +121,8 @@ public class Settings extends BasicGameState {
 		
 		volume = SoundManager.getVolume();
 		volumeMeter = (int) (volume * 10);
+		
+		StartingMenu.bg.update();
 	}
 
 	public void enter(GameContainer gc, StateBasedGame sbg) throws SlickException 
@@ -206,6 +210,9 @@ public class Settings extends BasicGameState {
 		setImage("volumeDown");
 		m2Button.draw(m2ButtonX - (m2ButtonW / 2), m2ButtonY - (m2ButtonH / 2), m2ButtonW, m2ButtonH);
 		
+		setImage("instructionsText");
+		instructions.draw(instructionsX - (instructionsW / 2), instructionsY - (instructionsH / 2), instructionsW, instructionsH);
+		
 		setImage(volumeMeter.toString());
 		
 		volumeImage.draw(volumeImageX - (volumeImageW / 2), volumeImageY - (volumeImageH / 2), volumeImageW, volumeImageH);
@@ -220,6 +227,7 @@ public class Settings extends BasicGameState {
 			m1Button = ImageManager.getImage(file);
 			m2Button = ImageManager.getImage(file);
 			volumeImage = ImageManager.getImage(file);
+			instructions = ImageManager.getImage(file);
 		}
 		catch(Exception e)		
 		{

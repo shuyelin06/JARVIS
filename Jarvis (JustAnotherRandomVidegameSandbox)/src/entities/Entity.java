@@ -3,6 +3,7 @@ package entities;
 import core.Coordinate;
 import core.Engine;
 import core.Values;
+import gamestates.Game;
 import structures.Block;
 import support.Utility;
 import world.Chunk;
@@ -20,24 +21,27 @@ import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Rectangle;
 
 public class Entity{
-	public enum EntType{ Player, Hostiles, Items, Projectiles }
+	protected static Game game = Engine.game;
 	
-	// Keeping track of the entity
-	protected long time;
-	protected boolean remove;
+	// Entity Type
+	public enum EntType{ Living, Items, Projectiles }
+	
+	// Management Variables
+	protected long time; 				// Tracks how long the entity has been alive
+	protected boolean remove; 			// Allows entity to be marked for removal
 	
 	// Render Variables
-	protected Image sprite; // The sprite rendered in for the Entity
-	protected float sizeX, sizeY; // The size of the Entity
+	protected Image sprite; 			// The sprite rendered in for the Entity
+	protected float sizeX, sizeY; 		// The size of the Entity
 	
 	// Physics Variables
-	protected Coordinate position; // Entity position
-	protected float xSpeed, ySpeed; // Entity velocity (pixels per second)
-	protected float mass; // Entity mass
+	protected Coordinate position; 		// Entity position
+	protected float xSpeed, ySpeed;		// Entity velocity (pixels per second)
+	protected float mass; 				// Entity mass
+	protected boolean pastDirection;    // Marker for direction faced
 	
 	// Every entity will have some initial starting position
-	public Entity(float InitX, float InitY)
-	{
+	public Entity(float InitX, float InitY) {
 		// Management Variables
 		this.time = Sys.getTime();
 		this.remove = false;
@@ -45,32 +49,34 @@ public class Entity{
 		// Rendering Variables
 		this.sizeX = 1f;
 		this.sizeY = 1f;
-
 		
 		// Physics Variables
 		this.position = new Coordinate(InitX, InitY); // Initial position
 		this.xSpeed = this.ySpeed = 0f; // Default speeds
 		this.mass = 1f; // Default Mass
+		this.pastDirection = false; // Start facing left
 	}
 	
 	// Accessor Methods
-	public float timeAlive() { return (float) (Sys.getTime() - time) / 1000; }
-	
-	public Image getSprite() { return sprite; }
-	public boolean getDirection() { return xSpeed > 0; } // False - Left, True - Right
-	public float getSizeX() { return sizeX; }
-	public float getSizeY() { return sizeY; }
-	
+	public float timeAlive() 		{ return (float) (Sys.getTime() - time) / 1000; }
+	public Image getSprite() 		{ return sprite; }
+	public boolean getDirection() 	{ return xSpeed > 0; } // False - Left, True - Right
+	public boolean getLeft()        { return xSpeed < 0; } // if true, then left
+	public boolean getPastDirection() { return pastDirection; }
+	public float getSizeX() 		{ return sizeX; }
+	public float getSizeY() 		{ return sizeY; }
 	public Coordinate getPosition() { return position; }
-	public float getXSpeed() { return xSpeed; }
-	public float getYSpeed() { return ySpeed; }
-	
-	public boolean isMarked() { return remove; }
+	public float getXSpeed() 		{ return xSpeed; }
+	public float getYSpeed() 		{ return ySpeed; }
+	public boolean isMarked() 		{ return remove; }
 	
 	// Mutator Methods
+	public void updateSprite(Image image) { this.sprite = image; }
+	
 	public void markForRemoval() { this.remove = true; }
 	public void setSpeedX(float xSpeed) { this.xSpeed = xSpeed; }
 	public void setSpeedY(float ySpeed) { this.ySpeed = ySpeed; }
+	public void setPastDirection(boolean pastDirection) { this.pastDirection = pastDirection; }
 	
 	// Main method called for all entities
 	public void update() {
@@ -227,6 +233,7 @@ public class Entity{
 		}
 	}
 	
+	
 	// Used in debugging (to be moved)
 	public void debug() {
 		// Adjust x position based on player movement direction
@@ -239,20 +246,20 @@ public class Entity{
 		int topY = (int) Math.ceil(position.getY() - collisionError);
 		int bottomY = (int) Math.ceil(position.getY() - sizeY);
 		
-		Engine.game.displaymanager.pinpoint(xBorder, position.getY() - sizeY / 2f);
+		Engine.game.displayManager.pinpoint(xBorder, position.getY() - sizeY / 2f);
 		
 		if(xSpeed > 0) {
 			for(int i = (int) position.getX(); i <= (int) xBorder; i++) {
 				for(int j = bottomY; j <= topY; j++) {
 					// if(topY - bottomY == 1) System.out.println("TRUE");
-					Engine.game.displaymanager.highlightBlock(i, j);
+					Engine.game.displayManager.highlightBlock(i, j);
 				}
 			}
 		} else if (xSpeed < 0) {
 			for(int i = (int) position.getX(); i >= (int) xBorder; i--) {
 				for(int j = bottomY; j <= topY; j++) {
 					// if(topY - bottomY == 1) System.out.println("TRUE");
-					Engine.game.displaymanager.highlightBlock(i, j);
+					Engine.game.displayManager.highlightBlock(i, j);
 				}
 			}
 		}
@@ -265,17 +272,17 @@ public class Entity{
 		int leftX = (int) position.getX();
 		int rightX = (int) (position.getX() + sizeX);
 		
-		Engine.game.displaymanager.pinpoint(position.getX() + sizeX / 2f, yBorder);
+		Engine.game.displayManager.pinpoint(position.getX() + sizeX / 2f, yBorder);
 		if(ySpeed > 0) {
 			for(int i = (int) position.getY(); i <= (int) yBorder; i++) {
 				for(int j = leftX; j <= rightX; j++) {
-					Engine.game.displaymanager.highlightBlock(j, i);
+					Engine.game.displayManager.highlightBlock(j, i);
 				}
 			}
 		} else if (ySpeed < 0) {
 			for(int i = (int) position.getY(); i >= (int) yBorder; i--) {
 				for(int j = leftX; j <= rightX; j++) {
-					Engine.game.displaymanager.highlightBlock(j, i);
+					Engine.game.displayManager.highlightBlock(j, i);
 				}
 			}
 		}

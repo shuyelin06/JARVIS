@@ -1,4 +1,4 @@
-package items;
+package inventory;
 
 import java.util.HashMap;
 
@@ -16,18 +16,21 @@ public class Inventory{
 	private HashMap<Integer, Integer> idIndexMapping; // First entry: id, second entry: index
 	
 	private Item[] items;
-	// private HashMap<Integer,Integer> items;
 	
 	public Inventory(Player p) {
 		this.playerPos = p.getPosition();
 		this.items = new Item[Inventory_Size];
 		this.idIndexMapping = new HashMap<Integer, Integer>();
 		
-		this.items[0] = Item.GetItem(-1, 1);
+		this.items[0] = Item.GetItem(-1, 0); // Gun 
+		this.items[1] = Item.GetItem(-2, 0); // Pickaxe
 	}
 		
+	public boolean hasItem(int id) { return idIndexMapping.containsKey(id); }
 	public Item[] getItems() { return items; }
 	public int getIndexMap(int id) { return idIndexMapping.get(id); }
+	
+	public void removeItem(int id) { items[idIndexMapping.get(id)].decreaseCount(1); }
 	
 	// Filter out items whose counts are 0
 	public void filter() {
@@ -74,7 +77,7 @@ public class Inventory{
 		// To drop, reduce count - if the count is 0, remove from hashmap and reset the array
 		Item item = items[index];
 		
-		if(item == null) return;
+		if(item == null || item.getID() < 0) return;
 		else if(item.getCount() > 0) {
 			item.decreaseCount(1);
 			
@@ -83,6 +86,19 @@ public class Inventory{
 			Engine.game.addEntity(EntType.Items, eblock);
 		}	
 	}
+	
+	public void swapElements(int index1, int index2) {
+		Item item1 = items[index1];
+		Item item2 = items[index2];
+		if (item1 != null) {
+			idIndexMapping.replace(item1.getID(), index2);
+		}
+		if (item2 != null) {
+			idIndexMapping.replace(item2.getID(), index1);
+		}
 		
+		items[index2] = item1;
+		items[index1] = item2;
+	}
 
 }

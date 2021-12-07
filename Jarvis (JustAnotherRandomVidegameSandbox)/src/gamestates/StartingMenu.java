@@ -19,6 +19,7 @@ public class StartingMenu extends BasicGameState
 {
 	int id;
 	
+	private int time;
 	//ready to start boolean
 	private boolean readyStart;
 	
@@ -37,8 +38,9 @@ public class StartingMenu extends BasicGameState
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException 
 	{		
 		FileManager.LoadResFiles();
-		
-		bg = new Background();
+
+		time = 0;
+		bg = new Background(Engine.StartingMenu_ID);
 		//image settings
 		setImage("placeholder");
 		mainButtonX = gc.getWidth()/2;
@@ -58,6 +60,8 @@ public class StartingMenu extends BasicGameState
 		//temporary string graphics, will be replaced
 		bg.render(g, 0, 0);
 		drawImages(g);
+		
+		time++;
 		
 		//draws fireworks
 		for (int i = 0; i < WorldSelect.particles.size(); i++) {

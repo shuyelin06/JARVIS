@@ -3,37 +3,27 @@ package gamestates;
 import java.util.ArrayList;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.Input;
-import org.newdawn.slick.Music;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
-import background.Background;
-import background.Tutorial;
-
 import java.util.HashMap;
 import java.util.function.Predicate;
 
-import core.Coordinate;
 import core.Engine;
 import core.Values;
 import entities.Entity;
 import entities.living.*;
-import entities.other.Projectile;
+import entities.projectiles.Projectile;
+import inventory.Inventory;
+import inventory.Item;
 import managers.DisplayManager;
-import managers.FileManager;
 import managers.KeyManager;
 import managers.SoundManager;
+import managers.SpawningManager;
 import entities.Entity.EntType;
-import structures.Block;
-import world.Chunk;
 import world.World;
-import world.WorldGen;
-import support.Destroyer;
-import support.Spawning;
-import support.Utility;
 
 public class Game extends BasicGameState {
 	// Slick2D Variables
@@ -43,11 +33,9 @@ public class Game extends BasicGameState {
 	private int id;
 	
 	// Managers
-	public KeyManager keyManager;
-	public DisplayManager displaymanager; // Manages the display / graphics in the game
-	
-	// Spawning
-	Destroyer d; // Despawning
+	public KeyManager keyManager; // Manages keyDown presses
+	public DisplayManager displayManager; // Manages the display / graphics in the game
+	private SpawningManager spawningManager; // Manages spawning	
 	
 	// The Player
 	private Player player;
@@ -55,98 +43,80 @@ public class Game extends BasicGameState {
 	private HashMap<EntType, ArrayList<Entity>> entities;
 	// The World
 	private World world;
-	// the background
-	private Background bg;
-	// The Tutorial
-	private Tutorial tutorial;
+	
+	//temporary variables for item swap
+	private int index1, index2;
 	
 	// Constructor
 	public Game(int id) { this.id = id; } 
 	
 	// Accessor Methods
-	public DisplayManager getDisplayManager() { return displaymanager; }
 	public int getID() { return id; }
-	public Player getPlayer() { return player; }
 	public GameContainer getGC() { return gc; }
-	public World getWorld() { return world; }
-	public Background getBackground() { return bg; }
-	public Tutorial getTutorial() { return tutorial; }
+	
+	public DisplayManager getDisplayManager() { return displayManager; }
+	
 	public ArrayList<Entity> getEntities(EntType type) { return entities.get(type); }
 	public HashMap<EntType, ArrayList<Entity>> getAllEntities(){ return entities; }
+	public Player getPlayer() { return player; }
+	public World getWorld() { return world; }
 	
-	public void addEntity(EntType type, Entity e) { entities.get(type).add(e); }
+	// Mutator Methods
+	public void addLiving(Entity e) { entities.get(EntType.Living).add(e); } 
+	public void addProjectile(Entity e) { entities.get(EntType.Projectiles).add(e); }
 	
-	/* Initializing */
+ 	public void addEntity(EntType type, Entity e) { entities.get(type).add(e); }
+	
+	// Helper Methods
+	public void respawn() { player.respawn(); }
+	
+	@Override /* Initializing */
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException 
 	{	
 		// Saving the StateBasedGame
 		this.sbg = sbg;
 		this.gc = gc;		
 		
-		// Initializing the World, Player, and Entities list
-		this.world = new World(this);
-		this.player = new Player();
-		this.entities = new HashMap<EntType, ArrayList<Entity>>() {
-			private static final long serialVersionUID = 1L;
-		{
-			put(EntType.Hostiles, new ArrayList<Entity>());
-			put(EntType.Items, new ArrayList<Entity>());
-			put(EntType.Projectiles, new ArrayList<Entity>());
-		}};
+		// Initializing the entities list
+		this.entities = new HashMap<EntType, ArrayList<Entity>>();
+		for(EntType entityType: EntType.values()) { entities.put(entityType, new ArrayList<Entity>()); }
 		
-		bg = new Background();
-		tutorial = new Tutorial();
+		// Initializing Player
+		this.player = new Player();
+		addLiving(player);
+		
+		// Initializing World
+		this.world = new World(this);
 		
 		// Initializing Destroying and Spawning Behaviors
-		this.d = new Destroyer(this);
+		this.spawningManager = new SpawningManager(this);
 		
 		// Initializing the Managers
-		this.displaymanager = new DisplayManager(this, gc.getGraphics());
+		this.displayManager = new DisplayManager(gc.getGraphics(), player.getPosition());
 		this.keyManager = new KeyManager(this);
+		
+		// Swap Index settings
+		this.index1 = -1;
+		this.index2 = -1;
 	}
 
-	/* Rendering - Game's Camera */
-	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException 
-	{
-		displaymanager.renderBackground(g); // Render the background of the game 
-		displaymanager.renderBlocks(g); // Render all blocks
-		displaymanager.renderEntities(g); // Render all entities
-		displaymanager.renderPlayer(g); // Render player
-		displaymanager.renderTutorial(g); // Render tutorial
-	}
+	@Override /* Render Everything in Game */
+	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException { displayManager.render(g); }
 
-	/*
-	 * Update - Update different behaviors of the game
-	 */
+	@Override /* Update - Update different behaviors of the game */
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException
 	{	 
-		// Check player key presses
-		keysDown();
+		// Check Control Presses
+		checkControls();
+		inInventory = false;
 		
-		// Mouse input, x and y
-		cursorInput(gc.getInput().getMouseX(), gc.getInput().getMouseY());	
+		// Update The World
+		world.update();
 		
-		// Check if any chunks need to be rendered or unrendered
-		world.renderChunks((int) player.getPosition().getChunk());
+		// Spawning and Despawning Mechanics
+		spawningManager.update();
 		
-		// Increments world time
-		world.incrementTime();
-		
-		// background updating
-		bg.update();
-		
-		// tutorial updating
-		tutorial.update();
-		
-		// Spawning Mechanics
-		Spawning.spawnEnemy(this, Values.Spawn_Rate); // If you want to stop spawning, set 5f to 0f.
-		// Derendering Mechanics
-		d.update();
-		
-		// Update the player
-		player.update();
-		
-		// Update all entities
+		// Update All Entities, Including the Player
 		for(ArrayList<Entity> list: entities.values()) {
 			for(Entity e: list) {
 				if(e.isMarked()) continue;
@@ -156,9 +126,7 @@ public class Game extends BasicGameState {
 		
 		// Remove all entities marked for removal
 		Predicate<Entity> filter = (Entity e) -> (e.isMarked());
-		for(ArrayList<Entity> list: entities.values()) {
-			list.removeIf(filter);
-		}
+		for(ArrayList<Entity> list: entities.values()) { list.removeIf(filter); }
 		
 		// Sends to pause if player died
 		if (!player.isAlive()) {
@@ -168,14 +136,23 @@ public class Game extends BasicGameState {
 		}
 	}
 
+	@Override
 	public void enter(GameContainer gc, StateBasedGame sbg) throws SlickException {
 		// this.entities.clear();
 		SoundManager.playBackgroundMusic("Morning"); // Begin game background music
 	}
+	@Override
 	public void leave(GameContainer gc, StateBasedGame sbg) {}
 
-	/* Key Mappings */
-	private void keysDown() { KeyManager.keyList.stream().filter(keyManager).forEach(keyManager::keyDown); }
+	/* Controls */
+	private void checkControls() {
+		checkKeysDown();
+		checkCursorDown();
+	}
+	
+	// Key Mappings
+	private void checkKeysDown() { KeyManager.keyList.stream().filter(keyManager).forEach(keyManager::keyDown); }
+	@Override
 	public void keyPressed(int key, char c)
 	{
   		switch(key) {
@@ -202,17 +179,6 @@ public class Game extends BasicGameState {
   				player.dropItem();
   				break;
   				
-  			case Input.KEY_R: // ROCKET GO BOOM
-  				float x = gc.getInput().getAbsoluteMouseX() - Values.CenterX;
-  				float y = Values.CenterY - gc.getInput().getAbsoluteMouseY();
-  				
-  				double theta = Math.atan(y / x);
-  				if(x < 0) theta = theta + Math.PI;
-  				
-  				Projectile p = new Projectile(player.getPosition().getX(), player.getPosition().getY(), theta);
-  				entities.get(EntType.Projectiles).add(p);
-  				break;
-  			
   			// All Inventory Key Bindings
   			case Input.KEY_1:
   			case Input.KEY_2:
@@ -232,40 +198,74 @@ public class Game extends BasicGameState {
   		
 	}
 
-	public void cursorInput(float x, float y)
-	{
-		float[] mouseCoordinate = displaymanager.positionInGame(x, y);
+	// Mouse Mappings
+	private boolean inInventory = false;
+	
+	public void mouseWheelMoved(int change) { player.adjustInventorySlot(change); }
+	private boolean inInventory(float x, float y) {
+		final float BAR_X = (float) (0.050208333333 * getGC().getWidth());
+		final float BAR_Y = (float) (0.03703703703 * getGC().getHeight());
+		final float BAR_WIDTH = (float) ((Engine.game.getGC().getWidth()/2) - (0.15625 * Engine.game.getGC().getWidth()));
+		final float BAR_HEIGHT = (float) ((60f / 1080f) * Engine.game.getGC().getHeight());
 		
-		// Do not process cursor input outside the player's reach, or if the player is dead.
-		if(player.getPosition().magDisplacement(mouseCoordinate) > Values.Player_Reach || !player.isAlive()) return;
+		return x > BAR_X && x < BAR_X + BAR_WIDTH && y > BAR_Y && y < BAR_Y + BAR_HEIGHT;
+	}
+	private void checkCursorDown() {
+		Input input = gc.getInput();
 		
-		if(gc.getInput().isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)) // Left click - destroy a block
-		{
-			player.useItem(mouseCoordinate[0], mouseCoordinate[1]);
+		// Do not do anything if mouse is in inventory
+		float x = input.getAbsoluteMouseX();
+		float y = input.getAbsoluteMouseY();
+		if(inInventory(x,y)) return;
+		
+		
+		if(input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)) {
+			player.useItem(
+					displayManager.gameX(input.getAbsoluteMouseX()),
+					displayManager.gameY(input.getAbsoluteMouseY()),
+					true 
+					);
+		} else if(input.isMouseButtonDown(Input.MOUSE_RIGHT_BUTTON)){
+			player.useItem(
+					displayManager.gameX(input.getAbsoluteMouseX()),
+					displayManager.gameY(input.getAbsoluteMouseY()),
+					false
+					);
+			
 		}
-		
-		if(gc.getInput().isMouseButtonDown(Input.MOUSE_RIGHT_BUTTON)) // Right click - place a block
-		{
-			world.destroyBlock((int) mouseCoordinate[0], (int) mouseCoordinate[1]);
+	}
+
+	public void mousePressed(int button, int x, int y) {
+		if (button == Input.MOUSE_LEFT_BUTTON) {
+			checkItemSwap(x, y);
 		}
+	}
+	
+	public void checkItemSwap(float x, float y) {
+		final float BAR_X = (float) (0.050208333333 * getGC().getWidth());
+		final float BAR_Y = (float) (0.03703703703 * getGC().getHeight());
+		final float BAR_WIDTH = (float) ((Engine.game.getGC().getWidth()/2) - (0.15625 * Engine.game.getGC().getWidth()));
+		final float BAR_HEIGHT = (float) ((60f / 1080f) * Engine.game.getGC().getHeight());
+		// Draw every item in the player's inventory
+		final float boxSize = BAR_WIDTH / (float) Inventory.Inventory_Size;
 		
-		if(gc.getInput().isKeyDown(Input.KEY_E)) // Test explosion, just for fun lol
-		{
-			for(int i = -2; i < 3; i++)
-			{
-				for(int j = -2; j < 3; j++)
-				{
-					world.destroyBlock((int) mouseCoordinate[0] + i, (int) mouseCoordinate[1] + j);
-				}
+		if (inInventory(x,y)) {
+			inInventory = true; 
+			
+			if (index1 == -1) {
+				//set index1 to what is in the bar
+				index1 = (int) ((x - BAR_X) / boxSize);
+			} else {
+				//set index2 to what is in the bar
+				index2 = (int) ((x - BAR_X) / boxSize);
+				player.getInventory().swapElements(index1, index2);
+				index1 = -1;
+				index2 = -1;
 			}
+		} else {
+			index1 = -1;
+			index2 = -1;
 		}
 	}
-	
-	public void mouseWheelMoved(int change) {
-		player.adjustInventorySlot(change);
-	}
-	
-	public void respawn() {
-		player.respawn();
-	}
+
 }

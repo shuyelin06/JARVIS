@@ -4,22 +4,28 @@ import java.util.ArrayList;
 
 import core.Engine;
 import core.Values;
+import gamestates.Game;
 import managers.FileManager;
 import structures.Block;
 import structures.Tree;
 import support.SimplexNoise;
 
-public class WorldGen extends Thread{
+public class WorldGen extends Thread
+{
 	// World-Specific Variables 
 	private SimplexNoise noise; //noise for the rest
-	
 	private String worldName;
+	private int desertStart;
+	private int desertEnd;
 	
 	// Variables used in world generation
 	
 	public WorldGen(String worldName, int seed) 
 	{
 		this.worldName = worldName;
+		
+		desertStart = Engine.game.getWorld().getDesertStart();
+		desertEnd = Engine.game.getWorld().getDesertEnd();
 		
 		noise = new SimplexNoise(seed); // Later will be used with the noise parameter for custom seeds
 	}
@@ -56,16 +62,16 @@ public class WorldGen extends Thread{
 	
 	private void biomes()
 	{		
-		for(int chunkX = Values.desertStart; chunkX < Values.desertEnd; chunkX++)
+		for(int chunkX = desertStart; chunkX < desertEnd; chunkX++)
 		{
 			//System.out.println(chunkX);
 			Block[][] blocks = new Block[Values.Chunk_Size_X][Values.Chunk_Size_Y];
 			
-			if(chunkX == Values.desertStart)
+			if(chunkX == desertStart)
 			{
 				blocks = BiomeGens.desertGen(FileManager.LoadChunk(worldName, chunkX).getBlocks(), -1);
 			} 
-			else if(chunkX == Values.desertEnd - 1)
+			else if(chunkX == desertEnd - 1)
 			{
 				blocks = BiomeGens.desertGen(FileManager.LoadChunk(worldName, chunkX).getBlocks(), 1);
 			} 

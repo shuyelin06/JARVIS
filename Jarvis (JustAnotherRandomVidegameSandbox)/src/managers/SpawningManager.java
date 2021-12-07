@@ -1,4 +1,4 @@
-package support;
+package managers;
 
 import org.newdawn.slick.SlickException;
 
@@ -9,29 +9,41 @@ import entities.Entity.EntType;
 import entities.living.*;
 import gamestates.Game;
 import structures.Block;
+import support.Utility;
 
-public class Spawning {
-	public static void spawnEnemy (Game g, float prob) throws SlickException { //expand on parameters like what kind of enemies to spawn in later
-
-		//prob is the percent chance that you want a new enemy to spawn; scale it to how often the update method gets called
- 		if(g.getEntities(EntType.Hostiles).size() < 5) {
+public class SpawningManager {
+	// Variables for easier accessing
+	private Game game;
+	
+	private Player player;
+	
+	public SpawningManager(Game game) {
+		this.game = game;
+		
+		this.player = game.getPlayer();
+	}
+	
+	public void update() {
+		spawnEnemy(game, Values.Spawn_Rate);
+	}
+	public void spawnEnemy (Game g, float prob) { //expand on parameters like what kind of enemies to spawn in later
+		// prob is the percent chance that you want a new enemy to spawn; scale it to how often the update method gets called
+ 		if(g.getEntities(EntType.Living).size() < 7) {
  			if(!safeZone(g) && Utility.random(0.0, 100.0) <= prob) {
  				//for now it just drops a new enemy on the player's head
  				float x = g.getPlayer().getPosition().getX();
  				float y = g.getPlayer().getPosition().getY();
  				Coordinate coord = getOpenArea(g, 15, 25, 20, 3, 3, prob);
  				if(coord != null) {
- 					g.getEntities(EntType.Hostiles).add(new Scorpian(coord.getX(), coord.getY()));
+ 					g.getEntities(EntType.Living).add(new Scorpian(coord.getX(), coord.getY()));
  				}
- 				
- 				//System.out.println("New Enemy: " + x + ", " + y);
 			
  			}
  		}
 	}
 	
 	//for now just checks if coordinates of player is near the spawn point, later change this to biomes
-	public static boolean safeZone(Game g) {
+	public boolean safeZone(Game g) {
 		float x = g.getPlayer().getPosition().getX();
 		float y = g.getPlayer().getPosition().getY();
 		int rangeX = 32;
@@ -44,7 +56,7 @@ public class Spawning {
 		return false;
 	}
 	
-	public static Coordinate getOpenArea(Game g, int minDistance, int maxDistance, int elevationDiff, int w, int h, float prob) {
+	public Coordinate getOpenArea(Game g, int minDistance, int maxDistance, int elevationDiff, int w, int h, float prob) {
 		float playerX = g.getPlayer().getPosition().getX();
 		float playerY = g.getPlayer().getPosition().getY();
 		Coordinate coord = new Coordinate(playerX, playerY);

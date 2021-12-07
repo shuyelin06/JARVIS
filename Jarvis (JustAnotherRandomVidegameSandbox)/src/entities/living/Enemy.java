@@ -17,6 +17,8 @@ public class Enemy extends Living {
 	public Enemy(float x, float y) 
 	{
 		super(x,y); 
+		
+		this.team = Team.Enemy;
 		target = Engine.game.getPlayer();
 
 		try {
@@ -32,20 +34,22 @@ public class Enemy extends Living {
 		this.jumps = 0;
 	}
 	// Overwritten update method
+	@Override
 	public void update() {
-		super.update();
+		if(this.position.magDisplacement(target.getPosition()) > Values.Entity_Despawn_Distance 
+				|| curHealth <= 0) { 
+			this.remove = true;
+			return;
+		}
 		
 		ai(target);
-		if (!alive) {
-			this.markForRemoval();
-		}
+		super.update();
 	}
 
 	// Overwritten entity collision method
 	protected void entityCollisions() {
 		if(this.entityCollision(target)) {
 			target.takeDamage(contactDmg, true);
-			this.takeDamage(1, true);
 		}
 	}
 	

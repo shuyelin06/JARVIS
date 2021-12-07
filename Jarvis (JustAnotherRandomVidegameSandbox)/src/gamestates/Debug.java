@@ -43,7 +43,6 @@ public class Debug extends BasicGameState
 		// Render all entities
 		for(ArrayList<Entity> list: Engine.game.getAllEntities().values()) {
 			for(Entity e: list) {
-				float[] position = Engine.game.displaymanager.positionOnScreen(e.getPosition().getX(), e.getPosition().getY());
 	    		e.debug();
 			}	
     	}

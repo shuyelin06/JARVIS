@@ -56,8 +56,6 @@ public class Engine extends StateBasedGame
 	{
 		super(name);
 		
-		FileManager.LoadResFiles(); // Initializing res files
-		
 		startingMenu = new StartingMenu(StartingMenu_ID);
 		worldSelect = new WorldSelect(WorldSelect_ID);
 		loading = new Loading(Loading_ID);
@@ -101,7 +99,7 @@ public class Engine extends StateBasedGame
 			appgc.setDisplayMode(RESOLUTION_X, RESOLUTION_Y, false);
 			appgc.setTargetFrameRate(FRAMES_PER_SECOND);
 			appgc.start();
-			appgc.setVSync(true);
+			appgc.setVSync(false);
 						
 		} catch (SlickException e) 
 		{

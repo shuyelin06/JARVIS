@@ -5,21 +5,26 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
+import background.sky.Sky;
 import core.Engine;
 import core.Values;
 import managers.ImageManager;
 
 public class Layer 
 {
-	Image sprite;
-	float parallax;
-	float alpha;
+
+	private Image sprite;
+	private float color;
+	private float parallax;
+	private float alpha;
 	
-	float x, y, w, h, resX, resY;
+	private float x, y, w, h, resX, resY;
 	
 	public Layer(String image, float parallax, float x, float y, float w, float h)
-	{
+	{	
 		alpha = 1;
+		color = 1;
+		
 		resX = Engine.RESOLUTION_X;
 		resY = Engine.RESOLUTION_Y;
 		x = 0;
@@ -37,14 +42,15 @@ public class Layer
 	{
 		sprite.setFilter(Image.FILTER_NEAREST);
 		sprite.setAlpha(alpha);
-		g.drawString(alpha + "", 100, 300);
+		sprite.setImageColor(color, color, color, alpha);
+		
 		sprite.draw(x * parallax % w, y * parallax + this.y, w, h);
 		sprite.draw(x * parallax % w + w, y * parallax + this.y, w, h);
 	}
 	
-	public void update(float x, float y)
+	public void update(float lighting)
 	{
-		
+		color =  lighting;
 	}
 	
 	public float getParallax() 
@@ -68,11 +74,6 @@ public class Layer
 	
 	public Color getColor()
 	{
-		return sprite.getColor(100,100);
-	}
-	
-	public void dim() //still need to figure out how to get the filters to work
-	{
-		
+		return sprite.getColor(0, (int)(h * 0.1f));
 	}
 }

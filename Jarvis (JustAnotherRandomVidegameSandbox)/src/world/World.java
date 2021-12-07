@@ -11,7 +11,7 @@ import entities.living.Player;
 import entities.Entity.EntType;
 import entities.other.EBlock;
 import gamestates.Game;
-import items.Item;
+import inventory.Item;
 import managers.FileManager;
 import structures.Block;
 
@@ -32,6 +32,9 @@ public class World
 	private int time;
 	private int timeCycle;
 	
+	private int desertStart;
+	private int desertEnd;
+	
 	// Generate world from scratch
 	public World(Game game)
 	{
@@ -40,13 +43,16 @@ public class World
 		
 		// Time Settings (36000 means 1 day per 10 min)
 		this.time = 0;
-		this.timeCycle = 18000;
+		this.timeCycle = Values.totalLength;
 		
 		// Chunk Generation 
 		renderedChunks = new HashMap<Integer, Chunk>();
 		
 		// Memory Addresses
 		this.player = game.getPlayer();
+		
+		desertStart = (int) (Values.World_X_Size * 0.3);
+		desertEnd = desertStart + (int) (Values.World_X_Size * 0.15);
 	}
 	
 	// Accessor Methods
@@ -57,9 +63,12 @@ public class World
 		return worldName; 
 	}
 	public int getTime() { return time; }
+	public int getDesertStart() { return desertStart; }
+	public int getDesertEnd() { return desertEnd; }
 	
 	// Mutator Methods
 	public void changeName(String worldName) { this.worldName = worldName; }
+	public void setDesert(String worldName, int start, int end) { desertStart = start; desertEnd = end; }
 	
 	// Main method in world that is called in game
 	public void update() {
@@ -123,6 +132,7 @@ public class World
 	/*
 	 * World helper methods
 	 */
+	
 	//precondition: the block at i, j  is a grass block
 	public int getGrassVariant(Block[][] blocks, int i, int j, int chunkIndex) {
 		int lBlock = getAdjacentBlock(blocks, i, j, chunkIndex, -1);
