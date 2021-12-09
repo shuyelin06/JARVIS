@@ -115,7 +115,7 @@ public class DisplayManager {
 		}
 		else
 		{
-			elevationLight = 0.9f; //caves
+			elevationLight = 0.85f; //caves
 		}
 		
 		globalLight = 1 - elevationLight - (Engine.game.getDisplayManager().getBackground().getSky().getNightAlpha() * tempLight); 

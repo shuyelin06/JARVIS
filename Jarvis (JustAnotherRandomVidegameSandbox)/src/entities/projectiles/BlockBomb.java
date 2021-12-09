@@ -1,7 +1,5 @@
 package entities.projectiles;
 
-import java.util.HashMap;
-
 import core.Coordinate;
 import entities.living.Living;
 
