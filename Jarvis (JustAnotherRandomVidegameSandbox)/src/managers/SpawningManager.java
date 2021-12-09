@@ -32,10 +32,12 @@ public class SpawningManager {
  			if(!safeZone(g) && Utility.random(0.0, 100.0) <= prob) {
  				Coordinate coord = getOpenArea(g, 15, 25, 20, 3, 3, prob);
  				if(coord != null) {
- 					if(Utility.random(0,1) < 1) {
+ 					float pChunk = g.getPlayer().getPosition().getChunk();
+ 					if(pChunk >= g.getWorld().getDesertStart() && pChunk <= g.getWorld().getDesertEnd()) {
  						g.getEntities(EntType.Living).add(new Scorpian(coord.getX(), coord.getY()));
+ 					}else {
+ 						g.getEntities(EntType.Living).add(new Enemy(coord.getX(), coord.getY()));
  					}
- 					g.getEntities(EntType.Living).add(new Enemy(coord.getX(), coord.getY()));
  				}
 			
  			}
@@ -46,7 +48,7 @@ public class SpawningManager {
 	public boolean safeZone(Game g) {
 		float x = g.getPlayer().getPosition().getX();
 		float y = g.getPlayer().getPosition().getY();
-		int rangeX = 32;
+		int rangeX = 16;
 		int rangeY = 128;
 		if(x > Values.SpawnX-rangeX && x < Values.SpawnX+rangeX) {
 			if(y > Values.SpawnY-rangeY && y < Values.SpawnY+rangeY) {
