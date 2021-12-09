@@ -59,7 +59,7 @@ public class DisplayManager {
 		this.tutorial = new Tutorial();
 		this.background = new Background(Engine.Game_ID);
 		
-		tempLight = 0.8f;
+		tempLight = 0.5f;
 		globalLight = 0;
 		elevationLight = 0;
 		
@@ -110,16 +110,16 @@ public class DisplayManager {
 		} 
 		else if(screenY(Values.Surface) > -500)
 		{
-			elevationLight = Math.abs(screenY(Values.Surface)) / 500; //transition
+			elevationLight = Math.abs(screenY(Values.Surface)) / 600; //transition length * (1 / elevantionLight max)
 			
 		}
 		else
 		{
-			elevationLight = 1; //caves
+			elevationLight = 0.9f; //caves
 		}
 		
 		globalLight = 1 - elevationLight - (Engine.game.getDisplayManager().getBackground().getSky().getNightAlpha() * tempLight); 
-		if(globalLight < 0.1) globalLight = 0.1f;
+		if(globalLight < 0.15f) globalLight = 0.15f;
 		//????????? LOLLLLLL WTF ARE THOSE ACESSSORS
 		
 		// Render everything
