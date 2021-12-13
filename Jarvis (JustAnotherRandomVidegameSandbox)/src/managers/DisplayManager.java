@@ -2,6 +2,9 @@ package managers;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
@@ -14,6 +17,7 @@ import org.newdawn.slick.state.BasicGameState;
 
 import background.Background;
 import background.Tutorial;
+import core.BlockHash;
 import core.Coordinate;
 import core.Engine;
 import core.Values;
@@ -45,7 +49,6 @@ public class DisplayManager {
 	private float elevationLight; //gets darker as you go down
 	
 	// Block Sprites
-	private HashMap<Integer, Integer> tileHash;
 	private SpriteSheet tileset;
 	
 	// Rendering Variables
@@ -68,26 +71,10 @@ public class DisplayManager {
 				
 		// Initializing Block Spritesheet
 		tileset = new SpriteSheet("res/tileset.png", 30, 30);
-		
-		// Block Hashing: Key - Block ID,
-		tileHash = new HashMap<Integer, Integer>();
-		tileHash.put(1, 1); // Block ID 1 = dirt
-		tileHash.put(2, 0); // Block ID 2 = grass
-		tileHash.put(3, 2); // Block ID 3 = stone
-		tileHash.put(4, 3); // Block ID 4 = coal
-		tileHash.put(5, 4);	// Block ID 5 = gold
-		tileHash.put(6, 5); // Block ID 6 = diamonds
-		tileHash.put(7, 6); // Block ID 7 = sand
-		tileHash.put(8, 7); // Block ID 8 = sandstone
 	};
 	
 	// Accessor Methods
-	public SpriteSheet getSpriteSheet() { return tileset; }
-	public HashMap<Integer, Integer> getSpriteHash(){ return tileHash; }
-	
-	public Background getBackground() { return background; }
-	
-	public Image getBlockSprite(int id) { return tileset.getSubImage(0, tileHash.get(id)); }
+	public Image getBlockSprite(int id) { return tileset.getSubImage(0, BlockHash.getLocation(id)); }
 	
 	// Helper Methods 
 	public float screenX(float gameX) { return (gameX - center.getX()) * Values.Pixels_Per_Block + Values.CenterX; } // Return the pixel position of a game coordinate on screen
@@ -104,21 +91,17 @@ public class DisplayManager {
 		tutorial.update(); // Update tutorial
 		
 		//i'll move this to a separate class, dw
-		if(screenY(Values.Surface) > 0)
-		{
-			elevationLight = 0; //surface
-		} 
-		else if(screenY(Values.Surface) > -500)
-		{
+		if(screenY(Values.Surface) > 0) { 
+			elevationLight = 0; 
+		} else if(screenY(Values.Surface) > -500) {
 			elevationLight = Math.abs(screenY(Values.Surface)) / 500; //transition
-			
 		}
 		else
 		{
 			elevationLight = 1; //caves
 		}
 		
-		globalLight = 1 - elevationLight - (Engine.game.getDisplayManager().getBackground().getSky().getNightAlpha() * tempLight); 
+		globalLight = 1 - elevationLight - (background.getSky().getNightAlpha() * tempLight); 
 		if(globalLight < 0.1) globalLight = 0.1f;
 		//????????? LOLLLLLL WTF ARE THOSE ACESSSORS
 		
@@ -177,20 +160,20 @@ public class DisplayManager {
 						}
 						break;
 					case 3: // Stone
-						g.drawImage(setLight(tileset.getSubImage( c.getBlocks()[relChunkX][blockY].getVariant(), tileHash.get(id) ) ), 
+						g.drawImage(setLight(tileset.getSubImage( c.getBlocks()[relChunkX][blockY].getVariant(), BlockHash.getLocation(id)) ), 
 								screenX, screenY);
 						break;
 					default: // Every other block
-						g.drawImage(setLight( tileset.getSubImage(c.getBlocks()[relChunkX][blockY].getVariant(), tileHash.get(id) ) ), 
+						g.drawImage(setLight( tileset.getSubImage(c.getBlocks()[relChunkX][blockY].getVariant(), BlockHash.getLocation(id)) ), 
 								screenX, screenY);
 						break;
 				}
 				
-				if(b.getDurability() != Block.Max_Durability) {
+				if(b.getDurability() != BlockHash.getBaseDurability(b.getID())) {
 					Image crack = ImageManager.getImage("crack");
 					crack = crack.getScaledCopy(Values.Pixels_Per_Block, Values.Pixels_Per_Block);
 					
-					crack.setImageColor(0f, 0f, 0f, (float) (Block.Max_Durability - b.getDurability()) / Block.Max_Durability);
+					crack.setImageColor(0f, 0f, 0f, (float) (BlockHash.getBaseDurability(b.getID()) - b.getDurability()) / BlockHash.getBaseDurability(b.getID()));
 					crack.draw(screenX, screenY);
 				}
 			}

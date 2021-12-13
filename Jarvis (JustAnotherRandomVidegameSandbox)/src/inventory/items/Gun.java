@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import org.lwjgl.Sys;
 
+import core.BlockHash;
 import core.Coordinate;
 import core.Engine;
 import entities.Entity.EntType;
@@ -16,8 +17,7 @@ import inventory.Item;
 import managers.ImageManager;
 
 public class Gun extends Item {
-	private static HashMap<Integer, Float> IdScalingFactors = new HashMap<Integer, Float>();
-  private static float Cooldown = 0.5f;
+	private static float Cooldown = 0.5f;
 	
 	private float lastShot;
 	
@@ -25,15 +25,6 @@ public class Gun extends Item {
 		super(-1, 1);
     
 		this.sprite = ImageManager.getImage("desert eagle");
-		
-		IdScalingFactors.put(1, 0.2f);
-		IdScalingFactors.put(2, 0.2f);
-		IdScalingFactors.put(3, 1f); // Stone
-		IdScalingFactors.put(4, 1.2f); // Coal
-		IdScalingFactors.put(5, 1.7f);
-		IdScalingFactors.put(6, 2.5f);
-		IdScalingFactors.put(7, 0.2f);
-		IdScalingFactors.put(8, 1f);
 		
 		lastShot = Sys.getTime();
 	}
@@ -50,11 +41,13 @@ public class Gun extends Item {
 	for(Item item: inv.getItems()) {
 		if(item == null) continue;
 		
-		if(IdScalingFactors .containsKey(item.getID()) && Sys.getTime() - lastShot > Cooldown * 1000) {
+		int id = item.getID();
+		if(BlockHash.hasBlock(id) && 
+				Sys.getTime() - lastShot > Cooldown * 1000) {
 		    // Spawn new blockbullet
 		    BlockBullet bullet = new BlockBullet(game.getPlayer(),
 		    		new Coordinate(x,y),
-		    		IdScalingFactors.get(item.getID()),
+		    		BlockHash.getStrengthScaling(id),
 		    		item.getID()
 		    		);
 		    game.addEntity(EntType.Projectiles, bullet);
@@ -74,11 +67,13 @@ public class Gun extends Item {
 		for(Item item: inv.getItems()) {
 			if(item == null) continue;
 			
-			if(IdScalingFactors .containsKey(item.getID()) && Sys.getTime() - lastShot > Cooldown * 1000) {
+			int id = item.getID();
+			if(BlockHash.hasBlock(id) 
+					&& Sys.getTime() - lastShot > Cooldown * 1000) {
 			    // Spawn new blockbullet
 			    BlockBomb bomb = new BlockBomb(game.getPlayer(),
 			    		new Coordinate(x,y),
-			    		IdScalingFactors.get(item.getID()),
+			    		BlockHash.getStrengthScaling(id),
 			    		item.getID()
 			    		);
 			    game.addEntity(EntType.Projectiles, bomb);

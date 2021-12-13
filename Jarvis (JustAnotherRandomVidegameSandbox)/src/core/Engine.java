@@ -35,6 +35,7 @@ public class Engine extends StateBasedGame
 	public final static int RESOLUTION_Y = 1080; 
 	public final static int FRAMES_PER_SECOND = 60;
 	
+	public static final int ResLoading_ID = 7;
 	public static final int StartingMenu_ID = 0;
     public static final int WorldSelect_ID = 1;
     public static final int Game_ID = 2;
@@ -43,6 +44,8 @@ public class Engine extends StateBasedGame
     public static final int Settings_ID = 5;
     
     public static final int Loading_ID = 6;
+    
+    public static ResLoading resLoading;
     
     public static StartingMenu startingMenu;
     public static WorldSelect worldSelect;
@@ -55,6 +58,8 @@ public class Engine extends StateBasedGame
 	public Engine(String name) 
 	{
 		super(name);
+		
+		resLoading = new ResLoading(ResLoading_ID);
 		
 		startingMenu = new StartingMenu(StartingMenu_ID);
 		worldSelect = new WorldSelect(WorldSelect_ID);
@@ -70,7 +75,7 @@ public class Engine extends StateBasedGame
 	{
 		gc.setShowFPS(false);
 		
-
+		addState(resLoading);
 		
 		addState(startingMenu);
 		addState(worldSelect);
@@ -87,7 +92,6 @@ public class Engine extends StateBasedGame
 	{
 		try {
 			// Intializing Lists
-			Block.Passable_Blocks.add(0); // Initializing Passable Blocks list
 			KeyManager.keyList.add(Input.KEY_S); // Initializing key list
 			KeyManager.keyList.add(Input.KEY_D);
 			KeyManager.keyList.add(Input.KEY_A);

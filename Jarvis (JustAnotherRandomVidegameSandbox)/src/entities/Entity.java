@@ -1,5 +1,6 @@
 package entities;
 
+import core.BlockHash;
 import core.Coordinate;
 import core.Engine;
 import core.Values;
@@ -150,7 +151,9 @@ public class Entity{
 			for(int i = (int) Math.ceil(position.getY()); i <= (int) Math.ceil(yBorder); i++) {
 				for(int j = leftX; j <= rightX; j++) {
 					Block b = Engine.game.getWorld().getChunk(j / Values.Chunk_Size_X).getBlocks()[j % Values.Chunk_Size_X][i];
-					if(!Block.Passable_Blocks.contains(b.getID())) {
+					
+					int id = b.getID();
+					if(!BlockHash.isPassable(id)) {
 						// Adjust Y Position
 						this.position.setYPos(i - 1f - collisionError);
 						
@@ -168,7 +171,9 @@ public class Entity{
 			for(int i = (int) Math.ceil(position.getY()); i >= (int) Math.ceil(yBorder); i--) {
 				for(int j = leftX; j <= rightX; j++) {
 					Block b = Engine.game.getWorld().getChunk(j / Values.Chunk_Size_X).getBlocks()[j % Values.Chunk_Size_X][i];
-					if(!Block.Passable_Blocks.contains(b.getID())) {
+					
+					int id = b.getID();
+					if(!BlockHash.isPassable(id)) {
 						// Adjust Y Position
 						this.position.setYPos(i + sizeY + collisionError);
 						
@@ -199,7 +204,9 @@ public class Entity{
 			for(int i = (int) position.getX(); i <= (int) xBorder; i++) {
 				for(int j = bottomY; j <= topY; j++) {
 					Block b = Engine.game.getWorld().getChunk(i / Values.Chunk_Size_X).getBlocks()[i % Values.Chunk_Size_X][j];
-					if(!Block.Passable_Blocks.contains(b.getID())) {
+					
+					int id = b.getID();
+					if(!BlockHash.isPassable(id)) {
 						// Adjust X Position
 						position.setXPos(i - sizeX - collisionError);
 						
@@ -217,7 +224,9 @@ public class Entity{
 			for(int i = (int) position.getX(); i >= (int) xBorder; i--) {
 				for(int j = bottomY; j <= topY; j++) {
 					Block b = Engine.game.getWorld().getChunk(i / Values.Chunk_Size_X).getBlocks()[i % Values.Chunk_Size_X][j];
-					if(!Block.Passable_Blocks.contains(b.getID())) {
+					
+					int id = b.getID();
+					if(!BlockHash.isPassable(id)) {
 						// Adjust X Position
 						position.setXPos(i + 1 + collisionError);
 						

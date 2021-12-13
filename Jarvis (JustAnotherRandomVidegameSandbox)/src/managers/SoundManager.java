@@ -9,7 +9,7 @@ import org.newdawn.slick.Sound;
 import core.Values;
 
 public class SoundManager {
-	final private static HashMap<String, Sound> Sounds = new HashMap<String, Sound>();
+	final public static HashMap<String, Sound> Sounds = new HashMap<String, Sound>();
 	
 	private static Sound background;
 	private static float pitch = 1f;

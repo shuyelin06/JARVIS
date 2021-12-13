@@ -14,7 +14,7 @@ import managers.ImageManager;
 public class Projectile extends Entity {
 	protected Team team;
 	
-	protected float damage;	
+	protected float damage;
 	
 	public Projectile(Living origin, Coordinate target){
 		super(
