@@ -39,7 +39,7 @@ public class SpawningManager {
  				}else {
  					Coordinate coord = getOpenArea(g, 25, Values.Render_Distance*Values.Chunk_Size_X, 20, 1, 1, prob);
  					if(coord != null) {
- 						g.getEntities(EntType.Living).add(new Enemy(coord.getX(), coord.getY()));
+ 						g.getEntities(EntType.Living).add(new Snowman(coord.getX(), coord.getY()));
  					}
  				}
  				
