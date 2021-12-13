@@ -30,15 +30,28 @@ public class SpawningManager {
 		// prob is the percent chance that you want a new enemy to spawn; scale it to how often the update method gets called
  		if(g.getEntities(EntType.Living).size() < 7) {
  			if(!safeZone(g) && Utility.random(0.0, 100.0) <= prob) {
- 				Coordinate coord = getOpenArea(g, 15, 25, 20, 3, 3, prob);
- 				if(coord != null) {
- 					float pChunk = g.getPlayer().getPosition().getChunk();
- 					if(pChunk >= g.getWorld().getDesertStart() && pChunk <= g.getWorld().getDesertEnd()) {
+ 				float pChunk = g.getPlayer().getPosition().getChunk();
+ 				if(pChunk >= g.getWorld().getDesertStart() && pChunk <= g.getWorld().getDesertEnd()) {
+ 					Coordinate coord = getOpenArea(g, 25, Values.Render_Distance*Values.Chunk_Size_X, 20, 3, 3, prob);
+ 					if(coord != null) {
  						g.getEntities(EntType.Living).add(new Scorpian(coord.getX(), coord.getY()));
- 					}else {
+ 					}
+ 				}else {
+ 					Coordinate coord = getOpenArea(g, 25, Values.Render_Distance*Values.Chunk_Size_X, 20, 1, 1, prob);
+ 					if(coord != null) {
  						g.getEntities(EntType.Living).add(new Enemy(coord.getX(), coord.getY()));
  					}
  				}
+ 				
+// 				Coordinate coord = getOpenArea(g, 15, 25, 20, 3, 3, prob);
+// 				if(coord != null) {
+// 					float pChunk = g.getPlayer().getPosition().getChunk();
+// 					if(pChunk >= g.getWorld().getDesertStart() && pChunk <= g.getWorld().getDesertEnd()) {
+// 						g.getEntities(EntType.Living).add(new Scorpian(coord.getX(), coord.getY()));
+// 					}else {
+// 						g.getEntities(EntType.Living).add(new Enemy(coord.getX(), coord.getY()));
+// 					}
+// 				}
 			
  			}
  		}
