@@ -156,6 +156,7 @@ public class Background
 		}
 		
 		desert.update(nightAlpha);
+		tundra.update(nightAlpha);
 		hills.update(nightAlpha);
 		sky.update(time);
 	}
