@@ -17,6 +17,8 @@ public class WorldGen extends Thread
 	private String worldName;
 	private int desertStart;
 	private int desertEnd;
+	private int tundraStart;
+	private int tundraEnd;
 	
 	// Variables used in world generation
 	
@@ -26,6 +28,8 @@ public class WorldGen extends Thread
 		
 		desertStart = Engine.game.getWorld().getDesertStart();
 		desertEnd = Engine.game.getWorld().getDesertEnd();
+		tundraStart = Engine.game.getWorld().getTundraStart();
+		tundraEnd = Engine.game.getWorld().getTundraEnd();
 		
 		noise = new SimplexNoise(seed); // Later will be used with the noise parameter for custom seeds
 	}
@@ -78,6 +82,27 @@ public class WorldGen extends Thread
 			else
 			{
 				blocks = BiomeGens.desertGen(FileManager.LoadChunk(worldName, chunkX).getBlocks(), 0);
+			}
+			
+			FileManager.SaveChunk(worldName, new Chunk(chunkX, blocks));
+		}
+		
+		for(int chunkX = tundraStart; chunkX < tundraEnd; chunkX++)
+		{
+			//System.out.println(chunkX);
+			Block[][] blocks = new Block[Values.Chunk_Size_X][Values.Chunk_Size_Y];
+			
+			if(chunkX == tundraStart)
+			{
+				blocks = BiomeGens.tundraGen(FileManager.LoadChunk(worldName, chunkX).getBlocks(), -1);
+			} 
+			else if(chunkX == tundraEnd - 1)
+			{
+				blocks = BiomeGens.tundraGen(FileManager.LoadChunk(worldName, chunkX).getBlocks(), 1);
+			} 
+			else
+			{
+				blocks = BiomeGens.tundraGen(FileManager.LoadChunk(worldName, chunkX).getBlocks(), 0);
 			}
 			
 			FileManager.SaveChunk(worldName, new Chunk(chunkX, blocks));

@@ -59,6 +59,60 @@ public class BiomeGens //just holds all the biome generation, for organization p
 		return(blocks);
 	}
 	
+	public static Block[][] tundraGen(Block[][] inputBlocks, int edge)
+	{
+		Block[][] blocks = inputBlocks;
+		
+		if(edge == 0)
+		{
+			for(int i = 0; i < Values.Chunk_Size_X; i++)
+			{
+				for(int j = 0; j < Values.Chunk_Size_Y; j++)
+				{
+					switch(blocks[i][j].getID())
+					{
+						case(1): blocks[i][j].setID(9); break;
+						case(2): blocks[i][j].setID(9); break; 
+						case(3): blocks[i][j].setID(10);
+					}
+				}
+			}	
+		}
+		else if(edge == 1)
+		{
+			for(int j = 0; j < Values.Chunk_Size_Y; j++)
+			{
+				for(int i = 0; i < Values.Chunk_Size_X * Math.random(); i++)
+				{
+					switch(blocks[i][j].getID())
+					{
+						case(1): blocks[i][j].setID(9); break;
+						case(2): blocks[i][j].setID(9); break;
+						case(3): blocks[i][j].setID(10);
+					}
+				}
+			}
+				
+		}
+		else if(edge == -1)
+		{
+			for(int j = 0; j < Values.Chunk_Size_Y; j++)
+			{
+				for(int i = Values.Chunk_Size_X - 1; i > (int)(Values.Chunk_Size_X * Math.random()) - 1; i--)
+				{
+					switch(blocks[i][j].getID())
+					{
+						case(1): blocks[i][j].setID(9); break;
+						case(2): blocks[i][j].setID(9); break;
+						case(3): blocks[i][j].setID(10);
+					}
+				}
+			}
+		}
+		
+		return(blocks);
+	}
+	
 	private Block[][] structures(Block[][] blocks) //oh boy
 	{
 		for(int i = 0; i < Values.Chunk_Size_X; i++)

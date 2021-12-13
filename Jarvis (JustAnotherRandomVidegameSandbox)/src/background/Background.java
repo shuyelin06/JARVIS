@@ -5,6 +5,7 @@ import org.newdawn.slick.SlickException;
 
 import background.biome.Desert;
 import background.biome.Hills;
+import background.biome.Tundra;
 import background.biome.Underground;
 import background.sky.Sky;
 import core.Coordinate;
@@ -17,10 +18,12 @@ public class Background
 	private float nightAlpha;
 	private int gameState;
 	private int[] desertPosition;
+	private int[] tundraPosition;
 	
 	private Sky sky;
 	private Hills hills;
 	private Desert desert;
+	private Tundra tundra;
 	private Underground underground;
 	
 	private Cloud[] clouds;
@@ -33,10 +36,12 @@ public class Background
 		nightAlpha = 0;
 		time = 0;
 		desertPosition = new int[2];
+		tundraPosition = new int[2];
 		
 		sky = new Sky();
 		hills = new Hills();
 		desert = new Desert();
+		tundra = new Tundra();
 		
 		underground = new Underground();
 		
@@ -56,11 +61,15 @@ public class Background
 		{
 			desertPosition[0] = Engine.game.getWorld().getDesertStart();
 			desertPosition[1] = Engine.game.getWorld().getDesertEnd();
+			tundraPosition[0] = Engine.game.getWorld().getTundraStart();
+			tundraPosition[1] = Engine.game.getWorld().getTundraEnd();
 		}
 		else
 		{
 			desertPosition[0] = 0; 
 			desertPosition[1] = 0;
+			tundraPosition[0] = 0;
+			tundraPosition[1] = 0;
 		}
 	}
 	
@@ -81,17 +90,31 @@ public class Background
 					&& currentChunk < desertPosition[1])
 			{
 				desert.render(g, x, y);
+				desert.setSceneAlpha(1);
 			} 
+			else if(currentChunk > tundraPosition[0]
+					&& currentChunk < tundraPosition[1])
+			{
+				tundra.render(g, x, y);
+				tundra.setSceneAlpha(1);
+			}
 			else 
 			{
 				hills.render(g, x, y);
 			}
+			
 			
 			if(currentChunk > desertPosition[0] - 1
 					&& currentChunk < desertPosition[0])
 			{
 				desert.setSceneAlpha(transition(currentChunk, desertPosition[0] - 1, desertPosition[0]));
 				desert.render(g, x, y);
+			} 
+			else if(currentChunk > tundraPosition[0] - 1
+					&& currentChunk < tundraPosition[0])
+			{
+				tundra.setSceneAlpha(transition(currentChunk, tundraPosition[0] - 1, tundraPosition[0]));
+				tundra.render(g, x, y);
 			}
 			
 			if(currentChunk < desertPosition[1] + 1
@@ -99,9 +122,15 @@ public class Background
 			{
 				desert.setSceneAlpha(transition(currentChunk, desertPosition[1] + 1, desertPosition[1]));
 				desert.render(g, x, y);
-			}
-
+			} 
+			else if(currentChunk < tundraPosition[1] + 1
+					&& currentChunk > tundraPosition[1])
+			{
+				tundra.setSceneAlpha(transition(currentChunk, tundraPosition[1] + 1, tundraPosition[1]));
+				tundra.render(g, x, y);
+			}	
 		}
+		
 		
 		if(y < 0)
 		{

@@ -79,6 +79,8 @@ public class DisplayManager {
 		tileHash.put(6, 5); // Block ID 6 = diamonds
 		tileHash.put(7, 6); // Block ID 7 = sand
 		tileHash.put(8, 7); // Block ID 8 = sandstone
+		tileHash.put(9, 8); // Block ID 9 = snow
+		tileHash.put(10, 9); // Block ID 10 = ice (yeah we're ripping off terraria)
 	};
 	
 	// Accessor Methods
