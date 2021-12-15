@@ -16,7 +16,7 @@ public class Tundra extends Scene
 		middleground.setImage("tundra-80");
 		foreground.setImage("tundra");
 		
-		frontFiller = new Color(233, 201, 124);
-		backFiller = new Color(182, 136, 80);
+		frontFiller = new Color(220, 222, 238);
+		backFiller = new Color(181, 197, 236);
 	}
 }

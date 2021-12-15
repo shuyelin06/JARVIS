@@ -19,6 +19,8 @@ public class WorldGen extends Thread
 	private int desertEnd;
 	private int tundraStart;
 	private int tundraEnd;
+	private float mountainsStart;
+	private float mountainsEnd;
 	
 	// Variables used in world generation
 	
@@ -30,6 +32,9 @@ public class WorldGen extends Thread
 		desertEnd = Engine.game.getWorld().getDesertEnd();
 		tundraStart = Engine.game.getWorld().getTundraStart();
 		tundraEnd = Engine.game.getWorld().getTundraEnd();
+		
+		mountainsStart = desertEnd;
+		mountainsEnd = mountainsStart + 3;
 		
 		noise = new SimplexNoise(seed); // Later will be used with the noise parameter for custom seeds
 	}
@@ -114,13 +119,21 @@ public class WorldGen extends Thread
 	// Returns a 2D array of blocks for a chunk.
 	private Block[][] generate(int x, Block[][] blocks)
 	{
+		float terrainMultiplier = 32;
 		double[] terrain = new double[Values.Chunk_Size_X];
 		
-		for(int i = 0; i < Values.Chunk_Size_X; i++) {
+		for(int i = 0; i < Values.Chunk_Size_X; i++) 
+		{
+			
+			if(x / Values.Chunk_Size_X > mountainsStart 
+					&& x / Values.Chunk_Size_X < mountainsEnd) 	
+			{
+				terrainMultiplier = 32 + 32 * ( ( (x + i) / (float)Values.Chunk_Size_X - mountainsStart) - 1);
+			}
 			
 			double temp = noise.eval((x + i) * 0.03125, 0);
 			
-			terrain[i] = temp * 32 + Values.Surface;
+			terrain[i] = temp * terrainMultiplier + Values.Surface;
 			
 			for(int j = 0; j < Values.Chunk_Size_Y; j++)
 			{
@@ -137,8 +150,8 @@ public class WorldGen extends Thread
 					blocks[i][j] = new Block(0); //air
 				}			
 			}
-
 		}
+		
 		
 		populate(blocks, x);
 		
@@ -172,12 +185,12 @@ public class WorldGen extends Thread
 					 
 					 trying to get it to work with just one noise pattern to save power
 					 */
-					if(ores[(i + 10) % Values.Chunk_Size_X][Math.abs(Values.Chunk_Size_Y - j - 1) ] >= 0.88) //diamonds?
+					if(ores[(i + 10) % Values.Chunk_Size_X][Math.abs(Values.Chunk_Size_Y - j - 1) ] >= 0.88 && j < 750) //diamonds?
 					{
 						//System.out.println(j * -1 % Values.Chunk_Size_Y + ", " + j % Values.Chunk_Size_Y);
 						blocks[i][j].setID(6);
 					} 
-					else if(ores[i][j] >= .85) //gold for now
+					else if(ores[i][j] >= .85 && j < 900) //gold for now
 					{
 						blocks[i][j].setID(5);
 					} 
@@ -187,10 +200,10 @@ public class WorldGen extends Thread
 					} 
 				}	
 				
-				if(caves[i][j] > 0.2) //rudimentary caves
-				{
-					blocks[i][j].setID(0);
-				}
+//				if(caves[i][j] > 0.2) //rudimentary caves
+//				{
+//					blocks[i][j].setID(0);
+//				}
 				
 				if(blocks[i][j].getID() == 1) //populating dirt
 				{					
