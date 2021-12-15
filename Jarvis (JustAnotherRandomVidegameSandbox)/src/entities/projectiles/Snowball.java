@@ -26,6 +26,9 @@ public class Snowball extends Projectile {
 		try {
 			this.sprite = ImageManager.getImage("snowball");
 		} catch (Exception e) {}
+		
+		hitbox.setWidth(width);
+		hitbox.setHeight(height);
 	}
 	
 	public void update() {

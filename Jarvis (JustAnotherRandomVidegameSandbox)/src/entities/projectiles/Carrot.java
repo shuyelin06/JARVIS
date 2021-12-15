@@ -29,6 +29,9 @@ public class Carrot extends Projectile {
 		try {
 			this.sprite = ImageManager.getImage("carrot");
 		} catch (Exception e) {}
+		
+		hitbox.setWidth(width);
+		hitbox.setHeight(height);
 	}
 	
 	public void update() {
@@ -41,9 +44,9 @@ public class Carrot extends Projectile {
 		
 		//homing
 		if (timer < 120) {
-			theta = Math.atan2(target.getY() - this.getPosition().getY(), target.getX() - this.getPosition().getX());
-			this.xSpeed = (float) Math.cos(theta) * baseSpeed;
-			this.ySpeed = (float) Math.sin(theta) * baseSpeed;
+			angle = (float) Math.atan2(target.getY() - this.getPosition().getY(), target.getX() - this.getPosition().getX());
+			this.xSpeed = (float) Math.cos(angle) * baseSpeed;
+			this.ySpeed = (float) Math.sin(angle) * baseSpeed;
 		}
 		
 	}

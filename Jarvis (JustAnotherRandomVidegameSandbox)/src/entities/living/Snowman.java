@@ -29,7 +29,9 @@ public class Snowman extends Enemy {
 		try {
 			this.sprite = ImageManager.getImage("snowmanRight");
 		} catch (Exception e) {}
-	
+		
+		hitbox.setWidth(width);
+		hitbox.setHeight(height);
 	}
 	
 	public void update() {
