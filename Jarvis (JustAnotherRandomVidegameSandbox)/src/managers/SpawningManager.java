@@ -2,10 +2,10 @@ package managers;
 
 import org.newdawn.slick.SlickException;
 
-import core.Coordinate;
 import core.Engine;
 import core.Values;
-import entities.Entity.EntType;
+import entities.core.Coordinate;
+import entities.core.Entity.EntType;
 import entities.living.*;
 import gamestates.Game;
 import structures.Block;

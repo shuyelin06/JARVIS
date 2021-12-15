@@ -13,7 +13,8 @@ import java.util.function.Predicate;
 
 import core.Engine;
 import core.Values;
-import entities.Entity;
+import entities.core.Entity;
+import entities.core.Entity.EntType;
 import entities.living.*;
 import entities.projectiles.Projectile;
 import inventory.Inventory;
@@ -22,7 +23,6 @@ import managers.DisplayManager;
 import managers.KeyManager;
 import managers.SoundManager;
 import managers.SpawningManager;
-import entities.Entity.EntType;
 import world.World;
 
 public class Game extends BasicGameState {

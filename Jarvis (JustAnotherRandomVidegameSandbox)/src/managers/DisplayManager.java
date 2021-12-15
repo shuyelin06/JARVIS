@@ -17,12 +17,12 @@ import org.newdawn.slick.state.BasicGameState;
 
 import background.Background;
 import background.Tutorial;
-import core.BlockHash;
-import core.Coordinate;
+import core.BlockSettings;
 import core.Engine;
 import core.Values;
-import entities.Entity;
-import entities.Entity.EntType;
+import entities.core.Coordinate;
+import entities.core.Entity;
+import entities.core.Entity.EntType;
 import entities.living.Player;
 import entities.other.EBlock;
 import gamestates.Game;
@@ -74,8 +74,9 @@ public class DisplayManager {
 	};
 	
 	// Accessor Methods
-	public Image getBlockSprite(int id) { return tileset.getSubImage(0, BlockHash.getLocation(id)); }
+	public Image getBlockSprite(int id) { return tileset.getSubImage(0, BlockSettings.getLocation(id)); }
 	
+	public float getGlobalLight() { return globalLight; }
 	// Helper Methods 
 	public float screenX(float gameX) { return (gameX - center.getX()) * Values.Pixels_Per_Block + Values.CenterX; } // Return the pixel position of a game coordinate on screen
 	public float screenY(float gameY) { return Engine.RESOLUTION_Y - ((gameY - center.getY()) * Values.Pixels_Per_Block + Values.CenterY); }
@@ -109,7 +110,7 @@ public class DisplayManager {
 		renderBackground(g); // Render background first
 		renderBlocks(g); // Render blocks on top of background
 		renderEntities(g); // Render entities on top of blocks
-		renderPlayer(g); // Render player UI on top of entities
+		renderInterface(g); // Render player UI on top of entities
 		renderTutorial(g); // Render tutorial on top of all else
 		
 		g.setColor(new Color(255, 255, 255));
@@ -160,20 +161,20 @@ public class DisplayManager {
 						}
 						break;
 					case 3: // Stone
-						g.drawImage(setLight(tileset.getSubImage( c.getBlocks()[relChunkX][blockY].getVariant(), BlockHash.getLocation(id)) ), 
+						g.drawImage(setLight(tileset.getSubImage( c.getBlocks()[relChunkX][blockY].getVariant(), BlockSettings.getLocation(id)) ), 
 								screenX, screenY);
 						break;
 					default: // Every other block
-						g.drawImage(setLight( tileset.getSubImage(c.getBlocks()[relChunkX][blockY].getVariant(), BlockHash.getLocation(id)) ), 
+						g.drawImage(setLight( tileset.getSubImage(c.getBlocks()[relChunkX][blockY].getVariant(), BlockSettings.getLocation(id)) ), 
 								screenX, screenY);
 						break;
 				}
 				
-				if(b.getDurability() != BlockHash.getBaseDurability(b.getID())) {
+				if(b.getDurability() != BlockSettings.getBaseDurability(b.getID())) {
 					Image crack = ImageManager.getImage("crack");
 					crack = crack.getScaledCopy(Values.Pixels_Per_Block, Values.Pixels_Per_Block);
 					
-					crack.setImageColor(0f, 0f, 0f, (float) (BlockHash.getBaseDurability(b.getID()) - b.getDurability()) / BlockHash.getBaseDurability(b.getID()));
+					crack.setImageColor(0f, 0f, 0f, (float) (BlockSettings.getBaseDurability(b.getID()) - b.getDurability()) / BlockSettings.getBaseDurability(b.getID()));
 					crack.draw(screenX, screenY);
 				}
 			}
@@ -181,46 +182,14 @@ public class DisplayManager {
 	}
 	public void renderEntities(Graphics g) {
 		for(ArrayList<Entity> list: game.getAllEntities().values()) {
-			for(Entity e: list) {
-				// Render Entities
-				renderEntity(g, e);
-				
-				// Outline EBlocks
-				if(e instanceof EBlock) {
-					g.setColor(Color.black);
-					g.drawRect(
-							screenX(e.getPosition().getX()), // X Position
-							screenY(e.getPosition().getY()), // Y Position
-							e.getSizeX() * Values.Pixels_Per_Block, // Width
-							e.getSizeY() * Values.Pixels_Per_Block // Height
-						);
-				}
-			}	
+			for(Entity e: list) { e.render(g); }	
     	}
 	}
-	public void renderPlayer(Graphics g) {
+	public void renderInterface(Graphics g) {
 		Player p = game.getPlayer();
 		
 		drawPlayerHealth(g, p);
 		drawPlayerInventory(g, p);
-	}
-	
-	
-	private void renderEntity(Graphics g, Entity e) {
-		float screenX = screenX(e.getPosition().getX());
-		float screenY = screenY(e.getPosition().getY());
-		Image sprite = e.getSprite();
-		
-		if(e.getDirection()) { // Moving right
-			e.setPastDirection(true);
-		} else if (e.getLeft()){ // Moving left
-			e.setPastDirection(false);
-		}
-		if (e.getPastDirection()) { // Moving right
-			setLight(sprite).draw(screenX, screenY, e.getSizeX() * Values.Pixels_Per_Block, e.getSizeY() * Values.Pixels_Per_Block ); 
-		} else { // Moving left
-			setLight(sprite).draw(screenX + e.getSizeX() * Values.Pixels_Per_Block , screenY, -e.getSizeX() * Values.Pixels_Per_Block , e.getSizeY() * Values.Pixels_Per_Block); 
-		}
 	}
 	
 	private void drawPlayerHealth(Graphics g, Player p) {
@@ -293,6 +262,7 @@ public class DisplayManager {
 		graphics.setColor(Color.black);
 		graphics.fill(new Circle(screenX(x), screenY(y), 5f));
 	}
+
 	public void highlightBlock(int x1, int y1) {
 		graphics.setColor(Color.white);
 		graphics.draw(new Rectangle(screenX(x1), screenY(y1), Values.Pixels_Per_Block , Values.Pixels_Per_Block ));

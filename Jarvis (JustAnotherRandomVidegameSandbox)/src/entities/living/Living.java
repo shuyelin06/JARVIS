@@ -2,7 +2,7 @@ package entities.living;
 
 import core.Engine;
 import core.Values;
-import entities.Entity;
+import entities.core.Entity;
 import managers.SoundManager;
 
 public class Living extends Entity {

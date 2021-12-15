@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 
-import core.BlockHash;
+import core.BlockSettings;
 import support.Utility;
 
 public class Block{
@@ -26,7 +26,7 @@ public class Block{
 			setVariant();
 		}
 		
-		this.durability = BlockHash.getBaseDurability(id);
+		this.durability = BlockSettings.getBaseDurability(id);
 	}
 	public int getID() { return id; }
 	public void setID(int id) { this.id = id; }

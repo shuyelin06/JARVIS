@@ -2,7 +2,7 @@ package entities.projectiles;
 
 import java.util.HashMap;
 
-import core.Coordinate;
+import entities.core.Coordinate;
 import entities.living.Living;
 
 public class BlockBullet extends Projectile {
@@ -20,6 +20,7 @@ public class BlockBullet extends Projectile {
 		this.xSpeed = (float) Math.cos(theta) * baseSpeed;
 		this.ySpeed = (float) Math.sin(theta) * baseSpeed;
 		
-		
+		hitbox.setWidth(width);
+		hitbox.setHeight(height);
 	}
 }

@@ -7,9 +7,9 @@ import background.biome.Desert;
 import background.biome.Hills;
 import background.biome.Underground;
 import background.sky.Sky;
-import core.Coordinate;
 import core.Engine;
 import core.Values;
+import entities.core.Coordinate;
 
 public class Background
 {

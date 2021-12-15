@@ -10,10 +10,10 @@ import org.newdawn.slick.geom.Line;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
-import core.Coordinate;
 import core.Engine;
 import core.Values;
-import entities.Entity;
+import entities.core.Coordinate;
+import entities.core.Entity;
 
 public class Debug extends BasicGameState
 {
@@ -43,10 +43,9 @@ public class Debug extends BasicGameState
 		// Render all entities
 		for(ArrayList<Entity> list: Engine.game.getAllEntities().values()) {
 			for(Entity e: list) {
-	    		e.debug();
+	    		e.debug(g);
 			}	
-    	}
-		Engine.game.getPlayer().debug();
+		}
 	}
 
 	//update, runs consistently

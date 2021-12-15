@@ -5,10 +5,10 @@ import java.util.HashMap;
 
 import org.lwjgl.Sys;
 
-import core.BlockHash;
-import core.Coordinate;
+import core.BlockSettings;
 import core.Engine;
-import entities.Entity.EntType;
+import entities.core.Coordinate;
+import entities.core.Entity.EntType;
 import entities.projectiles.BlockBomb;
 import entities.projectiles.BlockBullet;
 import entities.projectiles.Projectile;
@@ -42,12 +42,12 @@ public class Gun extends Item {
 		if(item == null) continue;
 		
 		int id = item.getID();
-		if(BlockHash.hasBlock(id) && 
+		if(BlockSettings.hasBlock(id) && 
 				Sys.getTime() - lastShot > Cooldown * 1000) {
 		    // Spawn new blockbullet
 		    BlockBullet bullet = new BlockBullet(game.getPlayer(),
 		    		new Coordinate(x,y),
-		    		BlockHash.getStrengthScaling(id),
+		    		BlockSettings.getStrengthScaling(id),
 		    		item.getID()
 		    		);
 		    game.addEntity(EntType.Projectiles, bullet);
@@ -68,12 +68,12 @@ public class Gun extends Item {
 			if(item == null) continue;
 			
 			int id = item.getID();
-			if(BlockHash.hasBlock(id) 
+			if(BlockSettings.hasBlock(id) 
 					&& Sys.getTime() - lastShot > Cooldown * 1000) {
 			    // Spawn new blockbullet
 			    BlockBomb bomb = new BlockBomb(game.getPlayer(),
 			    		new Coordinate(x,y),
-			    		BlockHash.getStrengthScaling(id),
+			    		BlockSettings.getStrengthScaling(id),
 			    		item.getID()
 			    		);
 			    game.addEntity(EntType.Projectiles, bomb);

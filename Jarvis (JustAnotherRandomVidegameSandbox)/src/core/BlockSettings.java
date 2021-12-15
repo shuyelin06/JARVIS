@@ -4,18 +4,18 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class BlockHash {
-	final public static Map<Integer, BlockHash> BlockHashing = Stream.of(
-			new BlockHash(0, -1, true, 0, 0f), // ID 0 - Air,
-			new BlockHash(1, 1, false, 100, 0.2f), // ID 1 - Dirt
-			new BlockHash(2, 0, false, 100, 0.2f), // ID 2 - Grass
-			new BlockHash(3, 2, false, 200, 1f), // ID 3 - Stone
-			new BlockHash(4, 3, false, 250, 1.2f), // ID 4 - Coal
-			new BlockHash(5, 4, false, 300, 1.7f), // ID 5 - Gold
-			new BlockHash(6, 5, false, 400, 2.5f), // ID 6 - Diamond
-			new BlockHash(7, 6, false, 100, 0.2f), // ID 7 - Sand
-			new BlockHash(8, 7, false, 200, 1f) // ID 8 - Sandstone
-		).collect(Collectors.toMap(BlockHash::getID, BlockHash::getHash));
+public class BlockSettings {
+	final public static Map<Integer, BlockSettings> BlockHashing = Stream.of(
+			new BlockSettings(0, -1, true, 0, 0f), // ID 0 - Air,
+			new BlockSettings(1, 1, false, 100, 0.2f), // ID 1 - Dirt
+			new BlockSettings(2, 0, false, 100, 0.2f), // ID 2 - Grass
+			new BlockSettings(3, 2, false, 200, 1f), // ID 3 - Stone
+			new BlockSettings(4, 3, false, 250, 1.2f), // ID 4 - Coal
+			new BlockSettings(5, 4, false, 300, 1.7f), // ID 5 - Gold
+			new BlockSettings(6, 5, false, 400, 2.5f), // ID 6 - Diamond
+			new BlockSettings(7, 6, false, 100, 0.2f), // ID 7 - Sand
+			new BlockSettings(8, 7, false, 200, 1f) // ID 8 - Sandstone
+		).collect(Collectors.toMap(BlockSettings::getID, BlockSettings::getHash));
 	
 	// Instance Variables for the BlockHash
 	private int id; // ID of the Block
@@ -28,7 +28,7 @@ public class BlockHash {
 	private float strengthScaling; // Block Scaling (for the gun)
 	
 	// Constructor
-	public BlockHash(int id, int location, boolean passable, int baseDurability, float strengthScaling) {
+	public BlockSettings(int id, int location, boolean passable, int baseDurability, float strengthScaling) {
 		this.id = id;
 		
 		this.spriteLocation = location;
@@ -40,7 +40,7 @@ public class BlockHash {
 	}
 	
 	// Methods for Initializing the Map
-	private BlockHash getHash() { return this; }
+	private BlockSettings getHash() { return this; }
 	private int getID() { return id; }
 	
 	// Methods to Obtain the Values

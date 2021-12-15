@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import core.Engine;
 import core.Values;
-import entities.Entity;
+import entities.core.Entity;
 
 public class EItem extends Entity{
 	protected int count;

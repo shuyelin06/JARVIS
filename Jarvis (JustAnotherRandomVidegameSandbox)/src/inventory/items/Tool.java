@@ -1,8 +1,8 @@
 package inventory.items;
 
-import core.Coordinate;
 import core.Engine;
 import core.Values;
+import entities.core.Coordinate;
 import inventory.Item;
 import managers.ImageManager;
 import structures.Block;

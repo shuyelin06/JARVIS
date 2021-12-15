@@ -2,9 +2,9 @@ package inventory;
 
 import java.util.HashMap;
 
-import core.Coordinate;
 import core.Engine;
-import entities.Entity.EntType;
+import entities.core.Coordinate;
+import entities.core.Entity.EntType;
 import entities.living.Player;
 import entities.other.EBlock;
 import entities.other.EItem;
