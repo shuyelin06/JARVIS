@@ -31,12 +31,12 @@ public class Snowball extends Projectile {
 	public void projectileAI() {
 		super.projectileAI();
 		
-		
-		if (timer < 100000) {
-			theta = Math.atan2(target.getY() - origin.getPosition().getY(), target.getX() - origin.getPosition().getX());
-			this.xSpeed = (float) Math.cos(theta) * baseSpeed;
-			this.ySpeed = (float) Math.sin(theta) * baseSpeed;
-		}
+		//homing
+//		if (timer < 100000) {
+//			theta = Math.atan2(target.getY() - origin.getPosition().getY(), target.getX() - origin.getPosition().getX());
+//			this.xSpeed = (float) Math.cos(theta) * baseSpeed;
+//			this.ySpeed = (float) Math.sin(theta) * baseSpeed;
+//		}
 		
 	}
 	
