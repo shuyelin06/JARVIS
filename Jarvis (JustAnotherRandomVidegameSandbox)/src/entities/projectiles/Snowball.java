@@ -2,6 +2,7 @@ package entities.projectiles;
 
 import core.Coordinate;
 import entities.living.Living;
+import managers.ImageManager;
 
 public class Snowball extends Projectile {
 	
@@ -21,6 +22,10 @@ public class Snowball extends Projectile {
 		theta = Math.atan2(target.getY() - origin.getPosition().getY(), target.getX() - origin.getPosition().getX());
 		this.xSpeed = (float) Math.cos(theta) * baseSpeed;
 		this.ySpeed = (float) Math.sin(theta) * baseSpeed;
+		
+		try {
+			this.sprite = ImageManager.getImage("snowball");
+		} catch (Exception e) {}
 	}
 	
 	public void update() {

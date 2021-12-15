@@ -34,28 +34,17 @@ public class Snowman extends Enemy {
 		groupCooldown++;
 	}
 	
-//	public boolean getDirection() {
-//		if (Engine.game.getPlayer().getPosition().getX() > this.getPosition().getX()) {
-//			return true;
-//		}
-//		if (Engine.game.getPlayer().getPosition().getX() < this.getPosition().getX()) {
-//			return false;
-//		}
-//		return false;
-//	}
+	public boolean getPastDirection() {
+		if (Engine.game.getPlayer().getPosition().getX() > this.getPosition().getX()) {
+			return true;
+		}
+		if (Engine.game.getPlayer().getPosition().getX() < this.getPosition().getX()) {
+			return false;
+		}
+		return false;
+	}
 	
 	public void ai (Player p) {
-		if (Engine.game.getPlayer().getPosition().getX() > this.getPosition().getX()) {
-			try {
-				this.sprite = ImageManager.getImage("snowmanLeft");
-			} catch (Exception e) {}
-		} else {
-			try {
-				this.sprite = ImageManager.getImage("snowmanRight");
-			} catch (Exception e) {}
-
-		}
-		
 		if(Utility.getDistance(this, p) <= aggroRange) {
 			
 			if (groupCooldown % 70 == 0) {
