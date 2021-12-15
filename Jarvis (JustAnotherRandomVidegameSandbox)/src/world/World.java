@@ -35,6 +35,9 @@ public class World
 	private int desertStart;
 	private int desertEnd;
 	
+	private int tundraStart;
+	private int tundraEnd;
+	
 	// Generate world from scratch
 	public World(Game game)
 	{
@@ -51,8 +54,11 @@ public class World
 		// Memory Addresses
 		this.player = game.getPlayer();
 		
-		desertStart = (int) (Values.World_X_Size * 0.3);
-		desertEnd = desertStart + (int) (Values.World_X_Size * 0.15);
+		desertStart = (int) (Values.World_X_Size * 0.3 + Math.random() * 2);
+		desertEnd = desertStart + (int) (Values.World_X_Size * 0.15 + Math.random() * 2);
+		
+		tundraStart = (int) (Values.World_X_Size * 0.6 + Math.random() * 2);
+		tundraEnd = tundraStart + (int) (Values.World_X_Size * 0.25 + Math.random() * 2);
 	}
 	
 	// Accessor Methods
@@ -65,10 +71,13 @@ public class World
 	public int getTime() { return time; }
 	public int getDesertStart() { return desertStart; }
 	public int getDesertEnd() { return desertEnd; }
+	public int getTundraStart() { return tundraStart; }
+	public int getTundraEnd() { return tundraEnd; }
 	
 	// Mutator Methods
 	public void changeName(String worldName) { this.worldName = worldName; }
 	public void setDesert(String worldName, int start, int end) { desertStart = start; desertEnd = end; }
+	public void setTundra(String worldName, int start, int end) { tundraStart = start; tundraEnd = end; }
 	
 	// Main method in world that is called in game
 	public void update() {

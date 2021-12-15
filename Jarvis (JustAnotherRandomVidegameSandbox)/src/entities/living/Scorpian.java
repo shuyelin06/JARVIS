@@ -21,7 +21,7 @@ public class Scorpian extends Enemy{
 		this.curHealth = maxHealth;
 		
 		contactDmg = 25;
-		aggroRange = 30;
+		aggroRange = 15;
 		
 		jumpTimer = 0;
 		jumpCD = 120; //should be 2 seconds

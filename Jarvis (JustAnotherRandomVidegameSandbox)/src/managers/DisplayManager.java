@@ -62,7 +62,7 @@ public class DisplayManager {
 		this.tutorial = new Tutorial();
 		this.background = new Background(Engine.Game_ID);
 		
-		tempLight = 0.8f;
+		tempLight = 0.5f;
 		globalLight = 0;
 		elevationLight = 0;
 		
@@ -71,6 +71,19 @@ public class DisplayManager {
 				
 		// Initializing Block Spritesheet
 		tileset = new SpriteSheet("res/tileset.png", 30, 30);
+    
+		// Block Hashing: Key - Block ID,
+		tileHash = new HashMap<Integer, Integer>();
+		tileHash.put(1, 1); // Block ID 1 = dirt
+		tileHash.put(2, 0); // Block ID 2 = grass
+		tileHash.put(3, 2); // Block ID 3 = stone
+		tileHash.put(4, 3); // Block ID 4 = coal
+		tileHash.put(5, 4);	// Block ID 5 = gold
+		tileHash.put(6, 5); // Block ID 6 = diamonds
+		tileHash.put(7, 6); // Block ID 7 = sand
+		tileHash.put(8, 7); // Block ID 8 = sandstone
+		// tileHash.put(9, 8); // Block ID 9 = snow
+		// tileHash.put(10, 9); // Block ID 10 = ice (yeah we're ripping off terraria)
 	};
 	
 	// Accessor Methods
@@ -92,18 +105,23 @@ public class DisplayManager {
 		tutorial.update(); // Update tutorial
 		
 		//i'll move this to a separate class, dw
-		if(screenY(Values.Surface) > 0) { 
-			elevationLight = 0; 
-		} else if(screenY(Values.Surface) > -500) {
-			elevationLight = Math.abs(screenY(Values.Surface)) / 500; //transition
+		if(screenY(Values.Surface) > 0)
+		{
+			elevationLight = 0; //surface
+		} 
+		else if(screenY(Values.Surface) > -500)
+		{
+			elevationLight = Math.abs(screenY(Values.Surface)) / 600; //transition length * (1 / elevantionLight max)
+
 		}
 		else
 		{
-			elevationLight = 1; //caves
+			elevationLight = 0.85f; //caves
 		}
 		
-		globalLight = 1 - elevationLight - (background.getSky().getNightAlpha() * tempLight); 
-		if(globalLight < 0.1) globalLight = 0.1f;
+
+		globalLight = 1 - elevationLight - (Engine.game.getDisplayManager().getBackground().getSky().getNightAlpha() * tempLight); 
+		if(globalLight < 0.15f) globalLight = 0.15f;
 		//????????? LOLLLLLL WTF ARE THOSE ACESSSORS
 		
 		// Render everything

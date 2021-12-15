@@ -26,7 +26,9 @@ public class StartingMenu extends BasicGameState
 	//image background variables
 	public static Background bg;
 	private Image mainButton;
+	private Image worldImage;
 	private int mainButtonX, mainButtonY, mainButtonW, mainButtonH;
+	private int worldImageX, worldImageY, worldImageW, worldImageH;
 	
 	
 	public StartingMenu(int id) 
@@ -43,8 +45,10 @@ public class StartingMenu extends BasicGameState
 		bg = new Background(Engine.StartingMenu_ID);
 		//image settings
 		setImage("placeholder");
+		worldImageX = gc.getWidth()/2;
+		worldImageY = gc.getHeight()/3;
 		mainButtonX = gc.getWidth()/2;
-		mainButtonY = gc.getHeight()/3;
+		mainButtonY = 2*gc.getHeight()/3;
 		
 		//image settings
 		
@@ -52,6 +56,8 @@ public class StartingMenu extends BasicGameState
 		// 100 height: (int) (0.09259259259*gc.getHeight());
 		mainButtonW = 3* (int) (0.05208333333*gc.getWidth());
 		mainButtonH = (int) (0.09259259259*gc.getHeight());
+		worldImageW = 3* (int) (0.05208333333*gc.getWidth());
+		worldImageH = (int) (0.09259259259*gc.getHeight());
 	}
 	
 	//render, all visuals
@@ -145,6 +151,10 @@ public class StartingMenu extends BasicGameState
 		mainButton.setFilter(Image.FILTER_NEAREST);
 		mainButton.draw(mainButtonX - (mainButtonW / 2), mainButtonY - (mainButtonH / 2), mainButtonW, mainButtonH);
 		
+		setImage("jarvisTitle");
+		worldImage.setFilter(Image.FILTER_NEAREST);
+		worldImage.draw(worldImageX - (worldImageW / 2), worldImageY - (worldImageH / 2), worldImageW, worldImageH);
+		
 	}
 	
 	public void setImage(String file)
@@ -152,6 +162,7 @@ public class StartingMenu extends BasicGameState
 		try
 		{
 			mainButton = ImageManager.getImage(file);
+			worldImage = ImageManager.getImage(file);
 		}
 		catch(Exception e)		
 		{

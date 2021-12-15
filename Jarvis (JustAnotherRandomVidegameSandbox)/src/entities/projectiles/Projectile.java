@@ -44,11 +44,17 @@ public class Projectile extends Entity {
 
 	@Override // Overwritten update method
 	public void update() {
+		projectileAI();
+		
 		// Collision detection 
 		checkCollisions();
 		
 		// Position updating
 		position.update(xSpeed, ySpeed);
+	}
+	
+	protected void projectileAI() {
+		
 	}
 	
 	@Override

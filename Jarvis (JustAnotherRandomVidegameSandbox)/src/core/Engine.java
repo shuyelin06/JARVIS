@@ -31,8 +31,8 @@ public class Engine extends StateBasedGame
 	 * Desktop Resolution: 1920 x 1080
 	 * Laptop Resolution: 1366 x 768
 	 */
-	public final static int RESOLUTION_X = 1920; 	
-	public final static int RESOLUTION_Y = 1080; 
+	public static int RESOLUTION_X;
+	public static int RESOLUTION_Y; 
 	public final static int FRAMES_PER_SECOND = 60;
 	
 	public static final int ResLoading_ID = 7;
@@ -96,7 +96,9 @@ public class Engine extends StateBasedGame
 			KeyManager.keyList.add(Input.KEY_D);
 			KeyManager.keyList.add(Input.KEY_A);
 			
-			AppGameContainer appgc = new AppGameContainer(new Engine("pogger"));
+			AppGameContainer appgc = new AppGameContainer(new Engine("jarVis"));
+			RESOLUTION_X = appgc.getScreenWidth();
+			RESOLUTION_Y = appgc.getScreenHeight();
 			
 			System.setProperty("org.lwjgl.opengl.Window.undecorated", "true");
 			
