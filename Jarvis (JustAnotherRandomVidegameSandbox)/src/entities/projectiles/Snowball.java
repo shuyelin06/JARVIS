@@ -1,6 +1,6 @@
 package entities.projectiles;
 
-import core.Coordinate;
+import entities.core.Coordinate;
 import entities.living.Living;
 import managers.ImageManager;
 

@@ -1,6 +1,6 @@
 package entities.projectiles;
 
-import core.Coordinate;
+import entities.core.Coordinate;
 import entities.living.Living;
 import managers.ImageManager;
 
@@ -18,8 +18,8 @@ public class Carrot extends Projectile {
 		this.target = target;
 		
 		this.damage = 20;
-		this.sizeX = 1.5f;
-		this.sizeY = 0.5f;
+		this.width = 1.5f;
+		this.height = 0.5f;
 		
 		
 		theta = Math.atan2(target.getY() - origin.getPosition().getY(), target.getX() - origin.getPosition().getX());

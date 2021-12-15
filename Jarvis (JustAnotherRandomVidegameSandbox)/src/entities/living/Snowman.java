@@ -1,6 +1,7 @@
 package entities.living;
 
 import core.Engine;
+
 import entities.projectiles.Carrot;
 import entities.projectiles.Snowball;
 import managers.ImageManager;
@@ -13,8 +14,8 @@ public class Snowman extends Enemy {
 	
 	public Snowman (float x, float y) {
 		super(x, y);
-		sizeX = 1;
-		sizeY = 2;
+		width = 1;
+		height = 2;
 		
 		this.maxHealth = 20;
 		this.curHealth = maxHealth;

@@ -71,19 +71,6 @@ public class DisplayManager {
 				
 		// Initializing Block Spritesheet
 		tileset = new SpriteSheet("res/tileset.png", 30, 30);
-    
-		// Block Hashing: Key - Block ID,
-		tileHash = new HashMap<Integer, Integer>();
-		tileHash.put(1, 1); // Block ID 1 = dirt
-		tileHash.put(2, 0); // Block ID 2 = grass
-		tileHash.put(3, 2); // Block ID 3 = stone
-		tileHash.put(4, 3); // Block ID 4 = coal
-		tileHash.put(5, 4);	// Block ID 5 = gold
-		tileHash.put(6, 5); // Block ID 6 = diamonds
-		tileHash.put(7, 6); // Block ID 7 = sand
-		tileHash.put(8, 7); // Block ID 8 = sandstone
-		// tileHash.put(9, 8); // Block ID 9 = snow
-		// tileHash.put(10, 9); // Block ID 10 = ice (yeah we're ripping off terraria)
 	};
 	
 	// Accessor Methods
@@ -120,7 +107,7 @@ public class DisplayManager {
 		}
 		
 
-		globalLight = 1 - elevationLight - (Engine.game.getDisplayManager().getBackground().getSky().getNightAlpha() * tempLight); 
+		globalLight = 1 - elevationLight - (background.getSky().getNightAlpha() * tempLight); 
 		if(globalLight < 0.15f) globalLight = 0.15f;
 		//????????? LOLLLLLL WTF ARE THOSE ACESSSORS
 		

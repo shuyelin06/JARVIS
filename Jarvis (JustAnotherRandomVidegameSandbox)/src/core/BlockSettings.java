@@ -14,7 +14,9 @@ public class BlockSettings {
 			new BlockSettings(5, 4, false, 300, 1.7f), // ID 5 - Gold
 			new BlockSettings(6, 5, false, 400, 2.5f), // ID 6 - Diamond
 			new BlockSettings(7, 6, false, 100, 0.2f), // ID 7 - Sand
-			new BlockSettings(8, 7, false, 200, 1f) // ID 8 - Sandstone
+			new BlockSettings(8, 7, false, 200, 1f), // ID 8 - Sandstone
+			new BlockSettings(9, 8, false, 100, 0.2f), // ID 9 - Snow
+			new BlockSettings(10, 9, false, 200, 1f) // ID 10 - Ice
 		).collect(Collectors.toMap(BlockSettings::getID, BlockSettings::getHash));
 	
 	// Instance Variables for the BlockHash
