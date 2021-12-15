@@ -7,10 +7,10 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 
-import core.Coordinate;
 import core.Engine;
 import core.Values;
-import entities.Entity;
+import entities.core.Coordinate;
+import entities.core.Entity;
 import entities.other.EItem;
 import inventory.Inventory;
 import inventory.Item;
@@ -33,11 +33,14 @@ public class Player extends Living{
 		
 		this.inventory = new Inventory(this);
 		
-		this.sizeY = 1.85f;
-		this.sizeX = 0.90f; 
+		this.height = 1.85f;
+		this.width = 0.90f; 
 		curHealth = 100;
 		maxHealth = 100;
 		healthRegen = true;
+		
+		hitbox.setWidth(width);
+		hitbox.setHeight(height);
 	}
 	
 	public int inventorySelected() { return this.inventorySelected; }

@@ -1,6 +1,6 @@
 package support;
 
-import entities.Entity;
+import entities.core.Entity;
 
 public class Utility //random functions and the such, feel free to add any annoying-to-write lines
 {

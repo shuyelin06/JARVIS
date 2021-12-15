@@ -4,9 +4,9 @@ import java.util.ArrayList;
 
 import org.newdawn.slick.Image;
 
-import core.Coordinate;
 import core.Engine;
-import entities.Entity;
+import entities.core.Coordinate;
+import entities.core.Entity;
 import entities.living.Living;
 import entities.living.Living.Team;
 import managers.ImageManager;
@@ -14,7 +14,7 @@ import managers.ImageManager;
 public class Projectile extends Entity {
 	protected Team team;
 	
-	protected float damage;	
+	protected float damage;
 	
 	public Projectile(Living origin, Coordinate target){
 		super(
@@ -23,8 +23,8 @@ public class Projectile extends Entity {
 			);
 		
 		// Default Size
-		this.sizeX = 0.5f;
-		this.sizeY = 0.5f;
+		this.width = 0.5f;
+		this.height = 0.5f;
 		
 		// Default Damage
 		this.damage = 1;

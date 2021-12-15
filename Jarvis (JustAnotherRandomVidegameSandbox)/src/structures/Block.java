@@ -1,18 +1,17 @@
 package structures;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 
+import core.BlockSettings;
 import support.Utility;
 
 public class Block{
-	// List of all block IDs that are passable (entities will not collide)
-	public static HashSet<Integer> Passable_Blocks = new HashSet<Integer>();
-	
 	protected int id; // Id of the block
 	protected int variant;
 	
-	final public static int Max_Durability = 100;
 	protected int durability;
 	
 	public Block(int id) {
@@ -27,7 +26,7 @@ public class Block{
 			setVariant();
 		}
 		
-		this.durability = Max_Durability;
+		this.durability = BlockSettings.getBaseDurability(id);
 	}
 	public int getID() { return id; }
 	public void setID(int id) { this.id = id; }

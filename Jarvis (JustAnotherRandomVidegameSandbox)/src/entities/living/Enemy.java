@@ -21,17 +21,16 @@ public class Enemy extends Living {
 		this.team = Team.Enemy;
 		target = Engine.game.getPlayer();
 
-		try {
-			this.sprite = ImageManager.getImage("mushroom");
-		} catch(Exception e) {}
+		
+		this.sprite = ImageManager.getImage("mushroom");
 		
 		this.maxHealth = 5;
 		this.curHealth = maxHealth;
 		
 		contactDmg = 5;
 		aggroRange = 20;
-		sizeX = 1f;
-		sizeY = 1f;
+		width = 1f;
+		height = 1f;
 		healthRegen = false;
 		
 		this.jumps = 0;

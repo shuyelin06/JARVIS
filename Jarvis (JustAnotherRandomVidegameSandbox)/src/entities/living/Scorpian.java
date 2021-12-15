@@ -14,8 +14,8 @@ public class Scorpian extends Enemy{
 	
 	public Scorpian (float x, float y) {
 		super(x,y);
-		sizeX = 3;
-		sizeY = 3;
+		width = 3;
+		height = 3;
 		
 		this.maxHealth = 50;
 		this.curHealth = maxHealth;
@@ -34,7 +34,8 @@ public class Scorpian extends Enemy{
 			this.sprite = ImageManager.getImage("rockEnemy");
 		} catch(Exception e) {}
 		
-		
+		hitbox.setWidth(width);
+		hitbox.setHeight(height);
 	}
 	
 	public void ai(Player p) {

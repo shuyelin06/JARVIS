@@ -1,7 +1,10 @@
-package core;
+package entities.core;
+
+import core.Engine;
+import core.Values;
 
 public class Coordinate{
-	private float x, y;
+	protected float x, y;
 	
 	public Coordinate(float InitX, float InitY) {
 		this.x = InitX;

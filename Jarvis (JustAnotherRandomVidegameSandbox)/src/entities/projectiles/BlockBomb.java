@@ -1,6 +1,6 @@
 package entities.projectiles;
 
-import core.Coordinate;
+import entities.core.Coordinate;
 import entities.living.Living;
 
 public class BlockBomb extends Projectile {
@@ -19,6 +19,9 @@ public class BlockBomb extends Projectile {
 		double theta = Math.atan2(target.getY() - origin.getPosition().getY(), target.getX() - origin.getPosition().getX());
 		this.xSpeed = (float) Math.cos(theta) * baseSpeed;
 		this.ySpeed = (float) Math.sin(theta) * baseSpeed;
+		
+		hitbox.setWidth(width);
+		hitbox.setHeight(height);
 	}
 	
 	@Override

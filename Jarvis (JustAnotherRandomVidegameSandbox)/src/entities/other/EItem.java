@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import core.Engine;
 import core.Values;
-import entities.Entity;
+import entities.core.Entity;
 
 public class EItem extends Entity{
 	protected int count;
@@ -26,7 +26,8 @@ public class EItem extends Entity{
 		}
 		super.update();
 	}
-	// Overwritten entity collision method
+	
+	@Override // Overwritten entity collision method
 	protected void entityCollisions() {
 		// Check collisions with other EItems
 		ArrayList<Entity> items = game.getEntities(EntType.Items); 
