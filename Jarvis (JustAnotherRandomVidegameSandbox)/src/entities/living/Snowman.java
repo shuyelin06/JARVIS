@@ -58,10 +58,10 @@ public class Snowman extends Enemy {
 		
 		if(Utility.getDistance(this, p) <= aggroRange) {
 			
-			if (groupCooldown % 80 == 0) {
+			if (groupCooldown % 70 == 0) {
 				shotCooldown = 0;
 			}
-			if (shotCooldown == 0 || shotCooldown == 5 || shotCooldown == 10) {
+			if (shotCooldown == 0 || shotCooldown == 4 || shotCooldown == 8) {
 				Engine.game.addProjectile(new Snowball(this, Engine.game.getPlayer().getPosition()));
 			}
 			
