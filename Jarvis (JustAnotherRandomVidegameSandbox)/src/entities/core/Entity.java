@@ -68,7 +68,6 @@ public class Entity{
 		// Initializing HitBox
 		this.hitbox = new Rectangle(this);	
 		
-		this.angle = (float) Math.PI / 4;
 	}
 	
 	// Accessor Methods
