@@ -1,50 +1,49 @@
-package entities.projectiles;
+package entities.projectiles.nonphysical;
 
 import entities.core.Coordinate;
 import entities.living.Living;
+import entities.projectiles.Projectile;
 import managers.ImageManager;
 
-public class Snowball extends Projectile {
+public class Carrot extends Projectile {
 	
-	private float baseSpeed = 10f;
+	private float baseSpeed = 12f;
 	private double theta;
 	private Living origin;
 	private Coordinate target;
 	private int timer;
 	
-	public Snowball (Living origin, Coordinate target) {
-		super(origin, target);
+	public Carrot (Living origin, Coordinate target) {
+		super(origin);
 		this.origin = origin;
 		this.target = target;
 		
-		this.damage = 10;
+		this.damage = 20;
+		this.width = 1.5f;
+		this.height = 0.5f;
+		
 		
 		theta = Math.atan2(target.getY() - origin.getPosition().getY(), target.getX() - origin.getPosition().getX());
 		this.xSpeed = (float) Math.cos(theta) * baseSpeed;
 		this.ySpeed = (float) Math.sin(theta) * baseSpeed;
 		
 		try {
-			this.sprite = ImageManager.getImage("snowball");
+			this.sprite = ImageManager.getImage("carrot");
 		} catch (Exception e) {}
 		
 		hitbox.setWidth(width);
 		hitbox.setHeight(height);
 	}
 	
-	public void update() {
-		super.update();
-		timer++;
-	}
-	
 	public void projectileAI() {
-		super.projectileAI();
+		timer++;
 		
 		//homing
-//		if (timer < 100000) {
-//			theta = Math.atan2(target.getY() - origin.getPosition().getY(), target.getX() - origin.getPosition().getX());
-//			this.xSpeed = (float) Math.cos(theta) * baseSpeed;
-//			this.ySpeed = (float) Math.sin(theta) * baseSpeed;
-//		}
+		if (timer < 120) {
+			angle = (float) Math.atan2(target.getY() - this.getPosition().getY(), target.getX() - this.getPosition().getX());
+			this.xSpeed = (float) Math.cos(angle) * baseSpeed;
+			this.ySpeed = (float) Math.sin(angle) * baseSpeed;
+		}
 		
 	}
 	

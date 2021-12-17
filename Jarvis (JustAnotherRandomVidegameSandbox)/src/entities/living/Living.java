@@ -5,14 +5,10 @@ import core.Values;
 import entities.core.Entity;
 import managers.SoundManager;
 
-public class Living extends Entity {
-	public enum Team { Ally, Enemy, Neutral }
-	
+public class Living extends Entity {	
 	/*
 	 * Stat Variables - Unused, but we can implement them later
-	 */
-	protected Team team;
-	
+	 */	
 	protected int curHealth, maxHealth;
 	protected float percentageHealth;
 	
@@ -33,9 +29,7 @@ public class Living extends Entity {
 	
 	public Living(float InitX, float InitY) {
 		super(InitX, InitY);
-		
-		this.team = Team.Neutral;
-		
+
 		// Invincibility
 		this.iFrames = 0;
 		this.iDuration = 30; //how long invulnerability will last after taking damage
@@ -57,9 +51,13 @@ public class Living extends Entity {
 		timeLastHit = 0;
 		
 		jumps = 0;
+		
+		this.entityType = Type.Living;
+		
+		// Add Entity
+		game.addEntity(Type.Living, this);
 	}
 	
-	public Team getTeam() { return team; }
 	public float getPercentHealth() { return this.percentageHealth; }
 	public void setXSpeed(float acceleration) {
 		xSpeed += acceleration;

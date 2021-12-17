@@ -27,9 +27,7 @@ public class Player extends Living{
 		super(Values.SpawnX, Values.SpawnY); 
 		
 		this.team = Team.Ally;
-		try {
-			sprite = ImageManager.getImage("guide");
-		} catch(Exception e) {}
+		sprite = ImageManager.getImage("guide");
 		
 		this.inventory = new Inventory(this);
 		
@@ -43,6 +41,23 @@ public class Player extends Living{
 		hitbox.setHeight(height);
 	}
 	
+	// Render the player's use of items
+	protected void renderOther(Graphics g) {
+		Item item = inventory.getItem(inventorySelected);
+		if(item == null) return;
+		
+		Image im = item.getImage();
+		
+		float scale = width / im.getWidth() / 1.5f;
+		im.draw(
+				game.displayManager.screenX(position.getX() + width / 4 * pastDirection), 
+				game.displayManager.screenY(position.getY()),
+				im.getWidth() * scale * pastDirection * Values.Pixels_Per_Block,
+				im.getHeight() * scale * Values.Pixels_Per_Block
+				);
+	}
+	
+	// Return the inventory selected
 	public int inventorySelected() { return this.inventorySelected; }
 	public Item selectedItem() { return inventory.getItems()[inventorySelected]; }
 	public Inventory getInventory() { return inventory; }
@@ -79,7 +94,7 @@ public class Player extends Living{
 	
 	// Overwritten Collisions Method
 	protected void entityCollisions() {
-		ArrayList<Entity> items = Engine.game.getEntities(EntType.Items);
+		ArrayList<Entity> items = Engine.game.getEntities(Type.Item);
 		
 		for(Entity e: items) {
 			EItem item = (EItem) e;

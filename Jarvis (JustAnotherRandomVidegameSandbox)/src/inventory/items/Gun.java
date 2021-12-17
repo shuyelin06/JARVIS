@@ -8,10 +8,11 @@ import org.lwjgl.Sys;
 import core.BlockSettings;
 import core.Engine;
 import entities.core.Coordinate;
-import entities.core.Entity.EntType;
-import entities.projectiles.BlockBomb;
-import entities.projectiles.BlockBullet;
 import entities.projectiles.Projectile;
+import entities.projectiles.nonphysical.BlockBomb;
+import entities.projectiles.nonphysical.BlockBullet;
+import entities.projectiles.nonphysical.MissileStrike;
+import entities.projectiles.physical.Boomerang;
 import inventory.Inventory;
 import inventory.Item;
 import managers.ImageManager;
@@ -45,12 +46,11 @@ public class Gun extends Item {
 		if(BlockSettings.hasBlock(id) && 
 				Sys.getTime() - lastShot > Cooldown * 1000) {
 		    // Spawn new blockbullet
-		    BlockBullet bullet = new BlockBullet(game.getPlayer(),
+		    new BlockBullet(game.getPlayer(),
 		    		new Coordinate(x,y),
 		    		BlockSettings.getStrengthScaling(id),
 		    		item.getID()
 		    		);
-		    game.addEntity(EntType.Projectiles, bullet);
 		    
 			inv.removeItem(item.getID());
 			
@@ -70,13 +70,19 @@ public class Gun extends Item {
 			int id = item.getID();
 			if(BlockSettings.hasBlock(id) 
 					&& Sys.getTime() - lastShot > Cooldown * 1000) {
-			    // Spawn new blockbullet
-			    BlockBomb bomb = new BlockBomb(game.getPlayer(),
-			    		new Coordinate(x,y),
-			    		BlockSettings.getStrengthScaling(id),
-			    		item.getID()
-			    		);
-			    game.addEntity(EntType.Projectiles, bomb);
+			    
+				// Spawn new blockbullet
+				//new Boomerang(game.getPlayer(), new Coordinate(x,y));
+				
+				new MissileStrike(game.getPlayer(),
+						new Coordinate(x,y)
+						);
+				
+//			    new BlockBomb(game.getPlayer(),
+//			    		new Coordinate(x,y),
+//			    		BlockSettings.getStrengthScaling(id),
+//			    		item.getID()
+//			    		);
 				
 				inv.removeItem(item.getID());
 				this.lastShot = Sys.getTime();

@@ -4,7 +4,7 @@ import managers.ImageManager;
 import support.Utility;
 
 //supposed to be spelled with an "a"
-public class Scorpian extends Enemy{
+public class Rock extends Enemy{
 
 	int jumpTimer;
 	int jumpCD;
@@ -12,7 +12,7 @@ public class Scorpian extends Enemy{
 	boolean inSupaJump;
 //	boolean xCollision;
 	
-	public Scorpian (float x, float y) {
+	public Rock (float x, float y) {
 		super(x,y);
 		width = 3;
 		height = 3;

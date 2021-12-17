@@ -14,7 +14,7 @@ import java.util.function.Predicate;
 import core.Engine;
 import core.Values;
 import entities.core.Entity;
-import entities.core.Entity.EntType;
+import entities.core.Entity.Type;
 import entities.living.*;
 import entities.projectiles.Projectile;
 import inventory.Inventory;
@@ -39,8 +39,11 @@ public class Game extends BasicGameState {
 	
 	// The Player
 	private Player player;
+	
 	// Entities
-	private HashMap<EntType, ArrayList<Entity>> entities;
+	private HashMap<Type, ArrayList<Entity>> entities;
+	private HashMap<Type, ArrayList<Entity>> newEntities;
+	
 	// The World
 	private World world;
 	
@@ -56,16 +59,14 @@ public class Game extends BasicGameState {
 	
 	public DisplayManager getDisplayManager() { return displayManager; }
 	
-	public ArrayList<Entity> getEntities(EntType type) { return entities.get(type); }
-	public HashMap<EntType, ArrayList<Entity>> getAllEntities(){ return entities; }
+	public ArrayList<Entity> getEntities(Type type) { return entities.get(type); }
+	public HashMap<Type, ArrayList<Entity>> getAllEntities(){ return entities; }
 	public Player getPlayer() { return player; }
 	public World getWorld() { return world; }
 	
 	// Mutator Methods
-	public void addLiving(Entity e) { entities.get(EntType.Living).add(e); } 
-	public void addProjectile(Entity e) { entities.get(EntType.Projectiles).add(e); }
-	
- 	public void addEntity(EntType type, Entity e) { entities.get(type).add(e); }
+	public void addEntity(Type type, Entity e) { newEntities.get(type).add(e); }
+	public void addEntityDirect(Type type, Entity e) { entities.get(type).add(e); }
 	
 	// Helper Methods
 	public void respawn() { player.respawn(); }
@@ -75,16 +76,24 @@ public class Game extends BasicGameState {
 	{	
 		// Saving the StateBasedGame
 		this.sbg = sbg;
-		this.gc = gc;		
+		this.gc = gc;	
+
+		// Initialize the Entities Lists
+		this.entities = new HashMap<Type, ArrayList<Entity>>();
+		this.newEntities = new HashMap<Type, ArrayList<Entity>>();
 		
-		// Initializing the entities list
-		this.entities = new HashMap<EntType, ArrayList<Entity>>();
-		for(EntType entityType: EntType.values()) { entities.put(entityType, new ArrayList<Entity>()); }
+		for(Type entityType: Type.values()) { 
+			entities.put(entityType, new ArrayList<Entity>()); 
+			newEntities.put(entityType, new ArrayList<Entity>());
+		}
 		
-		// Initializing Player
+		// Add Player
 		this.player = new Player();
-		addLiving(player);
-		
+				
+		// Swap Index settings
+		this.index1 = -1;
+		this.index2 = -1; 
+				
 		// Initializing World
 		this.world = new World(this);
 		
@@ -94,10 +103,6 @@ public class Game extends BasicGameState {
 		// Initializing the Managers
 		this.displayManager = new DisplayManager(gc.getGraphics(), player.getPosition());
 		this.keyManager = new KeyManager(this);
-		
-		// Swap Index settings
-		this.index1 = -1;
-		this.index2 = -1;
 	}
 
 	@Override /* Render Everything in Game */
@@ -108,7 +113,6 @@ public class Game extends BasicGameState {
 	{	 
 		// Check Control Presses
 		checkControls();
-		inInventory = false;
 		
 		// Update The World
 		world.update();
@@ -123,10 +127,16 @@ public class Game extends BasicGameState {
 				e.update();
 			}
     	}
-		
-		// Remove all entities marked for removal
+				
+		// Remove Entities Marked for Removal
 		Predicate<Entity> filter = (Entity e) -> (e.isMarked());
 		for(ArrayList<Entity> list: entities.values()) { list.removeIf(filter); }
+		
+		// Add All New Entities
+		for(Entity.Type type: newEntities.keySet()) {
+			entities.get(type).addAll(newEntities.get(type));
+			newEntities.get(type).clear();
+		}
 		
 		// Sends to pause if player died
 		if (!player.isAlive()) {
@@ -138,7 +148,6 @@ public class Game extends BasicGameState {
 
 	@Override
 	public void enter(GameContainer gc, StateBasedGame sbg) throws SlickException {
-		// this.entities.clear();
 		SoundManager.playBackgroundMusic("Morning"); // Begin game background music
 	}
 	@Override
@@ -199,8 +208,6 @@ public class Game extends BasicGameState {
 	}
 
 	// Mouse Mappings
-	private boolean inInventory = false;
-	
 	public void mouseWheelMoved(int change) { player.adjustInventorySlot(change); }
 	private boolean inInventory(float x, float y) {
 		final float BAR_X = (float) (0.050208333333 * getGC().getWidth());
@@ -250,8 +257,6 @@ public class Game extends BasicGameState {
 		final float boxSize = BAR_WIDTH / (float) Inventory.Inventory_Size;
 		
 		if (inInventory(x,y)) {
-			inInventory = true; 
-			
 			if (index1 == -1) {
 				//set index1 to what is in the bar
 				index1 = (int) ((x - BAR_X) / boxSize);

@@ -5,7 +5,7 @@ import org.newdawn.slick.SlickException;
 import core.Engine;
 import core.Values;
 import entities.core.Coordinate;
-import entities.core.Entity.EntType;
+import entities.core.Entity.Type;
 import entities.living.*;
 import gamestates.Game;
 import structures.Block;
@@ -28,23 +28,23 @@ public class SpawningManager {
 	}
 	public void spawnEnemy (Game g, float prob) { //expand on parameters like what kind of enemies to spawn in later
 		// prob is the percent chance that you want a new enemy to spawn; scale it to how often the update method gets called
- 		if(g.getEntities(EntType.Living).size() < 7) {
+ 		if(g.getEntities(Type.Living).size() < 7) {
  			if(!safeZone(g) && Utility.random(0.0, 100.0) <= prob) {
  				float pChunk = g.getPlayer().getPosition().getChunk();
  				if(pChunk >= g.getWorld().getDesertStart() && pChunk <= g.getWorld().getDesertEnd()) {
  					Coordinate coord = getOpenArea(g, 25, Values.Render_Distance*Values.Chunk_Size_X, 20, 3, 3, prob);
  					if(coord != null) {
- 						g.getEntities(EntType.Living).add(new Scorpian(coord.getX(), coord.getY()));
+ 						new Rock(coord.getX(), coord.getY());
  					}
  				}else if(pChunk >= g.getWorld().getTundraStart() && pChunk <= g.getWorld().getTundraEnd()) {
  					Coordinate coord = getOpenArea(g, 25, Values.Render_Distance*Values.Chunk_Size_X, 20, 1, 2, prob);
  					if(coord != null) {
- 						g.getEntities(EntType.Living).add(new Snowman(coord.getX(),coord.getY()));
+ 						new Snowman(coord.getX(),coord.getY());
  					}
  				}else {
  					Coordinate coord = getOpenArea(g, 25, Values.Render_Distance*Values.Chunk_Size_X, 20, 1, 1, prob);
  					if(coord != null) {
- 						g.getEntities(EntType.Living).add(new Enemy(coord.getX(), coord.getY()));
+ 						new Enemy(coord.getX(), coord.getY());
  					}
  				}
  				
