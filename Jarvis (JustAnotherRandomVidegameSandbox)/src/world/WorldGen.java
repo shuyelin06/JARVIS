@@ -9,6 +9,7 @@ import managers.FileManager;
 import structures.Block;
 import structures.Tree;
 import support.SimplexNoise;
+import support.Utility;
 
 public class WorldGen extends Thread
 {
@@ -34,7 +35,7 @@ public class WorldGen extends Thread
 		tundraEnd = Engine.game.getWorld().getTundraEnd();
 		
 		mountainsStart = desertEnd;
-		mountainsEnd = mountainsStart + 3;
+		mountainsEnd = mountainsStart + 5;
 		
 		noise = new SimplexNoise(seed); // Later will be used with the noise parameter for custom seeds
 	}
@@ -119,25 +120,46 @@ public class WorldGen extends Thread
 	// Returns a 2D array of blocks for a chunk.
 	private Block[][] generate(int x, Block[][] blocks)
 	{
+		float smoothness = 1f / 32f;
 		float terrainMultiplier = 32;
+		float mountainsMultiplier = 2;
+		
 		double[] terrain = new double[Values.Chunk_Size_X];
 		
 		for(int i = 0; i < Values.Chunk_Size_X; i++) 
 		{
 			
-			if(x / Values.Chunk_Size_X > mountainsStart 
-					&& x / Values.Chunk_Size_X < mountainsEnd) 	
-			{
-				terrainMultiplier = 32 + 32 * ( ( (x + i) / (float)Values.Chunk_Size_X - mountainsStart) - 1);
-			}
-			
-			double temp = noise.eval((x + i) * 0.03125, 0);
+			double temp = noise.eval((x + i) * smoothness, 0);
 			
 			terrain[i] = temp * terrainMultiplier + Values.Surface;
 			
+			
+			if(x / Values.Chunk_Size_X > mountainsStart 
+					&& x / Values.Chunk_Size_X < mountainsEnd) 	
+			{
+				terrain[i] += noise.eval((x + i) * smoothness * 1.7f, 0) * terrainMultiplier * mountainsMultiplier;
+			} 
+			else if(x / Values.Chunk_Size_X == mountainsStart)
+			{
+				terrain[i] += (noise.eval((x + i) * smoothness * 1.7f, 0) 
+						* terrainMultiplier * mountainsMultiplier) * (float)i / (float)Values.Chunk_Size_X;
+			}
+			else if(x / Values.Chunk_Size_X == mountainsEnd)
+			{
+				terrain[i] += (noise.eval((x + i) * smoothness * 1.7f, 0) 
+						* terrainMultiplier * mountainsMultiplier) * (1 - ((float)i / (float)Values.Chunk_Size_X));
+			}
+			
+			
 			for(int j = 0; j < Values.Chunk_Size_Y; j++)
 			{
-				if(j < terrain[i] - (Math.random() * 2 + 5))
+				if(j < terrain[i] && j - Values.Surface >= 60 && j
+						> terrain[i] - Utility.random(1, 4))
+				{	
+					blocks[i][j] = new Block(9);
+				}
+				else if(j < terrain[i] - (Math.random() * 2 + 5) || (
+						j - Values.Surface >= 35 + Utility.random(3) && j < terrain[i])) //mountains is the || part
 				{
 					blocks[i][j] = new Block(3); //stone
 				}

@@ -178,7 +178,7 @@ public class Game extends BasicGameState {
   			case Input.KEY_G: // Drop Item
   				player.dropItem();
   				break;
-  				
+  			
   			// All Inventory Key Bindings
   			case Input.KEY_1:
   			case Input.KEY_2:
