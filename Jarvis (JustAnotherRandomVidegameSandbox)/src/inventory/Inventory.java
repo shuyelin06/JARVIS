@@ -2,9 +2,7 @@ package inventory;
 
 import java.util.HashMap;
 
-import core.Engine;
 import entities.core.Coordinate;
-import entities.core.Entity.EntType;
 import entities.living.Player;
 import entities.other.EBlock;
 import entities.other.EItem;
@@ -27,6 +25,9 @@ public class Inventory{
 	}
 		
 	public boolean hasItem(int id) { return idIndexMapping.containsKey(id); }
+	
+	public Item getItem(int index) { return items[index]; }
+	
 	public Item[] getItems() { return items; }
 	public int getIndexMap(int id) { return idIndexMapping.get(id); }
 	
@@ -81,9 +82,8 @@ public class Inventory{
 		else if(item.getCount() > 0) {
 			item.decreaseCount(1);
 			
-			EBlock eblock = new EBlock(item.getID(), playerPos.getX(), playerPos.getY());
-			eblock.setSpeedY(7.5f);
-			Engine.game.addEntity(EntType.Items, eblock);
+			new EBlock(item.getID(), playerPos.getX(), playerPos.getY())
+				.setSpeedY(7.5f);
 		}	
 	}
 	

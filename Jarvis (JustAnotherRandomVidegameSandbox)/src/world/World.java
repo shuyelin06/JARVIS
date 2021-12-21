@@ -7,7 +7,7 @@ import java.util.Iterator;
 import core.Engine;
 import core.Values;
 import entities.core.Coordinate;
-import entities.core.Entity.EntType;
+import entities.core.Entity.Type;
 import entities.living.Player;
 import entities.other.EBlock;
 import gamestates.Game;
@@ -133,7 +133,7 @@ public class World
 			
 			if(b.getID() != 0) {
 				blocks[relX][y] = new Block(0);
-				Engine.game.addEntity(EntType.Items, new EBlock(b.getID(), x, y));
+				new EBlock(b.getID(), x, y);
 			} 
 		} catch(Exception e) {}
 	}

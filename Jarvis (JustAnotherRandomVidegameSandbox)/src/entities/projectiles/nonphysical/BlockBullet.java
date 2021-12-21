@@ -1,16 +1,17 @@
-package entities.projectiles;
+package entities.projectiles.nonphysical;
 
 import java.util.HashMap;
 
 import entities.core.Coordinate;
 import entities.living.Living;
+import entities.projectiles.Projectile;
 
 public class BlockBullet extends Projectile {
 	private static float baseDamage = 20f;
 	private static float baseSpeed = 50f;
 	
 	public BlockBullet(Living origin, Coordinate target, float scaling, int id) {
-		super(origin, target);
+		super(origin);
 		
 		
 		this.damage = baseDamage * scaling;

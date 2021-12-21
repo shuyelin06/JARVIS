@@ -18,7 +18,9 @@ public class Entity{
 	protected static Game game = Engine.game;
 	
 	// Entity Type
-	public enum EntType{ Living, Items, Projectiles }
+	public enum Type{ Living, Item, Projectile, None }
+	// Entity Team
+	public enum Team { Ally, Enemy, Neutral } 
 	
 	// Management Variables
 	protected long time; 				// Tracks how long the entity has been alive
@@ -38,6 +40,10 @@ public class Entity{
 	// Render Variables
 	protected Image sprite; 			// The sprite rendered in for the Entity
 	protected int pastDirection;    	// Marker for direction last faced
+	
+	// Team and Type
+	protected Type entityType;
+	protected Team team;
 	
 	// Entity Hitbox
 	protected Rectangle hitbox;		
@@ -68,26 +74,34 @@ public class Entity{
 		// Initializing HitBox
 		this.hitbox = new Rectangle(this);	
 		
+    // Types and Teams
+    this.team = Team.Neutral;
+		this.entityType = Type.None;
 	}
 	
 	// Accessor Methods
 	public float timeAlive() 				{ return (float) (Sys.getTime() - time) / 1000f; }
-	public Image getSprite() 				{ return sprite; }
-	public boolean movingRight() 			{ return xSpeed > 0; } // False - Left, True - Right
-	public boolean movingLeft()        		{ return xSpeed < 0; } // if true, then left
-	public float getWidth() 				{ return width; }
-	public float getHeight() 				{ return height; }
-	public Coordinate getPosition() 		{ return position; }
-	public float getXSpeed() 				{ return xSpeed; }
-	public float getYSpeed() 				{ return ySpeed; }
 	public boolean isMarked() 				{ return remove; }
 	
+	public Coordinate getPosition() 		{ return position; }
+	public float getX() 					{ return position.getX(); }
+	public float getY() 					{ return position.getY(); }
+	public float getXSpeed() 				{ return xSpeed; }
+	public float getYSpeed() 				{ return ySpeed; }
 	public float getAngle() 				{ return angle; }
 	
+	public Image getSprite() 				{ return sprite; }
+	public float getWidth() 				{ return width; }
+	public float getHeight() 				{ return height; }
+	
+	public Team getTeam() 					{ return team; }
+	public Type getType() 				{ return entityType; }
+	
 	// Mutator Methods
+	public void markForRemoval()			{ this.remove = true; }
+	
 	public void updateSprite(Image image) 	{ this.sprite = image; }
 	
-	public void markForRemoval()			{ this.remove = true; }
 	public void setSpeedX(float xSpeed) 	{ this.xSpeed = xSpeed; }
 	public void setSpeedY(float ySpeed) 	{ this.ySpeed = ySpeed; }
 	
@@ -106,8 +120,10 @@ public class Entity{
 	
 	/* Entity Rendering */
 	public void render(Graphics g) {
-		renderOther(g); // Draw unique entity graphics
+		debug(g);
+		
 		drawSprite(); // Draw entity sprite
+		renderOther(g); // Draw unique entity graphics
 	}
 	
 	public void debug(Graphics g) {
@@ -141,9 +157,7 @@ public class Entity{
 	}
 	
 	/* Velocity Updating */
-	protected void gravity() {
-		ySpeed -= Values.Acceleration_of_Gravity; // Gravity acts on y velocity
-	}
+	protected void gravity() { ySpeed -= Values.Acceleration_of_Gravity; } // Gravity acts on y velocity
 	protected void drag() { // Drag acts on x and y velocity
 		xSpeed -= xSpeed * Values.Friction / this.mass;
 		ySpeed -= ySpeed * Values.Drag / this.mass;

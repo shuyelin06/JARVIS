@@ -1,7 +1,8 @@
-package entities.projectiles;
+package entities.projectiles.nonphysical;
 
 import entities.core.Coordinate;
 import entities.living.Living;
+import entities.projectiles.Projectile;
 
 public class BlockBomb extends Projectile {
 	private static float baseSpeed = 50f;
@@ -10,7 +11,7 @@ public class BlockBomb extends Projectile {
 	private int radius;
 	
 	public BlockBomb(Living origin, Coordinate target, float scaling, int id) {
-		super(origin, target);
+		super(origin);
 		
 		this.sprite = game.displayManager.getBlockSprite(id);
 		

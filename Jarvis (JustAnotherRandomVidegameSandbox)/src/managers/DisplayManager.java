@@ -22,7 +22,6 @@ import core.Engine;
 import core.Values;
 import entities.core.Coordinate;
 import entities.core.Entity;
-import entities.core.Entity.EntType;
 import entities.living.Player;
 import entities.other.EBlock;
 import gamestates.Game;

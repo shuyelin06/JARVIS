@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import core.Engine;
 import core.Values;
 import entities.core.Entity;
+import entities.core.Entity.Type;
 
 public class EItem extends Entity{
 	protected int count;
@@ -13,6 +14,11 @@ public class EItem extends Entity{
 	public EItem(float x, float y) {
 		super(x,y);	
 		this.count = 1;
+		
+		this.entityType = Type.Item;
+		
+		// Add Entity
+		game.addEntityDirect(Type.Item, this);
 	}
 	
 	public int getID() { return itemID; }
@@ -30,7 +36,7 @@ public class EItem extends Entity{
 	@Override // Overwritten entity collision method
 	protected void entityCollisions() {
 		// Check collisions with other EItems
-		ArrayList<Entity> items = game.getEntities(EntType.Items); 
+		ArrayList<Entity> items = game.getEntities(Type.Item); 
 		
 		int index = items.indexOf(this);
 		for(int i = 0; i < items.size(); i++) {

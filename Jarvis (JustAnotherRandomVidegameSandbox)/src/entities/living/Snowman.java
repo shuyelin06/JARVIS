@@ -1,9 +1,8 @@
 package entities.living;
 
 import core.Engine;
-
-import entities.projectiles.Carrot;
-import entities.projectiles.Snowball;
+import entities.projectiles.nonphysical.Carrot;
+import entities.projectiles.physical.Snowball;
 import managers.ImageManager;
 import support.Utility;
 
@@ -26,9 +25,7 @@ public class Snowman extends Enemy {
 		contactDmg = 10;
 		aggroRange = 40;
 	
-		try {
-			this.sprite = ImageManager.getImage("snowmanRight");
-		} catch (Exception e) {}
+		this.sprite = ImageManager.getImage("snowmanRight");
 		
 		hitbox.setWidth(width);
 		hitbox.setHeight(height);
@@ -59,11 +56,11 @@ public class Snowman extends Enemy {
 			}
 			
 			if (shotCooldown == 0 || shotCooldown == 4 || shotCooldown == 8) {
-				Engine.game.addProjectile(new Snowball(this, Engine.game.getPlayer().getPosition()));
+				new Snowball(this, Engine.game.getPlayer().getPosition());
 			}
 			
 			if (carrotCooldown % 200 == 0) {
-				Engine.game.addProjectile(new Carrot(this, Engine.game.getPlayer().getPosition()));
+				new Carrot(this, Engine.game.getPlayer().getPosition());
 			}
 			
 		}
