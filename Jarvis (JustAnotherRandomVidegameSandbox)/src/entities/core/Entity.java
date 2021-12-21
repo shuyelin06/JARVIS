@@ -74,8 +74,8 @@ public class Entity{
 		// Initializing HitBox
 		this.hitbox = new Rectangle(this);	
 		
-		// Types and Teams
-		this.team = Team.Neutral;
+    // Types and Teams
+    this.team = Team.Neutral;
 		this.entityType = Type.None;
 	}
 	

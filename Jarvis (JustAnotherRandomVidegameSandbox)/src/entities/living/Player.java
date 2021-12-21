@@ -6,6 +6,7 @@ import java.util.Set;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.SpriteSheet;
 
 import core.Engine;
 import core.Values;
@@ -22,12 +23,23 @@ public class Player extends Living{
 	// Player constructor
 	private int inventorySelected;
 	
+	private SpriteSheet animation;
+	private int aniFrame;
+	private int frameCounter;
+	
 	public Player() 
 	{
 		super(Values.SpawnX, Values.SpawnY); 
 		
 		this.team = Team.Ally;
-		sprite = ImageManager.getImage("guide");
+    
+		aniFrame = 0;
+		frameCounter = 0;
+		
+		try {
+			animation = new SpriteSheet("res/mushSprite.png", 110, 128);
+			sprite = animation.getSubImage(0, 0);
+		} catch(Exception e) {}
 		
 		this.inventory = new Inventory(this);
 		
@@ -85,6 +97,25 @@ public class Player extends Living{
 		inventory.drop(inventorySelected);
 	}
 	
+	public void updateSprite() {
+		if(Math.abs(this.xSpeed) > 1) {
+			frameCounter++;
+			if(frameCounter%5 == 0) {
+				if(aniFrame == 4) {
+					aniFrame = 0;
+				}else {
+					aniFrame++;
+					sprite = animation.getSubImage(aniFrame, 0);
+				}
+			}else if(frameCounter > 60) {
+				frameCounter = 0;
+			}
+		}else {
+			sprite = animation.getSubImage(0, 0);
+		}
+		
+	}
+	
 	@Override
 	public void update() {
 		super.update();
@@ -115,5 +146,10 @@ public class Player extends Living{
 		position.setYPos(Values.SpawnY);
 		curHealth = maxHealth;
 		alive = true;
+	}
+	
+	protected void drawSprite() {
+		updateSprite();
+		super.drawSprite();
 	}
 }

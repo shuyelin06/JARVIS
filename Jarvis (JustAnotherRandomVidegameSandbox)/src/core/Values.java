@@ -40,7 +40,7 @@ public class Values // this will be quite useful for organizing stuff later on
 	final public static float Item_Despawn_Time = 10; // If an entity exists for >__ seconds, unload it
 	
 	// World Size Variables
-	final public static int World_X_Size = 64; // World Size (in chunks)
+	final public static int World_X_Size = 128; // World Size (in chunks)
 	final public static int Chunk_Size_X = 16; // Chunk X Size (in blocks)
 	final public static int Chunk_Size_Y = 2048; // Chunk Y Size (in blocks)
 	
