@@ -248,6 +248,17 @@ public class Game extends BasicGameState {
 		}
 	}
 	
+	public float[] mousePosition()
+	{
+		Input input = gc.getInput();
+		float[] temp = new float[2];
+		
+		temp[0] = input.getAbsoluteMouseX();
+		temp[1] = input.getAbsoluteMouseY();
+		
+		return(temp);
+	}
+			
 	public void checkItemSwap(float x, float y) {
 		final float BAR_X = (float) (0.050208333333 * getGC().getWidth());
 		final float BAR_Y = (float) (0.03703703703 * getGC().getHeight());
