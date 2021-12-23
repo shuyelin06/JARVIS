@@ -29,7 +29,9 @@ public class StartingMenu extends BasicGameState
 	private Image worldImage;
 	private int mainButtonX, mainButtonY, mainButtonW, mainButtonH;
 	private int worldImageX, worldImageY, worldImageW, worldImageH;
+	private int tempMainButtonW, tempMainButtonH;
 	
+	private int mouseX, mouseY;
 	
 	public StartingMenu(int id) 
 	{
@@ -58,6 +60,9 @@ public class StartingMenu extends BasicGameState
 		mainButtonH = (int) (0.09259259259*gc.getHeight());
 		worldImageW = 3* (int) (0.05208333333*gc.getWidth());
 		worldImageH = (int) (0.09259259259*gc.getHeight());
+		
+		tempMainButtonW = mainButtonW;
+		tempMainButtonH = mainButtonH;
 	}
 	
 	//render, all visuals
@@ -79,6 +84,9 @@ public class StartingMenu extends BasicGameState
 	//update, runs consistently
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException
 	{	
+		mouseX = gc.getInput().getMouseX();
+		mouseY = gc.getInput().getMouseY();
+		
 		//starts world selection if start button pressed or ready
 		if (readyStart) {
 			Values.LastState = Engine.StartingMenu_ID;
@@ -146,15 +154,27 @@ public class StartingMenu extends BasicGameState
 	
 	public void drawImages(Graphics g) {
 		//image drawing
-		
 		setImage("startButton");
 		mainButton.setFilter(Image.FILTER_NEAREST);
 		mainButton.draw(mainButtonX - (mainButtonW / 2), mainButtonY - (mainButtonH / 2), mainButtonW, mainButtonH);
 		
+		if (mouseX > mainButtonX - mainButtonW / 2 && mouseX < mainButtonX + mainButtonW / 2 &&
+				mouseY > mainButtonY - mainButtonH / 2 && mouseY < mainButtonY + mainButtonH / 2)
+		{
+			mainButton.setImageColor(0.8f, 0.8f, 0.8f);
+			mainButtonW = (int) (0.9 * tempMainButtonW);
+			mainButtonH = (int) (0.9 * tempMainButtonH);
+		}
+		else
+		{
+			mainButton.setImageColor(1,1,1);
+			mainButtonW = tempMainButtonW;
+			mainButtonH = tempMainButtonH;
+		}
+		
 		setImage("jarvisTitle");
 		worldImage.setFilter(Image.FILTER_NEAREST);
 		worldImage.draw(worldImageX - (worldImageW / 2), worldImageY - (worldImageH / 2), worldImageW, worldImageH);
-		
 	}
 	
 	public void setImage(String file)

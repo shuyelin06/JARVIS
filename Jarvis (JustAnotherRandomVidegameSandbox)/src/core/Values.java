@@ -32,7 +32,7 @@ public class Values // this will be quite useful for organizing stuff later on
 	
 	// Spawning Variables
 	final public static float SpawnX = Values.World_X_Size * Values.Chunk_Size_X / 2; // Player X Spawn
-	final public static float SpawnY = Surface + 32f; // Player Y Spawn
+	final public static float SpawnY = Surface + 96f; // Player Y Spawn
 	
 	final public static float Spawn_Rate = 2f; // Entity Spawn Rate
 	

@@ -98,7 +98,10 @@ public class Player extends Living{
 	}
 	
 	public void updateSprite() {
-		if(Math.abs(this.xSpeed) > 1) {
+		if(Math.abs(this.ySpeed) > 2)
+		{
+			sprite = animation.getSubImage(2, 0);
+		} else if(Math.abs(this.xSpeed) > 1) {
 			frameCounter++;
 			if(frameCounter%5 == 0) {
 				if(aniFrame == 4) {

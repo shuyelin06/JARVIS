@@ -50,6 +50,10 @@ public class WorldSelect extends BasicGameState
 	private int worldImageX, worldImageY, worldImageW, worldImageH;
 	private int s1ButtonX, s1ButtonY, s1ButtonW, s1ButtonH;
 	private int newWorldButtonX, newWorldButtonY, newWorldButtonW, newWorldButtonH;
+	private int tempMainButtonW, tempMainButtonH;
+	
+	private int mouseX, mouseY;
+	
 	
 	public WorldSelect(int id) 
 	{
@@ -94,6 +98,9 @@ public class WorldSelect extends BasicGameState
 		newWorldButtonW = (int) (0.05208333333*gc.getWidth());
 		newWorldButtonH = (int) (0.09259259259*gc.getHeight());
 		
+		tempMainButtonW = mainButtonW;
+		tempMainButtonH = mainButtonH;
+		
 		readyStart = false;
 		readySettings = false;
 		
@@ -119,6 +126,8 @@ public class WorldSelect extends BasicGameState
 	//update, runs consistently
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException
 	{	
+		mouseX = gc.getInput().getMouseX();
+		mouseY = gc.getInput().getMouseY();
 		// Start the game
 		if (readyStart) {
 			Integer i = worldID;
@@ -258,6 +267,20 @@ public class WorldSelect extends BasicGameState
 		setImage("startButton");
 		mainButton.setFilter(Image.FILTER_NEAREST);
 		mainButton.draw(mainButtonX - (mainButtonW / 2), mainButtonY - (mainButtonH / 2), mainButtonW, mainButtonH);
+		
+		if (mouseX > mainButtonX - mainButtonW / 2 && mouseX < mainButtonX + mainButtonW / 2 &&
+				mouseY > mainButtonY - mainButtonH / 2 && mouseY < mainButtonY + mainButtonH / 2)
+		{
+			mainButton.setImageColor(0.8f, 0.8f, 0.8f);
+			mainButtonW = (int) (0.9 * tempMainButtonW);
+			mainButtonH = (int) (0.9 * tempMainButtonH);
+		}
+		else
+		{
+			mainButton.setImageColor(1,1,1);
+			mainButtonW = tempMainButtonW;
+			mainButtonH = tempMainButtonH;
+		}
 		
 		setImage("arrowRight");
 		w1Button.draw(w1ButtonX - (w1ButtonW / 2), w1ButtonY - (w1ButtonH / 2), w1ButtonW, w1ButtonH);
