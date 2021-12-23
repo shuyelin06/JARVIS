@@ -36,10 +36,8 @@ public class Player extends Living{
 		aniFrame = 0;
 		frameCounter = 0;
 		
-		try {
-			animation = new SpriteSheet("res/mushSprite.png", 110, 128);
-			sprite = animation.getSubImage(0, 0);
-		} catch(Exception e) {}
+		animation = ImageManager.getSpriteSheet("mushSprite", 110, 128);
+		sprite = animation.getSubImage(0, 0);
 		
 		this.inventory = new Inventory(this);
 		

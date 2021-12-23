@@ -208,7 +208,7 @@ public class Game extends BasicGameState {
 	}
 
 	// Mouse Mappings
-	public void mouseWheelMoved(int change) { player.adjustInventorySlot(change); }
+	public void mouseWheelMoved(int change) { player.adjustInventorySlot(-change); }
 	private boolean inInventory(float x, float y) {
 		final float BAR_X = (float) (0.050208333333 * getGC().getWidth());
 		final float BAR_Y = (float) (0.03703703703 * getGC().getHeight());
