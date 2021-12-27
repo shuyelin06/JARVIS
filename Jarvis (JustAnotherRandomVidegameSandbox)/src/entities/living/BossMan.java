@@ -15,30 +15,33 @@ public class BossMan extends Enemy {
 	public BossMan(float x, float y) {
 		super(x,y);
 
-		this.sprite = ImageManager.getPlaceholder();
+		this.sprite = ImageManager.getImage("mushroom").getScaledCopy(1f);
+		this.sprite.setImageColor(0.63f, 0.13f, 0.94f);
 		
 		this.contactDmg = 500;
 		
 		this.maxHealth = 250;
 		this.curHealth = maxHealth;
 		
-		width = 5f;
-		height = 5f;
-		healthRegen = true;
+		this.width = 3.5f;
+		this.height = 3.5f;
+		this.healthRegen = true;
+		
+		this.hitbox.setWidth(width);
+		this.hitbox.setHeight(height);
 		
 		attackCooldown = Sys.getTime();
 	}
 	
 	public void ai(Player p) {
-		position.setXPos(position.getX() + ( (float) Math.random() * 25f - 12.5f));
-		position.setYPos(position.getY() + ( (float) Math.random() * 25f - 12.5f));
+		if(position.magDisplacement(p.getPosition()) > 40f) {
+			position.setXPos(p.getX() + (Math.signum(p.getXSpeed()) * ((float) Math.random() * 3f + 2.5f)));
+			position.setYPos(p.getY() + ((float) Math.random() * 2.5f + 7.5f));
+		}
 				
 		if(Sys.getTime() - attackCooldown > 3.5f * 1000) {
 			new Boomerang(this, p.getPosition());
-			new MissileStrike(this, new Coordinate(
-					(float) Math.random(),
-					(float) Math.random()
-					));
+			new MissileStrike(this, new Coordinate(p.getX(), p.getY()));
 			
 			attackCooldown = Sys.getTime();
 		}

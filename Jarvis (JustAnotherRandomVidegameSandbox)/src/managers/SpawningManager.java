@@ -61,7 +61,7 @@ public class SpawningManager {
  			}
  		}
  		
- 		if(Utility.random(0.0, 100.0) <= 0.1) {
+ 		if(Utility.random(0.0, 100.0) <= 0.03) {
  			new BossMan(g.getPlayer().getPosition().getX(), g.getPlayer().getPosition().getY() + 20);
  		}
  		

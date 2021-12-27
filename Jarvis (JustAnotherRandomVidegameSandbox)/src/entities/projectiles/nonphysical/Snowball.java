@@ -1,11 +1,11 @@
-package entities.projectiles.physical;
+package entities.projectiles.nonphysical;
 
 import entities.core.Coordinate;
 import entities.living.Living;
 import entities.projectiles.Projectile;
 import managers.ImageManager;
 
-public class Snowball extends PhysicalProjectile {
+public class Snowball extends Projectile {
 	
 	private float baseSpeed = 10f;
 	private double theta;

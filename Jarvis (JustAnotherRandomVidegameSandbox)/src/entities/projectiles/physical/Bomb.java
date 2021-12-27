@@ -15,7 +15,7 @@ public class Bomb extends PhysicalProjectile {
 		this.xSpeed = 0f;
 		this.ySpeed = 0f;
 		
-		this.sprite = ImageManager.getImage("");
+		this.sprite = ImageManager.getImage("bomb");
 		
 		hitbox.setWidth(width);
 		hitbox.setHeight(height);

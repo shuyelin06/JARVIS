@@ -10,7 +10,7 @@ import managers.ImageManager;
 
 public class MissileStrike extends Projectile {
 	private static float baseSpeed = 15f;
-	private static float StrikeCooldown = 0.5f;
+	private static float StrikeCooldown = 1f;
 	private static int radius = 5;
 	
 	private float lastShot;
@@ -18,9 +18,11 @@ public class MissileStrike extends Projectile {
 	public MissileStrike(Living origin, Coordinate target) {
 		super(origin);
 		
+		this.sprite = ImageManager.getImage("missile");
+		
 		this.damage = 20;
-		this.width = 1.5f;
-		this.height = 0.5f;
+		this.width = 2.5f;
+		this.height = 1f;
 		
 		
 		this.angle = (float) Math.atan2(target.getY() - origin.getPosition().getY(), target.getX() - origin.getPosition().getX());

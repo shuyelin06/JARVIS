@@ -13,6 +13,8 @@ public class BlockBullet extends Projectile {
 	public BlockBullet(Living origin, Coordinate target, float scaling, int id) {
 		super(origin);
 		
+		this.width = 0.5f;
+		this.height = 0.5f;
 		
 		this.damage = baseDamage * scaling;
 		this.sprite = game.displayManager.getBlockSprite(id);

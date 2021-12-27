@@ -13,6 +13,9 @@ public class BlockBomb extends Projectile {
 	public BlockBomb(Living origin, Coordinate target, float scaling, int id) {
 		super(origin);
 		
+		this.width = 0.5f;
+		this.height = 0.5f;
+		
 		this.sprite = game.displayManager.getBlockSprite(id);
 		
 		this.radius = (int) (baseRadius * scaling);

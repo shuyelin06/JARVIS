@@ -28,11 +28,11 @@ public class Boomerang extends Projectile {
 		
 		// Default Speed
 		double theta = Math.atan2(getY() - origin.getY(), getX() - origin.getX());
-		this.xSpeed = (float) Math.cos(theta) * 5f;
-		this.ySpeed = (float) Math.sin(theta) * 5f;
+		this.xSpeed = (float) Math.cos(theta) * 20f;
+		this.ySpeed = (float) Math.sin(theta) * 20f;
 		
 		// Default Sprite 
-		sprite = ImageManager.getPlaceholder();
+		sprite = ImageManager.getImage("boomerang");
 		
 		this.entityType = Type.Projectile;
 		
@@ -70,6 +70,10 @@ public class Boomerang extends Projectile {
 		double theta = Math.atan2(origin.getY() - getY(), origin.getX() - getX());
 		this.xSpeed += Math.cos(theta) * acceleration;
 		this.ySpeed += Math.sin(theta) * acceleration;
+		
+		if(origin.isMarked()){
+			this.remove = true;
+		}
 	}
 	
 }

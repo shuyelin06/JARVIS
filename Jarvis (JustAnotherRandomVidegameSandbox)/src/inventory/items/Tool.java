@@ -6,6 +6,7 @@ import entities.core.Coordinate;
 import inventory.Item;
 import managers.ImageManager;
 import structures.Block;
+import world.Chunk;
 
 public class Tool extends Item {
 	private int strength;
@@ -26,7 +27,10 @@ public class Tool extends Item {
 		int BlockX = (int) x;
 		int BlockY = (int) y;
 		
-		Block b = game.getWorld().getChunk(BlockX / Values.Chunk_Size_X).getBlocks()[BlockX % Values.Chunk_Size_X][BlockY];
+		Chunk c = game.getWorld().getChunk(BlockX / Values.Chunk_Size_X);
+		if(c == null) return;
+		
+		Block b = c.getBlocks()[BlockX % Values.Chunk_Size_X][BlockY];
 		b.hit(strength);
 		
 		if(b.getDurability() <= 0) {

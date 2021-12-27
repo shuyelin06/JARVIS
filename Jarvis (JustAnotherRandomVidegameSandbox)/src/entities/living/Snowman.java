@@ -2,7 +2,7 @@ package entities.living;
 
 import core.Engine;
 import entities.projectiles.nonphysical.Carrot;
-import entities.projectiles.physical.Snowball;
+import entities.projectiles.nonphysical.Snowball;
 import managers.ImageManager;
 import support.Utility;
 
