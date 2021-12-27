@@ -39,9 +39,9 @@ public class BiomeGens //just holds all the biome generation, for organization p
 			{
 				for(int j = 0; j < Values.Chunk_Size_Y; j++)
 				{
-					for(int i = Values.Chunk_Size_X - 1; i > (int)(Values.Chunk_Size_X * Math.random()) - 1; i--)
+					for(int i = 0; i < Values.Chunk_Size_X * Math.random(); i++)
 					{
-						setBlocks(blocks, j, i, block1, block2, elevation);
+						setBlocks(blocks, (Values.Chunk_Size_X - 1) - i, j, block1, block2, elevation);
 					}
 				}
 			}
@@ -84,9 +84,9 @@ public class BiomeGens //just holds all the biome generation, for organization p
 			{
 				for(int j = 0; j < Values.Chunk_Size_Y; j++)
 				{
-					for(int i = Values.Chunk_Size_X - 1; i > (int)(Values.Chunk_Size_X * Math.random()) - 1; i--)
+					for(int i = 0; i < Values.Chunk_Size_X * Math.random(); i++)
 					{
-						setBlocks(blocks, j, i, block1, block2, elevation);
+						setBlocks(blocks, (Values.Chunk_Size_X - 1) - i, j, block1, block2, elevation);
 					}
 				}
 			}
