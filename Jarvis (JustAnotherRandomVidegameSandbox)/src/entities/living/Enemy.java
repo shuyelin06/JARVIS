@@ -1,7 +1,5 @@
 package entities.living;
 
-import org.newdawn.slick.Image;
-
 import core.Engine;
 import core.Values;
 import managers.ImageManager;

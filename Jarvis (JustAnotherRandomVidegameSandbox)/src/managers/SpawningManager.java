@@ -60,6 +60,11 @@ public class SpawningManager {
 			
  			}
  		}
+ 		
+ 		if(Utility.random(0.0, 100.0) <= 0.1) {
+ 			new BossMan(g.getPlayer().getPosition().getX(), g.getPlayer().getPosition().getY() + 20);
+ 		}
+ 		
 	}
 	
 	//for now just checks if coordinates of player is near the spawn point, later change this to biomes

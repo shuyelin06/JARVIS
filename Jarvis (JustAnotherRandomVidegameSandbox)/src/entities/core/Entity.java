@@ -181,20 +181,19 @@ public class Entity{
 	// Checks Entity - Block Collisions
 	protected void blockCollisions() {
 		try {
-			checkHorizontalCollision(); // Check for horizontal collisions
-			checkVerticalCollision(); // Check for vertical collisions
+			checkHorizontalCollision(); 					// Check for horizontal collisions
+			checkVerticalCollision();						// Check for vertical collisions
 		} catch(Exception e) {}
 	};
-	
+		
 	// Empty block collision method that can be used in other classes
-	protected void onBlockXCollision() {} // Specific to x collisions
-	protected void onBlockYCollision() {} // Specific to y collisions
-	protected void onBlockCollision() {} // Called in any collision, x or y
+	protected void onBlockXCollision() { xSpeed = 0; } 		// Specific to x collisions
+	protected void onBlockYCollision() { ySpeed = 0; } 		// Specific to y collisions
+	protected void onBlockCollision() {} 					// Called in any collision, x or y
 		
 	// Check Vertical Block Collisions
 	private void checkVerticalCollision() {
 		float yBorder = position.getY() + ySpeed / Engine.FRAMES_PER_SECOND + height / 2f * Math.signum(ySpeed);
-		// yBorder -= TBAdjustment;
 		
 		int leftX = (int) (position.getX() - width / 2);
 		int rightX = (int) (position.getX() + width / 2);
@@ -213,7 +212,6 @@ public class Entity{
 						onBlockYCollision();
 						onBlockCollision();
 						
-						ySpeed = 0f;
 						break;
 					}
 					
@@ -235,13 +233,13 @@ public class Entity{
 						onBlockYCollision();
 						onBlockCollision();
 						
-						ySpeed = 0f;
 						break;
 					}
 					
 				}
 			}
 		}
+		
 	}
 	
 	// Check Horizontal Block Collisions
@@ -265,7 +263,6 @@ public class Entity{
 						onBlockXCollision();
 						onBlockCollision();
 						
-						xSpeed = 0f;
 						break;
 					}
 					
@@ -284,13 +281,15 @@ public class Entity{
 						// Call Collision Methods
 						onBlockXCollision();
 						onBlockCollision();
-						
-						xSpeed = 0f;
+
 						break;
 					}
 				}
 			}
 		}
+		
 	}
+	
+	
 	
 }

@@ -72,12 +72,12 @@ public class Gun extends Item {
 					&& Sys.getTime() - lastShot > Cooldown * 1000) {
 			    
 				// Spawn new blockbullet
-				//new Boomerang(game.getPlayer(), new Coordinate(x,y));
+				new Boomerang(game.getPlayer(), new Coordinate(x,y));
 				
-				new MissileStrike(game.getPlayer(),
-						new Coordinate(x,y)
-						);
-				
+//				new MissileStrike(game.getPlayer(),
+//						new Coordinate(x,y)
+//						);
+//				
 //			    new BlockBomb(game.getPlayer(),
 //			    		new Coordinate(x,y),
 //			    		BlockSettings.getStrengthScaling(id),
