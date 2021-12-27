@@ -120,7 +120,7 @@ public class Entity{
 	
 	/* Entity Rendering */
 	public void render(Graphics g) {
-		debug(g);
+		// debug(g);
 		
 		drawSprite(); // Draw entity sprite
 		renderOther(g); // Draw unique entity graphics
