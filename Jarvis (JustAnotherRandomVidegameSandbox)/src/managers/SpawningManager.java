@@ -61,7 +61,7 @@ public class SpawningManager {
  			}
  		}
  		
- 		if(!safeZone(g) && Utility.random(0.0, 100.0) <= 0.03) {
+ 		if(!safeZone(g) && Utility.random(0.0, 100.0) <= 0.5) {
 			Coordinate coord = getOpenArea(g, 25, Values.Render_Distance*Values.Chunk_Size_X, 20, 4, 4, prob);
 			if(coord != null){
  				new BossMan(coord.getX(), coord.getY());

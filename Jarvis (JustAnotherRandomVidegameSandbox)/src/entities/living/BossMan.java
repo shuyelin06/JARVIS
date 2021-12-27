@@ -20,7 +20,7 @@ public class BossMan extends Enemy {
 		
 		this.contactDmg = 500;
 		
-		this.maxHealth = 250;
+		this.maxHealth = 1000;
 		this.curHealth = maxHealth;
 		
 		this.width = 3.5f;
